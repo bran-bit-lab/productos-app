@@ -1,4 +1,4 @@
-//CRUD usuario
+/* CRUD usuario */
 
 CREATE TABLE usuarios (
 	id int PRIMARY KEY AUTO_INCREMENT,
@@ -17,13 +17,13 @@ SELECT id, name, apellido, correo, area  FROM usuarios;
 SELECT * FROM usuarios;
 
 UPDATE usuarios
-	SET correo = 'modificacion@prueba.com', password='654321' WHERE id = 0;
+	SET correo = 'modificacion@prueba.com', password='654321' WHERE id = 1;
 
-DELETE FROM usuarios WHERE id = 0;
+DELETE FROM usuarios WHERE id = 1;
 
-ALTER TABLE usuarios AUTO_INCREMENT=0;
+ALTER TABLE usuarios AUTO_INCREMENT=1;
 
-//CRUD Categorias
+/* CRUD Categorias */
 
 CREATE TABLE categorias (
 	id int PRIMARY KEY AUTO_INCREMENT,
@@ -42,9 +42,9 @@ UPDATE categorias
 
 DELETE FROM categorias WHERE id = ;
 
-ALTER TABLE categorias AUTO_INCREMENT=;
+ALTER TABLE categorias AUTO_INCREMENT=1;
 
-//CRUD Productos
+/* CRUD Productos */
 
 CREATE TABLE productos (
 	id int PRIMARY KEY AUTO_INCREMENT,
@@ -63,9 +63,9 @@ UPDATE productos
 
 DELETE FROM productos WHERE id = 0;
 
-ALTER TABLE productos AUTO_INCREMENT=0;
+ALTER TABLE productos AUTO_INCREMENT=1;
 
-//CRUD Notas
+/* CRUD Notas */
 
 CREATE TABLE notas (
 	id int PRIMARY KEY AUTO_INCREMENT,
@@ -85,7 +85,3 @@ UPDATE notas
 DELETE FROM notas WHERE id = 0;
 
 ALTER TABLE notas AUTO_INCREMENT=0;
-
-
-
-
