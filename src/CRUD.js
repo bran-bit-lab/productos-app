@@ -1,7 +1,7 @@
 //CRUD usuario
 
 CREATE TABLE usuarios (
-	id int PRIMARY KEY AUTO_INCREMENT,
+	userid int PRIMARY KEY AUTO_INCREMENT,
 	nombre char(30),
 	apellido char(30),
 	correo char(30),
@@ -17,17 +17,18 @@ SELECT id, name, apellido, correo, area  FROM usuarios;
 SELECT * FROM usuarios;
 
 UPDATE usuarios
-	SET correo = 'modificacion@prueba.com', password='654321' WHERE id = 0;
+	SET correo = 'modificacion@prueba.com', password='654321' WHERE userid = 0;
 
-DELETE FROM usuarios WHERE id = 0;
+DELETE FROM usuarios WHERE userid = 0;
 
 ALTER TABLE usuarios AUTO_INCREMENT=0;
 
 //CRUD Categorias
 
 CREATE TABLE categorias (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	creacion FOREING KEY (id) REFERENCES usuarios(id),
+	id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	userid int,	
+	FOREIGN KEY (userid) REFERENCES usuarios(userid),
 	nombre char(30),
 	descripcion varchar(600)	
 );
@@ -38,19 +39,20 @@ INSERT INTO categorias(nombre, descripcion)
 SELECT * FROM categorias;
 
 UPDATE categorias
-	SET descripcion = 'cambio de tipo de suministros' WHERE id = 0;
+	SET descripcion = 'cambio de tipo de suministros' WHERE id = 1;
 
-DELETE FROM categorias WHERE id = ;
+DELETE FROM categorias WHERE id = 1;
 
-ALTER TABLE categorias AUTO_INCREMENT=;
+ALTER TABLE categorias AUTO_INCREMENT= 1;
 
 //CRUD Productos
 
 CREATE TABLE productos (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	categoria FOREIGN KEY (id) REFERENCES categorias(id),
+	id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	userid int,
+	FOREIGN KEY (userid) REFERENCES categorias(userid),
 	nombre char(30),
-	descripcion varchar(600),	
+	descripcion varchar(600)	
 );
 
 INSERT INTO productos(nombre, descripcion)
@@ -59,19 +61,20 @@ INSERT INTO productos(nombre, descripcion)
 SELECT * FROM productos;
 
 UPDATE productos
-	SET descripcion = 'r22' WHERE id = 0;
+	SET descripcion = 'r22' WHERE id = 1;
 
-DELETE FROM productos WHERE id = 0;
+DELETE FROM productos WHERE id = 1;
 
-ALTER TABLE productos AUTO_INCREMENT=0;
+ALTER TABLE productos AUTO_INCREMENT=1;
 
 //CRUD Notas
 
 CREATE TABLE notas (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	creacion FOREING KEY (id) REFERENCES usuarios(id),
+	nro int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	userid int,
+	FOREIGN KEY (userid) REFERENCES usuarios(userid),
 	cliente char(50),
-	estatus char(30)	
+	status char(30)	
 );
 
 INSERT INTO notas(cliente, status)
@@ -80,11 +83,11 @@ INSERT INTO notas(cliente, status)
 SELECT * FROM notas;
 
 UPDATE notas
-	SET status = 'Cancelada' WHERE id = 0;
+	SET status = 'Cancelada' WHERE nro = 1;
 
-DELETE FROM notas WHERE id = 0;
+DELETE FROM notas WHERE nro = 1;
 
-ALTER TABLE notas AUTO_INCREMENT=0;
+ALTER TABLE notas AUTO_INCREMENT=1;
 
 
 
