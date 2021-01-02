@@ -1,0 +1,35 @@
+body {
+	height: 100vh;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	background: #e8e8e8;
+}
+
+main {
+	height: 93%;
+}
+
+label {
+	font-size: 16px;
+}
+
+form {
+	margin: 20px;
+}
+
+form .row {
+	margin-bottom: 20px;
+}
+
+.form-control {
+	border: none !important; 
+}
+
+.invalid-feedback {
+	display: none;
+}
+
+button {
+	width: 40% !important;
+	border-radius: 5px !important;
+}
