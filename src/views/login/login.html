@@ -27,19 +27,19 @@
 				
 				<div class="row">
 					<div class="col-4">
-						<label class="col-form-label">Contraseña:</label>
+						<label for="password-login" class="col-form-label">Contraseña:</label>
 					</div>
 					<div class="col-8">
-						<input type="password" name="password" class="form-control" />
+						<input type="password" id="password-login" name="password" class="form-control" />
 						<div class="invalid-feedback text-center" id="error-password"></div> <!-- errors -->
 					</div>
 				</div>
 				
-				<div class="mt-4 d-flex flex-row justify-content-around">
+				<div class="mt-5 d-flex flex-row justify-content-around">
 					<button class="btn btn-primary" type="submit">
 						Enviar
 					</button>
-					<button class="btn btn-secondary" type="button" onclick="resetForm( true )">
+					<button class="btn btn-secondary" type="button" onclick="resetLoginForm( true )">
 						Cancelar
 					</button>
 				</div>
@@ -47,11 +47,13 @@
 
 		</div>
 	</main>
+
 	<footer class="p-2">
 		<div class="row justify-content-center">
 			Bran-bit-lab &copy 2021
 		</div>
 	</footer>
+
   <script src="login.js"></script>
 </body>
 </html>

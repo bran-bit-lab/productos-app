@@ -4,12 +4,12 @@ const errorPassword = document.getElementById('error-password');
 
 const ERROR_MESSAGES = Object.freeze({
 	required: 'campo requerido',
-	email: 'correo invalido',
+	email: 'correo inválido',
 	min: ( min ) => 'minimo ' + min + ' caracteres',
-	max: ( max ) => 'maximo ' + max + ' caracteres'
+	max: ( max ) => 'máximo ' + max + ' caracteres',
 });
 
-function render( element, message ) {
+function renderErrors( element, message ) {
 
 	let html = (`<small class="text-danger">${ message }</small>`);
 	
@@ -19,43 +19,50 @@ function render( element, message ) {
 
 function validateForm( data ) {
 	
-	const correo = data['correo'];
-	const password = data['password'];
+	const { correo, password } = data;
 
-	resetForm();
-	
+	const emailExp = new RegExp('^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$', 'g');
+
 	let errors = 0;
+
+	resetLoginForm();
 
 	// ========================================
 	//	correo validaciones
 	// ========================================
 
+	if ( !emailExp.test( correo ) ) {
+		renderErrors( errorCorreo, ERROR_MESSAGES.email );
+		errors = errors + 1;
+	}
+
 	if ( correo.length === 0 ) {
-		render( errorCorreo,  ERROR_MESSAGES.required );
+		renderErrors( errorCorreo,  ERROR_MESSAGES.required );
 		errors = errors + 1; 
 	}
 
 	if ( correo.length > 0 && correo.length < 8 ) {
-		render( errorCorreo,  ERROR_MESSAGES.min( 8 ) );
+		renderErrors( errorCorreo,  ERROR_MESSAGES.min( 8 ) );
 		errors = errors + 1;
 	}
 
 	if ( correo.length > 30 ) {
-		render( errorCorreo,  ERROR_MESSAGES.max( 30 ) );
+		renderErrors( errorCorreo,  ERROR_MESSAGES.max( 30 ) );
 		errors = errors + 1;
 	}
 
+	
 	// ===========================================
 	// password validaciones
 	// ===========================================
 
 	if ( password.length === 0 ) {
-		render( errorPassword, ERROR_MESSAGES.required );
+		renderErrors( errorPassword, ERROR_MESSAGES.required );
 		errors = errors + 1; 
 	} 
 
 	if ( password.length > 30 ) {
-		render( errorPassword,  ERROR_MESSAGES.max( 30 ) );
+		renderErrors( errorPassword,  ERROR_MESSAGES.max( 30 ) );
 		errors = errors + 1;
 	}
 
@@ -70,12 +77,14 @@ function validateForm( data ) {
 	return data;	
 }
 	
-function resetForm( cancelButton = false ) {
+function resetLoginForm( cancelButton = false ) {
 	
 	errorCorreo.style.display = 'none';
 	errorPassword.style.display = 'none';
 
+
 	if ( cancelButton )  {
+		form.reset();
 		return document.getElementById('correo-login').focus();
 	}
 }
@@ -88,11 +97,13 @@ form.addEventListener('submit', ( $event ) => {
 	const formData = new FormData( form );
 
 	let data = {
-		correo: formData.get('correo'),
+		correo: formData.get('correo').toLowerCase(),
 		password: formData.get('password')
 	};
 
 	if ( !validateForm( data ) ) {
 		return document.getElementById('correo-login').focus();
 	}
+
+	console.log( data );
 });
