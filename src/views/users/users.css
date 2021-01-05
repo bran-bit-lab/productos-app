@@ -1,0 +1,27 @@
+body {
+	height: 100vh;
+}
+
+#info {
+	display: none;
+}
+
+.btn-info {
+	color: #fff;
+}
+
+.btn-info:hover {
+	color: #fff;
+}
+
+.btn-info:focus {
+	color: #fff;
+}
+
+table, th {
+	font-weight: normal;
+}
+
+table, td {
+	font-weight: lighter;
+}

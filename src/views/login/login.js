@@ -1,6 +1,6 @@
 const form = document.forms['login-form'];
-const errorCorreo = document.getElementById('error-correo');
-const errorPassword = document.getElementById('error-password');
+const errorCorreo = document.querySelector('#error-correo');
+const errorPassword = document.querySelector('#error-password');
 
 const ERROR_MESSAGES = Object.freeze({
 	required: 'campo requerido',
@@ -85,7 +85,7 @@ function resetLoginForm( cancelButton = false ) {
 
 	if ( cancelButton )  {
 		form.reset();
-		return document.getElementById('correo-login').focus();
+		return document.querySelector('#correo-login').focus();
 	}
 }
 
@@ -102,7 +102,7 @@ form.addEventListener('submit', ( $event ) => {
 	};
 
 	if ( !validateForm( data ) ) {
-		return document.getElementById('correo-login').focus();
+		return document.querySelector('#correo-login').focus();
 	}
 
 	console.log( data );

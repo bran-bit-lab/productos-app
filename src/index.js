@@ -20,8 +20,8 @@ function createWindow () {
     }
   });
   
-  checkAsset( __dirname + path.join('/views/login/login.html') );
-  win.loadFile( __dirname + path.join('/views/login/login.html') );
+  // checkAsset( __dirname + path.join('/views/login/login.html') );
+  win.loadFile( __dirname + path.join('/views/users/users.html') );
 }
 
 
