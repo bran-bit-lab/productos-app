@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.6.0",
+    "@types/mysql": "^2.15.17",
     "bootstrap": "^5.0.0-beta1",
     "electron-squirrel-startup": "^1.0.0",
     "mysql": "^2.18.1"
