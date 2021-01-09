@@ -1,9 +1,4 @@
-body {
-	height: 100vh;
-	overflow-y: hidden;
-	overflow-x: hidden;
-	background: #e8e8e8;
-}
+@import '../global.css';
 
 main {
 	height: 93%;

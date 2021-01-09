@@ -1,6 +1,4 @@
-body {
-	height: 100vh;
-}
+@import '../global.css';
 
 #info {
 	display: none;
@@ -16,12 +14,4 @@ body {
 
 .btn-info:focus {
 	color: #fff;
-}
-
-table, th {
-	font-weight: normal;
-}
-
-table, td {
-	font-weight: lighter;
 }

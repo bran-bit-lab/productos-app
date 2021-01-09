@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- Mitigacion de cross site scripting -->
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <link rel="stylesheet" href="../../../node_modules/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="products.css">
+</head>
+<body>
+	<main class="container p-3">
+
+		<div class="d-flex flex-column justify-content-start h-100">
+			
+			<div class="d-flex border-bottom flex-row pb-1 justify-content-between align-items-center">
+	  		<h2>Gestión de Productos</h2>
+        <button class="btn btn-success btn-sm" onclick="productsComponent.addProduct();">
+          Añadir producto
+        </button>
+			</div>
+
+			<div class="row justify-content-between p-3 text-center">
+				<div class="col-sm-6">Cantidad total de productos: <span id="totalProducts"></span></div>
+				<div class="col-sm-6">Cantidad de productos disponibles: 4</div>
+			</div>
+
+			<div class="table-responsive">
+				<table class="mt-3 table table-striped">
+      		<thead>
+      			<tr class="text-center">
+      				<th>Codigo:</th>
+      				<th>Nombre:</th>
+      				<th>Categoria:</th>
+      				<th>Cantidad:</th>
+      				<th>Precio unitario:</th>
+      				<th>Disponibilidad:</th>
+      				<th>Acciones</th>
+      			</tr>
+      		</thead>	
+      		<tbody id="tbody-products"></tbody>
+      	</table>
+			</div>
+
+			<nav aria-label="Table navigation" id="pagination" class="mt-2">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+		</div>
+
+		<script src="products.hardcode.js"></script>
+		<script src="products.js"></script>
+	</main>
+</body>
+</html>

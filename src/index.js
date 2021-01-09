@@ -4,10 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 function checkAsset( url ) {
-  
-  fs.access(url, (err) => {
-    console.log(`${url} ${err ? 'does not exist' : 'exists'}`);
-  });
+  return fs.existsSync( url ) ? 'El archivo existe' : 'El archivo no existe';
 }
 
 function createWindow () {
@@ -20,10 +17,9 @@ function createWindow () {
     }
   });
   
-  // checkAsset( __dirname + path.join('/views/login/login.html') );
-  win.loadFile( __dirname + path.join('/views/users/users.html') );
+  console.log( checkAsset( __dirname + path.join('/views/products/products.html') ) );
+  win.loadFile( __dirname + path.join('/views/products/products.html') );
 }
-
 
 app.whenReady().then( createWindow );
 
@@ -35,7 +31,7 @@ windows sea 32 o 64 bits */
 app.on('window-all-closed', () => {
  
   if (process.platform !== 'darwin') {
-    app.quit()
+    app.quit();
   }
 
 });
@@ -44,7 +40,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   
   if ( BrowserWindow.getAllWindows().length === 0 ) {
-    createWindow()
+    createWindow();
   }
 });
 
