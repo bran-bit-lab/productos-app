@@ -98,4 +98,22 @@ const PRODUCTOS = [
 		cantidad: 0,
 		categoriaId: 1
 	},
+	{
+		id: 7,
+		nombre: 'Mantequilla',
+		descripcion: 'Mantequilla, margarina ...',
+		precioUnitario: 0.15,
+		disponible: true,
+		cantidad: 0,
+		categoriaId: 1
+	},
+	{
+		id: 8,
+		nombre: 'Mantequilla',
+		descripcion: 'Mantequilla, margarina ...',
+		precioUnitario: 0.15,
+		disponible: true,
+		cantidad: 0,
+		categoriaId: 1
+	},
 ];
