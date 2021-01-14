@@ -15,7 +15,7 @@ try {
 	let data = fs.readFileSync("./users-productos-app.ini", {encoding: "utf-8"});
  	let arregloConexion = JSON.parse(data);
 
- 	user = arregloConexion["root_gabriel"];
+ 	user = arregloConexion["root_brandon"];
 
 } catch ( error ) {
 	console.log(error);

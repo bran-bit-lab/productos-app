@@ -17,8 +17,8 @@ function createWindow () {
     }
   });
   
-  console.log( checkAsset( __dirname + path.join('/views/products/products.html') ) );
-  win.loadFile( __dirname + path.join('/views/products/products.html') );
+  console.log( checkAsset( __dirname + path.join('/views/login/login.html') ) );
+  win.loadFile( __dirname + path.join('/views/login/login.html') );
 }
 
 app.whenReady().then( createWindow );
