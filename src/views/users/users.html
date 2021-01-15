@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <!-- Mitigacion de cross site scripting -->
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-  <link rel="stylesheet" href="../../../node_modules/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="users.css">
   <title>Gestion de usuarios</title>
 </head>
@@ -16,6 +15,7 @@
     		<h2>Gestión de usuarios</h2>
         <div class="btn-group">
           <button class="btn btn-success btn-sm" onclick="usersComponent.createUser();">
+            <i class="fas fa-plus"></i>
             Añadir usuario
           </button>
       		<button 
@@ -23,7 +23,8 @@
       			class="btn btn-secondary btn-sm"
       			onclick="info.style.display = info.style.display === 'block' ? 'none' : 'block'" 
       		>
-      			Información
+      			<i class="fas fa-info-circle"></i>
+            <span>Información</span>
       		</button>
         </div>
 			</div>

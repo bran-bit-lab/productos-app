@@ -1,7 +1,7 @@
 @import '../global.css';
 
 aside {
-	width: 20%;
+	min-width: 45vh;
 	background: #293338;
 	color: white;
 }
@@ -50,7 +50,7 @@ ul {
 	font-size: 14px;
 }
 
-.card + .card  {
+.card-column + .card-column  {
 	margin-bottom: 30px;
 }
 

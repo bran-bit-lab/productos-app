@@ -3,7 +3,7 @@
   "productName": "productos-app",
   "version": "1.0.0",
   "description": "My Electron application description",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -42,6 +42,7 @@
     }
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
     "@popperjs/core": "^2.6.0",
     "bootstrap": "^5.0.0-beta1",
     "electron-squirrel-startup": "^1.0.0"

@@ -48,14 +48,14 @@ class ProductsComponent {
 								onclick="productsComponent.editProduct()" 
 								class="btn btn-primary btn-sm"
 							>
-								Editar
+								<i class="fas fa-edit"></i>
 							</button>
 							<button 
 								type="button" 
 								onclick="productsComponent.activeProduct()" 
 								class="btn btn-danger btn-sm"
 							>
-								Remover
+								<i class="fas fa-trash"></i>
 							</button>
 						</td>	
 					</tr>

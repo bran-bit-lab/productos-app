@@ -39,28 +39,31 @@ class UsersComponent {
 						<td>${ user.apellido }</td>
 						<td>${ user.correo }</td>
 						<td>${ user.area }</td>
-						<td>${ user.activo ? 'activo' : 'no activo' }</td>
+						<td>${ user.activo ? 
+								'<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' 
+							}
+						</td>
 						<td>
 							<button 
 								type="button" 
 								onclick="usersComponent.editUser()" 
 								class="btn btn-primary btn-sm"
 							>
-								Editar
+								<i class="fas fa-edit"></i>
 							</button>
 							<button 
 								type="button" 
 								onclick="usersComponent.editUser()" 
 								class="btn btn-secondary btn-sm"
 							>
-								Cambiar
+								<i class="fas fa-user"></i>
 							</button>
 							<button 
 								type="button" 
 								onclick="usersComponent.deleteUser()" 
 								class="btn btn-danger btn-sm"
 							>
-								Remover
+								<i class="fas fa-trash"></i>
 							</button>
 						</td>
 					</tr>

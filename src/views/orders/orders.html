@@ -6,7 +6,6 @@
     <!-- Mitigacion de cross site scripting -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" href="orders.css">
-    <link rel="stylesheet" href="../../../node_modules/bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
 	<!-- <nav></nav> -->
@@ -15,13 +14,18 @@
     <aside>
     	<h5 class="text-center p-3">Categorías</h5>
     	<div class="row justify-content-center mb-3">
-    		<input class="form-control" type="text" placeholder="Buscar ..." />
+    		<input 
+                class="form-control" 
+                id="category-search" 
+                type="text" 
+                placeholder="Buscar ..." 
+            />
     	</div>
     	<ul id="product-category"></ul>
     </aside>
     <div class="main">
     	<h2 class="border-bottom pb-2 mb-3">Seleccionar productos</h2>
-    	<div class="row justify-content-around" id="products"></div>
+    	<div class="row" id="products"></div>
     </div>
 	</main>
 		<script src="../products/products.hardcode.js"></script>

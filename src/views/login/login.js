@@ -1,6 +1,12 @@
+require('@fortawesome/fontawesome-free/js/all');
+
+// remote actua como un objeto de conexion con el proceso principal
+const { remote } = require('electron');
+const { login, openUserWindow } = remote.require('./modules/login/login');
+
 const form = document.forms['login-form'];
-const errorCorreo = document.querySelector('#error-correo');
-const errorPassword = document.querySelector('#error-password');
+const errorCorreo = form.querySelector('#error-correo');
+const errorPassword = form.querySelector('#error-password');
 
 // =====================================
 //	errores de validaciones
@@ -90,6 +96,10 @@ function resetLoginForm( cancelButton = false ) {
 	}
 }
 
+function loading() {
+	form.querySelector('#btn-submit').style.display = 'none';
+	form.querySelector('#btn-submit-disabled').style.display = 'block';
+}
 
 form.addEventListener('submit', ( $event ) => {
 	
@@ -107,5 +117,15 @@ form.addEventListener('submit', ( $event ) => {
 		return document.querySelector('#correo-login').focus();
 	}
 
-	console.log( data );
+	loading();
+	
+	login( data );
+
+	setTimeout(() => {
+		
+		window.close();  // cierra la ventana del navegador
+		openUserWindow();
+
+	}, 3000 );
+
 });
