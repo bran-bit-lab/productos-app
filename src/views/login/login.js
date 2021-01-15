@@ -97,8 +97,11 @@ function resetLoginForm( cancelButton = false ) {
 }
 
 function loading() {
-	form.querySelector('#btn-submit').style.display = 'none';
-	form.querySelector('#btn-submit-disabled').style.display = 'block';
+	
+	let buttons = form.querySelectorAll('button');
+	
+	buttons[0].style.display = 'none';
+	buttons[1].style.display = 'block';
 }
 
 form.addEventListener('submit', ( $event ) => {

@@ -3,9 +3,9 @@ const { BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
 
-function login({ correo, password }) {
+function login( request ) {
   
-  console.log( correo, password );
+  console.log( request );
 
   // armar sql ... 
 }
