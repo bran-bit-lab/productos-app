@@ -1,4 +1,4 @@
-require('@fortawesome/fontawesome-free/js/all');
+require('../global');
 
 // remote actua como un objeto de conexion con el proceso principal
 const { remote } = require('electron');
