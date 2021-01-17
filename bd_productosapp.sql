@@ -30,7 +30,7 @@ CREATE TABLE `categorias` (
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`),
   CONSTRAINT `categorias_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `usuarios` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +39,11 @@ CREATE TABLE `categorias` (
 
 LOCK TABLES `categorias` WRITE;
 /*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
+INSERT INTO `categorias` VALUES (1,NULL,'categoria1','D1,% D1');
+INSERT INTO `categorias` VALUES (2,NULL,'categoria2','D2,% D2');
+INSERT INTO `categorias` VALUES (3,NULL,'categoria3','D3,% D3');
+INSERT INTO `categorias` VALUES (4,NULL,'categoria4','D4,% D4');
+INSERT INTO `categorias` VALUES (5,NULL,'categoria5','D5,% D5');
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,7 +116,7 @@ CREATE TABLE `usuarios` (
   `password` char(30) DEFAULT NULL,
   `area` char(30) DEFAULT NULL,
   PRIMARY KEY (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,6 +125,21 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (1,'test1','apellido1','correo1@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (2,'test2','apellido2','correo2@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (3,'test3','apellido3','correo3@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (4,'test4','apellido4','correo4@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (5,'test5','apellido5','correo5@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (6,'test6','apellido6','correo6@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (7,'test7','apellido7','correo7@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (8,'test8','apellido8','correo8@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (9,'test9','apellido9','correo9@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (10,'test10','apellido10','correo10@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (11,'test11','apellido11','correo11@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (12,'test12','apellido12','correo12@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (13,'test13','apellido13','correo13@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (14,'test14','apellido14','correo14@prueba.com','prueba','ventas');
+INSERT INTO `usuarios` VALUES (15,'test15','apellido15','correo15@prueba.com','prueba','ventas');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -132,4 +152,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-31 23:08:57
+-- Dump completed on 2021-01-14 17:02:59
