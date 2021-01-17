@@ -1,5 +1,7 @@
 const { app } = require('electron');
-const { openLoginWindow } = require('./modules/login/login');
+const { openLoginWindow } = require('./modules/login');
+
+require('electron-reload')( __dirname );
 
 app.whenReady().then( openLoginWindow );
 

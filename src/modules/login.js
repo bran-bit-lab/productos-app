@@ -4,13 +4,10 @@ const path = require('path');
 const url = require('url');
 
 function login( request ) {
-  
   console.log( request );
-
-  // armar sql ... 
 }
 
-function openUserWindow() {
+function openHomeWindow() {
   
   const win = new BrowserWindow({
     width: 800,
@@ -25,7 +22,7 @@ function openUserWindow() {
   const asset = url.format({
     protocol: 'file',
     slashes: true,
-    pathname: path.join( __dirname, '../../views/users/users.html' )
+    pathname: path.join( __dirname, '../views/home/home.html' )
   });
   
   win.loadURL( asset );
@@ -49,7 +46,7 @@ function openLoginWindow() {
   const asset = url.format({
     protocol: 'file',
     slashes: true,
-    pathname: path.join( __dirname, '../../views/login/login.html' )
+    pathname: path.join( __dirname, '../views/login/login.html' )
   });
   
   win.loadURL( asset );
@@ -58,5 +55,5 @@ function openLoginWindow() {
 module.exports = { 
   openLoginWindow,
   login,
-  openUserWindow 
+  openHomeWindow 
 };
