@@ -2,7 +2,7 @@ require('../global');
 
 // remote actua como un objeto de conexion con el proceso principal
 const { remote } = require('electron');
-const { login, openHomeWindow } = remote.require('./modules/login');
+// const { login, openHomeWindow } = remote.require('./modules/login');
 
 const form = document.forms['login-form'];
 const errorCorreo = form.querySelector('#error-correo');
@@ -122,13 +122,13 @@ form.addEventListener('submit', ( $event ) => {
 
 	loading();
 	
-	login( data );
+	/*login( data );
 
 	setTimeout(() => {
 		
 		window.close();  // cierra la ventana del navegador
 		openHomeWindow();
 
-	}, 3000 );
+	}, 3000 );*/
 
 });

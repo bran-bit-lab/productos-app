@@ -6,7 +6,6 @@
   <!-- Mitigacion de cross site scripting -->
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
   <link rel="stylesheet" href="./home.css">
-  <title>Home</title>
 </head>
 <body>
 	<div class="container p-3 h-100">
@@ -14,7 +13,7 @@
 		<div>
 			<h2 class="border-bottom pb-3">Products-app</h2>
 			<article class="text-center p-3">
-				Bienvenido a products app, tu herramienta de gestión de tu negocio, puedes consultar las
+				Bienvenido a products app, tu herramienta de Gestión, puedes consultar las
 				diferentes opciones de tu aplicación seleccionando una de las tarjetas. las cifras representan
 				la cantidad actual de registros en las diferentes áreas de tu negocio. 
 			</article>			
@@ -24,22 +23,22 @@
 
 		<div class="mt-4 row justify-content-around">
 			
-			<div class="card point">
+			<div class="card point" onclick="openUsers();">
   			<div class="card-body text-center">
   				<div class="row justify-content-center align-items-center h-100">
 	  				<i class="fas fa-user-circle"></i>
 	    			<h4>Usuarios, clientes y proveedores</h4>
-	    			<span>10</span>
+	    			<span></span>
   				</div>
   			</div>
 			</div>
 
-			<div class="card point">
+			<div class="card point" onclick="openProducts();">
   			<div class="card-body text-center">
   				<div class="row justify-content-center align-items-center h-100">
   					<i class="fas fa-boxes"></i>
 	    			<h4>Productos</h4>
-	    			<span>20</span>
+	    			<span></span>
   				</div>
   			</div>
 			</div>
@@ -48,27 +47,28 @@
 
 		<div class="row justify-content-around mt-5">
 			
-			<div class="card point">
+			<div class="card point" onclick="openOrders();">
 				<div class="card-body text-center">
 					<div class="row justify-content-center align-items-center h-100">
 						<i class="fas fa-file"></i>
 	    			<h4>Notas de entrega</h4>
-	    			<span>100</span>
+	    			<span></span>
   				</div>
   			</div>
 			</div>
 
-			<div class="card point">
+			<div class="card point" onclick="openEstadistics();">
 				<div class="card-body text-center">
 					<div class="row justify-content-center align-items-center h-100">
 						<i class="fas fa-chart-line"></i>
 	    			<h4>Estadisticas y reportes</h4>
-	    			<span>1</span>
+	    			<span></span>
   				</div>
   			</div>
 			</div>
 			
 		</div>
 	</div>
+	<script src="./home.js"></script>
 </body>
 </html>

@@ -1,5 +1,10 @@
 @import '../global.css';
 
+body {
+	height: 100% !important;
+	overflow-y: auto !important;
+}
+
 #info {
 	display: none;
 }
@@ -15,3 +20,10 @@
 .btn-info:focus {
 	color: #fff;
 }
+
+.table-responsive {
+	background: #fff;
+	border-radius: 5px;
+}
+
+

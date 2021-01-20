@@ -2,24 +2,34 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const urlAssets = __dirname + '/views';
+
+require('electron-reload')( __dirname );
 
 function checkAsset( url ) {
   return fs.existsSync( url ) ? 'El archivo existe' : 'El archivo no existe';
 }
 
-function createWindow () {
+function createWindow() {
   
   const win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true,
     }
   });
+
+  const fileUrl = require('url').format({
+    protocol: 'file',
+    slashes: true,
+    pathname: path.join( urlAssets, '/orders/orders.html' )
+  });
   
-  console.log( checkAsset( __dirname + path.join('/views/login/login.html') ) );
-  win.loadFile( __dirname + path.join('/views/login/login.html') );
+  win.loadURL( fileUrl );
 }
+
 
 app.whenReady().then( createWindow );
 
