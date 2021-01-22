@@ -6,8 +6,10 @@ body {
 	height: 100vh;
 	overflow-y: hidden;
 	overflow-x: hidden;
-	background: #171a1c;
-	color: white;
+	/* background: #171a1c;
+	color: white; */
+	background: white;
+	color: black;
 }
 
 .point {

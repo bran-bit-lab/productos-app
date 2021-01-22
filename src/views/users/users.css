@@ -26,4 +26,7 @@ body {
 	border-radius: 5px;
 }
 
-
+.card {
+	border-top-right-radius: 20px;
+	border-top-left-radius: 20px;
+}
