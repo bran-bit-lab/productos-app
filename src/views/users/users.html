@@ -16,9 +16,7 @@
         <div class="btn-group">
           <button 
             class="btn btn-success btn-sm"
-            data-bs-target=".modal-users" 
-            data-bs-whatever="@add"
-            data-bs-toggle="modal"
+            onclick="modalUserComponent.openModal('new')" 
           >
             <i class="fas fa-plus"></i>
             Añadir usuario
@@ -34,7 +32,7 @@
         </div>
 			</div>
 
-    	<article class="row text-center mt-3 mb-3" id="info">
+    	<article class="row text-center mt-4" id="info">
     		En esta sección puedes modificar el acceso a los usuarios de la aplicación,
     		selecciona el usuario en la tabla y marca la opcion correspondiente, puedes
     		retirar el acceso, cambiar datos de usuarios y otorgar permisos elevados.
@@ -94,7 +92,7 @@
 
   <!-- modals -->
   <footer id="modals"></footer>
-  
+
 	<script src="users.hardcode.js"></script>
 	<script src="users.js"></script>
 </body>

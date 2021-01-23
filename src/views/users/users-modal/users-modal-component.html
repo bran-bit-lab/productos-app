@@ -1,17 +1,56 @@
-<div class="modal fade modal-users">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal personalizado</h5>
-        <button type="button" class="btn-close" onclick="usersComponent.closeModal()"></button>
-      </div>
-      <div class="modal-body">
-        <p>prueba de desarrollo</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="usersComponent.closeModal()">Cancelar</button>
-        <button type="button" class="btn btn-primary">Aceptar</button>
+<!-- form-user -->
+<form 
+  noValidate 
+  class="form"  
+  name="formUsers"
+>
+  <div class="modal fade modal-users">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        
+          <div class="modal-header">
+            <h5 class="modal-title"></h5>
+            <button type="button" class="btn-close" onclick="modalUserComponent.closeModal()"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="name-user">Nombre:</label>
+                  <input type="text" id="name-user" name="nombre" class="form-control" />
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="surname-user">Apellido:</label>
+                  <input type="text" id="surname-user" name="apellido" class="form-control" />
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="user-email">Correo:</label>
+                  <input type="email" id="user-email" name="correo" class="form-control" />
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="area-user">Area:</label>
+                  <select class="form-control" id="area-user" name="area">
+                    <option value="">Seleccione</option>
+                    <option value="Ventas">Ventas</option>
+                    <option value="Almacén">Almacén</option>
+                    <option value="Administración">Administracion</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="reset" class="btn btn-secondary">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Aceptar</button>
+          </div>
       </div>
     </div>
   </div>
-</div>
+</form>
+

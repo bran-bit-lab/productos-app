@@ -17,11 +17,6 @@ class UsersComponent {
 		this.totalUsers = document.querySelector('#totalUsers');
 		this.pagination = document.querySelector('#pagination');
 
-		// modals
-		this.modalUsers = new Modal( footer.querySelector('.modal-users'), {
-			backdrop: 'static'
-		});
-		
 		this.render = this.render.bind( this );
 	}
 
@@ -29,8 +24,12 @@ class UsersComponent {
 
 		try {
 
-			let data = fs.readFileSync( __dirname + '/users-modal/users-modal-component.html', 'utf-8');
-			document.querySelector('#modals').innerHTML = data;
+			let data = fs.readFileSync( 
+				__dirname + '/users-modal/users-modal-component.html', 
+				'utf-8'
+			);
+
+			footer.innerHTML = data;
 
 		} catch ( error ) {
 			
@@ -39,12 +38,7 @@ class UsersComponent {
 	}
 
 	editUser( id ) {
-		
-		let found = USERS.find(( user ) => user.id === id );
-
-		if ( found ) {
-			console.log( found );
-		}
+		console.log('edit');
 	}
 
 	deleteUser() {	
@@ -53,10 +47,6 @@ class UsersComponent {
 
 	changeRole() {
 		console.log('changeRole');
-	}
-
-	closeModal() {
-		this.modalUsers.hide();
 	}
 
 	render() {
@@ -84,30 +74,24 @@ class UsersComponent {
 							<td>
 								<button 
 									type="button" 
-									onclick="usersComponent.editUser( ${ user.id } )" 
+									onclick="modalUserComponent.openModal( 'edit', ${ user.id } )" 
 									class="btn btn-primary btn-sm"
-									data-bs-target=".modal-users" 
-									data-bs-whatever="@edit"
-									data-bs-toggle="modal"
 								>
 									<i class="fas fa-edit"></i>
 								</button>
 								<button 
 									type="button" 
-									onclick="usersComponent.editUser( ${ user.id } )" 
+									onclick="usersComponent.editUser( 'edit', ${ user.id } )" 
 									class="btn btn-secondary btn-sm"
-									data-bs-target=".modal-users" 
-									data-bs-whatever="@edit"
-									data-bs-toggle="modal"
 								>
 									<i class="fas fa-user"></i>
 								</button>
 								<button 
 									type="button" 
-									onclick="usersComponent.deleteUser( ${ user.id } )" 
+									onclick="usersComponent.deleteUser( 'delete', ${ user.id } )" 
 									class="btn btn-danger btn-sm"
 									data-bs-target=".modal-users" 
-									data-bs-whatever="@delete"
+									data-bs-whatever="delete"
 								>
 									<i class="fas fa-trash"></i>
 								</button>
@@ -134,6 +118,10 @@ class UsersComponent {
 
 const usersComponent = new UsersComponent();
 
-require('./users-modal/users-modal-component');
+const modalUserComponent = require('./users-modal/users-modal-component');
+
+const userForm = document.forms['formUsers'];
 
 document.addEventListener('DOMContentLoaded', usersComponent.render );
+
+userForm.addEventListener('submit', modalUserComponent.getForm );
