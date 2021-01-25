@@ -1,8 +1,6 @@
-const Modal = require('bootstrap/js/dist/modal'); // modal-boostrap
 const fs = require('fs');
-
-const info = document.querySelector('#info');
-const footer = document.querySelector('#modals');
+const path = require('path');
+const Modal = require('bootstrap/js/dist/modal');
 
 // ==========================================
 // Users component
@@ -10,39 +8,27 @@ const footer = document.querySelector('#modals');
 class UsersComponent {
 
 	constructor() {
-		
-		this.getModals();
-
+	
 		this.tbody = document.querySelector('#tbody-user');
 		this.totalUsers = document.querySelector('#totalUsers');
 		this.pagination = document.querySelector('#pagination');
 
 		this.render = this.render.bind( this );
+		this.editUser = this.editUser.bind( this );
+		this.deleteUser = this.deleteUser.bind( this );
+		this.newUser = this.newUser.bind( this );
 	}
 
-	getModals() {
-
-		try {
-
-			let data = fs.readFileSync( 
-				__dirname + '/users-modal/users-modal-component.html', 
-				'utf-8'
-			);
-
-			footer.innerHTML = data;
-
-		} catch ( error ) {
-			
-			console.error('no se puede extraer el archivo\n', error );
-		}
-	}
-
-	editUser( id ) {
-		console.log('edit');
+	editUser( id, form ) {
+		console.log( id, form );
 	}
 
 	deleteUser() {	
 		console.log('delete');
+	}
+
+	newUser( form ) {
+		console.log( form );
 	}
 
 	changeRole() {
@@ -116,12 +102,43 @@ class UsersComponent {
 	}
 }
 
+function loadHTML( urlFile = '' ) {
+
+	try {
+
+		let data = fs.readFileSync( urlFile, 'utf-8' );
+
+		footer.innerHTML += data;
+
+	} catch ( error ) {
+		
+		console.error('no se puede extraer el archivo\n', error );
+		console.log( 'ubicacion del archivo', urlFile );
+	}
+}
+
+// variables 
+
+const info = document.querySelector('#info');
+const footer = document.querySelector('#modals');
+
+// carga de componentes
+
+loadHTML( path.join( __dirname, '/users-modal-form/users-modal-form-component.html'));
+loadHTML( path.join( __dirname, '/../shared/modal-confirm/modal-confirm-component.html' ));
+
+const modalUserComponent = require('./users-modal-form/users-modal-form-component');
+const modalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
+
+// inicialiciacion del modulo
 const usersComponent = new UsersComponent();
 
-const modalUserComponent = require('./users-modal/users-modal-component');
+modalConfirmComponent.openModalConfirm();
 
 const userForm = document.forms['formUsers'];
 
+// listeners de eventos
+
 document.addEventListener('DOMContentLoaded', usersComponent.render );
 
-userForm.addEventListener('submit', modalUserComponent.getForm );
+userForm.addEventListener('submit', modalUserComponent.getForm.bind( usersComponent ) );

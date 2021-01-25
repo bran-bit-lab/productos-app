@@ -1,11 +1,6 @@
-// =======================
-// 		ModalUserComponent
-// =======================
-
-const modalUsers = new Modal( footer.querySelector('.modal-users'), {
-	backdrop: 'static'
-});
-
+// =========================
+// 	ModalUserFormComponent
+// =========================
 function setForm( data = null ) {
 	
 	// busca todos los nodos del formularios y les asigna el valor
@@ -16,8 +11,8 @@ function setForm( data = null ) {
 	nodesSelect.forEach(( node ) => node.value = data ? data[ node.name ] : '' );
 }
 
-function getForm( $event ) {
-	
+function getForm( $event, userComponent = this ) {
+
 	$event.preventDefault();
 	
 	let formData = new FormData( userForm );
@@ -29,7 +24,13 @@ function getForm( $event ) {
 		area: formData.get('area').trim()
 	}
 
-	console.log( data );
+	if ( idUser ) {
+		userComponent.editUser( idUser, data );
+
+	} else {
+		userComponent.newUser( data );
+
+	}
 
 	return closeModal();
 }
@@ -43,26 +44,36 @@ function openModal( method = 'new', id = null ) {
 		
 		footer.querySelector('.modal-title').innerText = `Editar usuario ${ id }`;
 		
+		idUser = id;
+		
 		setForm( found );
 
-	} else if ( method === 'new' ) {
+
+	} else {
 
 		footer.querySelector('.modal-title').innerText = 'Nuevo usuario';
 
-		setForm()
+		idUser = null;
+		
+		setForm();
 	}
+	
 
-	return modalUsers.show();
+	return modalUsersForm.show();
 }
 
 function closeModal() {
-	return modalUsers.hide();
+	return modalUsersForm.hide();
 }
 
-module.exports = { 
-	setForm, 
-	openModal, 
+const modalUsersForm = new Modal( footer.querySelector('.modal-users'), {
+	backdrop: 'static'
+});
+
+let idUser = null;
+
+module.exports = {
+	openModal,
 	closeModal,
-	modalUsers,
-	getForm 
+	getForm
 };
