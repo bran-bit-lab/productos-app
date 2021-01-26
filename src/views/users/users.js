@@ -19,20 +19,50 @@ class UsersComponent {
 		this.newUser = this.newUser.bind( this );
 	}
 
+	selectUsers() {
+
+	}
+
+	selectUser( id ) {
+
+	}
+
 	editUser( id, form ) {
 		console.log( id, form );
 	}
 
-	deleteUser() {	
-		console.log('delete');
+	deleteUser({ id, confirm }) {	
+		console.log( id, confirm );
 	}
 
 	newUser( form ) {
 		console.log( form );
 	}
 
-	changeRole() {
-		console.log('changeRole');
+	changeRole({ id, confirm }) {
+		console.log( id, confirm );
+	}
+
+	openModalConfirm( method = 'delete', idUser = null ) {
+
+		let found = USERS.find(( user ) => user.id === idUser );
+		
+		if ( method === 'delete' ) {
+
+			closeModalConfirm = modalConfirmComponent.closeModalConfirm.bind( this.deleteUser )
+			
+			let title = `${ found.activo ? 'Remover' : 'Otorgar' } acceso al usuario ${ idUser }`;
+			
+			let element = (`
+				<p class="text-center">
+					¿¿Esta seguro de ${ found.activo ? 'remover' : 'otorgar' } acceso al usuario a 
+					${ found.nombre + ' ' + found.apellido }??
+				</p>`
+			);
+
+			return modalConfirmComponent.openModalConfirm( title, element, idUser );
+		}
+		
 	}
 
 	render() {
@@ -67,14 +97,16 @@ class UsersComponent {
 								</button>
 								<button 
 									type="button" 
-									onclick="usersComponent.editUser( 'edit', ${ user.id } )" 
+									onclick="usersComponent.openModalConfirm( 
+										${ user.activo ? 'active' : 'inactive' }, ${ user.id } 
+									)" 
 									class="btn btn-secondary btn-sm"
 								>
 									<i class="fas fa-user"></i>
 								</button>
 								<button 
 									type="button" 
-									onclick="usersComponent.deleteUser( 'delete', ${ user.id } )" 
+									onclick="usersComponent.openModalConfirm( 'delete', ${ user.id } )" 
 									class="btn btn-danger btn-sm"
 									data-bs-target=".modal-users" 
 									data-bs-whatever="delete"
@@ -130,10 +162,10 @@ loadHTML( path.join( __dirname, '/../shared/modal-confirm/modal-confirm-componen
 const modalUserComponent = require('./users-modal-form/users-modal-form-component');
 const modalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 
-// inicialiciacion del modulo
 const usersComponent = new UsersComponent();
 
-modalConfirmComponent.openModalConfirm();
+// bind function
+let closeModalConfirm = null;
 
 const userForm = document.forms['formUsers'];
 

@@ -1,15 +1,27 @@
 <!-- modal-confirm -->
-<div class="modal modal-users-confirm">
-  <div class="modal-dialog modal-lg">
+<div class="modal fade modal-users-confirm">
+  <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title modal-confirm-title"></h5>
-            <button type="button" class="btn-close" onclick="modalUserComponent.closeModal();"></button>
+            <button 
+              type="button" 
+              class="btn-close" 
+              onclick="closeModalConfirm( false );"
+            ></button>
           </div>
           <div class="modal-body" id="modal-message"></div>
           <div class="modal-footer">
-            <button  class="btn btn-secondary">Cancelar</button>
-            <button  class="btn btn-primary">Aceptar</button>
+            <button 
+              onclick="closeModalConfirm( false );" 
+              class="btn btn-secondary"
+            >
+              Cancelar
+            </button>
+            <button 
+              class="btn btn-primary"
+              onclick="closeModalConfirm( true );" 
+            >Aceptar</button>
           </div>
       </div>
     </div>
