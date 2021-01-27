@@ -2,6 +2,16 @@ const fs = require('fs');
 const path = require('path');
 const Modal = require('bootstrap/js/dist/modal');
 
+const footer = document.querySelector('#modals');
+
+loadHTML( path.join( __dirname, '/users-modal-form/users-modal-form-component.html'));
+loadHTML( path.join( __dirname, '/../shared/modal-confirm/modal-confirm-component.html' ));
+loadHTML( path.join( __dirname, '/users-modal-role/users-modal-role-component.html' ) );
+
+const modalUserComponent = require('./users-modal-form/users-modal-form-component');
+const modalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
+const modalChangeRole = require('./users-modal-role/users-modal-role-component');
+
 // ==========================================
 // Users component
 // ==========================================
@@ -17,14 +27,13 @@ class UsersComponent {
 		this.editUser = this.editUser.bind( this );
 		this.deleteUser = this.deleteUser.bind( this );
 		this.newUser = this.newUser.bind( this );
+		this.changeRole = this.changeRole.bind( this );
 	}
 
 	selectUsers() {
-
 	}
 
 	selectUser( id ) {
-
 	}
 
 	editUser( id, form ) {
@@ -39,30 +48,26 @@ class UsersComponent {
 		console.log( form );
 	}
 
-	changeRole({ id, confirm }) {
-		console.log( id, confirm );
+	changeRole({ id, role }) {
+		console.log( id, role );
 	}
 
-	openModalConfirm( method = 'delete', idUser = null ) {
+	openModalConfirm( idUser = null ) {
 
 		let found = USERS.find(( user ) => user.id === idUser );
 		
-		if ( method === 'delete' ) {
-
-			closeModalConfirm = modalConfirmComponent.closeModalConfirm.bind( this.deleteUser )
-			
-			let title = `${ found.activo ? 'Remover' : 'Otorgar' } acceso al usuario ${ idUser }`;
-			
-			let element = (`
-				<p class="text-center">
-					¿¿Esta seguro de ${ found.activo ? 'remover' : 'otorgar' } acceso al usuario a 
-					${ found.nombre + ' ' + found.apellido }??
-				</p>`
-			);
-
-			return modalConfirmComponent.openModalConfirm( title, element, idUser );
-		}
+		closeModalConfirm = modalConfirmComponent.closeModalConfirm.bind( this.deleteUser )
 		
+		let title = `${ found.activo ? 'Remover' : 'Otorgar' } acceso al usuario ${ idUser }`;
+		
+		let element = (`
+			<p class="text-center">
+				¿¿Esta seguro de ${ found.activo ? 'remover' : 'otorgar' } acceso al usuario a 
+				${ found.nombre + ' ' + found.apellido }??
+			</p>`
+		);
+
+		return modalConfirmComponent.openModalConfirm( title, element, idUser );
 	}
 
 	render() {
@@ -97,16 +102,14 @@ class UsersComponent {
 								</button>
 								<button 
 									type="button" 
-									onclick="usersComponent.openModalConfirm( 
-										${ user.activo ? 'active' : 'inactive' }, ${ user.id } 
-									)" 
+									onclick="modalChangeRole.openModalRole( ${ user.id } )" 
 									class="btn btn-secondary btn-sm"
 								>
 									<i class="fas fa-user"></i>
 								</button>
 								<button 
 									type="button" 
-									onclick="usersComponent.openModalConfirm( 'delete', ${ user.id } )" 
+									onclick="usersComponent.openModalConfirm( ${ user.id } )" 
 									class="btn btn-danger btn-sm"
 									data-bs-target=".modal-users" 
 									data-bs-whatever="delete"
@@ -150,27 +153,19 @@ function loadHTML( urlFile = '' ) {
 }
 
 // variables 
+const userForm = document.forms['formUsers'];
+const changeRoleForm = document.forms['user-change-role-form'];
 
 const info = document.querySelector('#info');
-const footer = document.querySelector('#modals');
-
-// carga de componentes
-
-loadHTML( path.join( __dirname, '/users-modal-form/users-modal-form-component.html'));
-loadHTML( path.join( __dirname, '/../shared/modal-confirm/modal-confirm-component.html' ));
-
-const modalUserComponent = require('./users-modal-form/users-modal-form-component');
-const modalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 
 const usersComponent = new UsersComponent();
 
-// bind function
 let closeModalConfirm = null;
-
-const userForm = document.forms['formUsers'];
 
 // listeners de eventos
 
 document.addEventListener('DOMContentLoaded', usersComponent.render );
 
 userForm.addEventListener('submit', modalUserComponent.getForm.bind( usersComponent ) );
+
+changeRoleForm.addEventListener('submit', modalChangeRole.getForm.bind( usersComponent ) );
