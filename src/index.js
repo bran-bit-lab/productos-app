@@ -28,6 +28,9 @@ function createWindow() {
   });
   
   win.loadURL( fileUrl );
+
+  // Open the DevTools.
+  win.webContents.openDevTools();
 }
 
 
@@ -40,7 +43,7 @@ windows sea 32 o 64 bits */
 
 app.on('window-all-closed', () => {
  
-  if (process.platform !== 'darwin') {
+  if ( process.platform !== 'darwin' ) {
     app.quit();
   }
 
