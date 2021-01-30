@@ -2,9 +2,9 @@ const USERS = [
 	{
 		id: 1,
 		nombre: 'Gabriel',
-		apellido: 'Martínez',
+		apellido: 'Martinez',
 		correo: 'gabmart1995@gmail.com',
-		area: 'Administración',
+		area: 'Administracion',
 		activo: true
 	},
 	{
@@ -20,7 +20,7 @@ const USERS = [
 		nombre: 'test2',
 		apellido: 'test2',
 		correo: 'test2@gmail.com',
-		area: 'Almacén',
+		area: 'Almacen',
 		activo: true
 	},
 	{
@@ -28,7 +28,7 @@ const USERS = [
 		nombre: 'test3',
 		apellido: 'test3',
 		correo: 'test3@gmail.com',
-		area: 'Administración',
+		area: 'Administracion',
 		activo: true
 	},
 	{
@@ -44,7 +44,7 @@ const USERS = [
 		nombre: 'test5',
 		apellido: 'test5',
 		correo: 'test5@gmail.com',
-		area: 'Administración',
+		area: 'Administracion',
 		activo: true
 	},
 	{
@@ -52,7 +52,7 @@ const USERS = [
 		nombre: 'test6',
 		apellido: 'test6',
 		correo: 'test6@gmail.com',
-		area: 'Almacén',
+		area: 'Almacen',
 		activo: true
 	},
 	{
@@ -68,7 +68,7 @@ const USERS = [
 		nombre: 'test9',
 		apellido: 'test9',
 		correo: 'test9@gmail.com',
-		area: 'Administración',
+		area: 'Administracion',
 		activo: true
 	},
 	{
@@ -76,7 +76,7 @@ const USERS = [
 		nombre: 'test10',
 		apellido: 'test10',
 		correo: 'test10@gmail.com',
-		area: 'Almacén',
+		area: 'Almacen',
 		activo: true
 	}
 ];

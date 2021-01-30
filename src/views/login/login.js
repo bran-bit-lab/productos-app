@@ -30,7 +30,7 @@ function validateForm( data ) {
 	
 	const { correo, password } = data;
 
-	const emailExp = new RegExp('^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$', 'g');
+	const emailExp = new RegExp('^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$');
 
 	let errors = 0;
 
@@ -88,7 +88,6 @@ function resetLoginForm( cancelButton = false ) {
 	
 	errorCorreo.style.display = 'none';
 	errorPassword.style.display = 'none';
-
 
 	if ( cancelButton )  {
 		form.reset();
