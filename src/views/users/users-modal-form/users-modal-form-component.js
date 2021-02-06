@@ -47,18 +47,24 @@ function openModal( method = 'new', id = null ) {
 
 	resetFields(); // limpia los campos cuando entra al modal
 
-	if ( method === 'edit' ) {
+	if ( method !== 'new' ) {
 		
 		let found = USERS.find(( user ) => user.id === id );
 		
 		footer.querySelector('.modal-title').innerText = `Editar usuario ${ id }`;
+		footer.querySelector('.area').style.display = 'none';
+		
 		idUser = id;
+		
 		setForm( found );
 
 	} else {
 
 		footer.querySelector('.modal-title').innerText = 'Nuevo usuario';
+		footer.querySelector('.area').style.display = 'block';
+		
 		idUser = null;
+		
 		setForm();
 	}
 	

@@ -1,7 +1,8 @@
 require('../global');
 
 // remote actua como un objeto de conexion con el proceso principal
-const { remote } = require('electron');
+// const { remote } = require('electron');
+
 // const { login, openHomeWindow } = remote.require('./modules/login');
 
 const form = document.forms['login-form'];
@@ -26,15 +27,13 @@ function renderErrors( element, message ) {
 	element.style.display = 'block';
 }
 
-function validateForm( data ) {
+function validateForm( data, callback ) {
 	
 	const { correo, password } = data;
 
 	const emailExp = new RegExp('^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$');
 
 	let errors = 0;
-
-	resetLoginForm();
 
 	// ========================================
 	//	correo validaciones
@@ -78,10 +77,10 @@ function validateForm( data ) {
 	// comprobacion final
 	// =============================================
 	if ( errors > 0 ) {
-		return false;
+		return callback( true );
 	}
 
-	return data;	
+	return callback( null, data );	
 }
 	
 function resetLoginForm( cancelButton = false ) {
@@ -103,10 +102,12 @@ function loading() {
 	buttons[1].style.display = 'block';
 }
 
-form.addEventListener('submit', ( $event ) => {
-	
+function handleSubmit( $event ) {
+
 	// previene el comportamiento por defecto
 	$event.preventDefault();
+
+	resetLoginForm();
 	
 	const formData = new FormData( form );
 
@@ -114,20 +115,26 @@ form.addEventListener('submit', ( $event ) => {
 		correo: formData.get('correo').toLowerCase(),
 		password: formData.get('password')
 	};
-
-	if ( !validateForm( data ) ) {
-		return document.querySelector('#correo-login').focus();
-	}
-
-	loading();
 	
-	/*login( data );
+	validateForm( data, ( error, data ) => {
 
-	setTimeout(() => {
-		
-		window.close();  // cierra la ventana del navegador
-		openHomeWindow();
+	 	if ( error ) {
+			return document.querySelector('#correo-login').focus();
+	 	}
 
-	}, 3000 );*/
+	 	console.log( data );
 
-});
+	 	loading();
+
+		/*login( data );
+
+		setTimeout(() => {
+			
+			window.close();  // cierra la ventana del navegador
+			openHomeWindow();
+
+		}, 3000 );*/
+	});
+}
+
+form.addEventListener('submit', handleSubmit );

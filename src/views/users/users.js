@@ -3,6 +3,7 @@ const path = require('path');
 const Modal = require('bootstrap/js/dist/modal');
 
 const footer = document.querySelector('#modals');
+const info = document.querySelector('#info');
 
 loadHTML( path.join( __dirname, '/users-modal-form/users-modal-form-component.html'));
 loadHTML( path.join( __dirname, '/../shared/modal-confirm/modal-confirm-component.html' ));
@@ -155,8 +156,6 @@ function loadHTML( urlFile = '' ) {
 // variables 
 const userForm = document.forms['formUsers'];
 const changeRoleForm = document.forms['user-change-role-form'];
-
-const info = document.querySelector('#info');
 
 const usersComponent = new UsersComponent();
 
