@@ -96,15 +96,8 @@ class UsersComponent {
 							<td>
 								<button 
 									type="button" 
-									onclick="modalUserComponent.openModal( 'edit', ${ user.id } )" 
-									class="btn btn-primary btn-sm"
-								>
-									<i class="fas fa-edit"></i>
-								</button>
-								<button 
-									type="button" 
 									onclick="modalChangeRole.openModalRole( ${ user.id } )" 
-									class="btn btn-secondary btn-sm"
+									class="btn btn-primary btn-sm"
 								>
 									<i class="fas fa-user"></i>
 								</button>

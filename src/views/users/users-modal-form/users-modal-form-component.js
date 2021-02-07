@@ -1,15 +1,15 @@
 // ============================
 // 	ModalUserFormComponent
 // ============================
-function setForm( data = null ) {
+function setForm( data = {} ) {
 	
 	// busca todos los nodos del formularios y les asigna el valor
 
 	const nodesInput = userForm.querySelectorAll('input');
 	const nodesSelect = userForm.querySelectorAll('select');
 
-	nodesInput.forEach(( node ) => node.value = data ? data[ node.name ] : '' );
-	nodesSelect.forEach(( node ) => node.value = data ? data[ node.name ] : '' );
+	nodesInput.forEach(( node ) => node.value = data[ node.name ] || '' );
+	nodesSelect.forEach(( node ) => node.value = data[ node.name ] || '' );
 }
 
 function getForm( $event, userComponent = this ) {
@@ -19,10 +19,12 @@ function getForm( $event, userComponent = this ) {
 	let formData = new FormData( userForm );
 
 	const data = {
-		nombre: formData.get('nombre').trim(),
-		apellido: formData.get('apellido').trim(),
-		correo: formData.get('correo').trim(),
-		area: formData.get('area').trim()
+		nombre: formData.get('nombre').trim() || '',
+		apellido: formData.get('apellido').trim() || '',
+		correo: formData.get('correo').trim() || '',
+		area: formData.get('area').trim() || '',
+		password: formData.get('password').trim() || '',
+		passwordConfirmation: formData.get('password-confirmation').trim() || ''
 	}
 
 	validateForm( data, ( error, data ) => {
@@ -52,8 +54,9 @@ function openModal( method = 'new', id = null ) {
 		let found = USERS.find(( user ) => user.id === id );
 		
 		footer.querySelector('.modal-title').innerText = `Editar usuario ${ id }`;
-		footer.querySelector('.area').style.display = 'none';
 		
+		footer.querySelectorAll('.only-new').forEach(( node ) => node.style.display = 'none');
+
 		idUser = id;
 		
 		setForm( found );
@@ -61,7 +64,8 @@ function openModal( method = 'new', id = null ) {
 	} else {
 
 		footer.querySelector('.modal-title').innerText = 'Nuevo usuario';
-		footer.querySelector('.area').style.display = 'block';
+		
+		footer.querySelectorAll('.only-new').forEach(( node ) => node.style.display = 'block');
 		
 		idUser = null;
 		
@@ -77,7 +81,7 @@ function closeModal() {
 
 function validateForm( data, callback ) {
 
-	const { nombre, apellido, correo, area } = data;
+	const { nombre, apellido, correo, area, password, passwordConfirmation } = data;
 
 	resetFields();
 	
@@ -86,12 +90,14 @@ function validateForm( data, callback ) {
 		email: 'correo inválido',
 		min: ( min ) => 'minimo ' + min + ' caracteres',
 		max: ( max ) => 'máximo ' + max + ' caracteres',
-		pattern: 'Patrón de datos inválido'
+		pattern: 'Patrón de datos inválido',
+		notMatch: 'La contraseña no coincide'
 	});
 
 	const emailExp = new RegExp('^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$');
 	const stringExp = new RegExp('^[a-zA-Z\s]+$');
 
+	// contador de errores
 	let errors = 0;
 
 	// ========================================
@@ -166,12 +172,40 @@ function validateForm( data, callback ) {
 		renderErrors( surnameErrorsNode, ERROR_MESSAGES.max( 30 ) )
 	}
 
-	// ==================================================
-	// role validaciones
-	// ==================================================
-	if ( area.length === 0 ) {
-		errors = errors + 1;
-		renderErrors( areaErrorsNode, ERROR_MESSAGES.required );
+	if ( !idUser ) {
+		
+		// ==================================================
+		// rol validaciones
+		// ==================================================
+		
+		if ( area.length === 0 ) {
+			errors = errors + 1;
+			renderErrors( areaErrorsNode, ERROR_MESSAGES.required );
+		}
+
+		// ===================================================
+		// contraseña validaciones
+		// ===================================================
+
+		if ( password.length === 0 ) {
+			errors = errors + 1;
+			renderErrors( passwordErrorsNode, ERROR_MESSAGES.required );
+		}
+
+		if ( password.length < 8 && password.length > 0 ) {
+			errors = errors + 1;
+			renderErrors( passwordErrorsNode, ERROR_MESSAGES.min( 8 ) )
+		}
+
+		if ( passwordConfirmation.length === 0 ) {
+			errors = errors + 1;
+			renderErrors( passwordConfirmationNode, ERROR_MESSAGES.required )
+		}
+
+		if ( passwordConfirmation !== password ) {  // contraseñas diferentes
+			errors = errors + 1;
+			renderErrors( passwordConfirmationNode, ERROR_MESSAGES.notMatch );
+		}
 	}
 
 	if ( errors > 0 ) {
@@ -192,14 +226,19 @@ function renderErrors( element, message ) {
 function resetFields( button = false ) {
 	
 	// se limpia los errores de validación
+	
 	emailErrorsNode.style.display = 'none';
 	nameErrorsNode.style.display = 'none';
 	surnameErrorsNode.style.display = 'none';
 	areaErrorsNode.style.display = 'none';
+	passwordConfirmationNode.style.display = 'none';
+	passwordErrorsNode.style.display = 'none';
 
 	if ( button ) {
 		document.forms['formUsers'].reset();
 	}
+
+	return footer.querySelector('#name-user').focus(); 
 }
 
 
@@ -213,6 +252,8 @@ const emailErrorsNode = footer.querySelector('#error-email');
 const nameErrorsNode = footer.querySelector('#error-name');
 const surnameErrorsNode = footer.querySelector('#error-surname');
 const areaErrorsNode = footer.querySelector('#error-area');
+const passwordErrorsNode = footer.querySelector('#error-password');
+const passwordConfirmationNode = footer.querySelector('#error-password-confirmation');
 
 module.exports = {
 	openModal,
