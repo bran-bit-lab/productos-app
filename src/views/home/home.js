@@ -1,17 +1,22 @@
-function openUsers() {
-	console.log('abrir usuarios');
-}
+require('bootstrap/js/dist/dropdown');  // dropdown boostrap
 
-function openOrders() {
-	console.log('abrir ordenes');
-}
+class HomeComponent {
+	
+	static openUsers() {
+		console.log('abrir usuarios');
+	}
 
-function openEstadistics() {
-	console.log('abrir estadisticas');
-}
+	static openOrders() {
+		console.log('abrir ordenes');
+	}
 
-function openProducts() {
-	console.log('abrir productos');
+	static openEstadistics() {
+		console.log('abrir estadisticas');
+	}
+
+	static openProducts() {
+		console.log('abrir productos');
+	}
 }
 
 document.addEventListener('DOMContentLoaded', () => {

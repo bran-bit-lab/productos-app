@@ -5,20 +5,6 @@ require('../global');
 
 // const { login, openHomeWindow } = remote.require('./modules/login');
 
-const form = document.forms['login-form'];
-const errorCorreo = form.querySelector('#error-correo');
-const errorPassword = form.querySelector('#error-password');
-
-// =====================================
-//	errores de validaciones
-// =====================================
-const ERROR_MESSAGES = Object.freeze({
-	required: 'campo requerido',
-	email: 'correo inválido',
-	min: ( min ) => 'minimo ' + min + ' caracteres',
-	max: ( max ) => 'máximo ' + max + ' caracteres',
-});
-
 function renderErrors( element, message ) {
 
 	let html = (`<small class="text-danger">${ message }</small>`);
@@ -30,6 +16,13 @@ function renderErrors( element, message ) {
 function validateForm( data, callback ) {
 	
 	const { correo, password } = data;
+	
+	const ERROR_MESSAGES = Object.freeze({
+		required: 'campo requerido',
+		email: 'correo inválido',
+		min: ( min ) => 'minimo ' + min + ' caracteres',
+		max: ( max ) => 'máximo ' + max + ' caracteres',
+	});
 
 	const emailExp = new RegExp('^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$');
 
@@ -125,16 +118,12 @@ function handleSubmit( $event ) {
 	 	console.log( data );
 
 	 	loading();
-
-		/*login( data );
-
-		setTimeout(() => {
-			
-			window.close();  // cierra la ventana del navegador
-			openHomeWindow();
-
-		}, 3000 );*/
 	});
 }
+
+const form = document.forms['login-form'];
+const errorCorreo = form.querySelector('#error-correo');
+const errorPassword = form.querySelector('#error-password');
+
 
 form.addEventListener('submit', handleSubmit );

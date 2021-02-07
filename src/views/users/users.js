@@ -90,7 +90,7 @@ class UsersComponent {
 							<td>${ user.correo }</td>
 							<td>${ user.area }</td>
 							<td>${ user.activo ? 
-									'<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' 
+									('<i class="fas fa-check text-success"></i>') : ('<i class="fas fa-times text-danger"></i>') 
 								}
 							</td>
 							<td>
