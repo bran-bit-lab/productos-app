@@ -1,6 +1,15 @@
+const CRUD = Object.freeze({
+	// crearUsuario : "INSERT INTO usuarios(nombre, apellido, correo, password, area) VALUE('Gabriel', 'Martinez', 'prueba6@prueba.com', '123456', 'Ventas');"	
+	crearUsuario : "INSERT INTO usuarios SET ?;"	
+});
+
+module.exports = CRUD;
+
+//Ventas
+
 //CRUD usuario
 
-CREATE TABLE usuarios (
+/*CREATE TABLE usuarios (
 	userid int PRIMARY KEY AUTO_INCREMENT,
 	nombre char(30),
 	apellido char(30),
@@ -42,6 +51,8 @@ UPDATE categorias
 	SET descripcion = 'cambio de tipo de suministros' WHERE id = 1;
 
 DELETE FROM categorias WHERE id = 1;
+
+
 
 ALTER TABLE categorias AUTO_INCREMENT= 1;
 
@@ -87,7 +98,7 @@ UPDATE notas
 
 DELETE FROM notas WHERE nro = 1;
 
-ALTER TABLE notas AUTO_INCREMENT=1;
+ALTER TABLE notas AUTO_INCREMENT=1;*/
 
 
 

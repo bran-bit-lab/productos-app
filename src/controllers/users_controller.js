@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
-
+const database = require('../database/database');
+console.log(database);
 
 class UsersController {
 		
