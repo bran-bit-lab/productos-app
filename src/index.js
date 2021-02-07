@@ -1,4 +1,8 @@
 // app y BrowserWindow son objetos de electron
+const { UsersController } = require ('./controllers/users_controller');
+
+
+
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const fs = require('fs');

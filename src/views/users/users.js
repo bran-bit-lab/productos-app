@@ -2,6 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const Modal = require('bootstrap/js/dist/modal');
 
+const { remote } = require('electron');
+const { UsersController } = remote.require('./controllers/users_controller');
+
 const footer = document.querySelector('#modals');
 const info = document.querySelector('#info');
 
@@ -39,6 +42,8 @@ class UsersComponent {
 
 	editUser( id, form ) {
 		console.log( id, form );
+
+
 	}
 
 	deleteUser({ id, confirm }) {	
@@ -46,7 +51,10 @@ class UsersComponent {
 	}
 
 	newUser( form ) {
-		console.log( form );
+		// console.log( form );
+		// const UserController = new UsersController();
+
+		UsersController.crearUsuario( form );
 	}
 
 	changeRole({ id, role }) {
