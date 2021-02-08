@@ -1,16 +1,15 @@
-const fs = require('fs');
-const path = require('path');
-const Modal = require('bootstrap/js/dist/modal');
-
 const { remote } = require('electron');
 const { UsersController } = remote.require('./controllers/users_controller');
+const { readFile } = remote.require('./util_functions/file');
+
+const Modal = require('bootstrap/js/dist/modal');
 
 const footer = document.querySelector('#modals');
 const info = document.querySelector('#info');
 
-loadHTML( path.join( __dirname, '/users-modal-form/users-modal-form-component.html'));
-loadHTML( path.join( __dirname, '/../shared/modal-confirm/modal-confirm-component.html' ));
-loadHTML( path.join( __dirname, '/users-modal-role/users-modal-role-component.html' ) );
+footer.innerHTML += readFile( '../views/users/users-modal-form/users-modal-form-component.html' );
+footer.innerHTML += readFile( '../views/shared/modal-confirm/modal-confirm-component.html' );
+footer.innerHTML += readFile( '../views/users/users-modal-role/users-modal-role-component.html' );
 
 const modalUserComponent = require('./users-modal-form/users-modal-form-component');
 const modalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
@@ -22,7 +21,7 @@ const modalChangeRole = require('./users-modal-role/users-modal-role-component')
 class UsersComponent {
 
 	constructor() {
-	
+
 		this.tbody = document.querySelector('#tbody-user');
 		this.totalUsers = document.querySelector('#totalUsers');
 		this.pagination = document.querySelector('#pagination');
@@ -42,18 +41,13 @@ class UsersComponent {
 
 	editUser( id, form ) {
 		console.log( id, form );
-
-
 	}
 
-	deleteUser({ id, confirm }) {	
+	deleteUser({ id, confirm }) {
 		console.log( id, confirm );
 	}
 
 	newUser( form ) {
-		// console.log( form );
-		// const UserController = new UsersController();
-
 		UsersController.crearUsuario( form );
 	}
 
@@ -64,14 +58,14 @@ class UsersComponent {
 	openModalConfirm( idUser = null ) {
 
 		let found = USERS.find(( user ) => user.id === idUser );
-		
+
 		closeModalConfirm = modalConfirmComponent.closeModalConfirm.bind( this.deleteUser )
-		
+
 		let title = `${ found.activo ? 'Remover' : 'Otorgar' } acceso al usuario ${ idUser }`;
-		
+
 		let element = (`
 			<p class="text-center">
-				¿¿Esta seguro de ${ found.activo ? 'remover' : 'otorgar' } acceso al usuario a 
+				¿¿Esta seguro de ${ found.activo ? 'remover' : 'otorgar' } acceso al usuario a
 				${ found.nombre + ' ' + found.apellido }??
 			</p>`
 		);
@@ -97,23 +91,23 @@ class UsersComponent {
 							<td>${ user.apellido }</td>
 							<td>${ user.correo }</td>
 							<td>${ user.area }</td>
-							<td>${ user.activo ? 
-									('<i class="fas fa-check text-success"></i>') : ('<i class="fas fa-times text-danger"></i>') 
+							<td>${ user.activo ?
+									('<i class="fas fa-check text-success"></i>') : ('<i class="fas fa-times text-danger"></i>')
 								}
 							</td>
 							<td>
-								<button 
-									type="button" 
-									onclick="modalChangeRole.openModalRole( ${ user.id } )" 
+								<button
+									type="button"
+									onclick="modalChangeRole.openModalRole( ${ user.id } )"
 									class="btn btn-primary btn-sm"
 								>
 									<i class="fas fa-user"></i>
 								</button>
-								<button 
-									type="button" 
-									onclick="usersComponent.openModalConfirm( ${ user.id } )" 
+								<button
+									type="button"
+									onclick="usersComponent.openModalConfirm( ${ user.id } )"
 									class="btn btn-danger btn-sm"
-									data-bs-target=".modal-users" 
+									data-bs-target=".modal-users"
 									data-bs-whatever="delete"
 								>
 									<i class="fas fa-trash"></i>
@@ -121,9 +115,9 @@ class UsersComponent {
 							</td>
 						</tr>
 					`)
-				} 
+				}
 			);
-		
+
 		} else {
 
 			this.pagination.style.display = 'none';
@@ -139,22 +133,7 @@ class UsersComponent {
 	}
 }
 
-function loadHTML( urlFile = '' ) {
-
-	try {
-
-		let data = fs.readFileSync( urlFile, 'utf-8' );
-
-		footer.innerHTML += data;
-
-	} catch ( error ) {
-		
-		console.error('no se puede extraer el archivo\n', error );
-		console.log( 'ubicacion del archivo', urlFile );
-	}
-}
-
-// variables 
+// variables
 const userForm = document.forms['formUsers'];
 const changeRoleForm = document.forms['user-change-role-form'];
 
