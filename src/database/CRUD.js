@@ -88,6 +88,8 @@ CREATE TABLE notas (
 	status char(30)	
 );
 
+ALTER TABLE notas ADD creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
 INSERT INTO notas(cliente, status)
 	VALUE("Casa L", "Entregada");
 
