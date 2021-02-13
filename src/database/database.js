@@ -8,11 +8,10 @@ class Database {
 	conectar( callback ) {
 
 		try {
-			conectar.connect( this.prueba );
 			console.log("conexion a BD exitosa");
 
 		} catch ( error ) {
-		    console.log(error);
+		    console.log( error );
 		}
 	}
 
@@ -23,7 +22,6 @@ class Database {
 	actualizar( data, id ) {
 
 	}
-
 
 	eliminar( data, id ){
 		console.log("error en la consulta");
@@ -48,11 +46,11 @@ class Database {
 
 try {
 
-	let data = file.readFile("../users-productos-app.ini");
+	let data = file.readFile("/users-productos-app.ini");
 
  	let arregloConexion = JSON.parse(data);
 
- 	user = arregloConexion["root_brandon"];
+ 	user = arregloConexion["root_gabriel"];
 
  	console.log( user );
 

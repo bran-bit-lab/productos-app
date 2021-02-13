@@ -1,15 +1,10 @@
 // app y BrowserWindow son objetos de electron
-const { UsersController } = require ('./controllers/users_controller');
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const urlAssets = __dirname + '/views';
 
 require('electron-reload')( __dirname );
-
-function checkAsset( url ) {
-  return fs.existsSync( url ) ? 'El archivo existe' : 'El archivo no existe';
-}
 
 function createWindow() {
 

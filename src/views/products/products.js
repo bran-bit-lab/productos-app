@@ -1,7 +1,7 @@
 class ProductsComponent {
 
 	constructor() {
-		this.totalProducts = document.querySelector('#totalProducts'); 
+		this.totalProducts = document.querySelector('#totalProducts');
 		this.tbody = document.querySelector('#tbody-products');
 		this.pagination = document.querySelector('#pagination');
 		this.render = this.render.bind( this );
@@ -17,6 +17,10 @@ class ProductsComponent {
 
 	activeProduct() {
 		console.log('active product');
+	}
+
+	getPorducts() {
+
 	}
 
 	findCategory( categoriaId ) {
@@ -43,21 +47,21 @@ class ProductsComponent {
 						<td>${ product.precioUnitario }$</td>
 						<td>${ product.disponible && product.cantidad > 0 ? 'disponible' : '<span class="text-danger">no disponible</span>' }</td>
 						<td>
-							<button 
-								type="button" 
-								onclick="productsComponent.editProduct()" 
+							<button
+								type="button"
+								onclick="productsComponent.editProduct()"
 								class="btn btn-primary btn-sm"
 							>
 								<i class="fas fa-edit"></i>
 							</button>
-							<button 
-								type="button" 
-								onclick="productsComponent.activeProduct()" 
+							<button
+								type="button"
+								onclick="productsComponent.activeProduct()"
 								class="btn btn-danger btn-sm"
 							>
 								<i class="fas fa-trash"></i>
 							</button>
-						</td>	
+						</td>
 					</tr>
 				`)
 			});

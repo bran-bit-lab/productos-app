@@ -1,10 +1,9 @@
 // ============================
-// 	ModalUserFormComponent
+// ModalUserFormComponent
 // ============================
 function setForm( data = {} ) {
-	
-	// busca todos los nodos del formularios y les asigna el valor
 
+	// busca todos los nodos del formularios y les asigna el valor
 	const nodesInput = userForm.querySelectorAll('input');
 	const nodesSelect = userForm.querySelectorAll('select');
 
@@ -15,7 +14,7 @@ function setForm( data = {} ) {
 function getForm( $event, userComponent = this ) {
 
 	$event.preventDefault();
-	
+
 	let formData = new FormData( userForm );
 
 	const data = {
@@ -29,8 +28,8 @@ function getForm( $event, userComponent = this ) {
 
 	validateForm( data, ( error, data ) => {
 
-		if ( error ) { 
-			return footer.querySelector('#name-user').focus(); 
+		if ( error ) {
+			return footer.querySelector('#name-user').focus();
 		}
 
 		if ( idUser ) {
@@ -50,28 +49,25 @@ function openModal( method = 'new', id = null ) {
 	resetFields(); // limpia los campos cuando entra al modal
 
 	if ( method !== 'new' ) {
-		
-		let found = USERS.find(( user ) => user.id === id );
-		
+
 		footer.querySelector('.modal-title').innerText = `Editar usuario ${ id }`;
-		
 		footer.querySelectorAll('.only-new').forEach(( node ) => node.style.display = 'none');
 
 		idUser = id;
-		
+		let found = USERS.find(( user ) => user.id === id );
+
 		setForm( found );
 
 	} else {
 
 		footer.querySelector('.modal-title').innerText = 'Nuevo usuario';
-		
 		footer.querySelectorAll('.only-new').forEach(( node ) => node.style.display = 'block');
-		
+
 		idUser = null;
-		
+
 		setForm();
 	}
-	
+
 	return modalUsersForm.show();
 }
 
@@ -80,11 +76,10 @@ function closeModal() {
 }
 
 function validateForm( data, callback ) {
+	resetFields();
 
 	const { nombre, apellido, correo, area, password, passwordConfirmation } = data;
 
-	resetFields();
-	
 	const ERROR_MESSAGES = Object.freeze({
 		required: 'campo requerido',
 		email: 'correo inválido',
@@ -94,8 +89,11 @@ function validateForm( data, callback ) {
 		notMatch: 'La contraseña no coincide'
 	});
 
-	const emailExp = new RegExp('^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$');
-	const stringExp = new RegExp('^[a-zA-Z\s]+$');
+	const PATTERNS = Object.freeze({
+		email: new RegExp('^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$'),
+		onlyLetters: new RegExp('^[a-zA-Z\s]+$'),
+		area: new RegExp('^Ventas|Almacen|Administracion$')
+	});
 
 	// contador de errores
 	let errors = 0;
@@ -104,13 +102,13 @@ function validateForm( data, callback ) {
 	//	correo validaciones
 	// ========================================
 
-	if ( !emailExp.test( correo ) ) {
+	if ( !PATTERNS.email.test( correo ) ) {
 		errors = errors + 1;
 		renderErrors( emailErrorsNode, ERROR_MESSAGES.pattern );
 	}
 
 	if ( correo.trim().length === 0 ) {
-		errors = errors + 1; 
+		errors = errors + 1;
 		renderErrors( emailErrorsNode, ERROR_MESSAGES.required );
 	}
 
@@ -127,14 +125,14 @@ function validateForm( data, callback ) {
 	// =============================================
 	// nombre validaciones
 	// =============================================
-	
-	if ( !stringExp.test( nombre ) ) {
+
+	if ( !PATTERNS.onlyLetters.test( nombre ) ) {
 		errors = errors + 1;
 		renderErrors( nameErrorsNode, ERROR_MESSAGES.pattern );
 	}
 
 	if ( nombre.trim().length === 0 ) {
-		errors = errors + 1; 
+		errors = errors + 1;
 		renderErrors( nameErrorsNode, ERROR_MESSAGES.required );
 	}
 
@@ -152,13 +150,13 @@ function validateForm( data, callback ) {
 	// apellido validaciones
 	// ==================================================
 
-	if ( !stringExp.test( apellido ) ) {
+	if ( !PATTERNS.onlyLetters.test( apellido ) ) {
 		errors = errors + 1;
 		renderErrors( surnameErrorsNode, ERROR_MESSAGES.pattern );
 	}
 
 	if ( apellido.trim().length === 0 ) {
-		errors = errors + 1; 
+		errors = errors + 1;
 		renderErrors( surnameErrorsNode, ERROR_MESSAGES.required );
 	}
 
@@ -173,15 +171,21 @@ function validateForm( data, callback ) {
 	}
 
 	if ( !idUser ) {
-		
+
 		// ==================================================
 		// rol validaciones
 		// ==================================================
-		
+
+		if ( !PATTERNS.area.test( area ) ) {
+			errors = errors + 1;
+			renderErrors( areaErrorsNode, ERROR_MESSAGES.pattern );
+		}
+
 		if ( area.length === 0 ) {
 			errors = errors + 1;
 			renderErrors( areaErrorsNode, ERROR_MESSAGES.required );
 		}
+
 
 		// ===================================================
 		// contraseña validaciones
@@ -213,20 +217,20 @@ function validateForm( data, callback ) {
 	}
 
 	return callback( false, data );
-} 
+}
 
 function renderErrors( element, message ) {
 
 	let html = (`<small class="text-danger">${ message }</small>`);
-	
+
 	element.innerHTML = html;
 	element.style.display = 'block';
 }
 
 function resetFields( button = false ) {
-	
+
 	// se limpia los errores de validación
-	
+
 	emailErrorsNode.style.display = 'none';
 	nameErrorsNode.style.display = 'none';
 	surnameErrorsNode.style.display = 'none';
@@ -238,15 +242,12 @@ function resetFields( button = false ) {
 		document.forms['formUsers'].reset();
 	}
 
-	return footer.querySelector('#name-user').focus(); 
+	return footer.querySelector('#name-user').focus();
 }
-
 
 const modalUsersForm = new Modal( footer.querySelector('.modal-users'), {
 	backdrop: 'static'
 });
-
-let idUser = null;
 
 const emailErrorsNode = footer.querySelector('#error-email');
 const nameErrorsNode = footer.querySelector('#error-name');
@@ -254,6 +255,8 @@ const surnameErrorsNode = footer.querySelector('#error-surname');
 const areaErrorsNode = footer.querySelector('#error-area');
 const passwordErrorsNode = footer.querySelector('#error-password');
 const passwordConfirmationNode = footer.querySelector('#error-password-confirmation');
+
+let idUser = null;
 
 module.exports = {
 	openModal,

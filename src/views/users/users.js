@@ -1,16 +1,20 @@
 const { remote } = require('electron');
-const { UsersController } = remote.require('./controllers/users_controller');
-const { readFile } = remote.require('./util_functions/file');
-
 const Modal = require('bootstrap/js/dist/modal');
 
-const footer = document.querySelector('#modals');
+// remote
+const { UsersController } = remote.require('./controllers/users_controller');
+const { readFileAssets } = remote.require('./util_functions/file');
+
+// selectors
 const info = document.querySelector('#info');
+const footer = document.querySelector('#modals');
 
-footer.innerHTML += readFile( '../views/users/users-modal-form/users-modal-form-component.html' );
-footer.innerHTML += readFile( '../views/shared/modal-confirm/modal-confirm-component.html' );
-footer.innerHTML += readFile( '../views/users/users-modal-role/users-modal-role-component.html' );
+// components html
+footer.innerHTML += readFileAssets( '/users/users-modal-form/users-modal-form-component.html' );
+footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-component.html' );
+footer.innerHTML += readFileAssets( '/users/users-modal-role/users-modal-role-component.html' );
 
+// modules
 const modalUserComponent = require('./users-modal-form/users-modal-form-component');
 const modalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 const modalChangeRole = require('./users-modal-role/users-modal-role-component');
@@ -21,11 +25,9 @@ const modalChangeRole = require('./users-modal-role/users-modal-role-component')
 class UsersComponent {
 
 	constructor() {
-
 		this.tbody = document.querySelector('#tbody-user');
 		this.totalUsers = document.querySelector('#totalUsers');
 		this.pagination = document.querySelector('#pagination');
-
 		this.render = this.render.bind( this );
 		this.editUser = this.editUser.bind( this );
 		this.deleteUser = this.deleteUser.bind( this );
@@ -58,9 +60,6 @@ class UsersComponent {
 	openModalConfirm( idUser = null ) {
 
 		let found = USERS.find(( user ) => user.id === idUser );
-
-		closeModalConfirm = modalConfirmComponent.closeModalConfirm.bind( this.deleteUser )
-
 		let title = `${ found.activo ? 'Remover' : 'Otorgar' } acceso al usuario ${ idUser }`;
 
 		let element = (`
@@ -73,6 +72,41 @@ class UsersComponent {
 		return modalConfirmComponent.openModalConfirm( title, element, idUser );
 	}
 
+	getRowTable( user ) {
+		return (`
+			<tr class="text-center">
+				<td>${ user.id }</td>
+				<td>${ user.nombre }</td>
+				<td>${ user.apellido }</td>
+				<td>${ user.correo }</td>
+				<td>${ user.area }</td>
+				<td>${ user.activo ?
+						('<i class="fas fa-check text-success"></i>') :
+						('<i class="fas fa-times text-danger"></i>')
+					}
+				</td>
+				<td>
+					<button
+						type="button"
+						onclick="modalChangeRole.openModalRole( ${ user.id } )"
+						class="btn btn-primary btn-sm"
+					>
+						<i class="fas fa-user"></i>
+					</button>
+					<button
+						type="button"
+						onclick="usersComponent.openModalConfirm( ${ user.id } )"
+						class="btn btn-danger btn-sm"
+						data-bs-target=".modal-users"
+						data-bs-whatever="delete"
+					>
+						<i class="fas fa-trash"></i>
+					</button>
+				</td>
+			</tr>
+		`);
+	}
+
 	render() {
 
 		this.tbody.innerHTML = '';
@@ -81,42 +115,7 @@ class UsersComponent {
 		if ( USERS.length > 0 ) {
 
 			this.pagination.style.display = 'block';
-
-			USERS.forEach(( user ) => {
-
-					this.tbody.innerHTML += (`
-						<tr class="text-center">
-							<td>${ user.id }</td>
-							<td>${ user.nombre }</td>
-							<td>${ user.apellido }</td>
-							<td>${ user.correo }</td>
-							<td>${ user.area }</td>
-							<td>${ user.activo ?
-									('<i class="fas fa-check text-success"></i>') : ('<i class="fas fa-times text-danger"></i>')
-								}
-							</td>
-							<td>
-								<button
-									type="button"
-									onclick="modalChangeRole.openModalRole( ${ user.id } )"
-									class="btn btn-primary btn-sm"
-								>
-									<i class="fas fa-user"></i>
-								</button>
-								<button
-									type="button"
-									onclick="usersComponent.openModalConfirm( ${ user.id } )"
-									class="btn btn-danger btn-sm"
-									data-bs-target=".modal-users"
-									data-bs-whatever="delete"
-								>
-									<i class="fas fa-trash"></i>
-								</button>
-							</td>
-						</tr>
-					`)
-				}
-			);
+			USERS.forEach(( user ) => this.tbody.innerHTML += this.getRowTable( user ));
 
 		} else {
 
@@ -133,18 +132,22 @@ class UsersComponent {
 	}
 }
 
-// variables
+const usersComponent = new UsersComponent();
 const userForm = document.forms['formUsers'];
 const changeRoleForm = document.forms['user-change-role-form'];
 
-const usersComponent = new UsersComponent();
-
-let closeModalConfirm = null;
+// esta variable es usada en el html para confirmar la eliminacion
+const closeModalConfirm =  modalConfirmComponent.closeModalConfirm.bind( usersComponent.deleteUser );
 
 // listeners de eventos
+userForm.addEventListener(
+	'submit',
+	modalUserComponent.getForm.bind( usersComponent )
+);
+
+changeRoleForm.addEventListener(
+	'submit',
+	modalChangeRole.getForm.bind( usersComponent )
+);
 
 document.addEventListener('DOMContentLoaded', usersComponent.render );
-
-userForm.addEventListener('submit', modalUserComponent.getForm.bind( usersComponent ) );
-
-changeRoleForm.addEventListener('submit', modalChangeRole.getForm.bind( usersComponent ) );

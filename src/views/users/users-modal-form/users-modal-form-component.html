@@ -3,12 +3,12 @@
   <div class="modal fade modal-users">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
-        
+
           <div class="modal-header">
             <h5 class="modal-title"></h5>
-            <button 
-              type="button" 
-              class="btn-close" 
+            <button
+              type="button"
+              class="btn-close"
               onclick="modalUserComponent.closeModal();"
             ></button>
           </div>
@@ -17,7 +17,7 @@
             <div class="row">
 
               <div class="col-sm-6 col-12">
-                
+
                 <div class="form-group">
                   <label for="name-user">Nombre:</label>
                   <input type="text" id="name-user" name="nombre" class="form-control" />
@@ -38,12 +38,12 @@
 
               </div>
               <div class="col-sm-6 col-12">
-                
+
                  <div class="form-group">
                   <label for="user-email">Correo:</label>
                   <input type="email" id="user-email" name="correo" class="form-control" />
                   <div class="invalid-feedback text-center" id="error-email"></div>
-                </div> 
+                </div>
 
                 <div class="form-group only-new">
                   <label for="area-user">Area:</label>
@@ -58,11 +58,11 @@
 
                 <div class="form-group only-new">
                   <label for="password">Confirmar contraseña:</label>
-                  <input 
-                    class="form-control" 
-                    type="password" 
-                    name="password-confirmation" 
-                    id="password-confirmation-user" 
+                  <input
+                    class="form-control"
+                    type="password"
+                    name="password-confirmation"
+                    id="password-confirmation-user"
                   />
                   <div class="invalid-feedback text-center" id="error-password-confirmation"></div>
                 </div>
@@ -72,11 +72,11 @@
           </div>
 
           <div class="modal-footer">
-            <button 
-              type="button" 
-              onclick="modalUserComponent.resetFields( true );" 
+            <button
+              type="button"
+              onclick="modalUserComponent.resetFields( true );"
               class="btn btn-secondary"
-            >Cancelar</button>
+            >Limpiar</button>
             <button type="submit" class="btn btn-primary">Aceptar</button>
           </div>
       </div>
