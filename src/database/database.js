@@ -7,16 +7,26 @@ class Database {
 
 	conectar( callback ) {
 
-		try {
-			console.log("conexion a BD exitosa");
+		try{
+			conectar.connect();
+			console.log("respueta existosa");
+			callback();
 
 		} catch ( error ) {
-		    console.log( error );
+			console.log(error)
 		}
 	}
 
-	insertar( data ) {
+	insertar( sql, data, callback ) {
+		// @params sql: string es una variable generada para hacer la consulta
+		// @params data: object || array es el arreglo del formulario
+		
+		this.conectar(() => {
 
+			// insertar 
+			let datos = Object.values(data);
+			conectar.query(sql, datos, callback );
+		});
 	}
 
 	actualizar( data, id ) {
@@ -50,7 +60,7 @@ try {
 
  	let arregloConexion = JSON.parse(data);
 
- 	user = arregloConexion["root_gabriel"];
+ 	user = arregloConexion["root_brandon"];
 
  	console.log( user );
 

@@ -44,7 +44,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@popperjs/core": "^2.6.0",
-    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^5.0.0-beta1",
     "electron-squirrel-startup": "^1.0.0",
     "mysql": "^2.18.1"

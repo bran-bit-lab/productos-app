@@ -1,6 +1,6 @@
 const CRUD = Object.freeze({
 	// crearUsuario : "INSERT INTO usuarios(nombre, apellido, correo, password, area) VALUE('Gabriel', 'Martinez', 'prueba6@prueba.com', '123456', 'Ventas');"	
-	crearUsuario : "INSERT INTO usuarios SET ?;"	
+	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (?, ?, ?, ?, ?);"	
 });
 
 module.exports = CRUD;

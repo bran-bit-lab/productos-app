@@ -63,7 +63,7 @@ CREATE TABLE `notas` (
   PRIMARY KEY (`nro`),
   KEY `userid` (`userid`),
   CONSTRAINT `notas_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `usuarios` (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,11 +114,11 @@ CREATE TABLE `usuarios` (
   `nombre` char(30) DEFAULT NULL,
   `apellido` char(30) DEFAULT NULL,
   `correo` char(30) DEFAULT NULL,
-  `password` char(30) DEFAULT NULL,
+  `password` char(200) DEFAULT NULL,
   `area` char(30) DEFAULT NULL,
-  `estado` char(30) DEFAULT 'activo',
+  `estado` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,21 +127,21 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'test1','apellido1','correo1@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (2,'test2','apellido2','correo2@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (3,'test3','apellido3','correo3@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (4,'test4','apellido4','correo4@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (5,'test5','apellido5','correo5@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (6,'test6','apellido6','correo6@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (7,'test7','apellido7','correo7@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (8,'test8','apellido8','correo8@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (9,'test9','apellido9','correo9@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (10,'test10','apellido10','correo10@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (11,'test11','apellido11','correo11@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (12,'test12','apellido12','correo12@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (13,'test13','apellido13','correo13@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (14,'test14','apellido14','correo14@prueba.com','prueba','ventas','activo');
-INSERT INTO `usuarios` VALUES (15,'test15','apellido15','correo15@prueba.com','prueba','ventas','activo');
+INSERT INTO `usuarios` VALUES (1,'test1','apellido1','correo1@prueba.com','prueba','ventas',1);
+INSERT INTO `usuarios` VALUES (2,'test2','apellido2','correo2@prueba.com','prueba','ventas',1);
+INSERT INTO `usuarios` VALUES (3,'test3','apellido3','correo3@prueba.com','prueba','ventas',1);
+INSERT INTO `usuarios` VALUES (4,'test4','apellido4','correo4@prueba.com','prueba','ventas',1);
+INSERT INTO `usuarios` VALUES (5,'test5','apellido5','correo5@prueba.com','prueba','ventas',1);
+INSERT INTO `usuarios` VALUES (6,'test6','apellido6','correo6@prueba.com','prueba','ventas',1);
+INSERT INTO `usuarios` VALUES (7,'test7','apellido7','correo7@prueba.com','prueba','ventas',1);
+INSERT INTO `usuarios` VALUES (8,'test8','apellido8','correo8@prueba.com','prueba','ventas',1);
+INSERT INTO `usuarios` VALUES (9,'test9','apellido9','correo9@prueba.com','prueba','ventas',1);
+INSERT INTO `usuarios` VALUES (10,'test10','apellido10','correo10@prueba.com','prueba','ventas',1);
+INSERT INTO `usuarios` VALUES (11,'test11','apellido11','correo11@prueba.com','prueba','ventas',0);
+INSERT INTO `usuarios` VALUES (12,'test12','apellido12','correo12@prueba.com','prueba','ventas',0);
+INSERT INTO `usuarios` VALUES (13,'test13','apellido13','correo13@prueba.com','prueba','ventas',0);
+INSERT INTO `usuarios` VALUES (14,'test14','apellido14','correo14@prueba.com','prueba','ventas',0);
+INSERT INTO `usuarios` VALUES (15,'test15','apellido15','correo15@prueba.com','prueba','ventas',0);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -154,4 +154,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-10 22:50:07
+-- Dump completed on 2021-02-14 16:16:25
