@@ -9,7 +9,7 @@ class Database {
 		
 		// @params sql: string es una variable de consulta a la BD.
 		// @params data: object es el arreglo del formulario
-		// @params callback: function es la funcion que se ejecuta cuando la respuesta sea exitosa
+		// @params callback: function se ejecuta cuando la respuesta sea exitosa
 		
 		const datos = Object.values( data );
 		
