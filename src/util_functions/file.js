@@ -2,6 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const { ENV } = require('../env');
 
+/*
+	Javascript se ejecuta en paralelo de forma sincrona y luego asincrona a
+	diferencia de php que lo hace en modo seceuncial. Por lo tanto en este caso
+	se usa la funcion fs.readFileSync para no arrojar un callback
+*/
+
 function readFile( url ) {
 	return fs.readFileSync( path.join( ENV.PATH_INI, url ), { encoding: "utf-8" });
 };

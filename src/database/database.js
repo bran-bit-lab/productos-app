@@ -1,31 +1,30 @@
 const mysql = require('mysql');
 const file = require('../util_functions/file');
 
-let user = null;
+let user = null; 
 
 class Database {
 
-	conectar( callback ) {
-
-		try{
-			conectar.connect();
-			console.log("respueta existosa");
-			callback();
-
-		} catch ( error ) {
-			console.log(error)
-		}
-	}
-
 	insertar( sql, data, callback ) {
-		// @params sql: string es una variable generada para hacer la consulta
-		// @params data: object || array es el arreglo del formulario
 		
-		this.conectar(() => {
+		// @params sql: string es una variable de consulta a la BD.
+		// @params data: object es el arreglo del formulario
+		// @params callback: function es la funcion que se ejecuta cuando la respuesta sea exitosa
+		
+		const datos = Object.values( data );
+		
+		conectar.connect();
 
-			// insertar 
-			let datos = Object.values(data);
-			conectar.query(sql, datos, callback );
+		conectar.query( sql, datos, ( error ) => {
+
+			if ( error ) {
+				throw error;
+			}
+
+			// Exito. se cierra la conexion con la BD.
+			conectar.end(); 
+			
+			callback();
 		});
 	}
 
@@ -36,23 +35,7 @@ class Database {
 	eliminar( data, id ){
 		console.log("error en la consulta");
 	}
-
-	prueba( err, data ) {
-
-		if ( err ) {
-			console.log( err );
-		}
-
-		console.log('conexion exitosa');
-	}
-
 }
-
-/*
-	Javascript se ejecuta en paralelo de forma sincrona y luego asincrona a
-	diferencia de php que lo hace en modo seceuncial. Por lo tanto en este caso
-	se usa la funcion fs.readFileSync para no arrojar un callback
-*/
 
 try {
 
@@ -60,21 +43,23 @@ try {
 
  	let arregloConexion = JSON.parse(data);
 
- 	user = arregloConexion["root_brandon"];
+ 	user = arregloConexion["user_gabriel_ventas"];
 
- 	console.log( user );
+ 	// console.log( user );
 
 } catch ( error ) {
+	
 	console.log( error );
-
 }
 
 const conectar = mysql.createConnection({
 	host: user["host"],
 	user: user["username"],
 	password: user["password"],
-	database: user["database"]
+	database: user["database"],
+	port: user["port"]
 });
+
 
 module.exports = {
 	Database
