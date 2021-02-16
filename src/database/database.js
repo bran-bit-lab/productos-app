@@ -5,34 +5,24 @@ let user = null;
 
 class Database {
 
-	insertar( sql, data, callback ) {
+	insert( sql, data, callback ) {
 		
 		// @params sql: string es una variable de consulta a la BD.
 		// @params data: object es el arreglo del formulario
 		// @params callback: function se ejecuta cuando la respuesta sea exitosa
 		
-		const datos = Object.values( data );
+		let datos = Object.values( data );
 		
-		conectar.connect();
-
-		conectar.query( sql, datos, ( error ) => {
-
-			if ( error ) {
-				throw error;
-			}
-
-			// Exito. se cierra la conexion con la BD.
-			conectar.end(); 
-			
-			callback();
-		});
+		mysqlAPI.query( sql, datos, callback );
 	}
 
-	actualizar( data, id ) {
-
+	consult( sql ) {
 	}
 
-	eliminar( data, id ){
+	update( data, id ) {
+	}
+
+	delete( data, id ){
 		console.log("error en la consulta");
 	}
 }
@@ -41,7 +31,7 @@ try {
 
 	let data = file.readFile("/users-productos-app.ini");
 
- 	let arregloConexion = JSON.parse(data);
+ 	let arregloConexion = JSON.parse( data );
 
  	user = arregloConexion["user_gabriel_ventas"];
 
@@ -52,12 +42,21 @@ try {
 	console.log( error );
 }
 
-const conectar = mysql.createConnection({
+const mysqlAPI = mysql.createConnection({
 	host: user["host"],
 	user: user["username"],
 	password: user["password"],
 	database: user["database"],
 	port: user["port"]
+});
+
+mysqlAPI.connect(( error ) => {
+	
+	if ( error ) { 
+		throw error
+	};
+
+	console.log('Base de datos en linea!!');
 });
 
 

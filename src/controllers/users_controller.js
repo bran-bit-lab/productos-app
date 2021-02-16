@@ -15,11 +15,15 @@ class UsersController {
 
 			const database = new Database();
 			
-			database.insertar( CRUD.crearUsuario, usuario, () => {
-  				
-				console.log("data insertada", 'se continua con la ejecucion');
+			database.insert( CRUD.crearUsuario, usuario, ( error ) => {
+  			
+  			if ( error ) {
+					throw error;  // mostrará el error en pantalla
+				}
 
-				// se continua con el resto de la ejecucion
+				console.log("data insertada");
+
+				// se continua con el resto de la ejecucion ...
   		});
 		}
 }
