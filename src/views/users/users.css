@@ -41,6 +41,6 @@ body {
 	margin-bottom: 5px;
 }
 
-.invalid-feedback {
-	display: none;
+.invalid-feedback > small {
+	font-weight: lighter;
 }

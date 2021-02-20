@@ -1,22 +1,19 @@
-require('../global');
-
 // remote actua como un objeto de conexion con el proceso principal
 // const { remote } = require('electron');
-
-// const { login, openHomeWindow } = remote.require('./modules/login');
 
 function renderErrors( element, message ) {
 
 	let html = (`<small class="text-danger">${ message }</small>`);
-	
+
 	element.innerHTML = html;
-	element.style.display = 'block';
+
+	showElement( element );
 }
 
 function validateForm( data, callback ) {
-	
+
 	const { correo, password } = data;
-	
+
 	const ERROR_MESSAGES = Object.freeze({
 		required: 'campo requerido',
 		email: 'correo inválido',
@@ -39,7 +36,7 @@ function validateForm( data, callback ) {
 
 	if ( correo.trim().length === 0 ) {
 		renderErrors( errorCorreo,  ERROR_MESSAGES.required );
-		errors = errors + 1; 
+		errors = errors + 1;
 	}
 
 	if ( correo.trim().length > 0 && correo.trim().length < 8 ) {
@@ -58,8 +55,8 @@ function validateForm( data, callback ) {
 
 	if ( password.trim().length === 0 ) {
 		renderErrors( errorPassword, ERROR_MESSAGES.required );
-		errors = errors + 1; 
-	} 
+		errors = errors + 1;
+	}
 
 	if ( password.trim().length > 30 ) {
 		renderErrors( errorPassword,  ERROR_MESSAGES.max( 30 ) );
@@ -73,13 +70,13 @@ function validateForm( data, callback ) {
 		return callback( true );
 	}
 
-	return callback( null, data );	
+	return callback( null, data );
 }
-	
+
 function resetLoginForm( cancelButton = false ) {
-	
-	errorCorreo.style.display = 'none';
-	errorPassword.style.display = 'none';
+
+	hideElement( errorCorreo );
+	hideElement( errorPassword );
 
 	if ( cancelButton )  {
 		form.reset();
@@ -88,11 +85,11 @@ function resetLoginForm( cancelButton = false ) {
 }
 
 function loading() {
-	
+
 	let buttons = form.querySelectorAll('button');
-	
-	buttons[0].style.display = 'none';
-	buttons[1].style.display = 'block';
+
+	hideElement( buttons[0] );
+	showElement( buttons[1] );
 }
 
 function handleSubmit( $event ) {
@@ -101,14 +98,14 @@ function handleSubmit( $event ) {
 	$event.preventDefault();
 
 	resetLoginForm();
-	
+
 	const formData = new FormData( form );
 
 	let data = {
 		correo: formData.get('correo').toLowerCase(),
 		password: formData.get('password')
 	};
-	
+
 	validateForm( data, ( error, data ) => {
 
 	 	if ( error ) {

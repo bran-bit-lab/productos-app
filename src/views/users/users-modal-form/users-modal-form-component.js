@@ -224,19 +224,19 @@ function renderErrors( element, message ) {
 	let html = (`<small class="text-danger">${ message }</small>`);
 
 	element.innerHTML = html;
-	element.style.display = 'block';
+
+	showElement( element );
 }
 
 function resetFields( button = false ) {
 
 	// se limpia los errores de validación
-
-	emailErrorsNode.style.display = 'none';
-	nameErrorsNode.style.display = 'none';
-	surnameErrorsNode.style.display = 'none';
-	areaErrorsNode.style.display = 'none';
-	passwordConfirmationNode.style.display = 'none';
-	passwordErrorsNode.style.display = 'none';
+	hideElement( emailErrorsNode );
+	hideElement( nameErrorsNode );
+	hideElement( surnameErrorsNode );
+	hideElement( areaErrorsNode );
+	hideElement( passwordConfirmationNode );
+	hideElement( passwordErrorsNode );
 
 	if ( button ) {
 		document.forms['formUsers'].reset();

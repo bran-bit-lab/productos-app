@@ -1,9 +1,10 @@
 const { remote } = require('electron');
-const Modal = require('bootstrap/js/dist/modal');
 
 // remote
 const { UsersController } = remote.require('./controllers/users_controller');
 const { readFileAssets } = remote.require('./util_functions/file');
+
+const Modal = require('bootstrap/js/dist/modal');
 
 // selectors
 const info = document.querySelector('#info');
@@ -28,10 +29,9 @@ class UsersComponent {
 		this.tbody = document.querySelector('#tbody-user');
 		this.totalUsers = document.querySelector('#totalUsers');
 		this.pagination = document.querySelector('#pagination');
+
 		this.render = this.render.bind( this );
-		this.editUser = this.editUser.bind( this );
 		this.deleteUser = this.deleteUser.bind( this );
-		this.newUser = this.newUser.bind( this );
 		this.changeRole = this.changeRole.bind( this );
 	}
 
@@ -46,7 +46,21 @@ class UsersComponent {
 	}
 
 	deleteUser({ id, confirm }) {
-		console.log( id, confirm );
+
+		if ( !confirm ) {
+			return;
+		}
+
+		// filtrado local retirar cuando se encuentre el SQL
+		USERS = USERS.map(( user ) => {
+			if ( user.id === id ) {
+				return { ...user, activo: !user.activo };
+			}
+
+			return user;
+		});
+
+		return this.render();
 	}
 
 	newUser( form ) {
@@ -54,7 +68,18 @@ class UsersComponent {
 	}
 
 	changeRole({ id, role }) {
-		console.log( id, role );
+
+		// actualizacion local retirar cuando se agregue el SQL
+
+		USERS = USERS.map(( user ) => {
+			if ( user.id === id ) {
+				return { ...user, area: role };
+			}
+
+			return user;
+		});
+
+		return this.render();
 	}
 
 	openModalConfirm( idUser = null ) {
@@ -62,6 +87,7 @@ class UsersComponent {
 		let found = USERS.find(( user ) => user.id === idUser );
 		let title = `${ found.activo ? 'Remover' : 'Otorgar' } acceso al usuario ${ idUser }`;
 
+		// description
 		let element = (`
 			<p class="text-center">
 				¿¿Esta seguro de ${ found.activo ? 'remover' : 'otorgar' } acceso al usuario a
@@ -109,19 +135,20 @@ class UsersComponent {
 
 	render() {
 
-		this.tbody.innerHTML = '';
 		this.totalUsers.innerText = USERS.length;
 
 		if ( USERS.length > 0 ) {
 
-			this.pagination.style.display = 'block';
-			USERS.forEach(( user ) => this.tbody.innerHTML += this.getRowTable( user ));
+			showElement( this.pagination );
+
+			this.tbody.innerHTML = USERS.map(( user ) => this.getRowTable( user ))
+				.join('');
 
 		} else {
 
-			this.pagination.style.display = 'none';
+			hideElement( this.pagination );
 
-			this.tbody.innerHTML += (`
+			this.tbody.innerHTML = (`
 				<tr class="text-center">
 					<td colspan="7" class="text-danger">
 						No existen registros de usuarios disponibles
