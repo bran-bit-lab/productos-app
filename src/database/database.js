@@ -34,11 +34,20 @@ class Database {
 		});
 	}
 
-	update( data, id ) {
+	update( sql, data, callback ) {
+
+		let datos = Object.values( data );
+
+		mysqlAPI.query( sql, datos, callback );
+
 	}
 
 	delete( data, id ){
-		console.log("error en la consulta");
+		
+		let datos = Object.values( data );
+
+		mysqlAPI.query( sql, datos, callback );
+		
 	}
 }
 

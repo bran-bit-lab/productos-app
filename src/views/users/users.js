@@ -68,18 +68,7 @@ class UsersComponent {
 	}
 
 	changeRole({ id, role }) {
-
-		// actualizacion local retirar cuando se agregue el SQL
-
-		USERS = USERS.map(( user ) => {
-			if ( user.id === id ) {
-				return { ...user, area: role };
-			}
-
-			return user;
-		});
-
-		return this.render();
+		UsersController.cambiarRolUsuarios({ area: role, userid: id });
 	}
 
 	openModalConfirm( idUser = null ) {
@@ -114,14 +103,14 @@ class UsersComponent {
 				<td>
 					<button
 						type="button"
-						onclick="modalChangeRole.openModalRole( ${ user.id } )"
+						onclick="modalChangeRole.openModalRole( ${ user.userid } )"
 						class="btn btn-primary btn-sm"
 					>
 						<i class="fas fa-user"></i>
 					</button>
 					<button
 						type="button"
-						onclick="usersComponent.openModalConfirm( ${ user.id } )"
+						onclick="usersComponent.openModalConfirm( ${ user.userid } )"
 						class="btn btn-danger btn-sm"
 						data-bs-target=".modal-users"
 						data-bs-whatever="delete"

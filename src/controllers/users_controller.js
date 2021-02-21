@@ -63,6 +63,72 @@ class UsersController {
 
 			};
 		}
+
+		static async cambiarRolUsuarios( usuario ) {
+
+			const database = new Database();
+
+			database.update ( CRUD.editarRolUsuario, usuario, ( error ) => {
+  			
+				const notificacion = new Notification({
+					title:'',
+					body:''
+				});
+
+				if ( error ) {
+					//throw error;  // mostrará el error en pantalla
+						
+					notificacion['title'] = 'Error!!';
+					notificacion['body'] = 'Error al actualizar usuario';
+						
+					notificacion.show();
+					console.log(error);
+					return;
+				}
+
+					notificacion['title'] = 'Actualizacion exitosa!!';
+					notificacion['body'] = 'Usuario actualizado con exito';
+						
+					notificacion.show();
+					
+					console.log("actualizacion realizada");
+					// se continua con el resto de la ejecucion ...
+	  		});
+
+		}
+
+		static async cambiarEstadoUsuarios( usuario ) {
+
+			const database = new Database();
+
+			database.update ( CRUD.editarEstadoUsuario, usuario, ( error ) => {
+  			
+				const notificacion = new Notification({
+					title:'',
+					body:''
+				});
+
+				if ( error ) {
+					//throw error;  // mostrará el error en pantalla
+						
+					notificacion['title'] = 'Error!!';
+					notificacion['body'] = 'Error al actualizar usuario';
+						
+					notificacion.show();
+					console.log(error);
+					return;
+				}
+
+					notificacion['title'] = 'Actualizacion exitosa!!';
+					notificacion['body'] = 'Usuario actualizado con exito';
+						
+					notificacion.show();
+					
+					console.log("actualizacion realizada");
+					// se continua con el resto de la ejecucion ...
+	  		});
+
+		}
 }
 
 
