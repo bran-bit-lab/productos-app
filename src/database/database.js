@@ -16,11 +16,11 @@ class Database {
 		mysqlAPI.query( sql, datos, callback );
 	}
 
-	consult( sql ) {
+	consult( sql, paginacion = [0,10] ) {
 
 		return new Promise( function( resolve, reject ) { 
 			
-			mysqlAPI.query( sql, ( error, data ) => {
+		mysqlAPI.query( sql, paginacion, ( error, data ) => {
 	          
 	          if ( error ) {
 	          	
