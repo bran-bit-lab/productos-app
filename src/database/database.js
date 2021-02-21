@@ -17,6 +17,21 @@ class Database {
 	}
 
 	consult( sql ) {
+
+		return new Promise( function( resolve, reject ) { 
+			
+			mysqlAPI.query( sql, ( error, data ) => {
+	          
+	          if ( error ) {
+	          	
+	          	return reject(error);
+	          
+	          }
+	         
+	          resolve( data );          
+
+			});
+		});
 	}
 
 	update( data, id ) {

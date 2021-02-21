@@ -101,12 +101,12 @@ class UsersComponent {
 	getRowTable( user ) {
 		return (`
 			<tr class="text-center">
-				<td>${ user.id }</td>
+				<td>${ user.userid }</td>
 				<td>${ user.nombre }</td>
 				<td>${ user.apellido }</td>
 				<td>${ user.correo }</td>
 				<td>${ user.area }</td>
-				<td>${ user.activo ?
+				<td>${ user.estado ?
 						('<i class="fas fa-check text-success"></i>') :
 						('<i class="fas fa-times text-danger"></i>')
 					}
@@ -133,15 +133,17 @@ class UsersComponent {
 		`);
 	}
 
-	render() {
+	async render() {
 
-		this.totalUsers.innerText = USERS.length;
+		let usuarios = await UsersController.listarUsuarios();
 
-		if ( USERS.length > 0 ) {
+		this.totalUsers.innerText = usuarios.length;
+
+		if ( usuarios.length > 0 ) {
 
 			showElement( this.pagination );
 
-			this.tbody.innerHTML = USERS.map(( user ) => this.getRowTable( user ))
+			this.tbody.innerHTML = usuarios.map(( user ) => this.getRowTable( user ))
 				.join('');
 
 		} else {
