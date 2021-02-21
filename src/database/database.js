@@ -42,7 +42,7 @@ class Database {
 
 	}
 
-	delete( data, id ){
+	delete( sql, data, callback ){
 		
 		let datos = Object.values( data );
 

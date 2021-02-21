@@ -40,41 +40,44 @@ class UsersComponent {
 
 	selectUser( id ) {
 	}
-
-	editUser( id, form ) {
-		console.log( id, form );
-	}
-
+	
 	deleteUser({ id, confirm }) {
 
 		if ( !confirm ) {
 			return;
 		}
 
-		// filtrado local retirar cuando se encuentre el SQL
-		USERS = USERS.map(( user ) => {
-			if ( user.id === id ) {
-				return { ...user, activo: !user.activo };
-			}
+		let found = USERS.find(( user ) => user.userid === id ); 
 
-			return user;
+		UsersController.cambiarEstadoUsuarios({ 
+			estado: !found.estado, 
+			userid: id 
 		});
 
-		return this.render();
+		return this.render(); 
 	}
 
 	newUser( form ) {
+		
 		UsersController.crearUsuario( form );
+		
+		return this.render();
 	}
 
-	changeRole({ id, role }) {
-		UsersController.cambiarRolUsuarios({ area: role, userid: id });
+	changeRole( user ) {
+		
+		UsersController.cambiarRolUsuarios({ 
+			area: user.role, 
+			userid: user.id 
+		});
+		
+		return this.render();
 	}
 
 	openModalConfirm( idUser = null ) {
 
-		let found = USERS.find(( user ) => user.id === idUser );
-		let title = `${ found.activo ? 'Remover' : 'Otorgar' } acceso al usuario ${ idUser }`;
+		let found = USERS.find(( user ) => user.userid === idUser );
+		let title = `${ found.estado ? 'Remover' : 'Otorgar' } acceso al usuario ${ idUser }`;
 
 		// description
 		let element = (`
@@ -124,15 +127,15 @@ class UsersComponent {
 
 	async render() {
 
-		let usuarios = await UsersController.listarUsuarios();
+		USERS = await UsersController.listarUsuarios();
 
-		this.totalUsers.innerText = usuarios.length;
+		this.totalUsers.innerText = USERS.length;
 
-		if ( usuarios.length > 0 ) {
+		if ( USERS.length > 0 ) {
 
 			showElement( this.pagination );
 
-			this.tbody.innerHTML = usuarios.map(( user ) => this.getRowTable( user ))
+			this.tbody.innerHTML = USERS.map(( user ) => this.getRowTable( user ))
 				.join('');
 
 		} else {
@@ -158,14 +161,7 @@ const changeRoleForm = document.forms['user-change-role-form'];
 const closeModalConfirm =  modalConfirmComponent.closeModalConfirm.bind( usersComponent.deleteUser );
 
 // listeners de eventos
-userForm.addEventListener(
-	'submit',
-	modalUserComponent.getForm.bind( usersComponent )
-);
-
-changeRoleForm.addEventListener(
-	'submit',
-	modalChangeRole.getForm.bind( usersComponent )
-);
+userForm.addEventListener('submit', modalUserComponent.getForm.bind( usersComponent ));
+changeRoleForm.addEventListener('submit', modalChangeRole.getForm.bind( usersComponent ));
 
 document.addEventListener('DOMContentLoaded', usersComponent.render );

@@ -13,7 +13,7 @@ function openModalRole( idUser = null ) {
 
 	titleNode.innerText = 'Cambiar de rol al usuario ' + idUser;
 
-	setForm( USERS.find(( user ) => user.id === idUser )  );
+	setForm( USERS.find(( user ) => user.userid === idUser )  );
 
 	return modalRole.show();
 }
