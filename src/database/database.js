@@ -15,25 +15,25 @@ class Database {
 		
 		mysqlAPI.query( sql, datos, callback );
 	}
-
+/*
 	consult( sql, paginacion = [0,10] ) {
 
 		return new Promise( function( resolve, reject ) { 
 			
 		mysqlAPI.query( sql, paginacion, ( error, data ) => {
 	          
-	          if ( error ) {
-	          	
-	          	return reject(error);
-	          
-	          }
+	         if ( error ) {
+	         	
+	         	return reject(error);
 	         
-	          resolve( data );          
+	         }
+	        
+	         resolve( data );          
 
 			});
 		});
 	}
-
+*/
 	update( sql, data, callback ) {
 
 		let datos = Object.values( data );
@@ -57,7 +57,7 @@ try {
 
  	let arregloConexion = JSON.parse( data );
 
- 	user = arregloConexion["user_gabriel_ventas"];
+ 	user = arregloConexion["root_brandon"];
 
  	// console.log( user );
 
