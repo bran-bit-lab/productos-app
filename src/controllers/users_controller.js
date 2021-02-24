@@ -4,7 +4,7 @@ const CRUD = require('../database/CRUD');
 const { Notification } = require('electron')
 
 class UsersController {
-		
+
 		databaseInstance = null;
 
 		static get database() {
@@ -14,72 +14,73 @@ class UsersController {
 		static crearUsuario( usuario ) {
 
 			const saltRounds = 10;
-			const salt = bcrypt.genSaltSync( 10 ); 
+			const salt = bcrypt.genSaltSync( 10 );
 
 			delete usuario['passwordConfirmation'];
 
 			usuario['password'] = bcrypt.hashSync( usuario['password'], salt );
-			
+
 			this.database.insert( CRUD.crearUsuario, usuario, ( error ) => {
-  			
+
 				const notificacion = new Notification({
 					title:'',
 					body:''
 				});
-	  			
+
 	  			if ( error ) {
-					
+
 					// throw error;  // mostrará el error en pantalla
-						
+
 					notificacion['title'] = 'Error!!';
 					notificacion['body'] = 'Error al crear usuario';
-						
+
 					notificacion.show();
 					return;
 				}
 
 					notificacion['title'] = 'Registro exitoso!!';
 					notificacion['body'] = 'Usuario creado con exito';
-						
+
 					notificacion.show();
-					
+
 					console.log("data insertada");
 	  		});
 		}
 
-		static async listarUsuarios() {
+		static async listarUsuarios( pagination ) {
 
 			try {
-				
-				let respond = await this.database.consult( CRUD.listarUsuarios );
-				
-				return respond;
+
+				let response = await this.database.consult( CRUD.listarUsuarios, pagination );
+
+				return response;
 
 			} catch ( error ) {
-				
-				throw error;
 
+				console.log( error );
+
+				return [];
 			};
 		}
 
 		static async cambiarRolUsuarios( usuario ) {
 
-			this.database.update ( CRUD.editarRolUsuario, usuario, ( error ) => {
-  			
+			this.database.update( CRUD.editarRolUsuario, usuario, ( error ) => {
+
 				const notificacion = new Notification({
-					title:'',
-					body:''
+					title: '',
+					body: ''
 				});
 
 				if ( error ) {
 
 					// throw error;  // mostrará el error en pantalla
-						
+
 					notificacion['title'] = 'Error!!';
 					notificacion['body'] = 'Error al actualizar usuario';
-						
+
 					notificacion.show();
-					
+
 					console.log( error );
 
 					return;
@@ -87,32 +88,31 @@ class UsersController {
 
 					notificacion['title'] = 'Actualizacion exitosa!!';
 					notificacion['body'] = 'Usuario actualizado con exito';
-						
+
 					notificacion.show();
-					
+
 					console.log("actualizacion realizada");
 	  		});
-
 		}
 
 		static async cambiarEstadoUsuarios( usuario ) {
 
 			this.database.update( CRUD.editarEstadoUsuario, usuario, ( error ) => {
-  			
+
 				const notificacion = new Notification({
-					title:'',
-					body:''
+					title: '',
+					body: ''
 				});
 
 				if ( error ) {
-					
+
 					//throw error;  // mostrará el error en pantalla
-						
+
 					notificacion['title'] = 'Error!!';
 					notificacion['body'] = 'Error al actualizar usuario';
-						
+
 					notificacion.show();
-					
+
 					console.log( error );
 
 					return;
@@ -120,12 +120,11 @@ class UsersController {
 
 					notificacion['title'] = 'Actualizacion exitosa!!';
 					notificacion['body'] = 'Usuario actualizado con exito';
-						
+
 					notificacion.show();
-					
+
 					console.log("actualizacion realizada");
 	  	});
-
 		}
 }
 

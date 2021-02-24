@@ -1,19 +1,17 @@
-const { remote } = require('electron');
-
 // remote
+const { remote } = require('electron');
 const { UsersController } = remote.require('./controllers/users_controller');
 const { readFileAssets } = remote.require('./util_functions/file');
 
-const Modal = require('bootstrap/js/dist/modal');
-
-// selectors
-const info = document.querySelector('#info');
 const footer = document.querySelector('#modals');
 
 // components html
 footer.innerHTML += readFileAssets( '/users/users-modal-form/users-modal-form-component.html' );
 footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-component.html' );
 footer.innerHTML += readFileAssets( '/users/users-modal-role/users-modal-role-component.html' );
+
+const Modal = require('bootstrap/js/dist/modal');
+const info = document.querySelector('#info');
 
 // modules
 const modalUserComponent = require('./users-modal-form/users-modal-form-component');
@@ -30,47 +28,63 @@ class UsersComponent {
 		this.totalUsers = document.querySelector('#totalUsers');
 		this.pagination = document.querySelector('#pagination');
 
-		this.render = this.render.bind( this );
+		this.pagNavigation = 1;
+
+		this.renderUsers = this.renderUsers.bind( this );
 		this.deleteUser = this.deleteUser.bind( this );
 		this.changeRole = this.changeRole.bind( this );
 	}
 
-	selectUsers() {
+	async getAllUsers( pagination = [ 0, 10 ] ) {
+		return await UsersController.listarUsuarios( pagination );
 	}
 
-	selectUser( id ) {
+	getUser( search ) {
+
+		const rexp = /^[a-zA-Z\s]+$/;
+
+		if ( !rexp.test( search ) ) {
+			console.log('no concuerda con expresion regular');
+			return;
+		}
+
+		console.log('valido');
 	}
-	
+
+	changePagination( element, index ) {
+		this.renderPagination( element, index );
+	}
+
 	deleteUser({ id, confirm }) {
 
 		if ( !confirm ) {
 			return;
 		}
 
-		let found = USERS.find(( user ) => user.userid === id ); 
+		let found = USERS.find(( user ) => user.userid === id );
 
-		UsersController.cambiarEstadoUsuarios({ 
-			estado: !found.estado, 
-			userid: id 
+		UsersController.cambiarEstadoUsuarios({
+			estado: !found.estado,
+			userid: id
 		});
 
-		return this.render(); 
+		return this.render();
 	}
 
 	newUser( form ) {
-		
+
 		UsersController.crearUsuario( form );
-		
+
 		return this.render();
 	}
 
 	changeRole( user ) {
-		
-		UsersController.cambiarRolUsuarios({ 
-			area: user.role, 
-			userid: user.id 
+
+		UsersController.cambiarRolUsuarios({
+			area: user.role,
+			userid: user.id
 		});
-		
+
 		return this.render();
 	}
 
@@ -82,7 +96,7 @@ class UsersComponent {
 		// description
 		let element = (`
 			<p class="text-center">
-				¿¿Esta seguro de ${ found.activo ? 'remover' : 'otorgar' } acceso al usuario a
+				¿¿Esta seguro de ${ found.estado ? 'remover' : 'otorgar' } acceso al usuario a
 				${ found.nombre + ' ' + found.apellido }??
 			</p>`
 		);
@@ -125,11 +139,9 @@ class UsersComponent {
 		`);
 	}
 
-	async render() {
+	async renderUsers() {
 
-		USERS = await UsersController.listarUsuarios();
-
-		this.totalUsers.innerText = USERS.length;
+		USERS = await this.getAllUsers();
 
 		if ( USERS.length > 0 ) {
 
@@ -151,6 +163,21 @@ class UsersComponent {
 			`);
 		}
 	}
+
+	renderPagination( element, index ) {
+
+		const items = [
+			...document.querySelector('.pagination').querySelectorAll('li')
+		];
+
+		items.forEach(( item ) => {
+			if ( item.classList.contains('active') ) {
+				item.classList.toggle('active');
+			}
+		});
+
+		element.classList.toggle('active');
+	}
 }
 
 const usersComponent = new UsersComponent();
@@ -158,10 +185,16 @@ const userForm = document.forms['formUsers'];
 const changeRoleForm = document.forms['user-change-role-form'];
 
 // esta variable es usada en el html para confirmar la eliminacion
-const closeModalConfirm =  modalConfirmComponent.closeModalConfirm.bind( usersComponent.deleteUser );
+const closeModalConfirm =  modalConfirmComponent.closeModalConfirm.bind(
+	usersComponent.deleteUser
+);
 
-// listeners de eventos
-userForm.addEventListener('submit', modalUserComponent.getForm.bind( usersComponent ));
-changeRoleForm.addEventListener('submit', modalChangeRole.getForm.bind( usersComponent ));
+userForm.addEventListener('submit', modalUserComponent.getForm.bind(
+	usersComponent
+));
 
-document.addEventListener('DOMContentLoaded', usersComponent.render );
+changeRoleForm.addEventListener('submit', modalChangeRole.getForm.bind(
+	usersComponent
+));
+
+document.addEventListener('DOMContentLoaded', usersComponent.renderUsers );

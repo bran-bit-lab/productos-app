@@ -41,7 +41,12 @@
       <div class="main-content mt-5">
         <div class="row justify-content-sm-end justify-content-center">
           <div class="form-group w-25 p-0 mb-2">
-            <input type="text" placeholder="Buscar ..." class="form-control form-control-sm">
+            <input
+              type="text"
+              placeholder="Buscar ..."
+              oninput="usersComponent.getUser( this.value )"
+              class="form-control form-control-sm"
+            />
           </div>
           <!-- table -->
           <div class="table-responsive w-100">
@@ -71,16 +76,26 @@
 
         <nav aria-label="Table navigation" id="pagination" class="mt-2">
           <ul class="pagination justify-content-center">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous">
+            <li
+              class="page-item"
+            >
+              <a class="page-link" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
+            <li class="page-item active" onclick="usersComponent.changePagination( this, 1 )">
+              <a class="page-link">1</a>
+            </li>
+            <li class="page-item" onclick="usersComponent.changePagination( this, 2 )">
+              <a class="page-link">2</a>
+            </li>
+            <li class="page-item" onclick="usersComponent.changePagination( this, 3 )">
+              <a class="page-link">3</a>
+            </li>
+            <li
+              class="page-item"
+            >
+              <a class="page-link" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
