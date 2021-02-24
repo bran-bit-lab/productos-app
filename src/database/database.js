@@ -17,8 +17,7 @@ class Database {
 	}
 
 	consult( sql, paginacion ) {
-
-		// @params sql: string es una variable de consulta a la BD.
+		
 		// @params paginacion: number[] es la paginacion de la tabla
 
 		return new Promise( ( resolve, reject ) => {
@@ -36,20 +35,12 @@ class Database {
 
 	update( sql, data, callback ) {
 
-		// @params sql: string es una variable de consulta a la BD.
-		// @params data: object es el arreglo del formulario
-		// @params callback: function se ejecuta cuando la respuesta sea exitosa
-
 		let datos = Object.values( data );
 
 		mysqlAPI.query( sql, datos, callback );
 	}
 
 	delete( sql, data, callback ) {
-
-		// @params sql: string es una variable de consulta a la BD.
-		// @params data: object es el arreglo del formulario
-		// @params callback: function se ejecuta cuando la respuesta sea exitosa
 
 		let datos = Object.values( data );
 
