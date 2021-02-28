@@ -1,6 +1,7 @@
 const CRUD = Object.freeze({
 	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (?, ?, ?, ?, ?);",	
 	listarUsuarios : "SELECT * FROM usuarios LIMIT ?, ?;",	
+	obtenerTotalUsuarios : "SELECT COUNT(*) FROM usuarios;",
 	editarRolUsuario : "UPDATE usuarios SET area = ? WHERE userid = ?",	
 	editarEstadoUsuario : "UPDATE usuarios SET estado = ? WHERE userid = ?"	
 });

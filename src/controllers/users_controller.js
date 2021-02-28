@@ -47,6 +47,41 @@ class UsersController {
 	  		});
 		}
 
+
+		static obtenerTotalUsuarios() {
+
+			return new Promise( ( resolve, reject ) => {
+
+				this.database.getTotalRecords( CRUD.obtenerTotalUsuarios, ( error, resultado ) => {
+					const notificacion = new Notification({
+						title: 'Error en registros',
+						body: 'No se pudo obtener el total de registros'
+					});
+
+					if ( error ) {
+
+						notificacion.show();
+
+						console.log( error );
+
+						return reject({
+							totalPaginas: 0
+						});
+					}
+					
+					const totalRegistros = resultado[0]['COUNT(*)'];
+
+					let totalPaginas = (totalRegistros / 10 );
+
+					return resolve({
+						totalPaginas: Math.ceil(totalPaginas),
+						totalRegistros: totalRegistros
+					}); 
+				});
+			});
+		}	
+			
+
 		static async listarUsuarios( pagination ) {
 
 			try {

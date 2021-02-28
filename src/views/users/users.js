@@ -44,8 +44,16 @@ class UsersComponent {
 
 	async getAllUsers( $event, pagination = [ 0, 10 ] ) {
 		
+		console.log( this );
+
 		USERS = await UsersController.listarUsuarios( pagination );
+
+		let totalUsers = await UsersController.obtenerTotalUsuarios();
+
+		this.totalUsers.innerText = totalUsers['totalRegistros'];
 		
+		PaginationComponent.setButtons( totalUsers['totalPaginas'] );
+
 		this.renderUsers();
 	}
 

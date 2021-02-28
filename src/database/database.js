@@ -16,6 +16,12 @@ class Database {
 		mysqlAPI.query( sql, datos, callback );
 	}
 
+	getTotalRecords( sql, callback ) {
+
+		mysqlAPI.query( sql, callback );
+	}
+
+
 	consult( sql, paginacion ) {
 		
 		// @params paginacion: number[] es la paginacion de la tabla
@@ -54,7 +60,7 @@ try {
 
  	let arregloConexion = JSON.parse( data );
 
- 	user = arregloConexion["user_gabriel_ventas"];
+ 	user = arregloConexion["root_brandon"];
 
 } catch ( error ) {
 
