@@ -1,22 +1,30 @@
+// users
+let USERS = [];
+const footer = document.querySelector('#modals');
+const info = document.querySelector('#info');
+const pagination = document.querySelector('#pagination');
+
+// =========================
+// Carga de modulos JS
+// =========================
+
 // remote
 const { remote } = require('electron');
 const { UsersController } = remote.require('./controllers/users_controller');
 const { readFileAssets } = remote.require('./util_functions/file');
-
-const footer = document.querySelector('#modals');
+const Modal = require('bootstrap/js/dist/modal');
 
 // components html
 footer.innerHTML += readFileAssets( '/users/users-modal-form/users-modal-form-component.html' );
 footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-component.html' );
 footer.innerHTML += readFileAssets( '/users/users-modal-role/users-modal-role-component.html' );
 
-const Modal = require('bootstrap/js/dist/modal');
-const info = document.querySelector('#info');
+pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
 
-// modules
 const modalUserComponent = require('./users-modal-form/users-modal-form-component');
 const modalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 const modalChangeRole = require('./users-modal-role/users-modal-role-component');
+const PaginationComponent = require('../shared/pagination/pagination-component');
 
 // ==========================================
 // Users component
@@ -24,19 +32,21 @@ const modalChangeRole = require('./users-modal-role/users-modal-role-component')
 class UsersComponent {
 
 	constructor() {
+		
 		this.tbody = document.querySelector('#tbody-user');
 		this.totalUsers = document.querySelector('#totalUsers');
-		this.pagination = document.querySelector('#pagination');
-
-		this.pagNavigation = 1;
 
 		this.renderUsers = this.renderUsers.bind( this );
 		this.deleteUser = this.deleteUser.bind( this );
 		this.changeRole = this.changeRole.bind( this );
+		this.getAllUsers = this.getAllUsers.bind( this );
 	}
 
-	async getAllUsers( pagination = [ 0, 10 ] ) {
-		return await UsersController.listarUsuarios( pagination );
+	async getAllUsers( $event, pagination = [ 0, 10 ] ) {
+		
+		USERS = await UsersController.listarUsuarios( pagination );
+		
+		this.renderUsers();
 	}
 
 	getUser( search ) {
@@ -49,10 +59,6 @@ class UsersComponent {
 		}
 
 		console.log('valido');
-	}
-
-	changePagination( element, index ) {
-		this.renderPagination( element, index );
 	}
 
 	deleteUser({ id, confirm }) {
@@ -68,14 +74,14 @@ class UsersComponent {
 			userid: id
 		});
 
-		return this.render();
+		return this.getAllUsers();
 	}
 
 	newUser( form ) {
 
 		UsersController.crearUsuario( form );
 
-		return this.render();
+		return this.getAllUsers();
 	}
 
 	changeRole( user ) {
@@ -85,7 +91,7 @@ class UsersComponent {
 			userid: user.id
 		});
 
-		return this.render();
+		return this.getAllUsers();
 	}
 
 	openModalConfirm( idUser = null ) {
@@ -129,8 +135,6 @@ class UsersComponent {
 						type="button"
 						onclick="usersComponent.openModalConfirm( ${ user.userid } )"
 						class="btn btn-danger btn-sm"
-						data-bs-target=".modal-users"
-						data-bs-whatever="delete"
 					>
 						<i class="fas fa-trash"></i>
 					</button>
@@ -139,20 +143,18 @@ class UsersComponent {
 		`);
 	}
 
-	async renderUsers() {
-
-		USERS = await this.getAllUsers();
+	renderUsers() {
 
 		if ( USERS.length > 0 ) {
 
-			showElement( this.pagination );
+			showElement( pagination );
 
 			this.tbody.innerHTML = USERS.map(( user ) => this.getRowTable( user ))
 				.join('');
 
 		} else {
 
-			hideElement( this.pagination );
+			hideElement( pagination );
 
 			this.tbody.innerHTML = (`
 				<tr class="text-center">
@@ -163,31 +165,23 @@ class UsersComponent {
 			`);
 		}
 	}
-
-	renderPagination( element, index ) {
-
-		const items = [
-			...document.querySelector('.pagination').querySelectorAll('li')
-		];
-
-		items.forEach(( item ) => {
-			if ( item.classList.contains('active') ) {
-				item.classList.toggle('active');
-			}
-		});
-
-		element.classList.toggle('active');
-	}
 }
 
 const usersComponent = new UsersComponent();
 const userForm = document.forms['formUsers'];
 const changeRoleForm = document.forms['user-change-role-form'];
 
-// esta variable es usada en el html para confirmar la eliminacion
+// ============================
+// Binding
+// ============================
+
 const closeModalConfirm =  modalConfirmComponent.closeModalConfirm.bind(
 	usersComponent.deleteUser
 );
+
+const renderPagination = PaginationComponent.renderPagination.bind(
+	usersComponent.getAllUsers
+)
 
 userForm.addEventListener('submit', modalUserComponent.getForm.bind(
 	usersComponent
@@ -197,4 +191,4 @@ changeRoleForm.addEventListener('submit', modalChangeRole.getForm.bind(
 	usersComponent
 ));
 
-document.addEventListener('DOMContentLoaded', usersComponent.renderUsers );
+document.addEventListener('DOMContentLoaded', usersComponent.getAllUsers );

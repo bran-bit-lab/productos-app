@@ -2,7 +2,7 @@
 //	modalConfirmComponent
 // ==========================
 function openModalConfirm( title = '', element = '', id = null ) {
-	
+
 	const titleNode = footer.querySelector('.modal-confirm-title');
 	const messageNode = footer.querySelector('#modal-message');
 
@@ -14,7 +14,7 @@ function openModalConfirm( title = '', element = '', id = null ) {
 }
 
 function closeModalConfirm( confirm = false, callback = this ) {
-	
+
 	callback({ id: idComponent, confirm });
 
 	return modalConfirm.hide();
@@ -27,5 +27,4 @@ const modalConfirm = new Modal( footer.querySelector('.modal-users-confirm'), { 
 module.exports = {
 	openModalConfirm,
 	closeModalConfirm,
-	modalConfirm
 };

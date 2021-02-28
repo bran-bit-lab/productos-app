@@ -74,42 +74,17 @@
           </div>
         </div>
 
-        <nav aria-label="Table navigation" id="pagination" class="mt-2">
-          <ul class="pagination justify-content-center">
-            <li
-              class="page-item"
-            >
-              <a class="page-link" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item active" onclick="usersComponent.changePagination( this, 1 )">
-              <a class="page-link">1</a>
-            </li>
-            <li class="page-item" onclick="usersComponent.changePagination( this, 2 )">
-              <a class="page-link">2</a>
-            </li>
-            <li class="page-item" onclick="usersComponent.changePagination( this, 3 )">
-              <a class="page-link">3</a>
-            </li>
-            <li
-              class="page-item"
-            >
-              <a class="page-link" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <!-- pagination -->
+        <nav aria-label="Table navigation" id="pagination" class="mt-2"></nav>
       </div>
 		</div>
 	</main>
 
   <!-- modals -->
   <footer id="modals"></footer>
+
+  <!-- JS -->
   <script src="../global.js"></script> <!-- script global -->
-	<script src="users.hardcode.js"></script>
 	<script src="users.js"></script>
-  <script src="users-modal-form/users-modal-form-component.js"></script>
 </body>
 </html>
