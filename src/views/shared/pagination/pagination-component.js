@@ -49,8 +49,6 @@ function changePagination( element, index ) {
   ];
 
 
-
-
   items.forEach(( item ) => {
     
     console.log( item.classList.contains('active') );
@@ -59,8 +57,6 @@ function changePagination( element, index ) {
        console.log( 'activo' );
     }
   });
-
-
 
   element.classList.toggle('active');
 
