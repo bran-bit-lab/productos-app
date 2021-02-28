@@ -4,7 +4,7 @@ const { ENV } = require('../env');
 
 /*
 	Javascript se ejecuta en paralelo de forma sincrona y luego asincrona a
-	diferencia de php que lo hace en modo seceuncial. Por lo tanto en este caso
+	diferencia de php que lo hace en modo secuencial. Por lo tanto en este caso
 	se usa la funcion fs.readFileSync para no arrojar un callback
 */
 

@@ -2,6 +2,7 @@
 // PaginationComponent
 // ====================================
 function renderPagination( index, pagination = 10 ) {
+  console.log( index );
 }
 
 function changePagination( element, index, limit = 3 ) {

@@ -1,29 +1,29 @@
+// =========================
+// Carga de modulos JS
+// =========================
+
+const { remote } = require('electron');
+const { UsersController } = remote.require('./controllers/users_controller');
+const { readFileAssets } = remote.require('./util_functions/file');
+const Modal = require('bootstrap/js/dist/modal');
+
 // users
 let USERS = [];
 const footer = document.querySelector('#modals');
 const info = document.querySelector('#info');
 const pagination = document.querySelector('#pagination');
 
-// =========================
-// Carga de modulos JS
-// =========================
-
-// remote
-const { remote } = require('electron');
-const { UsersController } = remote.require('./controllers/users_controller');
-const { readFileAssets } = remote.require('./util_functions/file');
-const Modal = require('bootstrap/js/dist/modal');
-
 // components html
+
 footer.innerHTML += readFileAssets( '/users/users-modal-form/users-modal-form-component.html' );
 footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-component.html' );
 footer.innerHTML += readFileAssets( '/users/users-modal-role/users-modal-role-component.html' );
 
 pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
 
-const modalUserComponent = require('./users-modal-form/users-modal-form-component');
-const modalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
-const modalChangeRole = require('./users-modal-role/users-modal-role-component');
+const ModalUserComponent = require('./users-modal-form/users-modal-form-component');
+const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
+const ModalChangeRole = require('./users-modal-role/users-modal-role-component');
 const PaginationComponent = require('../shared/pagination/pagination-component');
 
 // ==========================================
@@ -107,7 +107,7 @@ class UsersComponent {
 			</p>`
 		);
 
-		return modalConfirmComponent.openModalConfirm( title, element, idUser );
+		return ModalConfirmComponent.openModalConfirm( title, element, idUser );
 	}
 
 	getRowTable( user ) {
@@ -126,7 +126,7 @@ class UsersComponent {
 				<td>
 					<button
 						type="button"
-						onclick="modalChangeRole.openModalRole( ${ user.userid } )"
+						onclick="ModalChangeRole.openModalRole( ${ user.userid } )"
 						class="btn btn-primary btn-sm"
 					>
 						<i class="fas fa-user"></i>
@@ -168,14 +168,14 @@ class UsersComponent {
 }
 
 const usersComponent = new UsersComponent();
+
 const userForm = document.forms['formUsers'];
 const changeRoleForm = document.forms['user-change-role-form'];
 
 // ============================
 // Binding
 // ============================
-
-const closeModalConfirm =  modalConfirmComponent.closeModalConfirm.bind(
+const closeModalConfirm =  ModalConfirmComponent.closeModalConfirm.bind(
 	usersComponent.deleteUser
 );
 
@@ -183,11 +183,15 @@ const renderPagination = PaginationComponent.renderPagination.bind(
 	usersComponent.getAllUsers
 )
 
-userForm.addEventListener('submit', modalUserComponent.getForm.bind(
+// =============================
+// Events
+// =============================
+
+userForm.addEventListener('submit', ModalUserComponent.getForm.bind(
 	usersComponent
 ));
 
-changeRoleForm.addEventListener('submit', modalChangeRole.getForm.bind(
+changeRoleForm.addEventListener('submit', ModalChangeRole.getForm.bind(
 	usersComponent
 ));
 
