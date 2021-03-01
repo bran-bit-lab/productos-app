@@ -60,7 +60,7 @@ try {
 
  	let arregloConexion = JSON.parse( data );
 
- 	user = arregloConexion["root_brandon"];
+ 	user = arregloConexion["user_gabriel_ventas"];
 
 } catch ( error ) {
 

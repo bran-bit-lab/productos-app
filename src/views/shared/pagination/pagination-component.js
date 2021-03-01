@@ -2,38 +2,52 @@
 // PaginationComponent
 // ====================================
 function renderPagination( index, pagination = 10 ) {
+  
   const getAllUsers = this;
 
   let indexPagination = pagination * index;
+
+  currentPage = index;
 
   getAllUsers( null, [ indexPagination, pagination ] );
 }
 
 
-function setButtons( numberPage = 1 ) {
+function setButtonsPagination( numbersPages = 1 ) {
 
   const listado = document.querySelector('.pagination');
 
   let html = (`
     <li class="page-item">
-      <a class="page-link" aria-label="Previous">
+      <a 
+        class="page-link" 
+        aria-label="Previous" 
+        onclick="PaginationComponent.changePagination( ${ currentPage - 1 }, ${ numbersPages } )"
+      >
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
  `);
 
-  for ( let i = 0; i < numberPage; i++ ) {
-    
+  for ( let i = 0; i < numbersPages; i++ ) {
+  
     html += (`
-      <li class="page-item" onclick="PaginationComponent.changePagination( this, ${ i } )">
+      <li 
+        class="page-item ${ i === currentPage ? 'active' : '' }" 
+        onclick="PaginationComponent.changePagination( ${ i }, ${ numbersPages } )"
+      >
         <a class="page-link">${ i + 1 }</a>
       </li>
     `);
   }
-
+    
   html += (`
     <li class="page-item">
-      <a class="page-link" aria-label="Next">
+      <a 
+        class="page-link" 
+        aria-label="Next"
+        onclick="PaginationComponent.changePagination( ${ currentPage + 1 }, ${ numbersPages } )"
+      >
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
@@ -42,29 +56,23 @@ function setButtons( numberPage = 1 ) {
   listado.innerHTML = html;
 }
 
-function changePagination( element, index ) {
+function changePagination( index = 0, totalPages = 1 ) {
 
-  const items = [
-    ...document.querySelector('.pagination').querySelectorAll('li')
-  ];
+  if ( index === currentPage ) {
+    return;
+  }
 
+  if ( index < 0 || index > totalPages ) {
+    return;
+  }
 
-  items.forEach(( item ) => {
-    
-    console.log( item.classList.contains('active') );
-    if ( item.classList.contains('active') ) {
-      item.classList.toggle('active');
-       console.log( 'activo' );
-    }
-  });
-
-  element.classList.toggle('active');
-
-  renderPagination.call( usersComponent.getAllUsers, index  );
+  renderPagination.call( usersComponent.getAllUsers, index );
 }
+
+let currentPage = 0;  // pagina actual
 
 module.exports = {
   renderPagination,
   changePagination,
-  setButtons
+  setButtonsPagination
 };
