@@ -44,15 +44,24 @@ class UsersComponent {
 
 	async getAllUsers( $event, pagination = [ 0, 10 ] ) {
 		
-		USERS = await UsersController.listarUsuarios( pagination );
+		try {
+			
+			USERS = await UsersController.listarUsuarios( pagination );
 
-		let totalUsers = await UsersController.obtenerTotalUsuarios();
+			let totalUsers = await UsersController.obtenerTotalUsuarios();
 
-		this.totalUsers.textContent = totalUsers['totalRegistros'];
+			sessionStorage.setItem('usersTable', JSON.stringify({ pagination }));
+
+			this.renderUsers( 
+				totalUsers['totalPaginas'], 
+				totalUsers['totalRegistros'] 
+			);
 		
-		PaginationComponent.setButtonsPagination( totalUsers['totalPaginas'] );
+		} catch ( error ) {
 
-		this.renderUsers();
+			console.log('error en consulta');
+		}
+
 	}
 
 	getUser( search ) {
@@ -80,14 +89,14 @@ class UsersComponent {
 			userid: id
 		});
 
-		return this.getAllUsers();
+		return this.getAllUsers( null, PaginationComponent.getPaginationStorage('usersTable') );
 	}
 
 	newUser( form ) {
 
 		UsersController.crearUsuario( form );
 
-		return this.getAllUsers();
+		return this.getAllUsers( null, PaginationComponent.getPaginationStorage('usersTable') );
 	}
 
 	changeRole( user ) {
@@ -97,7 +106,7 @@ class UsersComponent {
 			userid: user.id
 		});
 
-		return this.getAllUsers();
+		return this.getAllUsers( null, PaginationComponent.getPaginationStorage('usersTable') );
 	}
 
 	openModalConfirm( idUser = null ) {
@@ -149,8 +158,12 @@ class UsersComponent {
 		`);
 	}
 
-	renderUsers() {
+	renderUsers( totalRegisters, totalPages ) {
 
+		this.totalUsers.textContent = totalPages;
+			
+		PaginationComponent.setButtonsPagination( totalRegisters );
+		
 		if ( USERS.length > 0 ) {
 
 			showElement( pagination );

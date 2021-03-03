@@ -1,6 +1,8 @@
 // ====================================
 // PaginationComponent
 // ====================================
+let currentPage = 0;  // pagina actual
+
 function renderPagination( index, pagination = 10 ) {
   
   const getAllUsers = this;
@@ -69,10 +71,13 @@ function changePagination( index = 0, totalPages = 1 ) {
   renderPagination.call( usersComponent.getAllUsers, index );
 }
 
-let currentPage = 0;  // pagina actual
+function getPaginationStorage( key ) {
+  return JSON.parse( sessionStorage.getItem( key )).pagination || [0, 10];
+}
 
 module.exports = {
   renderPagination,
   changePagination,
-  setButtonsPagination
+  setButtonsPagination, 
+  getPaginationStorage
 };

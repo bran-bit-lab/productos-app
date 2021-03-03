@@ -53,8 +53,9 @@ class UsersController {
 			return new Promise( ( resolve, reject ) => {
 
 				this.database.getTotalRecords( CRUD.obtenerTotalUsuarios, ( error, resultado ) => {
+					
 					const notificacion = new Notification({
-						title: 'Error en registros',
+						title: 'Error en obtener los registros',
 						body: 'No se pudo obtener el total de registros'
 					});
 
@@ -64,17 +65,15 @@ class UsersController {
 
 						console.log( error );
 
-						return reject({
-							totalPaginas: 0
-						});
+						return reject( error );
 					}
 					
 					const totalRegistros = resultado[0]['COUNT(*)'];
 
-					let totalPaginas = (totalRegistros / 10 );
+					let totalPaginas = ( totalRegistros / 10 );
 
 					return resolve({
-						totalPaginas: Math.ceil(totalPaginas),
+						totalPaginas: Math.ceil( totalPaginas ),
 						totalRegistros: totalRegistros
 					}); 
 				});
@@ -84,18 +83,21 @@ class UsersController {
 
 		static async listarUsuarios( pagination ) {
 
-			try {
 
-				let response = await this.database.consult( CRUD.listarUsuarios, pagination );
+			return new Promise(( resolve, reject ) => {
 
-				return response;
+				this.database.consult( CRUD.listarUsuarios, pagination, ( error, results ) => {
 
-			} catch ( error ) {
+					if ( error ) {
 
-				console.log( error );
+						console.log( error );
+						
+						reject( error );
+					}
 
-				return [];
-			};
+					resolve( results );
+				});
+			});
 		}
 
 		static async cambiarRolUsuarios( usuario ) {
@@ -159,8 +161,8 @@ class UsersController {
 					notificacion.show();
 
 					console.log("actualizacion realizada");
-	  	});
-		}
+	  });
+	}
 }
 
 

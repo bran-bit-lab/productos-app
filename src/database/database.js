@@ -17,26 +17,15 @@ class Database {
 	}
 
 	getTotalRecords( sql, callback ) {
-
 		mysqlAPI.query( sql, callback );
 	}
 
 
-	consult( sql, paginacion ) {
+	consult( sql, paginacion, callback ) {
 		
 		// @params paginacion: number[] es la paginacion de la tabla
-
-		return new Promise( ( resolve, reject ) => {
-
-			mysqlAPI.query( sql, paginacion, ( error, data ) => {
-
-	         if ( error ) {
-	         	return reject( error );
-	         }
-
-	         resolve( data );
-			});
-		});
+		
+		mysqlAPI.query( sql, paginacion, callback );
 	}
 
 	update( sql, data, callback ) {
