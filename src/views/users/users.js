@@ -19,17 +19,22 @@ footer.innerHTML += readFileAssets( '/users/users-modal-form/users-modal-form-co
 footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-component.html' );
 footer.innerHTML += readFileAssets( '/users/users-modal-role/users-modal-role-component.html' );
 
-pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
+pagination.innerHTML = readFileAssets( '/users/pagination/pagination.html' );
 
 const ModalUserComponent = require('./users-modal-form/users-modal-form-component');
 const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 const ModalChangeRole = require('./users-modal-role/users-modal-role-component');
-const PaginationComponent = require('../shared/pagination/pagination-component');
+const PaginationComponent = require('./pagination/pagination-component');
 
 // ==========================================
 // Users component
 // ==========================================
 class UsersComponent {
+
+	// pagination table users
+	
+	totalPages = 0;
+	currentPage = 0;
 
 	constructor() {
 		
@@ -39,10 +44,10 @@ class UsersComponent {
 		this.renderUsers = this.renderUsers.bind( this );
 		this.deleteUser = this.deleteUser.bind( this );
 		this.changeRole = this.changeRole.bind( this );
-		this.getAllUsers = this.getAllUsers.bind( this );
+		this.getAll = this.getAll.bind( this );
 	}
 
-	async getAllUsers( $event, pagination = [ 0, 10 ] ) {
+	async getAll( $event, pagination = [ 0, 10 ] ) {
 		
 		try {
 			
@@ -59,7 +64,7 @@ class UsersComponent {
 		
 		} catch ( error ) {
 
-			console.log('error en consulta');
+			console.error( error );
 		}
 
 	}
@@ -89,14 +94,14 @@ class UsersComponent {
 			userid: id
 		});
 
-		return this.getAllUsers( null, PaginationComponent.getPaginationStorage('usersTable') );
+		return this.getAll( null, PaginationComponent.getPaginationStorage('usersTable') );
 	}
 
 	newUser( form ) {
 
 		UsersController.crearUsuario( form );
 
-		return this.getAllUsers( null, PaginationComponent.getPaginationStorage('usersTable') );
+		return this.getAll( null, PaginationComponent.getPaginationStorage('usersTable') );
 	}
 
 	changeRole( user ) {
@@ -106,7 +111,7 @@ class UsersComponent {
 			userid: user.id
 		});
 
-		return this.getAllUsers( null, PaginationComponent.getPaginationStorage('usersTable') );
+		return this.getAll( null, PaginationComponent.getPaginationStorage('usersTable') );
 	}
 
 	openModalConfirm( idUser = null ) {
@@ -162,7 +167,12 @@ class UsersComponent {
 
 		this.totalUsers.textContent = totalPages;
 			
-		PaginationComponent.setButtonsPagination( totalRegisters );
+		PaginationComponent.setButtonsPagination.call( this, totalRegisters );
+
+		this.totalPages = totalRegisters;
+
+		document.querySelector('#paginationValue').innerText =  this.currentPage + 1;
+		document.querySelector('#paginationEnd').innerText = this.totalPages; 
 		
 		if ( USERS.length > 0 ) {
 
@@ -214,4 +224,4 @@ changeRoleForm.addEventListener('submit', ModalChangeRole.getForm.bind(
 	usersComponent
 ));
 
-document.addEventListener('DOMContentLoaded', usersComponent.getAllUsers );
+document.addEventListener('DOMContentLoaded', usersComponent.getAll );

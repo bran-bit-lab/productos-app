@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
-const { Notification } = require('electron')
+const { Notification } = require('electron');
 
 class UsersController {
 
@@ -23,28 +23,30 @@ class UsersController {
 			this.database.insert( CRUD.crearUsuario, usuario, ( error ) => {
 
 				const notificacion = new Notification({
-					title:'',
-					body:''
+					title: '',
+					body: ''
 				});
 
-	  			if ( error ) {
+  			if ( error ) {
 
-					// throw error;  // mostrará el error en pantalla
+				// throw error;  // mostrará el error en pantalla
 
 					notificacion['title'] = 'Error!!';
 					notificacion['body'] = 'Error al crear usuario';
 
 					notificacion.show();
+					
 					return;
 				}
 
-					notificacion['title'] = 'Registro exitoso!!';
-					notificacion['body'] = 'Usuario creado con exito';
+				notificacion['title'] = 'Registro exitoso!!';
+				notificacion['body'] = 'Usuario creado con exito';
 
-					notificacion.show();
+				notificacion.show();
 
-					console.log("data insertada");
-	  		});
+				// console.log("data insertada");
+
+	  	});
 		}
 
 
@@ -76,13 +78,14 @@ class UsersController {
 						totalPaginas: Math.ceil( totalPaginas ),
 						totalRegistros: totalRegistros
 					}); 
+				
 				});
+
 			});
 		}	
 			
 
 		static async listarUsuarios( pagination ) {
-
 
 			return new Promise(( resolve, reject ) => {
 
@@ -97,6 +100,7 @@ class UsersController {
 
 					resolve( results );
 				});
+
 			});
 		}
 
@@ -127,9 +131,7 @@ class UsersController {
 					notificacion['body'] = 'Usuario actualizado con exito';
 
 					notificacion.show();
-
-					console.log("actualizacion realizada");
-	  		});
+	  	});
 		}
 
 		static async cambiarEstadoUsuarios( usuario ) {
@@ -155,14 +157,12 @@ class UsersController {
 					return;
 				}
 
-					notificacion['title'] = 'Actualizacion exitosa!!';
-					notificacion['body'] = 'Usuario actualizado con exito';
+				notificacion['title'] = 'Actualizacion exitosa!!';
+				notificacion['body'] = 'Usuario actualizado con exito';
 
-					notificacion.show();
-
-					console.log("actualizacion realizada");
-	  });
-	}
+				notificacion.show();
+	  	});
+		}
 }
 
 
