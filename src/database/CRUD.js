@@ -3,7 +3,8 @@ const CRUD = Object.freeze({
 	listarUsuarios : "SELECT * FROM usuarios LIMIT ?, ?;",	
 	obtenerTotalUsuarios : "SELECT COUNT(*) FROM usuarios;",
 	editarRolUsuario : "UPDATE usuarios SET area = ? WHERE userid = ?",	
-	editarEstadoUsuario : "UPDATE usuarios SET estado = ? WHERE userid = ?"	
+	editarEstadoUsuario : "UPDATE usuarios SET estado = ? WHERE userid = ?",
+	buscarUsuario: "SELECT id, nombre, apellido, correo, area FROM usuarios WHERE nombre LIKE '%?%' OR apellido LIKE '%?%' OR correo LIKE '%?%' OR area LIKE '%?%';" 	
 });
 
 module.exports = CRUD;

@@ -28,6 +28,13 @@ class Database {
 		mysqlAPI.query( sql, paginacion, callback );
 	}
 
+	find( sql, data, callback ) {
+
+		let datos = Object.values( data );
+
+		mysqlAPI.query( sql, datos, callback );
+	}
+
 	update( sql, data, callback ) {
 
 		let datos = Object.values( data );

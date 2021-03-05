@@ -163,6 +163,36 @@ class UsersController {
 				notificacion.show();
 	  	});
 		}
+
+		static async buscarUsuarios( usuario ) {
+
+			this.database.find( CRUD.buscarUsuario, usuario, ( error ) => {
+
+				const notificacion = new Notification({
+					title: '',
+					body: ''
+				});
+
+				if ( error ) {
+
+					//throw error;  // mostrará el error en pantalla
+
+					notificacion['title'] = 'Error!!';
+					notificacion['body'] = 'No se encontro el usuario';
+
+					notificacion.show();
+
+					console.log( error );
+
+					return;
+				}
+
+				notificacion['title'] = 'Busqueda exitosa!!';
+				notificacion['body'] = 'Exito al buscar usuario';
+
+				notificacion.show();
+	  	});
+		}
 }
 
 
