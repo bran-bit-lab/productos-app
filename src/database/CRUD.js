@@ -1,10 +1,10 @@
 const CRUD = Object.freeze({
-	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (?, ?, ?, ?, ?);",	
-	listarUsuarios : "SELECT * FROM usuarios LIMIT ?, ?;",	
-	obtenerTotalUsuarios : "SELECT COUNT(*) FROM usuarios;",
-	editarRolUsuario : "UPDATE usuarios SET area = ? WHERE userid = ?",	
-	editarEstadoUsuario : "UPDATE usuarios SET estado = ? WHERE userid = ?",
-	buscarUsuario: "SELECT id, nombre, apellido, correo, area FROM usuarios WHERE nombre LIKE :search OR apellido LIKE :search OR correo LIKE:search OR area LIKE: search;" 	
+	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (:nombre, :apellido, :correo, :area, :password) ;",	
+	listarUsuarios : "SELECT * FROM usuarios LIMIT :start, :limit ;",	
+	obtenerTotalUsuarios : "SELECT COUNT(*) FROM usuarios ;",
+	editarRolUsuario : "UPDATE usuarios SET area = :area WHERE userid = :userid ;",	
+	editarEstadoUsuario : "UPDATE usuarios SET estado = :estado WHERE userid = :userid ;",
+	buscarUsuario: "SELECT id, nombre, apellido, correo, area FROM usuarios WHERE nombre LIKE :search OR apellido LIKE :search OR correo LIKE :search OR area LIKE :search ;" 	
 });
 
 module.exports = CRUD;
