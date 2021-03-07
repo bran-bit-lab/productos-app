@@ -89,7 +89,7 @@ class UsersController {
 
 			return new Promise(( resolve, reject ) => {
 
-				this.database.consult( CRUD.listarUsuarios, pagination, ( error, results ) => {
+				this.database.consult( CRUD.listarUsuarios, { start: pagination[0], limit: pagination[1] }, ( error, results ) => {
 
 					if ( error ) {
 
