@@ -71,6 +71,13 @@ const mysqlAPI = mysql.createConnection({
 	port: user["port"]
 });
 
+function test (){
+	console.log(proceso);
+	return " ";
+};
+
+mysqlAPI.config.queryFormat = test;
+
 mysqlAPI.connect(( error ) => {
 
 	if ( error ) {
@@ -80,6 +87,7 @@ mysqlAPI.connect(( error ) => {
 	console.log('Base de datos en linea!!');
 });
 
+return console.log( mysqlAPI );
 
 module.exports = {
 	Database
