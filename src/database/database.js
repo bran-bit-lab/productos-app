@@ -72,7 +72,7 @@ const mysqlAPI = mysql.createConnection({
 });
 
 function test (){
-	console.log(proceso);
+	console.log('proceso');
 	return " ";
 };
 
