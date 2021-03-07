@@ -71,9 +71,10 @@ const mysqlAPI = mysql.createConnection({
 	port: user["port"]
 });
 
-function test (){
-	console.log('proceso');
-	return " ";
+function test ( query, values ) {
+
+	console.log(query);
+  	return query;
 };
 
 mysqlAPI.config.queryFormat = test;
@@ -87,7 +88,8 @@ mysqlAPI.connect(( error ) => {
 	console.log('Base de datos en linea!!');
 });
 
-return console.log( mysqlAPI );
+//console.log( mysqlAPI );
+
 
 module.exports = {
 	Database
