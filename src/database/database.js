@@ -73,8 +73,14 @@ const mysqlAPI = mysql.createConnection({
 
 function test ( query, values ) {
 
-	console.log(query);
-  	return query;
+	if (values === undefined) {
+   		return query;
+	}else{
+		return values;
+	}
+
+	console.log(values);
+  	return values;
 };
 
 mysqlAPI.config.queryFormat = test;
