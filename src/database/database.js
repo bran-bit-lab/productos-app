@@ -71,12 +71,21 @@ const mysqlAPI = mysql.createConnection({
 	port: user["port"]
 });
 
+function transform (){
+
+		};
+
 function test ( query, values ) {
 
 	if (values === undefined) {
+   		
    		return query;
-	}else{
+
+	} else {
+
+		const sqlParse = query.replace ( /\:(\w+)/g , transform);
 		return values;
+	
 	}
 
 	console.log(values);
