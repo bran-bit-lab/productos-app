@@ -11,9 +11,7 @@ class Database {
 		// @params data: object es el arreglo del formulario
 		// @params callback: function se ejecuta cuando la respuesta sea exitosa
 
-		let datos = Object.values( data );
-
-		mysqlAPI.query( sql, datos, callback );
+		mysqlAPI.query( sql, data, callback );
 	}
 
 	getTotalRecords( sql, callback ) {
@@ -36,7 +34,7 @@ class Database {
 
 		let datos = Object.values( data );
 
-		mysqlAPI.query( sql, datos, callback );
+		mysqlAPI.query( sql, data, callback );
 	}
 
 	update( sql, data, callback ) {
@@ -46,9 +44,7 @@ class Database {
 
 	delete( sql, data, callback ) {
 
-		let datos = Object.values( data );
-
-		mysqlAPI.query( sql, datos, callback );
+		mysqlAPI.query( sql, data, callback );
 	}
 }
 
