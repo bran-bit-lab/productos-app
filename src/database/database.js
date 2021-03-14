@@ -26,6 +26,10 @@ class Database {
 		// @params paginacion: number[] es la paginacion de la tabla
 		
 		mysqlAPI.query( sql, paginacion, callback );
+
+		// let sentence = mysqlAPI.query( sql, paginacion, callback );
+		// console.log( sentence.sql );
+
 	}
 
 	find( sql, data, callback ) {
@@ -37,9 +41,7 @@ class Database {
 
 	update( sql, data, callback ) {
 
-		let datos = Object.values( data );
-
-		mysqlAPI.query( sql, datos, callback );
+		mysqlAPI.query( sql, data, callback );
 	}
 
 	delete( sql, data, callback ) {
@@ -56,7 +58,7 @@ try {
 
  	let arregloConexion = JSON.parse( data );
 
- 	user = arregloConexion["root_brandon"];
+ 	user = arregloConexion["user_gabriel_ventas"];
 
 } catch ( error ) {
 

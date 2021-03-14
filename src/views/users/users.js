@@ -53,14 +53,14 @@ class UsersComponent {
 			
 			USERS = await UsersController.listarUsuarios( pagination );
 
-			/*let totalUsers = await UsersController.obtenerTotalUsuarios();
+			let totalUsers = await UsersController.obtenerTotalUsuarios();
 
 			sessionStorage.setItem('usersTable', JSON.stringify({ pagination }));
 
 			this.renderUsers( 
 				totalUsers['totalPaginas'], 
 				totalUsers['totalRegistros'] 
-			);*/
+			);
 		
 		} catch ( error ) {
 
@@ -106,7 +106,7 @@ class UsersComponent {
 
 	changeRole( user ) {
 
-		UsersController.cambiarRolUsuarios({
+		UsersController.cambiarRolUsuarios({  // aqui ya se envia el objeto como tal
 			area: user.role,
 			userid: user.id
 		});
