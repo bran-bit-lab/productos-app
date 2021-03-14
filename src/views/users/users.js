@@ -69,16 +69,30 @@ class UsersComponent {
 
 	}
 
-	getUser( search ) {
+	async getUser( search ) {
 
-		const rexp = /^[a-zA-Z\s]+$/;
+		const rexp = /^[\w\d\s]+$/; 
+
+		if ( search.length === 0 ) {
+
+			let { pagination } = JSON.parse(  sessionStorage.getItem('usersTable') );
+
+			return this.getAll( 
+				null, 
+				pagination
+			);
+		}
+
 
 		if ( !rexp.test( search ) ) {
 			console.log('no concuerda con expresion regular');
 			return;
 		}
 
-		console.log('valido');
+		// search es la busqueda
+		USERS = await UsersController.buscarUsuarios({ search :search });
+
+		this.renderUsers( null, null, true );
 	}
 
 	deleteUser({ id, confirm }) {
@@ -163,16 +177,21 @@ class UsersComponent {
 		`);
 	}
 
-	renderUsers( totalRegisters, totalPages ) {
+	renderUsers( totalRegisters = null , totalPages = null, search = false ) {
 
-		this.totalUsers.textContent = totalPages;
+		// si no existe o es false  es otra forma de decir undefined
+		if ( !search ) {  
+
+			this.totalUsers.textContent = totalPages;
 			
-		PaginationComponent.setButtonsPagination.call( this, totalRegisters );
+			PaginationComponent.setButtonsPagination.call( this, totalRegisters );
 
-		this.totalPages = totalRegisters;
+			this.totalPages = totalRegisters;
 
-		document.querySelector('#paginationValue').innerText =  this.currentPage + 1;
-		document.querySelector('#paginationEnd').innerText = this.totalPages; 
+			document.querySelector('#paginationValue').innerText =  this.currentPage + 1;
+			document.querySelector('#paginationEnd').innerText = this.totalPages; 
+		}
+
 		
 		if ( USERS.length > 0 ) {
 

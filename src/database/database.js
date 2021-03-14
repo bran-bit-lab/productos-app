@@ -9,8 +9,7 @@ class Database {
 
 		// @params sql: string es una variable de consulta a la BD.
 		// @params data: object es el arreglo del formulario
-		// @params callback: function se ejecuta cuando la respuesta sea exitosa
-
+		// @params callback: function se ejecuta cuando la respuesta sea exitosas
 		mysqlAPI.query( sql, data, callback );
 	}
 
@@ -22,29 +21,52 @@ class Database {
 	consult( sql, paginacion, callback ) {
 		
 		// @params paginacion: number[] es la paginacion de la tabla
-		
 		mysqlAPI.query( sql, paginacion, callback );
-
-		// let sentence = mysqlAPI.query( sql, paginacion, callback );
-		// console.log( sentence.sql );
-
 	}
 
 	find( sql, data, callback ) {
-
-		let datos = Object.values( data );
-
 		mysqlAPI.query( sql, data, callback );
 	}
 
 	update( sql, data, callback ) {
-
 		mysqlAPI.query( sql, data, callback );
 	}
 
 	delete( sql, data, callback ) {
-
 		mysqlAPI.query( sql, data, callback );
+	}
+
+	static sqlParse( query, values ) {
+		
+		if ( !values ) {
+   			return query;
+
+		} else {
+
+			let sqlParse = query.replace( /\:(\w+)/g , ( function( texto, resultado ) {
+
+				// el devuelve el sql transformado
+				
+				// recibe 2 parametros
+				
+				// 1.- texto, que es la cadena a transformar
+				
+				// 2.- es el resultado de la búsqueda
+				
+				// según la documentacion de replace debe devolver un string
+
+
+				if ( values.hasOwnProperty( resultado ) ){
+					return this.escape( values[resultado] );
+				} 
+					
+				return texto; 
+
+			}).bind( this ));
+
+			
+			return sqlParse;
+		}
 	}
 }
 
@@ -69,43 +91,7 @@ const mysqlAPI = mysql.createConnection({
 	port: user["port"]
 });
 
-	// aqui se transforma el strin
-function transform ( texto, resultado ){
-
-	// el devuelve el sql transformado
-	// recibe 2 parametros
-	// 1.- texto, que es la cadena a transoformar
-	// 2.- es el resultado de la busqueda
-	// segun la docuntacion de replace debe devolver
-	// un string
-	const values = this 
-
-	if ( values.hasOwnProperty( resultado ) ){
-		
-		return values[resultado];  // aqui devuelve la propiedad de los objetos
-
-	} else {
-		
-		return texto;   // aqui devuelve :start o la clave si no lo consigue
-	}
-};
-
-function test ( query, values ) {
-
-	if (values === undefined) {
-   		
-   		return query;
-
-	} else {
-
-		const sqlParse = query.replace ( /\:(\w+)/g , transform.bind( values ));
-		return sqlParse;
-	
-	}
-
-};
-
-mysqlAPI.config.queryFormat = test; 
+mysqlAPI.config.queryFormat = Database.sqlParse; 
 
 mysqlAPI.connect(( error ) => {
 
@@ -115,8 +101,6 @@ mysqlAPI.connect(( error ) => {
 
 	console.log('Base de datos en linea!!');
 });
-
-//console.log( mysqlAPI );
 
 
 module.exports = {
