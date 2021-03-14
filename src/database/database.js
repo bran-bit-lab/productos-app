@@ -71,9 +71,26 @@ const mysqlAPI = mysql.createConnection({
 	port: user["port"]
 });
 
-function transform (){
+	// aqui se transforma el strin
+function transform ( texto, resultado ){
 
-		};
+	// el devuelve el sql transformado
+	// recibe 2 parametros
+	// 1.- texto, que es la cadena a transoformar
+	// 2.- es el resultado de la busqueda
+	// segun la docuntacion de replace debe devolver
+	// un string
+	const values = this 
+
+	if ( values.hasOwnProperty( resultado ) ){
+		
+		return values[resultado];  // aqui devuelve la propiedad de los objetos
+
+	} else {
+		
+		return texto;   // aqui devuelve :start o la clave si no lo consigue
+	}
+};
 
 function test ( query, values ) {
 
@@ -83,16 +100,14 @@ function test ( query, values ) {
 
 	} else {
 
-		const sqlParse = query.replace ( /\:(\w+)/g , transform);
-		return values;
+		const sqlParse = query.replace ( /\:(\w+)/g , transform.bind( values ));
+		return sqlParse;
 	
 	}
 
-	console.log(values);
-  	return values;
 };
 
-mysqlAPI.config.queryFormat = test;
+mysqlAPI.config.queryFormat = test; 
 
 mysqlAPI.connect(( error ) => {
 
