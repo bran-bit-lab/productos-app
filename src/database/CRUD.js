@@ -8,6 +8,8 @@ const CRUD = Object.freeze({
 	editarEstadoUsuario : "UPDATE usuarios SET estado = :estado WHERE userid = :userid ;",
 	buscarUsuario: "SELECT userid, nombre, apellido, correo, area FROM usuarios WHERE nombre LIKE :search OR apellido LIKE :search OR correo LIKE :search OR area LIKE :search;" 	
 
+	// login ...
+
 	// category ...
 });
 

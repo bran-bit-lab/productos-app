@@ -179,7 +179,6 @@ class UsersComponent {
 
 	renderUsers( totalRegisters = null , totalPages = null, search = false ) {
 
-		// si no existe o es false  es otra forma de decir undefined
 		if ( !search ) {  
 
 			this.totalUsers.textContent = totalPages;
