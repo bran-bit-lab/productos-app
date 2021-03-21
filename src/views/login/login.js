@@ -1,5 +1,6 @@
 // remote actua como un objeto de conexion con el proceso principal
-// const { remote } = require('electron');
+const { remote } = require('electron');
+const { UsersController } = remote.require('./controllers/users_controller');
 
 function renderErrors( element, message ) {
 
@@ -112,9 +113,11 @@ function handleSubmit( $event ) {
 			return document.querySelector('#correo-login').focus();
 	 	}
 
-	 	console.log( data );
+	 	console.log( data );  // aqui ya tenia data preparada pero tengo 
+	 	// que importar el modulo
+	 	UsersController.login( data );
 
-	 	loading();
+	 	// loading();
 	});
 }
 

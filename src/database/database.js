@@ -46,13 +46,9 @@ class Database {
 			let sqlParse = query.replace( /\:(\w+)/g , ( function( texto, resultado ) {
 
 				// el devuelve el sql transformado
-				
 				// recibe 2 parametros
-				
 				// 1.- texto, que es la cadena a transformar
-				
 				// 2.- es el resultado de la búsqueda
-				
 				// según la documentacion de replace debe devolver un string
 
 
@@ -76,7 +72,7 @@ try {
 
  	let arregloConexion = JSON.parse( data );
 
- 	user = arregloConexion["user_gabriel_ventas"];
+ 	user = arregloConexion["root_brandon"];
 
 } catch ( error ) {
 
