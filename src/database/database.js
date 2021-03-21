@@ -10,6 +10,7 @@ class Database {
 		// @params sql: string es una variable de consulta a la BD.
 		// @params data: object es el arreglo del formulario
 		// @params callback: function se ejecuta cuando la respuesta sea exitosas
+
 		mysqlAPI.query( sql, data, callback );
 	}
 
@@ -21,6 +22,7 @@ class Database {
 	consult( sql, paginacion, callback ) {
 		
 		// @params paginacion: number[] es la paginacion de la tabla
+
 		mysqlAPI.query( sql, paginacion, callback );
 	}
 
@@ -40,31 +42,25 @@ class Database {
 		
 		if ( !values ) {
    			return query;
+		} 
 
-		} else {
+		return query.replace( /\:(\w+)/g, ( function( text, result ) {
 
-			let sqlParse = query.replace( /\:(\w+)/g, ( function( text, result ) {
+			/* 	
+				El devuelve el sql transformado
+			 	recibe 2 parametros
+			 	1.- texto, que es la cadena a transformar
+			 	2.- es el resultado de la búsqueda
+			 	según la documentación de replace debe devolver un string
+			*/
 
-				/* 	
-					El devuelve el sql transformado
-				 	recibe 2 parametros
-				 	1.- texto, que es la cadena a transformar
-				 	2.- es el resultado de la búsqueda
-				 	según la documentación de replace debe devolver un string
-				*/
+			if ( values.hasOwnProperty( result ) ){
+				return this.escape( values[result] );
+			} 
+				
+			return text; 
 
-
-				if ( values.hasOwnProperty( result ) ){
-					return this.escape( values[result] );
-				} 
-					
-				return text; 
-
-			}).bind( this ));
-
-			
-			return sqlParse;
-		}
+		}).bind( this ));
 	}
 }
 

@@ -72,7 +72,7 @@ class UsersController {
 
 					let totalPaginas = ( totalRegistros / 10 );
 
-					return resolve({
+					resolve({
 						totalPaginas: Math.ceil( totalPaginas ),
 						totalRegistros: totalRegistros
 					}); 
@@ -95,7 +95,7 @@ class UsersController {
 
 						console.log( error );
 						
-						reject( error );
+						return reject( error );
 					}
 
 					resolve( results );
@@ -127,11 +127,7 @@ class UsersController {
 					return;
 				}
 
-					notificacion['title'] = 'Actualizacion exitosa!!';
-					notificacion['body'] = 'Usuario actualizado con exito';
-
-					notificacion.show();
-	  	});
+	  		});
 		}
 
 		static async cambiarEstadoUsuarios( usuario ) {
@@ -157,11 +153,7 @@ class UsersController {
 					return;
 				}
 
-				notificacion['title'] = 'Actualizacion exitosa!!';
-				notificacion['body'] = 'Usuario actualizado con exito';
-
-				notificacion.show();
-	  	});
+	  		});
 		}
 
 		static async buscarUsuarios( usuario ) {
@@ -169,6 +161,11 @@ class UsersController {
 			return new Promise(( resolve, reject ) => {
 
 				this.database.find( CRUD.buscarUsuario, usuario, ( error, results ) => {
+
+					const notificacion = new Notification({
+						title: '',
+						body: ''
+					});
 
 					if ( error ) {
 
@@ -186,6 +183,83 @@ class UsersController {
 				});
 
 			});
+		}
+
+		static async login( usuario ) {
+			
+			//1.- si el usuario existe dentro de la bd 
+			//2.- si existe el usuario pero que este activo
+		
+			// console.log( usuario ); 
+			
+			return new Promise (( resolve, reject )=> {
+
+				this.database.find( CRUD.validarUsuario, usuario, ( error, results ) => {
+
+					const notificacion = new Notification({
+						title: '',
+						body: ''
+					});
+
+					if ( error ) {
+
+						notificacion['title'] = 'Error!!';
+						notificacion['body'] = 'Error en buscar usuario';
+
+						notificacion.show();
+
+						console.log( error );
+						
+						return reject( error );
+					}	
+						
+					if ( results.length === 0 ) {
+						
+						// length devuelve la cantidad de elementos en una matriz
+						// sino lo encuentra muestra la notificacion
+
+						notificacion['title'] = 'Atención!!';
+						notificacion['body'] = 'Credenciales inválidas';
+
+						console.log("usuario no encontrado")
+						
+						notificacion.show();
+
+						reject();
+
+					} else {
+
+
+						// no se le pasa el campo contraseña cifrada
+
+						console.log( bcrypt.compareSync( usuario['password'], results[0]['password'] ) );
+
+						/* if ( !bcrypt.compareSync( usuario['password'], user['password'] ) ) {
+
+							// en caso de no concuerdan las contraseñas
+
+							notificacion['title'] = 'Atención!!';
+							notificacion['body'] = 'Credenciales inválidas';
+
+							console.log("usuario no encontrado")
+						
+							notificacion.show();
+
+							return reject();
+						}*/
+
+						
+						/*hay que coincidir las contraseñas cifradas*/
+						
+						//3.- si las contraseñas cifradas concuerdan
+						
+					}
+
+					console.log( results );
+				});
+			
+			});
+
 		}	
 		
 }
