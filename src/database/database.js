@@ -43,24 +43,22 @@ class Database {
 
 		} else {
 
-			let sqlParse = query.replace( /\:(\w+)/g , ( function( texto, resultado ) {
+			let sqlParse = query.replace( /\:(\w+)/g, ( function( text, result ) {
 
-				// el devuelve el sql transformado
-				
-				// recibe 2 parametros
-				
-				// 1.- texto, que es la cadena a transformar
-				
-				// 2.- es el resultado de la búsqueda
-				
-				// según la documentacion de replace debe devolver un string
+				/* 	
+					El devuelve el sql transformado
+				 	recibe 2 parametros
+				 	1.- texto, que es la cadena a transformar
+				 	2.- es el resultado de la búsqueda
+				 	según la documentación de replace debe devolver un string
+				*/
 
 
-				if ( values.hasOwnProperty( resultado ) ){
-					return this.escape( values[resultado] );
+				if ( values.hasOwnProperty( result ) ){
+					return this.escape( values[result] );
 				} 
 					
-				return texto; 
+				return text; 
 
 			}).bind( this ));
 
