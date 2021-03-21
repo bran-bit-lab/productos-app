@@ -89,8 +89,6 @@ class UsersController {
 
 				pagination = { start: pagination[0], limit: pagination[1] };
 
-				console.log( search );
-
 				this.database.consult( CRUD.listarUsuarios, pagination, ( error, results ) => {
 
 					if ( error ) {
