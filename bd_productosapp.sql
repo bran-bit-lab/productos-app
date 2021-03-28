@@ -117,7 +117,8 @@ CREATE TABLE `usuarios` (
   `password` char(200) DEFAULT NULL,
   `area` char(30) DEFAULT NULL,
   `estado` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`userid`)
+  PRIMARY KEY (`userid`),
+  UNIQUE KEY `usuarios` (`correo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -142,6 +143,8 @@ INSERT INTO `usuarios` VALUES (12,'test12','apellido12','correo12@prueba.com','p
 INSERT INTO `usuarios` VALUES (13,'test13','apellido13','correo13@prueba.com','prueba','ventas',0);
 INSERT INTO `usuarios` VALUES (14,'test14','apellido14','correo14@prueba.com','prueba','ventas',0);
 INSERT INTO `usuarios` VALUES (15,'test15','apellido15','correo15@prueba.com','prueba','ventas',0);
+INSERT INTO `usuarios` VALUES (16,'test','apellido','correo16@prueba.com','$2a$10$wv4wCtHYqRoyXLNsIa.8IO7h2wwX/xH.ojDBq5TYh8M7SSe9mkYKe','Almacen',0);
+INSERT INTO `usuarios` VALUES (17,'test','apellido','correo17@prueba.com','$2a$10$fwC6xJ.HtnXgEbThvOR7jO.ucFfkpLSBuHbWQoBwujYwtlHMcdE5i','Administracion',1);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -154,4 +157,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-14 16:16:25
+-- Dump completed on 2021-03-28 15:03:13
