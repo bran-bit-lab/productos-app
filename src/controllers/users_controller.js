@@ -27,7 +27,7 @@ class UsersController {
 					body: ''
 				});
 
-  			if ( error ) {
+  				if ( error ) {
 
 				// throw error;  // mostrará el error en pantalla
 
@@ -83,7 +83,7 @@ class UsersController {
 		}	
 			
 
-		static async listarUsuarios( pagination ) {
+		static listarUsuarios( pagination ) {
 
 			return new Promise(( resolve, reject ) => {
 
@@ -104,7 +104,7 @@ class UsersController {
 			});
 		}
 
-		static async cambiarRolUsuarios( usuario ) {
+		static cambiarRolUsuarios( usuario ) {
 
 			this.database.update( CRUD.editarRolUsuario, usuario, ( error ) => {
 
@@ -130,7 +130,7 @@ class UsersController {
 	  		});
 		}
 
-		static async cambiarEstadoUsuarios( usuario ) {
+		static cambiarEstadoUsuarios( usuario ) {
 
 			this.database.update( CRUD.editarEstadoUsuario, usuario, ( error ) => {
 
@@ -156,7 +156,7 @@ class UsersController {
 	  		});
 		}
 
-		static async buscarUsuarios( usuario ) {
+		static buscarUsuarios( usuario ) {
 
 			return new Promise(( resolve, reject ) => {
 
@@ -185,7 +185,7 @@ class UsersController {
 			});
 		}
 
-		static async login( usuario ) {
+		static login( usuario ) {
 			
 			//1.- si el usuario existe dentro de la bd 
 			//2.- si existe el usuario pero que este activo
@@ -221,7 +221,7 @@ class UsersController {
 						notificacion['title'] = 'Atención!!';
 						notificacion['body'] = 'Credenciales inválidas';
 
-						console.log("usuario no encontrado")
+						console.log("usuario no encontrado");
 						
 						notificacion.show();
 
@@ -229,33 +229,24 @@ class UsersController {
 
 					} else {
 
+						const passwordDB = results[0]['password'];
 
 						// no se le pasa el campo contraseña cifrada
-
-						console.log( bcrypt.compareSync( usuario['password'], results[0]['password'] ) );
-
-						/* if ( !bcrypt.compareSync( usuario['password'], user['password'] ) ) {
-
-							// en caso de no concuerdan las contraseñas
-
-							notificacion['title'] = 'Atención!!';
-							notificacion['body'] = 'Credenciales inválidas';
-
-							console.log("usuario no encontrado")
+						console.log( results[0] );
 						
-							notificacion.show();
-
-							return reject();
-						}*/
-
+						console.log({ 
+							passwordDB,
+							userPass: usuario['password'],
+							match: bcrypt.compareSync( usuario['password'], passwordDB ), 
+						});
 						
+
 						/*hay que coincidir las contraseñas cifradas*/
 						
 						//3.- si las contraseñas cifradas concuerdan
 						
 					}
 
-					console.log( results );
 				});
 			
 			});

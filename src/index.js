@@ -1,4 +1,3 @@
-// app y BrowserWindow son objetos de electron
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const fs = require('fs');
