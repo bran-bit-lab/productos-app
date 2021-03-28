@@ -23,14 +23,16 @@ DROP TABLE IF EXISTS `categorias`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `categorias` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) DEFAULT NULL,
   `nombre` char(30) DEFAULT NULL,
   `descripcion` varchar(600) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `categoriaid` int(11) NOT NULL AUTO_INCREMENT,
+  `activo` tinyint(1) DEFAULT '1',
+  `imagen` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`categoriaid`),
   KEY `userid` (`userid`),
   CONSTRAINT `categorias_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `usuarios` (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,11 +41,16 @@ CREATE TABLE `categorias` (
 
 LOCK TABLES `categorias` WRITE;
 /*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
-INSERT INTO `categorias` VALUES (1,NULL,'categoria1','D1,% D1');
-INSERT INTO `categorias` VALUES (2,NULL,'categoria2','D2,% D2');
-INSERT INTO `categorias` VALUES (3,NULL,'categoria3','D3,% D3');
-INSERT INTO `categorias` VALUES (4,NULL,'categoria4','D4,% D4');
-INSERT INTO `categorias` VALUES (5,NULL,'categoria5','D5,% D5');
+INSERT INTO `categorias` VALUES (NULL,'categoria1','D1,% D1',1,1,NULL);
+INSERT INTO `categorias` VALUES (NULL,'categoria2','D2,% D2',2,1,NULL);
+INSERT INTO `categorias` VALUES (NULL,'categoria3','D3,% D3',3,1,NULL);
+INSERT INTO `categorias` VALUES (NULL,'categoria4','D4,% D4',4,1,NULL);
+INSERT INTO `categorias` VALUES (NULL,'categoria5','D5,% D5',5,1,NULL);
+INSERT INTO `categorias` VALUES (1,'Alimentacion','prueba de desarrollo',6,1,'');
+INSERT INTO `categorias` VALUES (1,'Bebidas','prueba de desarrollo',7,1,'');
+INSERT INTO `categorias` VALUES (1,'Frutas','prueba de desarrollo',8,1,'');
+INSERT INTO `categorias` VALUES (1,'verduras','prueba de desarrollo',9,1,'');
+INSERT INTO `categorias` VALUES (1,'Carnes','prueba de desarrollo',10,1,'');
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,4 +164,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-28 15:03:13
+-- Dump completed on 2021-03-28 16:02:02

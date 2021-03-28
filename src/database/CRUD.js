@@ -1,7 +1,7 @@
 const CRUD = Object.freeze({
 
 	// users ...
-	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (:nombre, :apellido, :correo, :area, :password) UNIQUE KEY (correo);",	
+	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (:nombre, :apellido, :correo, :area, :password);",	
 	listarUsuarios : "SELECT * FROM usuarios LIMIT :start, :limit;",	
 	obtenerTotalUsuarios : "SELECT COUNT(*) FROM usuarios;",
 	editarRolUsuario : "UPDATE usuarios SET area = :area WHERE userid = :userid;",	
@@ -12,6 +12,7 @@ const CRUD = Object.freeze({
 	validarUsuario: "SELECT * FROM usuarios WHERE correo = :correo AND estado = TRUE;"
 	
 	// category ...
+	crearCategoria : ""
 });
 
 module.exports = CRUD;
