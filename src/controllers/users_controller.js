@@ -232,20 +232,32 @@ class UsersController {
 						const passwordDB = results[0]['password'];
 
 						// no se le pasa el campo contraseña cifrada
-						console.log( results[0] );
+						//console.log( results[0] );
 						
-						console.log({ 
-							passwordDB,
-							userPass: usuario['password'],
-							match: bcrypt.compareSync( usuario['password'], passwordDB ), 
-						});
-						
+						const match = bcrypt.compareSync( usuario['password'], passwordDB );
+					
+						if(match === true){
+							
+							console.log("usuario valido")
+							
+							delete results[0]['password'];
+							/*Se elimina la propiedad password del objeto results*/
 
-						/*hay que coincidir las contraseñas cifradas*/
-						
-						//3.- si las contraseñas cifradas concuerdan
-						
-					}
+							resolve( results[0] );
+							//console.log( results[0]);
+
+						} else {
+
+							notificacion['title'] = 'Atención!!';
+							notificacion['body'] = 'Credenciales inválidas';
+											
+							notificacion.show();
+							console.log("clave invalida");
+
+							reject();
+						};		
+											
+					};
 
 				});
 			

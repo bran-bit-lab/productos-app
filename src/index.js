@@ -19,7 +19,7 @@ function createWindow() {
   const fileUrl = require('url').format({
     protocol: 'file',
     slashes: true,
-    pathname: path.join( urlAssets, '/login/login.html' )
+    pathname: path.join( urlAssets, '/users/users.html' )
   });
 
   win.loadURL( fileUrl );

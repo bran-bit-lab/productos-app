@@ -1,7 +1,7 @@
 const CRUD = Object.freeze({
 
 	// users ...
-	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (:nombre, :apellido, :correo, :area, :password) ;",	
+	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (:nombre, :apellido, :correo, :area, :password) UNIQUE KEY (correo);",	
 	listarUsuarios : "SELECT * FROM usuarios LIMIT :start, :limit;",	
 	obtenerTotalUsuarios : "SELECT COUNT(*) FROM usuarios;",
 	editarRolUsuario : "UPDATE usuarios SET area = :area WHERE userid = :userid;",	
@@ -9,7 +9,7 @@ const CRUD = Object.freeze({
 	buscarUsuario: "SELECT userid, nombre, apellido, correo, area, estado FROM usuarios WHERE nombre LIKE :search OR apellido LIKE :search OR correo LIKE :search OR area LIKE :search;",	
 
 	// login ...
-	validarUsuario: "SELECT correo, password FROM usuarios WHERE correo = :correo AND estado = TRUE;"
+	validarUsuario: "SELECT * FROM usuarios WHERE correo = :correo AND estado = TRUE;"
 	
 	// category ...
 });
