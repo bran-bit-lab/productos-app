@@ -9,7 +9,7 @@ const CRUD = Object.freeze({
 	buscarUsuario: "SELECT userid, nombre, apellido, correo, area, estado FROM usuarios WHERE nombre LIKE :search OR apellido LIKE :search OR correo LIKE :search OR area LIKE :search;",	
 
 	// login ...
-	validarUsuario: "SELECT * FROM usuarios WHERE correo = :correo AND estado = TRUE;"
+	validarUsuario: "SELECT * FROM usuarios WHERE correo = :correo AND estado = TRUE;",
 	
 	// category ...
 	crearCategoria : ""

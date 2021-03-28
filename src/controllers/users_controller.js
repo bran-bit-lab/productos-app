@@ -5,108 +5,162 @@ const { Notification } = require('electron');
 
 class UsersController {
 
-		databaseInstance = null;
+	databaseInstance = null;
 
-		static get database() {
-			return this.databaseInstance || ( this.databaseInstance = new Database() );
-		}
+	static get database() {
+		return this.databaseInstance || ( this.databaseInstance = new Database() );
+	}
 
-		static crearUsuario( usuario ) {
+	static crearUsuario( usuario ) {
 
-			const saltRounds = 10;
-			const salt = bcrypt.genSaltSync( 10 );
+		const saltRounds = 10;
+		const salt = bcrypt.genSaltSync( 10 );
 
-			delete usuario['passwordConfirmation'];
+		delete usuario['passwordConfirmation'];
 
-			usuario['password'] = bcrypt.hashSync( usuario['password'], salt );
+		usuario['password'] = bcrypt.hashSync( usuario['password'], salt );
 
-			this.database.insert( CRUD.crearUsuario, usuario, ( error ) => {
+		this.database.insert( CRUD.crearUsuario, usuario, ( error ) => {
 
+			const notificacion = new Notification({
+				title: '',
+				body: ''
+			});
+
+			if ( error ) {
+
+			// throw error;  // mostrará el error en pantalla
+
+				notificacion['title'] = 'Error!!';
+				notificacion['body'] = 'Error al crear usuario';
+
+				notificacion.show();
+				
+				return;
+			}
+
+			notificacion['title'] = 'Registro exitoso!!';
+			notificacion['body'] = 'Usuario creado con exito';
+
+			notificacion.show();
+
+  		});
+	}
+
+
+	static obtenerTotalUsuarios() {
+
+		return new Promise( ( resolve, reject ) => {
+
+			this.database.getTotalRecords( CRUD.obtenerTotalUsuarios, ( error, resultado ) => {
+				
 				const notificacion = new Notification({
-					title: '',
-					body: ''
+					title: 'Error en obtener los registros',
+					body: 'No se pudo obtener el total de registros'
 				});
 
-  				if ( error ) {
+				if ( error ) {
+
+					notificacion.show();
+
+					console.log( error );
+
+					return reject( error );
+				}
+				
+				const totalRegistros = resultado[0]['COUNT(*)'];
+
+				let totalPaginas = ( totalRegistros / 10 );
+
+				resolve({
+					totalPaginas: Math.ceil( totalPaginas ),
+					totalRegistros: totalRegistros
+				}); 
+			
+			});
+
+		});
+	}	
+		
+
+	static listarUsuarios( pagination ) {
+
+		return new Promise(( resolve, reject ) => {
+
+			pagination = { start: pagination[0], limit: pagination[1] };
+
+			this.database.consult( CRUD.listarUsuarios, pagination, ( error, results ) => {
+
+				if ( error ) {
+
+					console.log( error );
+					
+					return reject( error );
+				}
+
+				resolve( results );
+			});
+
+		});
+	}
+
+	static cambiarRolUsuarios( usuario ) {
+
+		this.database.update( CRUD.editarRolUsuario, usuario, ( error ) => {
+
+			const notificacion = new Notification({
+				title: '',
+				body: ''
+			});
+
+			if ( error ) {
 
 				// throw error;  // mostrará el error en pantalla
 
-					notificacion['title'] = 'Error!!';
-					notificacion['body'] = 'Error al crear usuario';
-
-					notificacion.show();
-					
-					return;
-				}
-
-				notificacion['title'] = 'Registro exitoso!!';
-				notificacion['body'] = 'Usuario creado con exito';
+				notificacion['title'] = 'Error!!';
+				notificacion['body'] = 'Error al actualizar usuario';
 
 				notificacion.show();
 
-	  		});
-		}
+				console.log( error );
 
+				return;
+			}
 
-		static obtenerTotalUsuarios() {
+  		});
+	}
 
-			return new Promise( ( resolve, reject ) => {
+	static cambiarEstadoUsuarios( usuario ) {
 
-				this.database.getTotalRecords( CRUD.obtenerTotalUsuarios, ( error, resultado ) => {
-					
-					const notificacion = new Notification({
-						title: 'Error en obtener los registros',
-						body: 'No se pudo obtener el total de registros'
-					});
+		this.database.update( CRUD.editarEstadoUsuario, usuario, ( error ) => {
 
-					if ( error ) {
-
-						notificacion.show();
-
-						console.log( error );
-
-						return reject( error );
-					}
-					
-					const totalRegistros = resultado[0]['COUNT(*)'];
-
-					let totalPaginas = ( totalRegistros / 10 );
-
-					resolve({
-						totalPaginas: Math.ceil( totalPaginas ),
-						totalRegistros: totalRegistros
-					}); 
-				
-				});
-
+			const notificacion = new Notification({
+				title: '',
+				body: ''
 			});
-		}	
-			
 
-		static listarUsuarios( pagination ) {
+			if ( error ) {
 
-			return new Promise(( resolve, reject ) => {
+				//throw error;  // mostrará el error en pantalla
 
-				pagination = { start: pagination[0], limit: pagination[1] };
+				notificacion['title'] = 'Error!!';
+				notificacion['body'] = 'Error al actualizar usuario';
 
-				this.database.consult( CRUD.listarUsuarios, pagination, ( error, results ) => {
+				notificacion.show();
 
-					if ( error ) {
+				console.log( error );
 
-						console.log( error );
-						
-						return reject( error );
-					}
+				return;
+			}
 
-					resolve( results );
-				});
+  		});
+	}
 
-			});
-		}
+	static buscarUsuarios( usuario ) {
 
-		static cambiarRolUsuarios( usuario ) {
+		return new Promise(( resolve, reject ) => {
 
-			this.database.update( CRUD.editarRolUsuario, usuario, ( error ) => {
+			this.database.find( CRUD.buscarUsuario, usuario, ( error, results ) => {
 
 				const notificacion = new Notification({
 					title: '',
@@ -115,155 +169,100 @@ class UsersController {
 
 				if ( error ) {
 
-					// throw error;  // mostrará el error en pantalla
-
 					notificacion['title'] = 'Error!!';
-					notificacion['body'] = 'Error al actualizar usuario';
+					notificacion['body'] = 'No se encontro el usuario';
 
 					notificacion.show();
 
 					console.log( error );
-
-					return;
+					
+					reject( error );
 				}
 
-	  		});
-		}
-
-		static cambiarEstadoUsuarios( usuario ) {
-
-			this.database.update( CRUD.editarEstadoUsuario, usuario, ( error ) => {
-
-				const notificacion = new Notification({
-					title: '',
-					body: ''
-				});
-
-				if ( error ) {
-
-					//throw error;  // mostrará el error en pantalla
-
-					notificacion['title'] = 'Error!!';
-					notificacion['body'] = 'Error al actualizar usuario';
-
-					notificacion.show();
-
-					console.log( error );
-
-					return;
-				}
-
-	  		});
-		}
-
-		static buscarUsuarios( usuario ) {
-
-			return new Promise(( resolve, reject ) => {
-
-				this.database.find( CRUD.buscarUsuario, usuario, ( error, results ) => {
-
-					const notificacion = new Notification({
-						title: '',
-						body: ''
-					});
-
-					if ( error ) {
-
-						notificacion['title'] = 'Error!!';
-						notificacion['body'] = 'No se encontro el usuario';
-
-						notificacion.show();
-
-						console.log( error );
-						
-						reject( error );
-					}
-
-					resolve( results );
-				});
-
+				resolve( results );
 			});
-		}
 
-		static login( usuario ) {
-			
-			//1.- si el usuario existe dentro de la bd 
-			//2.- si existe el usuario pero que este activo
+		});
+	}
+
+	static login( usuario ) {
 		
-			// console.log( usuario ); 
-			
-			return new Promise (( resolve, reject )=> {
+		//1.- si el usuario existe dentro de la bd 
+		//2.- si existe el usuario pero que este activo
+		//3.- verificar las contraseñas
+		
+		return new Promise (( resolve, reject ) => {
 
-				this.database.find( CRUD.validarUsuario, usuario, ( error, results ) => {
+			this.database.find( CRUD.validarUsuario, usuario, ( error, results ) => {
 
-					const notificacion = new Notification({
-						title: '',
-						body: ''
-					});
+				const notificacion = new Notification({
+					title: '',
+					body: ''
+				});
 
-					if ( error ) {
+				if ( error ) {
 
-						notificacion['title'] = 'Error!!';
-						notificacion['body'] = 'Error en buscar usuario';
+					notificacion['title'] = 'Error!!';
+					notificacion['body'] = 'Error en buscar usuario';
 
-						notificacion.show();
+					notificacion.show();
 
-						console.log( error );
+					console.log( error );
+					
+					return reject( error );
+				}	
+					
+				if ( results.length === 0 ) {
+					
+					// length devuelve la cantidad de elementos en una matriz
+					// sino lo encuentra muestra la notificacion
+
+					notificacion['title'] = 'Atención!!';
+					notificacion['body'] = 'Credenciales inválidas';
+
+					console.log("usuario no encontrado");
+					
+					notificacion.show();
+
+					reject('credenciales inválidas');
+
+				} else {
+
+					const [ user ] = results; 
+
+					const passwordDB = user['password'];
+
+					// compareSync devuelve un boleano el resultado de la comparación
+					const match = bcrypt.compareSync( usuario['password'], passwordDB );
+				
+					if ( !match ){
 						
-						return reject( error );
-					}	
-						
-					if ( results.length === 0 ) {
-						
-						// length devuelve la cantidad de elementos en una matriz
-						// sino lo encuentra muestra la notificacion
-
 						notificacion['title'] = 'Atención!!';
 						notificacion['body'] = 'Credenciales inválidas';
-
-						console.log("usuario no encontrado");
-						
+										
 						notificacion.show();
 
-						reject();
+						console.log("clave invalida");
 
+						reject('credenciales invalidas');
+					
 					} else {
 
-						const passwordDB = results[0]['password'];
-
-						// no se le pasa el campo contraseña cifrada
-						//console.log( results[0] );
+						console.log("usuario valido");
 						
-						const match = bcrypt.compareSync( usuario['password'], passwordDB );
-					
-						if(match === true){
-							
-							console.log("usuario valido")
-							
-							delete results[0]['password'];
-							/*Se elimina la propiedad password del objeto results*/
+						// Se elimina la propiedad password del objeto results para la vista
 
-							resolve( results[0] );
-							//console.log( results[0]);
+						delete user['password'];
 
-						} else {
+						resolve( user );
+					}					
+				};
 
-							notificacion['title'] = 'Atención!!';
-							notificacion['body'] = 'Credenciales inválidas';
-											
-							notificacion.show();
-							console.log("clave invalida");
-
-							reject();
-						};		
-											
-					};
-
-				});
-			
 			});
+		
+		});
 
-		}	
+	}	
 		
 }
 
