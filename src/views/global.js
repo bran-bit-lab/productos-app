@@ -17,3 +17,7 @@ function showElement( element ) {
 
   return element.classList.add('show');
 }
+
+function redirectTo( path ) {
+	return location.href = path;
+}

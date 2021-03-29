@@ -176,7 +176,7 @@ class UsersController {
 
 					console.log( error );
 					
-					reject( error );
+					return reject( error );
 				}
 
 				resolve( results );
@@ -187,9 +187,9 @@ class UsersController {
 
 	static login( usuario ) {
 		
-		//1.- si el usuario existe dentro de la bd 
-		//2.- si existe el usuario pero que este activo
-		//3.- verificar las contraseñas
+		// 1.- si el usuario existe dentro de la bd 
+		// 2.- si existe el usuario pero que este activo
+		// 3.- verificar las contraseñas
 		
 		return new Promise (( resolve, reject ) => {
 
@@ -207,7 +207,7 @@ class UsersController {
 
 					notificacion.show();
 
-					console.log( error );
+					// console.log( error );
 					
 					return reject( error );
 				}	
@@ -220,7 +220,7 @@ class UsersController {
 					notificacion['title'] = 'Atención!!';
 					notificacion['body'] = 'Credenciales inválidas';
 
-					console.log("usuario no encontrado");
+					// console.log("usuario no encontrado");
 					
 					notificacion.show();
 
@@ -235,24 +235,25 @@ class UsersController {
 					// compareSync devuelve un boleano el resultado de la comparación
 					const match = bcrypt.compareSync( usuario['password'], passwordDB );
 				
-					if ( !match ){
+					if ( !match ) {
 						
 						notificacion['title'] = 'Atención!!';
 						notificacion['body'] = 'Credenciales inválidas';
 										
 						notificacion.show();
 
-						console.log("clave invalida");
+						// console.log("clave invalida");
 
 						reject('credenciales invalidas');
 					
 					} else {
 
-						console.log("usuario valido");
+						// console.log("usuario valido");
 						
 						// Se elimina la propiedad password del objeto results para la vista
 
 						delete user['password'];
+						delete user['estado'];
 
 						resolve( user );
 					}					
