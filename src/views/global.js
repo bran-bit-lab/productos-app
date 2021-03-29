@@ -11,6 +11,7 @@ function hideElement( element ) {
 }
 
 function showElement( element ) {
+  
   if ( element.classList.contains('hide') ) {
     return element.classList.replace('hide', 'show');
   }

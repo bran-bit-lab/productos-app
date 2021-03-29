@@ -33,3 +33,9 @@ i {
 	font-size: 4rem;
 	padding: 20px;
 }
+
+svg {
+	height: 100px !important;
+	width: initial !important;
+	margin-bottom: 20px;
+}

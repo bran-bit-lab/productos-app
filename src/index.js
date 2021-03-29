@@ -7,22 +7,22 @@ require('electron-reload')( __dirname );
 
 function createWindow() {
 
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true,
-    }
-  });
+    const win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            nodeIntegration: true,
+            enableRemoteModule: true,
+        }
+    });
 
-  const fileUrl = require('url').format({
-    protocol: 'file',
-    slashes: true,
-    pathname: path.join( urlAssets, '/login/login.html' )
-  });
+    const fileUrl = require('url').format({
+        protocol: 'file',
+        slashes: true,
+        pathname: path.join( urlAssets, '/login/login.html' )
+    });
 
-  win.loadURL( fileUrl );
+    win.loadURL( fileUrl );
 
   // Open the DevTools.
   // win.webContents.openDevTools();
@@ -38,16 +38,16 @@ windows sea 32 o 64 bits */
 
 app.on('window-all-closed', () => {
 
-  if ( process.platform !== 'darwin' ) {
-    app.quit();
-  }
+    if ( process.platform !== 'darwin' ) {
+        app.quit();
+    }
 
 });
 
 //crea nueva ventana de navegador mientras la app esta activa y no hallan ventanas visibles
 app.on('activate', () => {
 
-  if ( BrowserWindow.getAllWindows().length === 0 ) {
-    createWindow();
-  }
+    if ( BrowserWindow.getAllWindows().length === 0 ) {
+        createWindow();
+    }
 });

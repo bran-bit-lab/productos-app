@@ -3,7 +3,7 @@ require('bootstrap/js/dist/dropdown');  // dropdown boostrap
 class HomeComponent {
 	
 	static openUsers() {
-		console.log('abrir usuarios');
+		return redirectTo('../users/users.html');
 	}
 
 	static openOrders() {

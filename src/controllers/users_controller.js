@@ -29,7 +29,7 @@ class UsersController {
 
 			if ( error ) {
 
-			// throw error;  // mostrará el error en pantalla
+				// throw error;  // mostrará el error en pantalla
 
 				notificacion['title'] = 'Error!!';
 				notificacion['body'] = 'Error al crear usuario';
