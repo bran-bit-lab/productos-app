@@ -136,8 +136,8 @@ class UsersComponent {
 		// description
 		let element = (`
 			<p class="text-center">
-				¿¿Esta seguro de ${ found.estado ? 'remover' : 'otorgar' } acceso al usuario a
-				${ found.nombre + ' ' + found.apellido }??
+				¿Esta seguro de ${ found.estado ? 'remover' : 'otorgar' } acceso al usuario a
+				${ found.nombre + ' ' + found.apellido }?
 			</p>`
 		);
 
@@ -162,6 +162,7 @@ class UsersComponent {
 						type="button"
 						onclick="ModalChangeRole.openModalRole( ${ user.userid } )"
 						class="btn btn-primary btn-sm"
+						${ getUserLogged().userid === user.userid ? 'disabled' : '' }
 					>
 						<i class="fas fa-user"></i>
 					</button>
@@ -169,6 +170,7 @@ class UsersComponent {
 						type="button"
 						onclick="usersComponent.openModalConfirm( ${ user.userid } )"
 						class="btn btn-danger btn-sm"
+						${ getUserLogged().userid === user.userid ? 'disabled' : '' }
 					>
 						<i class="fas fa-trash"></i>
 					</button>
@@ -181,14 +183,17 @@ class UsersComponent {
 
 		if ( !search ) {  
 
+			let paginationValue = document.querySelector('#paginationValue');
+			let paginationEnd = document.querySelector('#paginationEnd');
+
 			this.totalUsers.textContent = totalPages;
 			
 			PaginationComponent.setButtonsPagination.call( this, totalRegisters );
 
 			this.totalPages = totalRegisters;
 
-			document.querySelector('#paginationValue').innerText =  this.currentPage + 1;
-			document.querySelector('#paginationEnd').innerText = this.totalPages; 
+			paginationValue.textContent =  this.currentPage + 1;
+			paginationEnd.textContent = this.totalPages; 
 		}
 
 		

@@ -2,22 +2,44 @@ require('bootstrap/js/dist/dropdown');  // dropdown boostrap
 
 class HomeComponent {
 	
-	static openUsers() {
+	openUsers() {
 		return redirectTo('../users/users.html');
 	}
 
-	static openOrders() {
+	openOrders() {
 		console.log('abrir ordenes');
 	}
 
-	static openEstadistics() {
+	openEstadistics() {
 		console.log('abrir estadisticas');
 	}
 
-	static openProducts() {
+	openProducts() {
 		console.log('abrir productos');
 	}
+
+	logOut() {
+		
+		sessionStorage.removeItem('userLogged');
+		
+		return redirectTo('../login/login.html');
+	}
+
+	showOptions() {
+
+		// se consulta el area que pertenece el usuario 
+		// y oculta las opciones dependiendo del caso
+
+		const userLogged = getUserLogged();
+
+		if ( userLogged.area !== 'Administracion' ) {
+			hideElement( document.querySelector('#users') );
+			hideElement( document.querySelector('#estadistics') );
+		}
+	}
 }
+
+const homeComponent = new HomeComponent();
 
 document.addEventListener('DOMContentLoaded', () => {
 	
@@ -28,4 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	for ( let i = 0; i < elementsDOM.length; i++ ) {
 		elementsDOM[i].innerText = values[i];
 	}
+
+	homeComponent.showOptions();
 });

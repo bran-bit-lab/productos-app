@@ -1,5 +1,3 @@
-require('@fortawesome/fontawesome-free/js/all');
-
 // ocultar y mostrar elementos
 function hideElement( element ) {
   
@@ -21,4 +19,8 @@ function showElement( element ) {
 
 function redirectTo( path ) {
 	return location.href = path;
+}
+
+function getUserLogged() {
+	return JSON.parse( sessionStorage.getItem('userLogged') );
 }

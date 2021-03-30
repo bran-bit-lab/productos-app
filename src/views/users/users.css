@@ -48,3 +48,11 @@ body {
 .pagination a {
 	cursor: pointer;
 }
+
+.ml-3 {
+	margin-left: 20px;
+}
+
+.fa-arrow-circle-left {
+	color: var(--bs-secondary);
+}

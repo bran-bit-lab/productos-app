@@ -23,15 +23,14 @@ body {
 	color: black;
 }
 
-.card:hover {
-	border: 2px solid #007bff;
-	transition: border 0.1s ease-in;
-}
-
 i {
 	color: #171a1c;
 	font-size: 4rem;
 	padding: 20px;
+}
+
+.fa-sign-out-alt {
+	color: var(--bs-secondary);
 }
 
 svg {

@@ -2,13 +2,17 @@
 @import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 @import '../../node_modules/@fortawesome/fontawesome-free/css/all.css';
 
+:root {
+	--success-color: seagreen;
+	--main-color: #e8e8e8;
+	--inverse-main: #171a1c;
+}
+
 body {
 	height: 100vh;
 	overflow-y: hidden;
 	overflow-x: hidden;
-	/* background: #171a1c;
-	color: white; */
-	background: #e8e8e8;
+	background: var(--main-color);
 	color: black;
 }
 
@@ -28,4 +32,8 @@ body {
 
 .show {
 	display: block !important;
+}
+
+.btn-success {
+	background: var(--success-color);
 }

@@ -1,4 +1,6 @@
 // remote actua como un objeto de conexion con el proceso principal
+require('@fortawesome/fontawesome-free/js/all');
+
 const { remote } = require('electron');
 const { UsersController } = remote.require('./controllers/users_controller');
 
@@ -79,7 +81,7 @@ class LoginComponent {
 			return callback( true );
 		}
 
-		return callback( null, data );
+		return callback( false, data );
 	}
 
 	resetLoginForm( cancelButton = false ) {
@@ -99,6 +101,14 @@ class LoginComponent {
 
 		hideElement( buttons[0] );
 		showElement( buttons[1] );
+	}
+
+	hideLoading() {
+
+		let buttons = form.querySelectorAll('button');
+
+		hideElement( buttons[1] );
+		showElement( buttons[0] );
 	}
 
 	handleSubmit( $event ) {
@@ -141,6 +151,9 @@ class LoginComponent {
 	 		
 	 		console.log( error );
 	 	
+	 	} finally {
+
+	 		this.hideLoading();
 	 	}
 	}
 }
