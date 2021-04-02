@@ -15,7 +15,7 @@ class HomeComponent {
 	}
 
 	openProducts() {
-		console.log('abrir productos');
+		return redirectTo('../products/products.html');
 	}
 
 	logOut() {

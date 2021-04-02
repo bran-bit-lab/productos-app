@@ -4,6 +4,7 @@ class ProductsComponent {
 		this.totalProducts = document.querySelector('#totalProducts');
 		this.tbody = document.querySelector('#tbody-products');
 		this.pagination = document.querySelector('#pagination');
+		this.availableProducts = document.querySelector('#availableProducts');
 		this.render = this.render.bind( this );
 	}
 
@@ -27,10 +28,47 @@ class ProductsComponent {
 		return CATEGORIAS.find(( categoria ) => categoria.id === categoriaId ).nombre;
 	}
 
+	changeView( view = 'category' ) {
+		
+		const elementsCategory = document.querySelectorAll('.category');
+		const elementsProducts = document.querySelectorAll('.products');
+
+		if ( view === 'category' ) {
+
+			elementsCategory.forEach( ( elementHTML ) => showElement( elementHTML ) );
+			elementsProducts.forEach( ( elementHTML ) => hideElement( elementHTML ) );
+
+		} else {
+
+			elementsProducts.forEach( ( elementHTML ) => showElement( elementHTML ) );
+			elementsCategory.forEach( ( elementHTML ) => hideElement( elementHTML ) );
+		}
+	}
+
+	getProductsActive() {
+
+		// @number devuelve el total de los productos disponibles
+
+		return PRODUCTOS.reduce(( accum, product, index ) => {
+			
+			// console.log( product );
+
+			if ( product.disponible && product.cantidad > 0 ) {
+				return accum = accum + 1;
+			}
+
+			return accum;
+		}, 0 );
+	}
+
 	render() {
 
+		this.changeView( 'products' );
+		
+		// this.availableProducts.textContent = this.getProductsActive();
+		// this.totalProducts.textContent = PRODUCTOS.length;
+
 		this.tbody.innerHTML = '';
-		this.totalProducts.innerText = PRODUCTOS.length;
 
 		if ( PRODUCTOS.length > 0 ) {
 

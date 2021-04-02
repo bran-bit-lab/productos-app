@@ -37,3 +37,7 @@ body {
 .btn-success {
 	background: var(--success-color);
 }
+
+.fa-arrow-circle-left {
+	color: var(--bs-secondary);
+}

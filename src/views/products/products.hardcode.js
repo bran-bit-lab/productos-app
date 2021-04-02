@@ -67,7 +67,7 @@ const PRODUCTOS = [
 		nombre: 'Ensalada Cesar',
 		descripcion: 'ensalada para tu familia',
 		precioUnitario: 0.2,
-		disponible: true,
+		disponible: false,
 		cantidad: 0,
 		categoriaId: 6
 	},
@@ -94,7 +94,7 @@ const PRODUCTOS = [
 		nombre: 'Mantequilla',
 		descripcion: 'Mantequilla, margarina ...',
 		precioUnitario: 0.15,
-		disponible: true,
+		disponible: false,
 		cantidad: 0,
 		categoriaId: 1
 	},
@@ -103,7 +103,7 @@ const PRODUCTOS = [
 		nombre: 'Mantequilla',
 		descripcion: 'Mantequilla, margarina ...',
 		precioUnitario: 0.15,
-		disponible: true,
+		disponible: false,
 		cantidad: 0,
 		categoriaId: 1
 	},
@@ -113,7 +113,7 @@ const PRODUCTOS = [
 		descripcion: 'Mantequilla, margarina ...',
 		precioUnitario: 0.15,
 		disponible: true,
-		cantidad: 0,
+		cantidad: 20,
 		categoriaId: 1
 	},
 ];
