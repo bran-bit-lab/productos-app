@@ -19,77 +19,32 @@
           <span class="ml-3 category">Gestión de Categorías</span>
           <span class="ml-3 products">Gestión de Productos</span>
         </h2>
-
-        <button class="btn btn-success btn-sm category" onclick="productsComponent.addProduct();">
-          <i class="fas fa-plus"></i>
-          Añadir categoría
-        </button>
-        
-        <button class="btn btn-success btn-sm products" onclick="productsComponent.addProduct();">
-          <i class="fas fa-plus"></i>
-          Añadir producto
-        </button>
 			</div>
 
-      <ul class="nav justify-content-center mt-3">
+      <ul class="nav nav-pills justify-content-center mt-3 mb-3" id="products_list">
         <li class="nav-item">
-          <a class="nav-link point" onclick="productsComponent.changeView('category')">Categorías</a>
+          <button 
+            class="nav-link point active" 
+            href="#products" 
+            aria-name="products"
+            aria-selected="true"
+          >Productos</button>
         </li>
         <li class="nav-item">
-          <a class="nav-link point" onclick="productsComponent.changeView('products')">Productos</a>
+          <button 
+            type="button" 
+            class="nav-link point" 
+            href="#category"
+            aria-name="category" 
+          >Categorías</button>
         </li>
       </ul>
 
-      <!-- <p class="text-center mt-3">Se recomienda antes de incluir productos, añadir al menos una categoría</p> -->
-
-			<!--<div class="row justify-content-between p-3 text-center">
-				<div class="col-sm-6">Cantidad total de productos: <span id="totalProducts"></span></div>
-				<div class="col-sm-6">Cantidad de productos disponibles: <span id="availableProducts"></span></div>
-			</div> -->
-
-      <div class="row justify-content-end">
-        <div class="form-group w-25 p-0">
-          <input
-            type="text"
-            placeholder="Buscar ..."
-            class="form-control form-control-sm"
-          />
-        </div>
-  			<div class="table-responsive w-100">
-  				<table class="table table-striped">
-        		<thead>
-        			<tr class="text-center">
-        				<th>Codigo:</th>
-        				<th>Nombre:</th>
-        				<th>Categoria:</th>
-        				<th>Cantidad:</th>
-        				<th>Precio unitario:</th>
-        				<th>Disponibilidad:</th>
-        				<th>Acciones</th>
-        			</tr>
-        		</thead>	
-        		<tbody id="tbody-products"></tbody>
-        	</table>
-  			</div>
+      <!-- contenido  -->
+      <div class="tab-content">
+        <div id="products" class="tab-pane fade active show"></div>
+        <div id="category" class="tab-pane fade"></div>
       </div>
-
-			<nav aria-label="Table navigation" id="pagination" class="mt-2">
-        <ul class="pagination justify-content-center">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item active"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
 
 		</div>
     <script src="../global.js"></script>

@@ -19,3 +19,8 @@ body {
 .form-group {
 	margin-bottom: 20px !important;
 }
+
+.nav-link {
+	border: none;
+	background: lightgray;
+}
