@@ -1,10 +1,13 @@
 class ProductsTableComponent {
 
 	constructor() {
-		this.totalProducts = document.querySelector('#totalProducts');
-		this.tbody = document.querySelector('#tbody-products');
-		this.pagination = document.querySelector('#pagination');
-		this.availableProducts = document.querySelector('#availableProducts');
+
+		// this.totalProducts = document.querySelector('#totalProducts');
+		// this.availableProducts = document.querySelector('#availableProducts');
+		
+		this.tbody = productsElement.querySelector('#tbody-products');
+		this.pagination = productsElement.querySelector('#pagination');
+
 		this.render = this.render.bind( this );
 	}
 
@@ -24,18 +27,19 @@ class ProductsTableComponent {
 
 	}
 
-	findCategory( categoriaId ) {
+	getCategory( categoriaId ) {
+		
+		// @string retorna el nombre de la categoria
+
 		return CATEGORIAS.find(( categoria ) => categoria.id === categoriaId ).nombre;
 	}
 
 	getProductsActive() {
 
-		// @number devuelve el total de los productos disponibles
+		// @number devuelve el total de los productos activos
 
-		return [].reduce(( accum, product, index ) => {
+		return PRODUCTOS.reduce(( accum, product, index ) => {
 			
-			// console.log( product );
-
 			if ( product.disponible && product.cantidad > 0 ) {
 				return accum = accum + 1;
 			}
@@ -44,49 +48,47 @@ class ProductsTableComponent {
 		}, 0 );
 	}
 
-	render() {
+	setRows( product ) {
+		return (`
+			<tr class="text-center">
+				<td>${ product.id }</td>
+				<td>${ product.nombre }</td>
+				<td>${ product.cantidad > 0 ? product.cantidad : ('<span class="text-danger">Agotado</span>') }</td>
+				<td>${ this.getCategory( product.categoriaId ) }</td>
+				<td>${ product.precioUnitario }$</td>
+				<td>${ product.disponible && product.cantidad > 0 ? 'disponible' : ('<span class="text-danger">no disponible</span>') }</td>
+				<td>
+					<button
+						type="button"
+						onclick="productsTableComponent.editProduct()"
+						class="btn btn-primary btn-sm"
+					>
+						<i class="fas fa-edit"></i>
+					</button>
+					<button
+						type="button"
+						onclick="productsTableComponent.activeProduct()"
+						class="btn btn-danger btn-sm"
+					>
+						<i class="fas fa-trash"></i>
+					</button>
+				</td>
+			</tr>
+		`);
+	}
 
-		this.changeView( 'products' );
+	render() {
 		
 		// this.availableProducts.textContent = this.getProductsActive();
 		// this.totalProducts.textContent = PRODUCTOS.length;
 
 		this.tbody.innerHTML = '';
 
-		if ( [].length > 0 ) {
+		if ( PRODUCTOS.length > 0 ) {
 
 			this.pagination.style.display = 'block';
 
-			[].forEach(( product ) => {
-
-				this.tbody.innerHTML += (`
-					<tr class="text-center">
-						<td>${ product.id }</td>
-						<td>${ product.nombre }</td>
-						<td>${ this.findCategory( product.categoriaId ) }</td>
-						<td>${ product.cantidad > 0 ? product.cantidad : '<span class="text-danger">Agotado</span>' }</td>
-						<td>${ product.precioUnitario }$</td>
-						<td>${ product.disponible && product.cantidad > 0 ? 'disponible' : '<span class="text-danger">no disponible</span>' }</td>
-						<td>
-							<button
-								type="button"
-								onclick="productsComponent.editProduct()"
-								class="btn btn-primary btn-sm"
-							>
-								<i class="fas fa-edit"></i>
-							</button>
-							<button
-								type="button"
-								onclick="productsComponent.activeProduct()"
-								class="btn btn-danger btn-sm"
-							>
-								<i class="fas fa-trash"></i>
-							</button>
-						</td>
-					</tr>
-				`)
-			});
-
+			this.tbody.innerHTML = PRODUCTOS.map( this.setRows.bind( this ) ).join('');
 
 		} else {
 
@@ -104,10 +106,5 @@ class ProductsTableComponent {
 
 	}
 }
-
-
-const productsComponent = new ProductsComponent();
-
-document.addEventListener('DOMContentLoaded', productsComponent.render );
 
 module.exports = ProductsTableComponent;

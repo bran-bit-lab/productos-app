@@ -1,12 +1,21 @@
 const { remote } = require('electron');
 const { readFileAssets } = remote.require('./util_functions/file');
+
 const Tab = require('bootstrap/js/dist/tab');
+
+const ProductsTableComponent = require('./products-table/products-table-component');
+const CategoryTableComponent = require('./categories-table/categories-table-component');
+
+const productsElement = document.querySelector('#products');
+const categoriesElement = document.querySelector('#category');
+
+productsElement.innerHTML = readFileAssets( '/products/products-table/products-table-component.html' );
+categoriesElement.innerHTML = readFileAssets( '/products/categories-table/categories-table-component.html' );
 
 class ProductsComponent {
 
 	constructor() {
 		this.setHtml = this.setHtml.bind( this );
-		this.setOptionsTabs = this.setOptionsTabs.bind( this );
 	}
 
 	changeView( view = 'products' ) {
@@ -21,6 +30,10 @@ class ProductsComponent {
 				elementsCategory.forEach( ( elementHTML ) => showElement( elementHTML ) );
 				elementsProducts.forEach( ( elementHTML ) => hideElement( elementHTML ) );
 
+				console.log( categoriesElement );
+
+				categoryTableComponent.render();
+
 				break;
 			}
 
@@ -29,6 +42,8 @@ class ProductsComponent {
 				elementsProducts.forEach( ( elementHTML ) => showElement( elementHTML ) );
 				elementsCategory.forEach( ( elementHTML ) => hideElement( elementHTML ) );
 
+				productsTableComponent.render();
+
 				break;
 			}
 		}
@@ -36,22 +51,9 @@ class ProductsComponent {
 
 	setHtml( path ) {
 
-		const tabList = new Array().slice.call( document.querySelectorAll('#products_list button') );
-		
-		let productsElement = document.querySelector('#products');
-		let categoriesElement = document.querySelector('#category');
-		
+		const tabList = [ ...document.querySelectorAll('#products_list button') ];
 
-		productsElement.innerHTML = readFileAssets( 
-			'/products/products-table/products-table-component.html' 
-		);
-
-		categoriesElement.innerHTML = readFileAssets( 
-			'/products/categories-table/categories-table-component.html'
-		);
-
-		// events
-		tabList.forEach( this.setOptionsTabs );
+		tabList.forEach( this.setOptionsTabs.bind( this ) );
 
 		this.changeView();
 	}
@@ -65,9 +67,7 @@ class ProductsComponent {
 
 			let nameTab = elementTab.getAttribute('aria-name');
 
-			// elementTab.className.toggle('active');
-
-			tabTrigger.show();  // cambia el tab
+			tabTrigger.show();  
 
 			this.changeView( nameTab );
 			
@@ -78,6 +78,7 @@ class ProductsComponent {
 }
 
 const productsComponent = new ProductsComponent();
+const productsTableComponent = new ProductsTableComponent(); 
+const categoryTableComponent = new CategoryTableComponent();
 
 document.addEventListener('DOMContentLoaded', productsComponent.setHtml );
-
