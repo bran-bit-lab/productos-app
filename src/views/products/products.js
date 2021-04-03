@@ -30,8 +30,6 @@ class ProductsComponent {
 				elementsCategory.forEach( ( elementHTML ) => showElement( elementHTML ) );
 				elementsProducts.forEach( ( elementHTML ) => hideElement( elementHTML ) );
 
-				console.log( categoriesElement );
-
 				categoryTableComponent.render();
 
 				break;
