@@ -12,7 +12,7 @@ const CRUD = Object.freeze({
 	validarUsuario: "SELECT * FROM usuarios WHERE correo = :correo AND estado = TRUE;",
 	
 	// category ...
-	crearCategoria : ""
+	crearCategoria : "INSERT INTO categorias (userid, nombre, descripcion, imagen) VALUES(:userid, :nombre, :descripcion, :imagen);"
 });
 
 module.exports = CRUD;
