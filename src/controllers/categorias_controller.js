@@ -11,21 +11,13 @@ class CategoriasController {
 	}
 
 	static crearCategoria( categoria, usuario ) {
-
-		// esto no va porque le dices al codigo que siempre va a tomar el 17
-		//Me vuelo usuario
-		// lo recibe por parametro desde el proceso renderizado
-		// esa funcion no esta maquetada, tengo que hacertela pero podemos probar con una prueba
-		// dame un momento
 				
-		let idUsuario = {
-			...Categoria,
+		let nuevaCategoria = {
+			...categoria,
 			userid: usuario.userid 
 		}
-
-		console.log( idUsuario )
 		
-		this.databaseInstance.insert( CRUD.crearCategoria, idUsuario, ( error ) => {
+		this.database.insert( CRUD.crearCategoria, nuevaCategoria, ( error ) => {
 			
 			const notificacion = new Notification({
 				title: '',
@@ -42,9 +34,14 @@ class CategoriasController {
 				notificacion.show();
 				
 				return;
-			}											
+			}
 
-		});
+			notificacion['title'] = 'Éxito';
+			notificacion['body'] = 'Categoria creado con éxito';											
+
+			notificacion.show();
+
+		}); 
 	}
 
 }
