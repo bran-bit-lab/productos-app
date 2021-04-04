@@ -1,16 +1,21 @@
 const { remote } = require('electron');
 const { readFileAssets } = remote.require('./util_functions/file');
+const { CategoriasController } = remote.require('./controllers/categorias_controller');
 
 const Tab = require('bootstrap/js/dist/tab');
+const Modal = require('bootstrap/js/dist/tab')
 
 const ProductsTableComponent = require('./products-table/products-table-component');
 const CategoryTableComponent = require('./categories-table/categories-table-component');
 
 const productsElement = document.querySelector('#products');
 const categoriesElement = document.querySelector('#category');
+const footer = document.querySelector('#footer');
 
 productsElement.innerHTML = readFileAssets( '/products/products-table/products-table-component.html' );
 categoriesElement.innerHTML = readFileAssets( '/products/categories-table/categories-table-component.html' );
+footer.innerHTML = readFileAssets('/products/categories-form/categories-form.html');
+
 
 class ProductsComponent {
 

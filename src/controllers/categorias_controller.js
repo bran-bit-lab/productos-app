@@ -4,7 +4,7 @@ const { Notification } = require('electron');
 
 class CategoriasController {
 
-	databaseInstance = null; // esta es la variable con la instancia de database 
+	databaseInstance = null;
 
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
@@ -16,7 +16,9 @@ class CategoriasController {
 			...categoria,
 			userid: usuario.userid 
 		}
-		
+
+		console.log( nuevaCategoria );
+		/*
 		this.database.insert( CRUD.crearCategoria, nuevaCategoria, ( error ) => {
 			
 			const notificacion = new Notification({
@@ -41,7 +43,7 @@ class CategoriasController {
 
 			notificacion.show();
 
-		}); 
+		}); */
 	}
 
 }

@@ -1,6 +1,3 @@
-const { remote } = require('electron');
-const { CategoriasController } = remote.require('./controllers/categorias_controller');
-
 class CategoryTableComponent {
 
 	constructor() {
@@ -12,18 +9,14 @@ class CategoryTableComponent {
 	}
 
 	addCategory() {
+		
 		const userLogged = getUserLogged();
-
-		// verificaamos el usuario logueado
-		console.log( userLogged );
 
 		const category = {
 			nombre: 'prueba',
 			descripcion: 'prueba de desarrollo',
 			imagen: '',
 		};
-
-		console.log( CategoriasController.crearCategoria );
 
 		CategoriasController.crearCategoria( category, userLogged );
 	}
@@ -112,9 +105,5 @@ class CategoryTableComponent {
 
 	}
 }
-
-// let category = new CategoryTableComponent();
-
-// document.addEventListener('DOMContentLoaded', () => category.addCategory() )
 
 module.exports = CategoryTableComponent;

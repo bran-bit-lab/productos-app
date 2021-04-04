@@ -19,12 +19,28 @@
           <span class="ml-3 category">Gestión de Categorías</span>
           <span class="ml-3 products">Gestión de Productos</span>
         </h2>
+        <button 
+          class="btn btn-success category btn-sm" 
+          onclick="categoryTableComponent.addCategory()"
+        >
+          <i class="fas fa-plus"></i>
+          Añadir Categoría
+        </button>
+
+        <button 
+          class="btn btn-success products btn-sm" 
+          data-bs-target="#category-form"
+          data-bs-toggle="modal"
+        >
+          <i class="fas fa-plus"></i>
+          Añadir Producto
+        </button>
 			</div>
 
       <ul class="nav nav-pills justify-content-center mt-3 mb-3" id="products_list">
         <li class="nav-item">
           <button 
-            class="nav-link point active" 
+            class="nav-link point active btn-sm" 
             href="#products" 
             aria-name="products"
             aria-selected="true"
@@ -33,20 +49,21 @@
         <li class="nav-item">
           <button 
             type="button" 
-            class="nav-link point" 
+            class="nav-link point btn-sm" 
             href="#category"
             aria-name="category" 
           >Categorías</button>
         </li>
       </ul>
 
-      <!-- contenido  -->
+      <!-- tables  -->
       <div class="tab-content">
         <div id="products" class="tab-pane fade active show"></div>
         <div id="category" class="tab-pane fade"></div>
       </div>
 
 		</div>
+    <footer id="footer"></footer>
     <script src="../global.js"></script>
 		<script src="products.hardcode.js"></script>
 		<script src="products.js"></script>
