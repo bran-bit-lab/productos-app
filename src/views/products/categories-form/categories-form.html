@@ -1,17 +1,55 @@
-<div class="modal" tabindex="-1" id="category-form" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+<form novalidate name="category-form">
+  <div class="modal fade" tabindex="-1" id="category-form" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <!-- card-image -->
+          <div class="d-flex justify-content-center align-items-center flex-column">
+            
+            <div 
+              class="card card-foto point" 
+              onclick="footer.querySelector('#fileImgInput').click()"
+            >
+              <div class="d-flex w-100 h-100 justify-content-center align-items-center">
+                <i class="fas fa-camera" style="font-size: 24px;"></i>
+              </div>
+            </div>
+
+            <p class="text-muted mt-2" style="font-size: 12px;">Máximo 1MB</p>
+            <input type="file" hidden id="fileImgInput" onchange="handleImage( this )" />
+          
+          </div>
+
+
+          <div class="row mt-2">
+            
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="category-name">Nombre:</label>
+                <input type="text" class="form-control" id="category-name" />
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="category-description">Descripción:</label>
+                <input class="form-control" id="category-description" type="text" />
+              </div>
+            </div>
+
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Limpiar</button>
+          <button type="button" class="btn btn-primary">Guardar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</form>

@@ -24,3 +24,9 @@ body {
 	border: none;
 	background: lightgray;
 }
+
+.form-group, label {
+	font-weight: bold;
+	font-size: 14px;
+	margin-bottom: 5px;
+}

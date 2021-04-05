@@ -20,8 +20,8 @@
           <span class="ml-3 products">Gestión de Productos</span>
         </h2>
         <button 
-          class="btn btn-success category btn-sm" 
-          onclick="categoryTableComponent.addCategory()"
+          class="btn btn-success category btn-sm"
+          onclick="openModalNewCategory()" 
         >
           <i class="fas fa-plus"></i>
           Añadir Categoría
@@ -29,8 +29,6 @@
 
         <button 
           class="btn btn-success products btn-sm" 
-          data-bs-target="#category-form"
-          data-bs-toggle="modal"
         >
           <i class="fas fa-plus"></i>
           Añadir Producto
