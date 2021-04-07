@@ -16,6 +16,29 @@ function readFileAssets( url ) {
 	return fs.readFileSync( path.join( ENV.PATH_VIEWS, url ), { encoding: "utf-8" });
 }
 
+function readFileImageAsync( path, callback ) {
+		
+	fs.stat( path, ( error, infoFile ) => {
+		
+		if ( error ) {
+			throw error;
+		}
+
+		fs.readFile( path, { encoding: 'base64' }, ( error, data ) => {
+		
+			if ( error ) {
+				throw error;
+			}
+
+			callback({
+				path, 
+				base64: data, 
+				size: infoFile.size
+			});
+		});
+	});
+}
+
 function checkAsset( url ) {
   return fs.existsSync( path.join( __dirname, url ) ) ? 'El archivo existe' :
 		'El archivo no existe';
@@ -24,5 +47,6 @@ function checkAsset( url ) {
 module.exports = {
 	readFile,
 	readFileAssets,
-	checkAsset
+	checkAsset,
+	readFileImageAsync
 };

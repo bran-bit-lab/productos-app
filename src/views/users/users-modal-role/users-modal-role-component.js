@@ -15,7 +15,7 @@ function openModalRole( idUser = null ) {
 
 	setForm( USERS.find(( user ) => user.userid === idUser )  );
 
-	return modalRole.show();
+	return modalRole.toggle();
 }
 
 function setForm( user ) {
@@ -43,7 +43,7 @@ function getForm( $event, userComponent = this ) {
 
 function closeModalRole() {
 
-	return modalRole.hide();
+	return modalRole.toggle();
 }
 
 let id = null;

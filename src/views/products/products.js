@@ -15,7 +15,7 @@ const Modal = require('bootstrap/js/dist/modal');
 
 const ProductsTableComponent = require('./products-table/products-table-component');
 const CategoryTableComponent = require('./categories-table/categories-table-component');
-const { openModalNewCategory, handleImage } = require('./categories-form/categories-form');
+const { openModalNewCategory, openImageDialog } = require('./categories-form/categories-form');
 
 
 class ProductsComponent {

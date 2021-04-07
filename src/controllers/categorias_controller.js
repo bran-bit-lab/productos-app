@@ -1,6 +1,7 @@
+const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
-const { Notification } = require('electron');
+const { readFileImageAsync } = require('../util_functions/file');
 
 class CategoriasController {
 
@@ -18,6 +19,7 @@ class CategoriasController {
 		}
 
 		console.log( nuevaCategoria );
+		
 		/*
 		this.database.insert( CRUD.crearCategoria, nuevaCategoria, ( error ) => {
 			
@@ -44,6 +46,41 @@ class CategoriasController {
 			notificacion.show();
 
 		}); */
+	}
+
+	static openImageDialog( win, callback ) {
+
+		// se abre la ventana desde el main process
+
+		const config = Object.freeze({ 
+			properties: ['openFile'], 
+			title: 'Abrir imagen',
+			buttonLabel: 'Seleccionar',
+			filters: [
+				{ name: 'Imágenes .jpg .png', extensions: [ 'jpg', 'png', 'jpeg' ] }
+			]
+		});
+
+		dialog.showOpenDialog( win, config )
+			.then( result => {
+			
+				if ( result.canceled ) {
+					return;
+				}
+
+				readFileImageAsync( result.filePaths[0], ( imgObject ) => callback( imgObject ) );
+			})
+			.catch( error => {
+				
+				console.log( error );
+
+				const notificacion = new Notification({
+					title: 'Error',
+					body: 'Error al cargar archivo'
+				});
+
+				notificacion.show();				
+			});
 	}
 
 }

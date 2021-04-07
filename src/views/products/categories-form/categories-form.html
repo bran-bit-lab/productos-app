@@ -11,22 +11,30 @@
           <!-- card-image -->
           <div class="d-flex justify-content-center align-items-center flex-column">
             
+            <!-- default -->
             <div 
               class="card card-foto point" 
-              onclick="footer.querySelector('#fileImgInput').click()"
+              onclick="openImageDialog()"
+              id="image-default" 
             >
               <div class="d-flex w-100 h-100 justify-content-center align-items-center">
                 <i class="fas fa-camera" style="font-size: 24px;"></i>
               </div>
             </div>
 
-            <p class="text-muted mt-2" style="font-size: 12px;">Máximo 1MB</p>
-            <input type="file" hidden id="fileImgInput" onchange="handleImage( this )" />
+            <!-- image loaded -->
+            <div 
+              id="image-container" 
+              onclick="openImageDialog()" 
+              class="card card-foto point"
+            ></div>
+
+            <p class="text-danger mt-2" style="font-size: 12px;" id="error-file"></p>
           
           </div>
 
 
-          <div class="row mt-2">
+          <div class="row mt-3">
             
             <div class="col-12 col-md-6">
               <div class="form-group">

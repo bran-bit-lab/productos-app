@@ -68,11 +68,11 @@ function openModal( method = 'new', id = null ) {
 		setForm();
 	}
 
-	return modalUsersForm.show();
+	return modalUsersForm.toggle();
 }
 
 function closeModal() {
-	return modalUsersForm.hide();
+	return modalUsersForm.toggle();
 }
 
 function validateForm( data, callback ) {
