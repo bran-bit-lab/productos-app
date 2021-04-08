@@ -10,12 +10,12 @@
 
           <!-- card-image -->
           <div class="d-flex justify-content-center align-items-center flex-column">
-            
+
             <!-- default -->
-            <div 
-              class="card card-foto point" 
+            <div
+              class="card card-foto point"
               onclick="openImageDialog()"
-              id="image-default" 
+              id="image-default"
             >
               <div class="d-flex w-100 h-100 justify-content-center align-items-center">
                 <i class="fas fa-camera" style="font-size: 24px;"></i>
@@ -23,39 +23,41 @@
             </div>
 
             <!-- image loaded -->
-            <div 
-              id="image-container" 
-              onclick="openImageDialog()" 
+            <div
+              id="image-container"
+              onclick="openImageDialog()"
               class="card card-foto point"
             ></div>
-
+            <input type="text" name="category-image" id="category-image" hidden />
             <p class="text-danger mt-2" style="font-size: 12px;" id="error-file"></p>
-          
+
           </div>
 
 
           <div class="row mt-3">
-            
+
             <div class="col-12 col-md-6">
               <div class="form-group">
                 <label for="category-name">Nombre:</label>
-                <input type="text" class="form-control" id="category-name" />
+                <input type="text" class="form-control" name="category-name" id="category-name" />
+                <div class="invalid-feedback text-center" id="error-category-name"></div>
               </div>
             </div>
 
             <div class="col-12 col-md-6">
               <div class="form-group">
                 <label for="category-description">Descripción:</label>
-                <input class="form-control" id="category-description" type="text" />
+                <input class="form-control" name="category-description" id="category-description" type="text" />
+                <div class="invalid-feedback text-center" id="error-category-description"></div>
               </div>
             </div>
 
           </div>
-          
+
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Limpiar</button>
-          <button type="button" class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn btn-secondary" onclick="resetForm( true )">Limpiar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
       </div>
     </div>

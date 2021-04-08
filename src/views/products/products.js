@@ -15,7 +15,7 @@ const Modal = require('bootstrap/js/dist/modal');
 
 const ProductsTableComponent = require('./products-table/products-table-component');
 const CategoryTableComponent = require('./categories-table/categories-table-component');
-const { openModalNewCategory, openImageDialog } = require('./categories-form/categories-form');
+const { openModalNewCategory, openImageDialog, resetForm } = require('./categories-form/categories-form');
 
 
 class ProductsComponent {
@@ -32,7 +32,7 @@ class ProductsComponent {
 		switch ( view ) {
 
 			case 'category': {
-				
+
 				elementsCategory.forEach( ( elementHTML ) => showElement( elementHTML ) );
 				elementsProducts.forEach( ( elementHTML ) => hideElement( elementHTML ) );
 
@@ -42,7 +42,7 @@ class ProductsComponent {
 			}
 
 			default: {
-				
+
 				elementsProducts.forEach( ( elementHTML ) => showElement( elementHTML ) );
 				elementsCategory.forEach( ( elementHTML ) => hideElement( elementHTML ) );
 
@@ -71,10 +71,10 @@ class ProductsComponent {
 
 			let nameTab = elementTab.getAttribute('aria-name');
 
-			tabTrigger.show();  
+			tabTrigger.show();
 
 			this.changeView( nameTab );
-			
+
 			$event.preventDefault();
 		});
 	}
@@ -82,7 +82,7 @@ class ProductsComponent {
 }
 
 const productsComponent = new ProductsComponent();
-const productsTableComponent = new ProductsTableComponent(); 
+const productsTableComponent = new ProductsTableComponent();
 const categoryTableComponent = new CategoryTableComponent();
 
 document.addEventListener('DOMContentLoaded', productsComponent.setHtml );
