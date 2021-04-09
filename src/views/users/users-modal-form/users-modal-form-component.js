@@ -90,9 +90,9 @@ function validateForm( data, callback ) {
 	});
 
 	const PATTERNS = Object.freeze({
-		email: new RegExp('^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$'),
-		onlyLetters: new RegExp('^[a-zA-Z\s]+$'),
-		area: new RegExp('^Ventas|Almacen|Administracion$')
+		email: new RegExp( /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/ ),
+		onlyLetters: new RegExp( /^[a-zA-Z\s]+$/ ),
+		area: new RegExp( /^Ventas|Almacen|Administracion$/ )
 	});
 
 	// contador de errores

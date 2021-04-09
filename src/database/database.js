@@ -20,7 +20,7 @@ class Database {
 
 
 	consult( sql, paginacion, callback ) {
-		
+
 		// @params paginacion: number[] es la paginacion de la tabla
 
 		mysqlAPI.query( sql, paginacion, callback );
@@ -39,14 +39,14 @@ class Database {
 	}
 
 	static sqlParse( query, values ) {
-		
+
 		if ( !values ) {
    			return query;
-		} 
+		}
 
 		return query.replace( /\:(\w+)/g, ( function( text, result ) {
 
-			/* 	
+			/*
 				El devuelve el sql transformado
 			 	recibe 2 parametros
 			 	1.- texto, que es la cadena a transformar
@@ -56,9 +56,9 @@ class Database {
 
 			if ( values.hasOwnProperty( result ) ){
 				return this.escape( values[result] );
-			} 
-				
-			return text; 
+			}
+
+			return text;
 
 		}).bind( this ));
 	}
@@ -85,7 +85,7 @@ const mysqlAPI = mysql.createConnection({
 	port: user["port"]
 });
 
-mysqlAPI.config.queryFormat = Database.sqlParse; 
+mysqlAPI.config.queryFormat = Database.sqlParse;
 
 mysqlAPI.connect(( error ) => {
 

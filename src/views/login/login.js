@@ -7,13 +7,13 @@ const { UsersController } = remote.require('./controllers/users_controller');
 class LoginComponent {
 
 	constructor() {
-		
+
 		this.validateForm = this.validateForm.bind( this );
 		this.handleSubmit = this.handleSubmit.bind( this );
 	}
 
 	renderErrors( element, message ) {
-		
+
 		let html = (`<small class="text-danger">${ message }</small>`);
 
 		element.innerHTML = html;
@@ -32,7 +32,7 @@ class LoginComponent {
 			max: ( max ) => 'máximo ' + max + ' caracteres',
 		});
 
-		const emailExp = new RegExp('^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$');
+		const emailExp = new RegExp( /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/ );
 
 		let errors = 0;
 
@@ -132,15 +132,15 @@ class LoginComponent {
 		 	}
 
 		 	this.loading();
-		 	
+
 		 	setTimeout( () => this.login( data ), 2000 );
 		});
 	}
 
 	async login( data ) {
-		
+
 		try {
-			 		
+
 	 		const userLogged = await UsersController.login( data );
 
 	 		sessionStorage.setItem('userLogged', JSON.stringify( userLogged ));
@@ -148,9 +148,9 @@ class LoginComponent {
 	 		redirectTo('../home/home.html');
 
 	 	} catch ( error ) {
-	 		
+
 	 		console.log( error );
-	 	
+
 	 	} finally {
 
 	 		this.hideLoading();

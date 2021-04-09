@@ -1,24 +1,11 @@
 class CategoryTableComponent {
 
 	constructor() {
-		
+
 		this.tbody = categoriesElement.querySelector('#tbody-categories');
 		this.pagination = categoriesElement.querySelector('#pagination');
 
 		this.render = this.render.bind( this );
-	}
-
-	addCategory() {
-		
-		const userLogged = getUserLogged();
-
-		const category = {
-			nombre: 'prueba',
-			descripcion: 'prueba de desarrollo',
-			imagen: '',
-		};
-
-		CategoriasController.crearCategoria( category, userLogged );
 	}
 
 	editProduct() {
@@ -38,7 +25,7 @@ class CategoryTableComponent {
 		// @number devuelve el total de los productos activos
 
 		return CATEGORIES.reduce(( accum, product, index ) => {
-			
+
 			if ( product.disponible && product.cantidad > 0 ) {
 				return accum = accum + 1;
 			}
@@ -56,7 +43,7 @@ class CategoryTableComponent {
 				<td>${ category.userId }</td>
 				<td>${ category.activo ?
 						('<i class="fas fa-check text-success"></i>') :
-						('<i class="fas fa-times text-danger"></i>') 
+						('<i class="fas fa-times text-danger"></i>')
 					}
 				</td>
 				<td>
@@ -80,7 +67,7 @@ class CategoryTableComponent {
 	}
 
 	render() {
-		
+
 		this.tbody.innerHTML = '';
 
 		if ( CATEGORIAS.length > 0 ) {

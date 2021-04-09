@@ -12,17 +12,14 @@ class CategoriasController {
 	}
 
 	static crearCategoria( categoria, usuario ) {
-				
+
 		let nuevaCategoria = {
 			...categoria,
-			userid: usuario.userid 
+			userid: usuario.userid
 		}
 
-		console.log( nuevaCategoria );
-		
-		/*
 		this.database.insert( CRUD.crearCategoria, nuevaCategoria, ( error ) => {
-			
+
 			const notificacion = new Notification({
 				title: '',
 				body: ''
@@ -30,30 +27,28 @@ class CategoriasController {
 
 			if ( error ) {
 
-				// throw error;  // mostrará el error en pantalla
-
 				notificacion['title'] = 'Error!!';
 				notificacion['body'] = 'Error al crear categoria';
 
 				notificacion.show();
-				
+
 				return;
 			}
 
 			notificacion['title'] = 'Éxito';
-			notificacion['body'] = 'Categoria creado con éxito';											
+			notificacion['body'] = 'Categoria creado con éxito';
 
 			notificacion.show();
 
-		}); */
+		});
 	}
 
 	static openImageDialog( win, callback ) {
 
 		// se abre la ventana desde el main process
 
-		const config = Object.freeze({ 
-			properties: ['openFile'], 
+		const config = Object.freeze({
+			properties: ['openFile'],
 			title: 'Abrir imagen',
 			buttonLabel: 'Seleccionar',
 			filters: [
@@ -63,7 +58,7 @@ class CategoriasController {
 
 		dialog.showOpenDialog( win, config )
 			.then( result => {
-			
+
 				if ( result.canceled ) {
 					return;
 				}
@@ -71,7 +66,7 @@ class CategoriasController {
 				readFileImageAsync( result.filePaths[0], ( imgObject ) => callback( imgObject ) );
 			})
 			.catch( error => {
-				
+
 				console.log( error );
 
 				const notificacion = new Notification({
@@ -79,7 +74,7 @@ class CategoriasController {
 					body: 'Error al cargar archivo'
 				});
 
-				notificacion.show();				
+				notificacion.show();
 			});
 	}
 

@@ -14,6 +14,7 @@ function openImageDialog() {
 
 	CategoriasController.openImageDialog( remote.getCurrentWindow(), ({ base64, size, path }) => {
 
+		console.log( base64.length );
 		const maxSize = 1000000;  // 1MB de archivos
 
 		hideElement( errorFile );
@@ -29,7 +30,7 @@ function openImageDialog() {
 		const imgElement = (`<img src="data:image/png;base64,${ base64 }" alt="imagen" class="image-foto" />`);
 
 		imageContainer.innerHTML = imgElement;
-		footer.querySelector('#category-image').value = base64;
+		footer.querySelector('#category-image').value = path;
 
 		hideElement( imageDefault );
 		showElement( imageContainer );
@@ -54,7 +55,12 @@ function handleSubmit( $event ) {
 			return;
 		}
 
-		console.log( data );
+		if ( newCategory ) {
+			CategoriasController.crearCategoria( data, getUserLogged() );
+
+		} else {
+
+		}
 
 		modalFormCategory.toggle();
 	});
@@ -74,12 +80,13 @@ function validateData( categoryData, callback ) {
 	});
 
 	const PATTERNS = Object.freeze({
-		email: new RegExp('^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$'),
-		onlyLetters: new RegExp('^[a-zA-Z\s]+$'),
-		area: new RegExp('^Ventas|Almacen|Administracion$')
+		email: new RegExp( /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/ ),
+		onlyLetters: new RegExp( /^[a-zA-Z\s]+$/ ),
 	});
 
 	const { nombre, descripcion } = categoryData;
+
+	console.log( descripcion );
 
 	// contador de errores
 	let errors = 0;
@@ -133,7 +140,7 @@ function validateData( categoryData, callback ) {
 		return callback( true );
 	}
 
-	callback( false, data );
+	callback( false, categoryData );
 }
 
 function setForm() {
