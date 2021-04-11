@@ -31,17 +31,18 @@ class ProductsComponent {
 
 		switch ( view ) {
 
-			case 'category': {
+			case 'category': {  // cuando cambias realiza la consulta
 
 				elementsCategory.forEach( ( elementHTML ) => showElement( elementHTML ) );
 				elementsProducts.forEach( ( elementHTML ) => hideElement( elementHTML ) );
 
-				categoryTableComponent.render();
+				// se hace la consulta antes de renderizar
+				categoryTableComponent.getProducts();
 
 				break;
 			}
 
-			default: {
+			default: { 
 
 				elementsProducts.forEach( ( elementHTML ) => showElement( elementHTML ) );
 				elementsCategory.forEach( ( elementHTML ) => hideElement( elementHTML ) );

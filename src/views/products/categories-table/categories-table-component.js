@@ -6,6 +6,10 @@ class CategoryTableComponent {
 		this.pagination = categoriesElement.querySelector('#pagination');
 
 		this.render = this.render.bind( this );
+		this.getProducts = this.getProducts.bind( this ); 
+
+		// para que tnega la instancia de 
+		// la clase cargada en el this de la funcion
 	}
 
 	editProduct() {
@@ -16,7 +20,24 @@ class CategoryTableComponent {
 		console.log('active category');
 	}
 
-	getProducts() {
+	async getProducts() {
+
+		try {
+			
+			// esto hay que hacerlo dinaico 
+			// esto es para mi voy a hacerlo esta semana
+
+			const categories = await CategoriasController.listarCategorias( 
+				[10, 20],  // esta quemado hay que hacerlo dinamico si lo cambias aparece el resto
+				getUserLogged() 
+			);
+
+			// por ultimo renderiza
+			this.render( categories );
+
+		} catch ( error ) {
+			console.log( error );
+		}
 	}
 
 
@@ -34,18 +55,36 @@ class CategoryTableComponent {
 		}, 0 );
 	}
 
+	getNombre( nombre, apellido ) {
+
+		if ( ( nombre === null || nombre.length > 0 ) && 
+			( apellido === null || apellido.length > 0 ) ) {
+			return 'No disponible'
+		}
+
+		return nombre + ' ' + apellido;
+	}
+
 	setRows( category ) {
+
+	// aqui se añaden los atributos a la fila
+
 		return (`
 			<tr class="text-center">
-				<td>${ category.id }</td>
-				<td>${ category.nombre }</td>
+				<td>${ category.categoriaid }</td>
+				<td>${ category.nombre ? category.nombre : 'No disponible' }</td>
 				<td>${ category.descripcion }</td>
-				<td>${ category.userId }</td>
+				<td>${ this.getNombre( category.nombre, category.apellido ) }</td>
 				<td>${ category.activo ?
 						('<i class="fas fa-check text-success"></i>') :
 						('<i class="fas fa-times text-danger"></i>')
 					}
 				</td>
+				<td>${ category.imagen !== null && category.imagen.length > 0 ?
+						('<i class="fas fa-check text-success"></i>') :
+						('<i class="fas fa-times text-danger"></i>')
+				 	}
+				 </td>
 				<td>
 					<button
 						type="button"
@@ -66,15 +105,15 @@ class CategoryTableComponent {
 		`);
 	}
 
-	render() {
+	render(  categorias = [] ) { // llamamos a este metodos
 
 		this.tbody.innerHTML = '';
 
-		if ( CATEGORIAS.length > 0 ) {
+		if ( categorias.length > 0 ) {
 
 			this.pagination.style.display = 'block';
 
-			this.tbody.innerHTML = CATEGORIAS.map( this.setRows ).join('');
+			this.tbody.innerHTML = categorias.map( this.setRows.bind( this ) ).join('');
 
 		} else {
 
