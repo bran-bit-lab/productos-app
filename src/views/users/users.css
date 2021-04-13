@@ -45,11 +45,6 @@ body {
 	font-weight: lighter;
 }
 
-.pagination a {
-	cursor: pointer;
-}
-
 .ml-3 {
 	margin-left: 20px;
 }
-

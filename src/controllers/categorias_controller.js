@@ -53,29 +53,23 @@ class CategoriasController {
 		// se le pasa un objeto de configuracion
 
 		const config = Object.freeze({
-			properties: ['openFile'],  // tipo
-			title: 'Abrir imagen',  // titulo de la ventana
-			buttonLabel: 'Seleccionar',  // boton de confirmar
+			properties: ['openFile'],
+			title: 'Abrir imagen',
+			buttonLabel: 'Seleccionar',
 			filters: [
 				{ name: 'Imágenes .jpg .png', extensions: [ 'jpg', 'png', 'jpeg' ] }
-			]  // extensiones de archivos, solamente imagenes
+			]
 		});
 
-		dialog.showOpenDialog( win, config )   // esto es la tercera forma de ejecutar la promesa 
+		dialog.showOpenDialog( win, config )
 			.then( result => {
-
-				// seleccionas el archivo y ejecuta este callback
-
-				// result es un objeto con las propiedades canceled: bool filesPaths es un
-				// array donde se guarda el archivo en tu pc
 
 				if ( result.canceled ) {
 					return;
-				} 
+				}
 
 				// lee el archivo de imagen y lo devuelve al renderizado
 
-				// se llama este metodos
 				readFileImageAsync( result.filePaths[0], ( imgObject ) => callback( imgObject ) );
 			})
 			.catch( error => {
@@ -96,7 +90,7 @@ class CategoriasController {
 		return new Promise( ( resolve, reject ) => {
 
 			this.database.getTotalRecords( CRUD.obtenerTotalCategorias, ( error, resultado ) => {
-				
+
 				const notificacion = new Notification({
 					title: 'Error en obtener los registros',
 					body: 'No se pudo obtener el total de registros'
@@ -110,7 +104,7 @@ class CategoriasController {
 
 					return reject( error );
 				}
-				
+
 				const totalRegistros = resultado[0]['COUNT(*)'];
 
 				let totalPaginas = ( totalRegistros / 10 );
@@ -118,18 +112,18 @@ class CategoriasController {
 				resolve({
 					totalPaginas: Math.ceil( totalPaginas ),
 					totalRegistros: totalRegistros
-				}); 
-			
+				});
+
 			});
 
 		});
-	}	
+	}
 
 	static listarCategorias( pagination, usuario ) {
 
 		// aqui va a traer el path cuando consulta la bd
 		console.log( pagination );
-		
+
 
 		return new Promise(( resolve, reject ) => {
 
@@ -142,18 +136,17 @@ class CategoriasController {
 				if ( error ) {
 
 					console.log( error );
-					
+
 					return reject( error );
 				}
 /*
 				if ( results[] ) {
 					console.log()
-				} 
+				}
 
 				// aqui se lee el archivo
 				readFileImageAsync( result.filePaths[0], ( imgObject ) => callback( imgObject ) );
 */
-
 				resolve( results );
 
 				console.log( results );

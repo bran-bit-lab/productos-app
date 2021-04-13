@@ -1,16 +1,16 @@
 const CRUD = Object.freeze({
 
 	// users ...
-	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (:nombre, :apellido, :correo, :area, :password);",	
-	listarUsuarios : "SELECT * FROM usuarios LIMIT :start, :limit;",	
+	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (:nombre, :apellido, :correo, :area, :password);",
+	listarUsuarios : "SELECT * FROM usuarios LIMIT :start, :limit;",
 	obtenerTotalUsuarios : "SELECT COUNT(*) FROM usuarios;",
-	editarRolUsuario : "UPDATE usuarios SET area = :area WHERE userid = :userid;",	
+	editarRolUsuario : "UPDATE usuarios SET area = :area WHERE userid = :userid;",
 	editarEstadoUsuario : "UPDATE usuarios SET estado = :estado WHERE userid = :userid;",
-	buscarUsuario: "SELECT userid, nombre, apellido, correo, area, estado FROM usuarios WHERE nombre LIKE :search OR apellido LIKE :search OR correo LIKE :search OR area LIKE :search;",	
+	buscarUsuario: "SELECT userid, nombre, apellido, correo, area, estado FROM usuarios WHERE nombre LIKE :search OR apellido LIKE :search OR correo LIKE :search OR area LIKE :search;",
 
 	// login ...
 	validarUsuario: "SELECT * FROM usuarios WHERE correo = :correo AND estado = TRUE;",
-	
+
 	// category ...
 	crearCategoria : "INSERT INTO categorias (userid, nombre, descripcion, imagen) VALUES(:userid, :nombre, :descripcion, :imagen);",
 	listarCategorias : "SELECT categorias.*, usuarios.nombre, usuarios.apellido FROM categorias LEFT JOIN usuarios ON categorias.userid = usuarios.userid LIMIT :start, :limit;",	
@@ -52,10 +52,10 @@ ALTER TABLE usuarios AUTO_INCREMENT=0;
 
 CREATE TABLE categorias (
 	id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	userid int,	
+	userid int,
 	FOREIGN KEY (userid) REFERENCES usuarios(userid),
 	nombre char(30),
-	descripcion varchar(600)	
+	descripcion varchar(600)
 );
 
 INSERT INTO categorias(nombre, descripcion)
@@ -79,7 +79,7 @@ CREATE TABLE productos (
 	userid int,
 	FOREIGN KEY (userid) REFERENCES categorias(userid),
 	nombre char(30),
-	descripcion varchar(600)	
+	descripcion varchar(600)
 );
 
 INSERT INTO productos(nombre, descripcion)
@@ -101,7 +101,7 @@ CREATE TABLE notas (
 	userid int,
 	FOREIGN KEY (userid) REFERENCES usuarios(userid),
 	cliente char(50),
-	status char(30)	
+	status char(30)
 );
 
 ALTER TABLE notas ADD creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
@@ -117,7 +117,3 @@ UPDATE notas
 DELETE FROM notas WHERE nro = 1;
 
 ALTER TABLE notas AUTO_INCREMENT=1;*/
-
-
-
-

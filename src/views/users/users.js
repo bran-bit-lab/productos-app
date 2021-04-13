@@ -11,7 +11,6 @@ const Modal = require('bootstrap/js/dist/modal');
 let USERS = [];
 const footer = document.querySelector('#modals');
 const info = document.querySelector('#info');
-const pagination = document.querySelector('#pagination');
 
 // components html
 
@@ -19,12 +18,10 @@ footer.innerHTML += readFileAssets( '/users/users-modal-form/users-modal-form-co
 footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-component.html' );
 footer.innerHTML += readFileAssets( '/users/users-modal-role/users-modal-role-component.html' );
 
-pagination.innerHTML = readFileAssets( '/users/pagination/pagination.html' );
-
 const ModalUserComponent = require('./users-modal-form/users-modal-form-component');
 const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 const ModalChangeRole = require('./users-modal-role/users-modal-role-component');
-const PaginationComponent = require('./pagination/pagination-component');
+const PaginationComponent = require('../shared/pagination/pagination-component');
 
 // ==========================================
 // Users component
@@ -32,12 +29,12 @@ const PaginationComponent = require('./pagination/pagination-component');
 class UsersComponent {
 
 	// pagination table users
-	
 	totalPages = 0;
 	currentPage = 0;
 
 	constructor() {
-		
+
+		this.pagination = document.querySelector('#pagination');
 		this.tbody = document.querySelector('#tbody-user');
 		this.totalUsers = document.querySelector('#totalUsers');
 
@@ -45,23 +42,25 @@ class UsersComponent {
 		this.deleteUser = this.deleteUser.bind( this );
 		this.changeRole = this.changeRole.bind( this );
 		this.getAll = this.getAll.bind( this );
+
+		this.pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
 	}
 
 	async getAll( $event, pagination = [ 0, 10 ] ) {
-		
+
 		try {
-			
+
 			USERS = await UsersController.listarUsuarios( pagination );
 
 			let totalUsers = await UsersController.obtenerTotalUsuarios();
 
 			sessionStorage.setItem('usersTable', JSON.stringify({ pagination }));
 
-			this.renderUsers( 
-				totalUsers['totalPaginas'], 
-				totalUsers['totalRegistros'] 
+			this.renderUsers(
+				totalUsers['totalPaginas'],
+				totalUsers['totalRegistros']
 			);
-		
+
 		} catch ( error ) {
 
 			console.error( error );
@@ -71,14 +70,14 @@ class UsersComponent {
 
 	async getUser( search ) {
 
-		const rexp = /^[\w\d\s]+$/; 
+		const rexp = /^[\w\d\s]+$/;
 
 		if ( search.length === 0 ) {
 
 			let { pagination } = JSON.parse(  sessionStorage.getItem('usersTable') );
 
-			return this.getAll( 
-				null, 
+			return this.getAll(
+				null,
 				pagination
 			);
 		}
@@ -181,32 +180,32 @@ class UsersComponent {
 
 	renderUsers( totalRegisters = null , totalPages = null, search = false ) {
 
-		if ( !search ) {  
+		if ( !search ) {
 
 			let paginationValue = document.querySelector('#paginationValue');
 			let paginationEnd = document.querySelector('#paginationEnd');
 
 			this.totalUsers.textContent = totalPages;
-			
+
 			PaginationComponent.setButtonsPagination.call( this, totalRegisters );
 
 			this.totalPages = totalRegisters;
 
 			paginationValue.textContent =  this.currentPage + 1;
-			paginationEnd.textContent = this.totalPages; 
+			paginationEnd.textContent = this.totalPages;
 		}
 
-		
+
 		if ( USERS.length > 0 ) {
 
-			showElement( pagination );
+			showElement( this.pagination );
 
 			this.tbody.innerHTML = USERS.map(( user ) => this.getRowTable( user ))
 				.join('');
 
 		} else {
 
-			hideElement( pagination );
+			hideElement( this.pagination );
 
 			this.tbody.innerHTML = (`
 				<tr class="text-center">
@@ -231,9 +230,7 @@ const closeModalConfirm =  ModalConfirmComponent.closeModalConfirm.bind(
 	usersComponent.deleteUser
 );
 
-const renderPagination = PaginationComponent.renderPagination.bind(
-	usersComponent.getAllUsers
-)
+const changePagination = PaginationComponent.changePagination.bind( usersComponent )
 
 // =============================
 // Events

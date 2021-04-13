@@ -49,3 +49,7 @@ body {
 	height: 90px;
 	background: var(--main-color);
 }
+
+.pagination a {
+	cursor: pointer;
+}

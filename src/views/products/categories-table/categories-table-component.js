@@ -5,11 +5,13 @@ class CategoryTableComponent {
 		this.tbody = categoriesElement.querySelector('#tbody-categories');
 		this.pagination = categoriesElement.querySelector('#pagination');
 
-		this.render = this.render.bind( this );
-		this.getProducts = this.getProducts.bind( this ); 
+		this.pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
+		this.getAll = this.getAll.bind( this );
 
-		// para que tnega la instancia de 
-		// la clase cargada en el this de la funcion
+		// nav-table
+		this.totalPages = 0;
+		this.totalRegisters = 0;
+		this.currentPage = 0;
 	}
 
 	editProduct() {
@@ -20,20 +22,18 @@ class CategoryTableComponent {
 		console.log('active category');
 	}
 
-	async getProducts() {
+	async getAll( $event, pagination = [0, 10] ) {
 
 		try {
-			
-			// esto hay que hacerlo dinaico 
-			// esto es para mi voy a hacerlo esta semana
 
-			const categories = await CategoriasController.listarCategorias( 
-				[10, 20],  // esta quemado hay que hacerlo dinamico si lo cambias aparece el resto
-				getUserLogged() 
-			);
+			const categories = await CategoriasController.listarCategorias( pagination );
+			let totalCategories = await CategoriasController.obtenerTotalCategorias();
 
-			// por ultimo renderiza
-			this.render( categories );
+			console.log( categories );
+
+			sessionStorage.setItem('categoriesTable', JSON.stringify({ pagination }));
+
+			this.render( categories, totalCategories );
 
 		} catch ( error ) {
 			console.log( error );
@@ -57,8 +57,8 @@ class CategoryTableComponent {
 
 	getNombre( nombre, apellido ) {
 
-		if ( ( nombre === null || nombre.length > 0 ) && 
-			( apellido === null || apellido.length > 0 ) ) {
+		if ( ( nombre === null || nombre.length === 0 ) &&
+			( apellido === null || apellido.length === 0 ) ) {
 			return 'No disponible'
 		}
 
@@ -66,8 +66,6 @@ class CategoryTableComponent {
 	}
 
 	setRows( category ) {
-
-	// aqui se añaden los atributos a la fila
 
 		return (`
 			<tr class="text-center">
@@ -80,7 +78,7 @@ class CategoryTableComponent {
 						('<i class="fas fa-times text-danger"></i>')
 					}
 				</td>
-				<td>${ category.imagen !== null && category.imagen.length > 0 ?
+				<td>${ category.imagen && category.imagen.length > 0 ?
 						('<i class="fas fa-check text-success"></i>') :
 						('<i class="fas fa-times text-danger"></i>')
 				 	}
@@ -105,9 +103,21 @@ class CategoryTableComponent {
 		`);
 	}
 
-	render(  categorias = [] ) { // llamamos a este metodos
+	render( categorias = [], totalCategories ) { // llamamos a este metodos
+
+		let paginationValue = document.querySelector('#paginationValue');
+		let paginationEnd = document.querySelector('#paginationEnd');
+		let totalCategoriesElement = document.querySelector('#totalCategory');
 
 		this.tbody.innerHTML = '';
+		this.totalPages = totalCategories.totalPaginas;
+		this.totalRegisters = totalCategories.totalRegistros;
+
+		totalCategoriesElement.textContent = this.totalRegisters;
+		paginationValue.textContent =  this.currentPage + 1;
+		paginationEnd.textContent = this.totalPages;
+
+		PaginationComponent.setButtonsPagination.call( this, this.totalPages );
 
 		if ( categorias.length > 0 ) {
 
@@ -126,7 +136,6 @@ class CategoryTableComponent {
 					</td>
 				</tr>
 			`);
-
 		}
 
 	}

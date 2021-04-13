@@ -16,7 +16,7 @@ const Modal = require('bootstrap/js/dist/modal');
 const ProductsTableComponent = require('./products-table/products-table-component');
 const CategoryTableComponent = require('./categories-table/categories-table-component');
 const { openModalNewCategory, openImageDialog, resetForm } = require('./categories-form/categories-form');
-
+const PaginationComponent = require('../shared/pagination/pagination-component');
 
 class ProductsComponent {
 
@@ -37,12 +37,12 @@ class ProductsComponent {
 				elementsProducts.forEach( ( elementHTML ) => hideElement( elementHTML ) );
 
 				// se hace la consulta antes de renderizar
-				categoryTableComponent.getProducts();
+				categoryTableComponent.getAll();
 
 				break;
 			}
 
-			default: { 
+			default: {
 
 				elementsProducts.forEach( ( elementHTML ) => showElement( elementHTML ) );
 				elementsCategory.forEach( ( elementHTML ) => hideElement( elementHTML ) );
@@ -85,5 +85,7 @@ class ProductsComponent {
 const productsComponent = new ProductsComponent();
 const productsTableComponent = new ProductsTableComponent();
 const categoryTableComponent = new CategoryTableComponent();
+
+const changePagination = PaginationComponent.changePagination.bind( categoryTableComponent )
 
 document.addEventListener('DOMContentLoaded', productsComponent.setHtml );

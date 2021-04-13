@@ -1,6 +1,6 @@
 // ocultar y mostrar elementos
 function hideElement( element ) {
-  
+
   if ( element.classList.contains('show') ) {
     return element.classList.replace('show', 'hide');
   }
@@ -9,7 +9,7 @@ function hideElement( element ) {
 }
 
 function showElement( element ) {
-  
+
   if ( element.classList.contains('hide') ) {
     return element.classList.replace('hide', 'show');
   }
@@ -23,4 +23,8 @@ function redirectTo( path ) {
 
 function getUserLogged() {
 	return JSON.parse( sessionStorage.getItem('userLogged') );
+}
+
+function getPaginationStorage( key ) {
+  return JSON.parse( sessionStorage.getItem( key )).pagination || [0, 10];
 }

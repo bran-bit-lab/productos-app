@@ -14,30 +14,22 @@
   				<th>Nombre:</th>
   				<th>Descripcion:</th>
   				<th>Creado por:</th>
+          <th>Activo:</th>
           <th>Imagen</th>
-  				<th>Activo:</th>
   				<th>Acciones</th>
   			</tr>
-  		</thead>	
+  		</thead>
   		<tbody id="tbody-categories"></tbody>
   	</table>
 	</div>
 </div>
+<div class="row pt-2">
+  <div class="col-sm-6 col-12 text-start">
+    Total de usuarios registrados: <span id="totalCategory"></span>
+  </div>
+  <div class="col-sm-6 col-12 text-end">
+    Página actual: <span id="paginationValue"></span> de <span id="paginationEnd"></span>
+  </div>
+</div>
 
-<nav aria-label="Table navigation" id="pagination" class="mt-2">
-    <ul class="pagination justify-content-center">
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-      </li>
-      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-</nav>
+<nav aria-label="Table navigation" id="pagination" class="mt-2"></nav>
