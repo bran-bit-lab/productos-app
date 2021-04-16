@@ -53,7 +53,7 @@ function setButtonsPagination( numbersPages = 1 ) {
 
   listado.innerHTML = html;
 
-  console.log( listado );
+  // console.log( listado );
 }
 
 function changePagination( index = 0, totalPages = 1 ) {

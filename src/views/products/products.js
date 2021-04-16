@@ -89,3 +89,20 @@ const categoryTableComponent = new CategoryTableComponent();
 const changePagination = PaginationComponent.changePagination.bind( categoryTableComponent )
 
 document.addEventListener('DOMContentLoaded', productsComponent.setHtml );
+
+// custom Events
+document.querySelector('search-bar-component')
+	.addEventListener('search', ( $event ) => {
+
+		switch ( $event.detail.from ) {
+
+			case 'categories': {
+				categoryTableComponent.searchCategories.call( categoryTableComponent, $event.detail.value )
+				break;
+			}
+
+			default: {
+				break;
+			}
+		}
+	});

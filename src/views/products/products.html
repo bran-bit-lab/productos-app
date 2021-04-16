@@ -6,29 +6,30 @@
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
   <link rel="stylesheet" href="products.css">
   <title>Gestion de productos</title>
+  <script src="../components/searchbar-component.js"></script>
 </head>
 <body>
 	<main class="container p-3">
 
 		<div class="d-flex flex-column justify-content-start h-100">
-			
+
 			<div class="d-flex border-bottom flex-row pb-1 justify-content-between align-items-center">
-	  		
+
         <h2 class="d-flex flex-row">
           <i class="fas fa-arrow-circle-left point" onclick="redirectTo('../home/home.html')"></i>
           <span class="ml-3 category">Gestión de Categorías</span>
           <span class="ml-3 products">Gestión de Productos</span>
         </h2>
-        <button 
+        <button
           class="btn btn-success category btn-sm"
-          onclick="openModalNewCategory()" 
+          onclick="openModalNewCategory()"
         >
           <i class="fas fa-plus"></i>
           Añadir Categoría
         </button>
 
-        <button 
-          class="btn btn-success products btn-sm" 
+        <button
+          class="btn btn-success products btn-sm"
         >
           <i class="fas fa-plus"></i>
           Añadir Producto
@@ -37,19 +38,19 @@
 
       <ul class="nav nav-pills justify-content-center mt-3 mb-3" id="products_list">
         <li class="nav-item">
-          <button 
-            class="nav-link point active btn-sm" 
-            href="#products" 
+          <button
+            class="nav-link point active btn-sm"
+            href="#products"
             aria-name="products"
             aria-selected="true"
           >Productos</button>
         </li>
         <li class="nav-item">
-          <button 
-            type="button" 
-            class="nav-link point btn-sm" 
+          <button
+            type="button"
+            class="nav-link point btn-sm"
             href="#category"
-            aria-name="category" 
+            aria-name="category"
           >Categorías</button>
         </li>
       </ul>

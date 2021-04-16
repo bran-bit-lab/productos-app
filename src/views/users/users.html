@@ -6,6 +6,8 @@
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
   <link rel="stylesheet" href="users.css">
   <title>Gestion de Usuarios</title>
+  <!-- se importan los web components antes de contruir el body -->
+  <script src="../components/searchbar-component.js"></script>
 </head>
 <body>
 	<main class="container p-3 h-100">
@@ -45,15 +47,9 @@
     	</article>
 
       <div class="main-content mt-5">
+        <search-bar-component from="users"></search-bar-component>
         <div class="row justify-content-sm-end justify-content-center">
-          <div class="form-group w-25 p-0 mb-2">
-            <input
-              type="text"
-              placeholder="Buscar ..."
-              oninput="usersComponent.getUser( this.value )"
-              class="form-control form-control-sm"
-            />
-          </div>
+
           <!-- table -->
           <div class="table-responsive w-100">
           	<table class="table table-striped">

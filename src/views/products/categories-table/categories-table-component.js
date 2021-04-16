@@ -14,12 +14,16 @@ class CategoryTableComponent {
 		this.currentPage = 0;
 	}
 
-	editProduct() {
+	editCategory() {
 		console.log('edit category');
 	}
 
-	activeProduct() {
+	activeCategory() {
 		console.log('active category');
+	}
+
+	async searchCategories( $event ) {
+		console.log( $event );
 	}
 
 	async getAll( $event, pagination = [0, 10] ) {
@@ -29,7 +33,7 @@ class CategoryTableComponent {
 			const categories = await CategoriasController.listarCategorias( pagination );
 			let totalCategories = await CategoriasController.obtenerTotalCategorias();
 
-			console.log( categories );
+			// console.log( categories );
 
 			sessionStorage.setItem('categoriesTable', JSON.stringify({ pagination }));
 
