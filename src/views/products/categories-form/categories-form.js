@@ -3,9 +3,40 @@
 // ============================
 function openModalNewCategory( title = 'Nueva categoría', edit = false ) {
 
-	newCategory = !edit ? true : false;
+	newCategory = true;
 
 	footer.querySelector('.modal-title').textContent = title;
+
+	modalFormCategory.toggle();
+}
+
+function openModalEditCategory( category ) {
+
+	newCategory = false;
+	categorySelected = category;
+
+	// si existe una imagen realiza la lectura
+	if ( categorySelected.imagen && categorySelected.imagen.length > 0 ) {
+
+		return readFileImageAsync( categorySelected.imagen, ({ base64, path }) =>  {
+
+			const imgElement = (`<img src="data:image/png;base64,${ base64 }" alt="imagen" class="image-foto" />`);
+
+			imageContainer.innerHTML = imgElement;
+			footer.querySelector('#category-image').value = path;
+
+			hideElement( imageDefault );
+			showElement( imageContainer );
+
+			footer.querySelector('.modal-title').textContent = 'Editar categoría';
+			setForm( categorySelected );
+
+			modalFormCategory.toggle();
+		});
+	}
+
+	footer.querySelector('.modal-title').textContent = 'Editar categoría';
+	setForm( categorySelected );
 
 	modalFormCategory.toggle();
 }
@@ -46,7 +77,8 @@ function handleSubmit( $event ) {
 	const categoryData = {
 		imagen: formData.get('category-image') || '',
 		nombre: formData.get('category-name') || '',
-		descripcion: formData.get('category-description') || ''
+		descripcion: formData.get('category-description') || '',
+		categoriaid: categorySelected ? categorySelected.categoriaid : null 
 	};
 
 	validateData( categoryData, ( error, data ) => {
@@ -56,10 +88,10 @@ function handleSubmit( $event ) {
 		}
 
 		if ( newCategory ) {
-			CategoriasController.crearCategoria( data, getUserLogged() );
+			categoryTableComponent.createCategory( data );
 
 		} else {
-
+			categoryTableComponent.editCategory( data );
 		}
 
 		modalFormCategory.toggle();
@@ -143,7 +175,16 @@ function validateData( categoryData, callback ) {
 	callback( false, categoryData );
 }
 
-function setForm() {
+function setForm( category ) {
+
+	const keys = ['nombre', 'descripcion'];
+
+	const inputsElement = [...footer.querySelectorAll('input')]
+		.filter( element => element.id !== 'category-image' );
+
+	inputsElement.forEach(( element, index ) => {
+		element.value = category[ keys[index] ] || '';
+	});
 }
 
 function renderErrors( element, message ) {
@@ -189,6 +230,7 @@ const errorCategoryName = categoryForm.querySelector('#error-category-name');
 const errorCategoryDescription = categoryForm.querySelector('#error-category-description');
 
 let newCategory = true; // new | edit
+let categorySelected = null;
 
 hideElement( imageContainer );
 hideElement( errorFile );
@@ -199,5 +241,6 @@ categoryForm.addEventListener( 'submit', handleSubmit );
 module.exports = {
 	openModalNewCategory,
 	openImageDialog,
-	resetForm
+	resetForm,
+	openModalEditCategory
 };

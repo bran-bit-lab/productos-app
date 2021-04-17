@@ -12,10 +12,30 @@ class CategoryTableComponent {
 		this.totalPages = 0;
 		this.totalRegisters = 0;
 		this.currentPage = 0;
+
+		this.categories = [];
 	}
 
-	editCategory() {
-		console.log('edit category');
+	createCategory( data ) {
+
+		// se elimina el campo categoriaid antes de mandar al controlador
+ 		delete data.categoriaid;
+
+		CategoriasController.crearCategoria( data, getUserLogged() );
+	}
+
+	editCategory( data ) {
+		CategoriasController.editarCategoria( data, getUserLogged() );
+	}
+
+	selectCategory( idCategory = 1, method = 'edit' ) {
+		let found = this.categories.find( category => category.categoriaid === idCategory );
+
+		if ( method === 'edit' ) {
+			return openModalEditCategory( found );
+		}
+
+		return;
 	}
 
 	activeCategory() {
@@ -30,14 +50,14 @@ class CategoryTableComponent {
 
 		try {
 
-			const categories = await CategoriasController.listarCategorias( pagination );
+			this.categories = await CategoriasController.listarCategorias( pagination );
 			let totalCategories = await CategoriasController.obtenerTotalCategorias();
 
 			// console.log( categories );
 
 			sessionStorage.setItem('categoriesTable', JSON.stringify({ pagination }));
 
-			this.render( categories, totalCategories );
+			this.render( this.categories, totalCategories );
 
 		} catch ( error ) {
 			console.log( error );
@@ -90,7 +110,7 @@ class CategoryTableComponent {
 				<td>
 					<button
 						type="button"
-						onclick="categoryTableComponent.editProduct()"
+						onclick="categoryTableComponent.selectCategory( ${ category.categoriaid } )"
 						class="btn btn-primary btn-sm"
 					>
 						<i class="fas fa-edit"></i>

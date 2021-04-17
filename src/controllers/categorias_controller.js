@@ -16,7 +16,7 @@ class CategoriasController {
 		let nuevaCategoria = {
 			...categoria,
 			userid: usuario.userid
-		}
+		};
 
 		this.database.insert( CRUD.crearCategoria, nuevaCategoria, ( error ) => {
 
@@ -44,11 +44,6 @@ class CategoriasController {
 	}
 
 	static openImageDialog( win, callback ) {
-
-		// se abre la ventana desde el main process
-
-		// dialog es una clase de electron que permite abrir ventana
-		// emergentes que son usadas para abrir archivos guardar  archivos
 
 		// se le pasa un objeto de configuracion
 
@@ -121,16 +116,10 @@ class CategoriasController {
 
 	static listarCategorias( pagination, usuario ) {
 
-		// aqui va a traer el path cuando consulta la bd
-		console.log( pagination );
-
-
 		return new Promise(( resolve, reject ) => {
 
-			// aqui se hace l consulta  // se manda como array
-			pagination = { start: pagination[0], limit: pagination[1], };
+			pagination = { start: pagination[0], limit: pagination[1] };
 
-			console.log( pagination );
 			this.database.consult( CRUD.listarCategorias, pagination, ( error, results ) => {
 
 				if ( error ) {
@@ -139,25 +128,18 @@ class CategoriasController {
 
 					return reject( error );
 				}
-/*
-				if ( results[] ) {
-					console.log()
-				}
 
-				// aqui se lee el archivo
-				readFileImageAsync( result.filePaths[0], ( imgObject ) => callback( imgObject ) );
-*/
 				resolve( results );
-
-				console.log( results );
 			});
 
 		});
 	}
 
-	static editarCategorias( categoria ) { //
+	static editarCategoria( categoria, usuario ) {
 
-		this.database.update( CRUD.editarCategoria, categoria, ( error ) => {
+		console.log( categoria, usuario );
+
+		/*this.database.update( CRUD.editarCategoria, categoria, ( error ) => {
 
 			const notificacion = new Notification({
 				title: '',
@@ -178,11 +160,10 @@ class CategoriasController {
 				return;
 			}
 
-  		});
+  	}) */;
 	}
 
 }
-
 
 module.exports = {
 	CategoriasController

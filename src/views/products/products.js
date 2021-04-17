@@ -1,5 +1,5 @@
 const { remote } = require('electron');
-const { readFileAssets } = remote.require('./util_functions/file');
+const { readFileAssets, readFileImageAsync } = remote.require('./util_functions/file');
 const { CategoriasController } = remote.require('./controllers/categorias_controller');
 
 const productsElement = document.querySelector('#products');
@@ -15,7 +15,7 @@ const Modal = require('bootstrap/js/dist/modal');
 
 const ProductsTableComponent = require('./products-table/products-table-component');
 const CategoryTableComponent = require('./categories-table/categories-table-component');
-const { openModalNewCategory, openImageDialog, resetForm } = require('./categories-form/categories-form');
+const { openModalNewCategory, openImageDialog, resetForm, openModalEditCategory } = require('./categories-form/categories-form');
 const PaginationComponent = require('../shared/pagination/pagination-component');
 
 class ProductsComponent {
@@ -86,7 +86,8 @@ const productsComponent = new ProductsComponent();
 const productsTableComponent = new ProductsTableComponent();
 const categoryTableComponent = new CategoryTableComponent();
 
-const changePagination = PaginationComponent.changePagination.bind( categoryTableComponent )
+// binding
+const changePagination = PaginationComponent.changePagination.bind( categoryTableComponent );
 
 document.addEventListener('DOMContentLoaded', productsComponent.setHtml );
 
