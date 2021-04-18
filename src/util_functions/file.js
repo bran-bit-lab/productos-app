@@ -17,24 +17,26 @@ function readFileAssets( url ) {
 }
 
 function readFileImageAsync( path, callback ) {
-		
+
 	fs.stat( path, ( error, infoFile ) => {
-		
+
 		if ( error ) {
 			throw error;
 		}
 
 		fs.readFile( path, { encoding: 'base64' }, ( error, data ) => {
-		
+
 			if ( error ) {
 				throw error;
 			}
 
 			callback({
-				path, 
-				base64: data, 
-				size: infoFile.size
+				path,
+				base64: data,
+				size: infoFile.size,
+				typeFile: path.split('.')[1]
 			});
+
 		});
 	});
 }

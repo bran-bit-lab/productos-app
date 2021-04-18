@@ -15,12 +15,14 @@ function openModalEditCategory( category ) {
 	newCategory = false;
 	categorySelected = category;
 
-	// si existe una imagen realiza la lectura
+	// si existe una imagen en el registro realiza la lectura
 	if ( categorySelected.imagen && categorySelected.imagen.length > 0 ) {
 
-		return readFileImageAsync( categorySelected.imagen, ({ base64, path }) =>  {
+		readFileImageAsync( categorySelected.imagen, ({ base64, path, typeFile }) =>  {
 
-			const imgElement = (`<img src="data:image/png;base64,${ base64 }" alt="imagen" class="image-foto" />`);
+			// console.log( typeFile );
+
+			const imgElement = (`<img src="data:image/${ typeFile };base64,${ base64 }" alt="imagen" class="image-foto" />`);
 
 			imageContainer.innerHTML = imgElement;
 			footer.querySelector('#category-image').value = path;
@@ -33,20 +35,24 @@ function openModalEditCategory( category ) {
 
 			modalFormCategory.toggle();
 		});
+
+	} else {
+
+		footer.querySelector('.modal-title').textContent = 'Editar categoría';
+		setForm( categorySelected );
+
+		modalFormCategory.toggle();
 	}
 
-	footer.querySelector('.modal-title').textContent = 'Editar categoría';
-	setForm( categorySelected );
-
-	modalFormCategory.toggle();
 }
 
 function openImageDialog() {
 
-	CategoriasController.openImageDialog( remote.getCurrentWindow(), ({ base64, size, path }) => {
+	CategoriasController.openImageDialog( remote.getCurrentWindow(), ({ base64, size, path, typeFile }) => {
 
-		console.log( base64.length );
 		const maxSize = 1000000;  // 1MB de archivos
+
+		// console.log( typeFile );
 
 		hideElement( errorFile );
 
@@ -58,7 +64,7 @@ function openImageDialog() {
 		}
 
 		// se crea una nueva instancia de image
-		const imgElement = (`<img src="data:image/png;base64,${ base64 }" alt="imagen" class="image-foto" />`);
+		const imgElement = (`<img src="data:image/${ typeFile };base64,${ base64 }" alt="imagen" class="image-foto" />`);
 
 		imageContainer.innerHTML = imgElement;
 		footer.querySelector('#category-image').value = path;
@@ -78,7 +84,7 @@ function handleSubmit( $event ) {
 		imagen: formData.get('category-image') || '',
 		nombre: formData.get('category-name') || '',
 		descripcion: formData.get('category-description') || '',
-		categoriaid: categorySelected ? categorySelected.categoriaid : null 
+		categoriaid: categorySelected ? categorySelected.categoriaid : null
 	};
 
 	validateData( categoryData, ( error, data ) => {
@@ -92,6 +98,7 @@ function handleSubmit( $event ) {
 
 		} else {
 			categoryTableComponent.editCategory( data );
+
 		}
 
 		modalFormCategory.toggle();
@@ -118,7 +125,7 @@ function validateData( categoryData, callback ) {
 
 	const { nombre, descripcion } = categoryData;
 
-	console.log( descripcion );
+	// console.log( descripcion );
 
 	// contador de errores
 	let errors = 0;
@@ -235,7 +242,7 @@ let categorySelected = null;
 hideElement( imageContainer );
 hideElement( errorFile );
 
-footer.querySelector('#category-form').addEventListener('hide.bs.modal', cleanFormOnClose );
+footer.querySelector('#category-form').addEventListener('hidden.bs.modal', cleanFormOnClose );
 categoryForm.addEventListener( 'submit', handleSubmit );
 
 module.exports = {
