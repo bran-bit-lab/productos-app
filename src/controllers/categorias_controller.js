@@ -1,7 +1,10 @@
 const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
-const { readFileImageAsync } = require('../util_functions/file');
+const { readFileImageAsync, copyFile } = require('../util_functions/file');
+const PATH_PICTURES = require ('../env'); 
+
+let dest = (   PATH_PICTURES['ENV']['PATH_PICTURES'] + 'categorias' );
 
 class CategoriasController {
 
@@ -17,8 +20,21 @@ class CategoriasController {
 			...categoria,
 			userid: usuario.userid
 		};
+		
+		let result = nuevaCategoria.imagen.split('.');
+		let nuevoNombre = '/categoria.' + result[1]
 
-		this.database.insert( CRUD.crearCategoria, nuevaCategoria, ( error ) => {
+		dest = dest + nuevoNombre;
+		console.log( dest );
+
+		try {
+			copyFile( nuevaCategoria.imagen, dest );
+
+		} catch (error) {
+			console.log( error ) 
+		}
+
+		/*this.database.insert( CRUD.crearCategoria, nuevaCategoria, ( error ) => {
 
 			const notificacion = new Notification({
 				title: '',
@@ -35,12 +51,13 @@ class CategoriasController {
 				return;
 			}
 
+
 			notificacion['title'] = 'Éxito';
 			notificacion['body'] = 'Categoria creado con éxito';
 
 			notificacion.show();
 
-		});
+		});*/
 	}
 
 	static openImageDialog( win, callback ) {
@@ -51,7 +68,7 @@ class CategoriasController {
 			properties: ['openFile'],
 			title: 'Abrir imagen',
 			buttonLabel: 'Seleccionar',
-			filters: [
+			filters: [ 
 				{ name: 'Imágenes .jpg .png', extensions: [ 'jpg', 'png', 'jpeg' ] }
 			]
 		});
@@ -128,8 +145,9 @@ class CategoriasController {
 
 					return reject( error );
 				}
-
+				//console.log( results );
 				resolve( results );
+
 			});
 
 		});

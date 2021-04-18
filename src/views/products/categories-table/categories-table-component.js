@@ -96,7 +96,7 @@ class CategoryTableComponent {
 				<td>${ category.categoriaid }</td>
 				<td>${ category.nombre ? category.nombre : 'No disponible' }</td>
 				<td>${ category.descripcion }</td>
-				<td>${ this.getNombre( category.nombre, category.apellido ) }</td>
+				<td>${ this.getNombre( category.nombre_usuario, category.apellido ) }</td>
 				<td>${ category.activo ?
 						('<i class="fas fa-check text-success"></i>') :
 						('<i class="fas fa-times text-danger"></i>')

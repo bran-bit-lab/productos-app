@@ -16,6 +16,10 @@ function readFileAssets( url ) {
 	return fs.readFileSync( path.join( ENV.PATH_VIEWS, url ), { encoding: "utf-8" });
 }
 
+function copyFile( url , dest) {
+	return fs.copyFileSync (url , dest);
+}
+
 function readFileImageAsync( path, callback ) {
 
 	fs.stat( path, ( error, infoFile ) => {
@@ -50,5 +54,6 @@ module.exports = {
 	readFile,
 	readFileAssets,
 	checkAsset,
-	readFileImageAsync
+	readFileImageAsync,
+	copyFile
 };
