@@ -16,8 +16,12 @@ function readFileAssets( url ) {
 	return fs.readFileSync( path.join( ENV.PATH_VIEWS, url ), { encoding: "utf-8" });
 }
 
-function copyFile( url , dest) {
-	return fs.copyFileSync (url , dest);
+function copyFile( url , dest ) {
+	dest = path.join( ENV.PATH_PICTURES, dest );
+
+	fs.copyFileSync( url , dest );
+
+	return dest;
 }
 
 function readFileImageAsync( path, callback ) {

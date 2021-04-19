@@ -2,12 +2,8 @@ const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const { readFileImageAsync, copyFile } = require('../util_functions/file');
-const PATH_PICTURES = require ('../env'); 
-
-let dest = (   PATH_PICTURES['ENV']['PATH_PICTURES'] + 'categorias' );
 
 class CategoriasController {
-
 	databaseInstance = null;
 
 	static get database() {
@@ -20,18 +16,20 @@ class CategoriasController {
 			...categoria,
 			userid: usuario.userid
 		};
-		
-		let result = nuevaCategoria.imagen.split('.');
-		let nuevoNombre = '/categoria.' + result[1]
 
-		dest = dest + nuevoNombre;
-		console.log( dest );
+		let nuevoNombreImagen = `categorias/${ Date.now() }.${ nuevaCategoria.imagen.split('.')[1] }`;
 
-		try {
-			copyFile( nuevaCategoria.imagen, dest );
+		// si viene la imagen la almacena
+		if ( nuevaCategoria.imagen && nuevaCategoria.imagen.length > 0 ) {
 
-		} catch (error) {
-			console.log( error ) 
+			try {
+				nuevaCategoria.imagen = copyFile( nuevaCategoria.imagen, nuevoNombreImagen );
+
+				console.log( nuevaCategoria );
+
+			} catch ( error ) {
+				console.log( error );
+			}
 		}
 
 		/*this.database.insert( CRUD.crearCategoria, nuevaCategoria, ( error ) => {
@@ -68,7 +66,7 @@ class CategoriasController {
 			properties: ['openFile'],
 			title: 'Abrir imagen',
 			buttonLabel: 'Seleccionar',
-			filters: [ 
+			filters: [
 				{ name: 'Imágenes .jpg .png', extensions: [ 'jpg', 'png', 'jpeg' ] }
 			]
 		});
@@ -81,7 +79,6 @@ class CategoriasController {
 				}
 
 				// lee el archivo de imagen y lo devuelve al renderizado
-
 				readFileImageAsync( result.filePaths[0], ( imgObject ) => callback( imgObject ) );
 			})
 			.catch( error => {
