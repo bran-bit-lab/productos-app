@@ -17,22 +17,25 @@ class CategoriasController {
 			userid: usuario.userid
 		};
 
-		let nuevoNombreImagen = `categorias/${ Date.now() }.${ nuevaCategoria.imagen.split('.')[1] }`;
-
 		// si viene la imagen la almacena
 		if ( nuevaCategoria.imagen && nuevaCategoria.imagen.length > 0 ) {
 
 			try {
+
+				let nuevoNombreImagen = `categorias/${ Date.now() }.${ nuevaCategoria.imagen.split('.')[1] }`;
 				nuevaCategoria.imagen = copyFile( nuevaCategoria.imagen, nuevoNombreImagen );
 
 				console.log( nuevaCategoria );
 
 			} catch ( error ) {
 				console.log( error );
+
+				throw error;
 			}
 		}
 
-		/*this.database.insert( CRUD.crearCategoria, nuevaCategoria, ( error ) => {
+		// se inserta en la BD.
+		this.database.insert( CRUD.crearCategoria, nuevaCategoria, ( error ) => {
 
 			const notificacion = new Notification({
 				title: '',
@@ -55,7 +58,7 @@ class CategoriasController {
 
 			notificacion.show();
 
-		});*/
+		});
 	}
 
 	static openImageDialog( win, callback ) {
@@ -154,7 +157,7 @@ class CategoriasController {
 
 		console.log( categoria, usuario );
 
-		/*this.database.update( CRUD.editarCategoria, categoria, ( error ) => {
+		this.database.update( CRUD.editarCategoria, categoria, ( error ) => {
 
 			const notificacion = new Notification({
 				title: '',
@@ -175,7 +178,7 @@ class CategoriasController {
 				return;
 			}
 
-  	}) */;
+  	});
 	}
 
 }
