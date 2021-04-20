@@ -157,7 +157,7 @@ class CategoriasController {
 
 		console.log( categoria, usuario );
 
-		this.database.update( CRUD.editarCategoria, categoria, ( error ) => {
+		his.database.update( CRUD.editarCategoria, categoria, ( error ) => {
 
 			const notificacion = new Notification({
 				title: '',
