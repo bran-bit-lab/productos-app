@@ -9,6 +9,7 @@ const footer = document.querySelector('#footer');
 productsElement.innerHTML = readFileAssets( '/products/products-table/products-table-component.html' );
 categoriesElement.innerHTML = readFileAssets( '/products/categories-table/categories-table-component.html' );
 footer.innerHTML = readFileAssets('/products/categories-form/categories-form.html');
+footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-component.html' );
 
 const Tab = require('bootstrap/js/dist/tab');
 const Modal = require('bootstrap/js/dist/modal');
@@ -17,6 +18,7 @@ const ProductsTableComponent = require('./products-table/products-table-componen
 const CategoryTableComponent = require('./categories-table/categories-table-component');
 const { openModalNewCategory, openImageDialog, resetForm, openModalEditCategory } = require('./categories-form/categories-form');
 const PaginationComponent = require('../shared/pagination/pagination-component');
+const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 
 class ProductsComponent {
 
@@ -37,7 +39,7 @@ class ProductsComponent {
 				elementsProducts.forEach( ( elementHTML ) => hideElement( elementHTML ) );
 
 				// se hace la consulta antes de renderizar
-				categoryTableComponent.getAll();
+				categoryTableComponent.getAll( null, getPaginationStorage('categoriesTable') );
 
 				break;
 			}
@@ -56,7 +58,7 @@ class ProductsComponent {
 
 	setHtml( path ) {
 
-		const tabList = [ ...document.querySelectorAll('#products_list button') ];
+		const tabList = Array.from( document.querySelectorAll('#products_list button') );
 
 		tabList.forEach( this.setOptionsTabs.bind( this ) );
 
@@ -88,6 +90,10 @@ const categoryTableComponent = new CategoryTableComponent();
 
 // binding
 const changePagination = PaginationComponent.changePagination.bind( categoryTableComponent );
+
+const closeModalConfirm =  ModalConfirmComponent.closeModalConfirm.bind(
+	categoryTableComponent.activeCategory
+);
 
 document.addEventListener('DOMContentLoaded', productsComponent.setHtml );
 

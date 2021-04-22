@@ -4,37 +4,28 @@ const CRUD = require('../database/CRUD');
 const { readFileImageAsync, copyFile } = require('../util_functions/file');
 
 class CategoriasController {
+
 	databaseInstance = null;
 
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
 
+	static get urlImage() {
+		return this.setUrlImage || ( this.setUrlImage = new CategoriasController().setUrlImage );
+	}
+
 	static crearCategoria( categoria, usuario ) {
 
 		let nuevaCategoria = {
 			...categoria,
-			userid: usuario.userid
+			userid: usuario['userid']
 		};
 
-		// si viene la imagen la almacena
-		if ( nuevaCategoria.imagen && nuevaCategoria.imagen.length > 0 ) {
-
-			try {
-
-				let nuevoNombreImagen = `categorias/${ Date.now() }.${ nuevaCategoria.imagen.split('.')[1] }`;
-				nuevaCategoria.imagen = copyFile( nuevaCategoria.imagen, nuevoNombreImagen );
-
-				console.log( nuevaCategoria );
-
-			} catch ( error ) {
-				console.log( error );
-
-				throw error;
-			}
+		if ( nuevaCategoria['imagen'] && nuevaCategoria['imagen'].length > 0 ) {
+			nuevaCategoria['imagen'] = this.urlImage( nuevaCategoria['imagen'] );
 		}
 
-		// se inserta en la BD.
 		this.database.insert( CRUD.crearCategoria, nuevaCategoria, ( error ) => {
 
 			const notificacion = new Notification({
@@ -51,7 +42,6 @@ class CategoriasController {
 
 				return;
 			}
-
 
 			notificacion['title'] = 'Éxito';
 			notificacion['body'] = 'Categoria creado con éxito';
@@ -145,9 +135,9 @@ class CategoriasController {
 
 					return reject( error );
 				}
-				//console.log( results );
-				resolve( results );
 
+				// console.log( results );
+				resolve( results );
 			});
 
 		});
@@ -157,7 +147,7 @@ class CategoriasController {
 
 		console.log( categoria, usuario );
 
-		his.database.update( CRUD.editarCategoria, categoria, ( error ) => {
+		this.database.update( CRUD.editarCategoria, categoria, ( error ) => {
 
 			const notificacion = new Notification({
 				title: '',
@@ -179,6 +169,23 @@ class CategoriasController {
 			}
 
   	});
+	}
+
+	setUrlImage( urlImagen ) {
+
+		try {
+
+			let nuevoNombreImagen = `categorias/${ Date.now() }.${ urlImagen.split('.')[1] }`;
+			let resultadoUrl = copyFile( urlImagen, nuevoNombreImagen );
+
+			// se devuelve el string preformateado del copyFile
+			return resultadoUrl;
+
+		} catch ( error ) {
+			console.log( error );
+
+			throw error;
+		}
 	}
 
 }

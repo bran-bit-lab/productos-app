@@ -7,6 +7,7 @@ class CategoryTableComponent {
 
 		this.pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
 		this.getAll = this.getAll.bind( this );
+		this.activeCategory = this.activeCategory.bind( this );
 
 		// nav-table
 		this.totalPages = 0;
@@ -29,17 +30,42 @@ class CategoryTableComponent {
 	}
 
 	selectCategory( idCategory = 1, method = 'edit' ) {
+
 		let found = this.categories.find( category => category.categoriaid === idCategory );
 
-		if ( method === 'edit' ) {
-			return openModalEditCategory( found );
-		}
-
-		return;
+		openModalEditCategory( found );
 	}
 
-	activeCategory() {
-		console.log('active category');
+	activeCategory({ id, confirm }) {
+
+		if ( !confirm ) {
+			return;
+		}
+
+		let categoryFound = this.categories.find(( category ) => category.categoriaid === id );
+
+		const send = {
+			categoriaid: id,
+			activo: !categoryFound.activo
+		}
+
+		// enviar al controlador
+		console.log( send );
+	}
+
+	openModalConfirm( idCategory = null ) {
+
+		let found = this.categories.find(( category ) => category.categoriaid === idCategory );
+		let title = `${ found.activo ? 'Desactivar' : 'Activar' } la categoría ${ idCategory }`;
+
+		let element = (`
+			<p class="text-center">
+				¿Esta seguro de ${ found.activo ? 'desactivar' : 'activar' } la categoria de
+				${ found.nombre }?
+			</p>
+		`);
+
+		return ModalConfirmComponent.openModalConfirm( title, element, idCategory );
 	}
 
 	async searchCategories( $event ) {
@@ -64,25 +90,10 @@ class CategoryTableComponent {
 		}
 	}
 
-
-	getCategoriesActive() {
-
-		// @number devuelve el total de los productos activos
-
-		return CATEGORIES.reduce(( accum, product, index ) => {
-
-			if ( product.disponible && product.cantidad > 0 ) {
-				return accum = accum + 1;
-			}
-
-			return accum;
-		}, 0 );
-	}
-
 	getNombre( nombre, apellido ) {
 
-		if ( ( nombre === null || nombre.length === 0 ) &&
-			( apellido === null || apellido.length === 0 ) ) {
+		if ( ( !nombre || nombre.length === 0 ) &&
+			( !apellido || apellido.length === 0 ) ) {
 			return 'No disponible'
 		}
 
@@ -117,7 +128,7 @@ class CategoryTableComponent {
 					</button>
 					<button
 						type="button"
-						onclick="categoryTableComponent.activeProduct()"
+						onclick="categoryTableComponent.openModalConfirm( ${ category.categoriaid } )"
 						class="btn btn-danger btn-sm"
 					>
 						<i class="fas fa-trash"></i>
@@ -127,7 +138,7 @@ class CategoryTableComponent {
 		`);
 	}
 
-	render( categorias = [], totalCategories ) { // llamamos a este metodos
+	render( categorias = [], totalCategories ) {
 
 		let paginationValue = document.querySelector('#paginationValue');
 		let paginationEnd = document.querySelector('#paginationEnd');
