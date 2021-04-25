@@ -143,9 +143,28 @@ class CategoriasController {
 		});
 	}
 
-	static editarCategoria( categoria, usuario ) {
+	static editarCategoria( categoria, usuario, imagenRegistrada ) {
 
 		console.log( categoria, usuario );
+
+		// variables booleana
+		// aqui se valida los siguiente
+		// 1 categoria['imagen'] si llega
+		let change = categoria['imagen'].length > 0;
+		//validar que la imagenRegistrada sea diferente a la edicion
+		
+		// si llega tienes que remover la imagen actual en el directorio
+
+		// y volver a copiar con el nuevo destino
+
+		// si no llega o el registro no tiene imagen simplemente copias las fuente
+/*
+		if () {
+			// si existe y se sustitye
+		} else {
+			// si el registro no tiene imagen y se le agrega una
+		}
+
 
 		this.database.update( CRUD.editarCategoria, categoria, ( error ) => {
 
@@ -168,7 +187,7 @@ class CategoriasController {
 				return;
 			}
 
-  	});
+  	});*/
 	}
 
 	setUrlImage( urlImagen ) {
