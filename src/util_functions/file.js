@@ -19,6 +19,7 @@ function readFileAssets( url ) {
 function copyFile( url , dest ) {
 	dest = path.join( ENV.PATH_PICTURES, dest );
 
+	console.log(dest);
 	fs.copyFileSync( url , dest );
 
 	return dest;

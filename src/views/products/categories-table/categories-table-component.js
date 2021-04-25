@@ -23,6 +23,8 @@ class CategoryTableComponent {
  		delete data.categoriaid;
 
 		CategoriasController.crearCategoria( data, getUserLogged() );
+
+		this.getAll( null,   getPaginationStorage('categoriesTable') );
 	}
 
 	editCategory( data ) {

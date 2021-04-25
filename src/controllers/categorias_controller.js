@@ -44,7 +44,7 @@ class CategoriasController {
 			}
 
 			notificacion['title'] = 'Éxito';
-			notificacion['body'] = 'Categoria creado con éxito';
+			notificacion['body'] = 'Categoria creada con éxito';
 
 			notificacion.show();
 
@@ -175,7 +175,9 @@ class CategoriasController {
 
 		try {
 
+			// aqui se cambia el nombre se le pasa un timestamp
 			let nuevoNombreImagen = `categorias/${ Date.now() }.${ urlImagen.split('.')[1] }`;
+
 			let resultadoUrl = copyFile( urlImagen, nuevoNombreImagen );
 
 			// se devuelve el string preformateado del copyFile
