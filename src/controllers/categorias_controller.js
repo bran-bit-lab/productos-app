@@ -145,7 +145,7 @@ class CategoriasController {
 
 	static editarCategoria( categoria, usuario, imagenRegistrada ) {
 
-		console.log( categoria, usuario );
+		console.log({ categoria, usuario, imagenRegistrada });
 
 		// variables booleana
 		// aqui se valida los siguiente

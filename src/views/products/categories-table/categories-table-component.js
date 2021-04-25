@@ -28,7 +28,10 @@ class CategoryTableComponent {
 	}
 
 	editCategory( data ) {
-		CategoriasController.editarCategoria( data, getUserLogged() );
+
+		let imagenRegistrada = this.categories.find( ( category ) => category.categoriaid === data.categoriaid ).imagen;
+
+		CategoriasController.editarCategoria( data, getUserLogged(), imagenRegistrada );
 	}
 
 	selectCategory( idCategory = 1, method = 'edit' ) {
