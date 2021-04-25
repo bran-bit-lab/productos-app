@@ -26,5 +26,16 @@ function getUserLogged() {
 }
 
 function getPaginationStorage( key ) {
-  return JSON.parse( sessionStorage.getItem( key )).pagination || [0, 10];
+
+  /*
+  *  @params: key -> string
+  *  @return array: number[];
+  *
+  */
+
+  if ( !sessionStorage.getItem( key ) ) {
+    return [0, 10];
+  }
+
+  return JSON.parse( sessionStorage.getItem( key )).pagination;
 }

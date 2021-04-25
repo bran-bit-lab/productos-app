@@ -39,6 +39,8 @@ class ProductsComponent {
 				elementsProducts.forEach( ( elementHTML ) => hideElement( elementHTML ) );
 
 				// se hace la consulta antes de renderizar
+
+				console.log( getPaginationStorage('categoriesTable') );
 				categoryTableComponent.getAll( null, getPaginationStorage('categoriesTable') );
 
 				break;
