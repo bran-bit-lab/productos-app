@@ -55,10 +55,24 @@ function checkAsset( url ) {
 		'El archivo no existe';
 }
 
+function deleteImageSync ( url ) {
+	try{
+		fs.unlinkSync( url ) ;
+		
+	}catch(error){
+		conosole.log(error)
+	}
+	
+}
+
+
+// aqui vas a crear esa function porque aqui esta importado el modulo fs
+
 module.exports = {
 	readFile,
 	readFileAssets,
 	checkAsset,
 	readFileImageAsync,
-	copyFile
+	copyFile,
+	deleteImageSync
 };

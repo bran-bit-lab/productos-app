@@ -1,7 +1,7 @@
 const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
-const { readFileImageAsync, copyFile } = require('../util_functions/file');
+const { readFileImageAsync, copyFile, deleteImageSync } = require('../util_functions/file');
 
 class CategoriasController {
 
@@ -145,26 +145,21 @@ class CategoriasController {
 
 	static editarCategoria( categoria, usuario, imagenRegistrada ) {
 
-		console.log( categoria, usuario );
+		//console.log( categoria, imagenRegistrada, "imagen_registrada" );
 
-		// variables booleana
-		// aqui se valida los siguiente
-		// 1 categoria['imagen'] si llega
-		let change = categoria['imagen'].length > 0;
-		//validar que la imagenRegistrada sea diferente a la edicion
+		let change = categoria['imagen'].length > 0 && imagenRegistrada !== categoria['imagen'];
 		
-		// si llega tienes que remover la imagen actual en el directorio
+		if ( change == true && (imagenRegistrada.length > 0) ){
 
-		// y volver a copiar con el nuevo destino
+			deleteImageSync ( imagenRegistrada );
 
-		// si no llega o el registro no tiene imagen simplemente copias las fuente
-/*
-		if () {
-			// si existe y se sustitye
+			categoria['imagen'] = this.urlImage( categoria['imagen'] );
+			console.log(categoria['imagen']);
+
 		} else {
-			// si el registro no tiene imagen y se le agrega una
-		}
+			categoria['imagen'] = this.urlImage( categoria['imagen'] );
 
+		};
 
 		this.database.update( CRUD.editarCategoria, categoria, ( error ) => {
 
@@ -187,7 +182,12 @@ class CategoriasController {
 				return;
 			}
 
-  	});*/
+				notificacion['title'] = 'Exito!!';
+				notificacion['body'] = 'Categoria Actualizada';
+
+				notificacion.show();
+
+  		});
 	}
 
 	setUrlImage( urlImagen ) {

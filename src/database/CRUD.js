@@ -15,7 +15,7 @@ const CRUD = Object.freeze({
 	crearCategoria : "INSERT INTO categorias (userid, nombre, descripcion, imagen) VALUES(:userid, :nombre, :descripcion, :imagen);",
 	listarCategorias : "SELECT categorias.*, usuarios.nombre AS nombre_usuario, usuarios.apellido FROM categorias LEFT JOIN usuarios ON categorias.userid = usuarios.userid LIMIT :start, :limit;",
 	obtenerTotalCategorias : "SELECT COUNT(*) FROM categorias;",
-	editarCategoria : "UPDATE categorias SET nombre = :nombre, descripcion = :descripcion WHERE categoriaid = :categoriaid;",
+	editarCategoria : "UPDATE categorias SET nombre = :nombre, descripcion = :descripcion, imagen = :imagen WHERE categoriaid = :categoriaid;",
 	buscarCategoria: "SELECT userid, nombre, categoriaid, imagen, FROM categorias WHERE nombre LIKE :search OR descripcion LIKE :search;",
 });
 
