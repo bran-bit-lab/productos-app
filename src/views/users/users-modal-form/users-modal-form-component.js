@@ -28,6 +28,8 @@ function getForm( $event, userComponent = this ) {
 
 	validateForm( data, ( error, data ) => {
 
+		console.log( data );
+
 		if ( error ) {
 			return footer.querySelector('#name-user').focus();
 		}

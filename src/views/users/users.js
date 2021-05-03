@@ -107,14 +107,14 @@ class UsersComponent {
 			userid: id
 		});
 
-		return this.getAll( null, PaginationComponent.getPaginationStorage('usersTable') );
+		return this.getAll( null, getPaginationStorage('usersTable') );
 	}
 
 	newUser( form ) {
 
 		UsersController.crearUsuario( form );
 
-		return this.getAll( null, PaginationComponent.getPaginationStorage('usersTable') );
+		return this.getAll( null, getPaginationStorage('usersTable') );
 	}
 
 	changeRole( user ) {

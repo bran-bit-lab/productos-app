@@ -29,13 +29,14 @@ class UsersController {
 
 			if ( error ) {
 
+				console.log( error );
 				// throw error;  // mostrará el error en pantalla
 
 				notificacion['title'] = 'Error!!';
 				notificacion['body'] = 'Error al crear usuario';
 
 				notificacion.show();
-				
+
 				return;
 			}
 
@@ -53,7 +54,7 @@ class UsersController {
 		return new Promise( ( resolve, reject ) => {
 
 			this.database.getTotalRecords( CRUD.obtenerTotalUsuarios, ( error, resultado ) => {
-				
+
 				const notificacion = new Notification({
 					title: 'Error en obtener los registros',
 					body: 'No se pudo obtener el total de registros'
@@ -67,7 +68,7 @@ class UsersController {
 
 					return reject( error );
 				}
-				
+
 				const totalRegistros = resultado[0]['COUNT(*)'];
 
 				let totalPaginas = ( totalRegistros / 10 );
@@ -75,13 +76,13 @@ class UsersController {
 				resolve({
 					totalPaginas: Math.ceil( totalPaginas ),
 					totalRegistros: totalRegistros
-				}); 
-			
+				});
+
 			});
 
 		});
-	}	
-		
+	}
+
 
 	static listarUsuarios( pagination ) {
 
@@ -94,7 +95,7 @@ class UsersController {
 				if ( error ) {
 
 					console.log( error );
-					
+
 					return reject( error );
 				}
 
@@ -175,7 +176,7 @@ class UsersController {
 					notificacion.show();
 
 					console.log( error );
-					
+
 					return reject( error );
 				}
 
@@ -186,11 +187,11 @@ class UsersController {
 	}
 
 	static login( usuario ) {
-		
-		// 1.- si el usuario existe dentro de la bd 
+
+		// 1.- si el usuario existe dentro de la bd
 		// 2.- si existe el usuario pero que este activo
 		// 3.- verificar las contraseñas
-		
+
 		return new Promise (( resolve, reject ) => {
 
 			this.database.find( CRUD.validarUsuario, usuario, ( error, results ) => {
@@ -208,12 +209,12 @@ class UsersController {
 					notificacion.show();
 
 					// console.log( error );
-					
+
 					return reject( error );
-				}	
-					
+				}
+
 				if ( results.length === 0 ) {
-					
+
 					// length devuelve la cantidad de elementos en una matriz
 					// sino lo encuentra muestra la notificacion
 
@@ -221,50 +222,50 @@ class UsersController {
 					notificacion['body'] = 'Credenciales inválidas';
 
 					// console.log("usuario no encontrado");
-					
+
 					notificacion.show();
 
 					reject('credenciales inválidas');
 
 				} else {
 
-					const [ user ] = results; 
+					const [ user ] = results;
 
 					const passwordDB = user['password'];
 
 					// compareSync devuelve un boleano el resultado de la comparación
 					const match = bcrypt.compareSync( usuario['password'], passwordDB );
-				
+
 					if ( !match ) {
-						
+
 						notificacion['title'] = 'Atención!!';
 						notificacion['body'] = 'Credenciales inválidas';
-										
+
 						notificacion.show();
 
 						// console.log("clave invalida");
 
 						reject('credenciales invalidas');
-					
+
 					} else {
 
 						// console.log("usuario valido");
-						
+
 						// Se elimina la propiedad password del objeto results para la vista
 
 						delete user['password'];
 						delete user['estado'];
 
 						resolve( user );
-					}					
+					}
 				};
 
 			});
-		
+
 		});
 
-	}	
-		
+	}
+
 }
 
 

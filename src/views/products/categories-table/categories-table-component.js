@@ -29,13 +29,12 @@ class CategoryTableComponent {
 
 	editCategory( data ) {
 
-
-		let found = this.categories.find( category => category.categoriaid === data.categoriaid );		
+		let found = this.categories.find( category => category.categoriaid === data.categoriaid );
 
 		CategoriasController.editarCategoria( data, getUserLogged(), found.imagen );
 
 		this.getAll( null,   getPaginationStorage('categoriesTable') );
-	
+
 	}
 
 	selectCategory( idCategory = 1, method = 'edit' ) {
