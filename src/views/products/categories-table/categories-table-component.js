@@ -55,10 +55,11 @@ class CategoryTableComponent {
 		const send = {
 			categoriaid: id,
 			activo: !categoryFound.activo
-		}
+		};
 
-		// enviar al controlador
-		console.log( send );
+		CategoriasController.activarCategoria( send );
+
+		this.getAll( null,   getPaginationStorage('categoriesTable') );
 	}
 
 	openModalConfirm( idCategory = null ) {

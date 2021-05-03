@@ -51,6 +51,34 @@ class CategoriasController {
 		});
 	}
 
+	static activarCategoria( categoria ) {
+
+		this.database.update( CRUD.activarCategoria, categoria, ( error ) => {
+
+			const notificacion = new Notification({
+				title: '',
+				body: ''
+			});
+
+			if ( error ) {
+
+				console.log( error );
+
+				notificacion['title'] = 'Error!!';
+				notificacion['body'] = 'Error al crear categoria';
+
+				notificacion.show();
+
+				return;
+			}
+
+			notificacion['title'] = 'Éxito';
+			notificacion['body'] = 'Categoria actualizada con éxito';
+
+			notificacion.show();
+		});
+	}
+
 	static openImageDialog( win, callback ) {
 
 		// se le pasa un objeto de configuracion
@@ -148,13 +176,13 @@ class CategoriasController {
 		//console.log( categoria, imagenRegistrada, "imagen_registrada" );
 
 		let change = categoria['imagen'].length > 0 && imagenRegistrada !== categoria['imagen'];
-		
+
 		if ( change == true && (imagenRegistrada.length > 0) ){
 
 			deleteImageSync ( imagenRegistrada );
 
 			categoria['imagen'] = this.urlImage( categoria['imagen'] );
-			console.log(categoria['imagen']);
+			// console.log(categoria['imagen']);
 
 		} else {
 			categoria['imagen'] = this.urlImage( categoria['imagen'] );

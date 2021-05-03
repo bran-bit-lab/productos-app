@@ -16,6 +16,7 @@ const CRUD = Object.freeze({
 	listarCategorias : "SELECT categorias.*, usuarios.nombre AS nombre_usuario, usuarios.apellido FROM categorias LEFT JOIN usuarios ON categorias.userid = usuarios.userid LIMIT :start, :limit;",
 	obtenerTotalCategorias : "SELECT COUNT(*) FROM categorias;",
 	editarCategoria : "UPDATE categorias SET nombre = :nombre, descripcion = :descripcion, imagen = :imagen WHERE categoriaid = :categoriaid;",
+	activarCategoria: "UPDATE categorias SET activo = :activo WHERE categoriaid = :categoriaid",
 	buscarCategoria: "SELECT userid, nombre, categoriaid, imagen, FROM categorias WHERE nombre LIKE :search OR descripcion LIKE :search;",
 });
 
