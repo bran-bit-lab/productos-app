@@ -82,15 +82,12 @@ class CategoryTableComponent {
 		if ( $event.length === 0 ) {
 			let { pagination } = getPaginationStorage('categoriesTable');
 
-			return this.getAll(
-				null,
-				pagination
-			);
+			return this.getAll( null, pagination );
 		}
 
 		this.users = await CategoriasController.buscarCategoria({ search: $event });
 
-		console.log(this.users);
+		// console.log( this.users );
 
 		this.render( this.users, null, true );
 	}
