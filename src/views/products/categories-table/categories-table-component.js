@@ -77,8 +77,22 @@ class CategoryTableComponent {
 		return ModalConfirmComponent.openModalConfirm( title, element, idCategory );
 	}
 
-	async searchCategories( $event ) {
-		console.log( $event );
+	async searchCategories( $event = '' ) {
+
+		if ( $event.length === 0 ) {
+			let { pagination } = getPaginationStorage('categoriesTable');
+
+			return this.getAll(
+				null,
+				pagination
+			);
+		}
+
+		this.users = await CategoriasController.buscarCategoria({ search: $event });
+
+		console.log(this.users);
+
+		this.render( this.users, null, true );
 	}
 
 	async getAll( $event, pagination = [0, 10] ) {
@@ -99,11 +113,11 @@ class CategoryTableComponent {
 		}
 	}
 
-	getNombre( nombre, apellido ) {
+	getName( name, surname ) {
 
-		if ( ( !nombre || nombre.length === 0 ) &&
-			( !apellido || apellido.length === 0 ) ) {
-			return 'No disponible'
+		if ( ( !name || name.length === 0 ) &&
+			( !surname || surname.length === 0 ) ) {
+			return 'No disponible';
 		}
 
 		return nombre + ' ' + apellido;
@@ -116,7 +130,7 @@ class CategoryTableComponent {
 				<td>${ category.categoriaid }</td>
 				<td>${ category.nombre ? category.nombre : 'No disponible' }</td>
 				<td>${ category.descripcion }</td>
-				<td>${ this.getNombre( category.nombre_usuario, category.apellido ) }</td>
+				<td>${ this.getName( category.nombre_usuario, category.apellido ) }</td>
 				<td>${ category.activo ?
 						('<i class="fas fa-check text-success"></i>') :
 						('<i class="fas fa-times text-danger"></i>')
@@ -147,24 +161,28 @@ class CategoryTableComponent {
 		`);
 	}
 
-	render( categorias = [], totalCategories ) {
+	render( categorias = [], totalCategories, search = false ) {
 
-		let paginationValue = document.querySelector('#paginationValue');
-		let paginationEnd = document.querySelector('#paginationEnd');
-		let totalCategoriesElement = document.querySelector('#totalCategory');
+		if ( !search ) {
 
-		this.tbody.innerHTML = '';
-		this.totalPages = totalCategories.totalPaginas;
-		this.totalRegisters = totalCategories.totalRegistros;
+			let paginationValue = document.querySelector('#paginationValue');
+			let paginationEnd = document.querySelector('#paginationEnd');
+			let totalCategoriesElement = document.querySelector('#totalCategory');
 
-		totalCategoriesElement.textContent = this.totalRegisters;
-		paginationValue.textContent =  this.currentPage + 1;
-		paginationEnd.textContent = this.totalPages;
+			this.tbody.innerHTML = '';
+			this.totalPages = totalCategories.totalPaginas;
+			this.totalRegisters = totalCategories.totalRegistros;
 
-		PaginationComponent.setButtonsPagination.call( this, this.totalPages );
+			totalCategoriesElement.textContent = this.totalRegisters;
+			paginationValue.textContent =  this.currentPage + 1;
+			paginationEnd.textContent = this.totalPages;
+
+			PaginationComponent.setButtonsPagination.call( this, this.totalPages );
+		}
 
 		if ( categorias.length > 0 ) {
 
+			console.log(this.tbody);
 			this.pagination.style.display = 'block';
 
 			this.tbody.innerHTML = categorias.map( this.setRows.bind( this ) ).join('');
@@ -173,7 +191,7 @@ class CategoryTableComponent {
 
 			this.pagination.style.display = 'none';
 
-			this.tbody.innerHTML += (`
+			this.tbody.innerHTML = (`
 				<tr class="text-center">
 					<td colspan="7" class="text-danger">
 						No existen registros de productos disponibles

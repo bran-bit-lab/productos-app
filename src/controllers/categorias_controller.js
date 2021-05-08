@@ -237,6 +237,37 @@ class CategoriasController {
 		}
 	}
 
+	static buscarCategoria( search ) {
+
+		return new Promise(( resolve, reject ) => {
+
+				this.database.find( CRUD.buscarCategoria, search, ( error, results ) => {
+
+					const notificacion = new Notification({
+						title: '',
+						body: ''
+					});
+
+					if ( error ) {
+
+						// throw error;  // mostrará el error en pantalla
+
+						notificacion['title'] = 'Error!!';
+						notificacion['body'] = 'Error al buscar categoria';
+
+						notificacion.show();
+
+						console.log( error );
+
+						return reject( error );
+
+					}
+
+					return resolve( results );
+				});
+		});
+	}
+
 }
 
 module.exports = {

@@ -17,7 +17,7 @@ const CRUD = Object.freeze({
 	obtenerTotalCategorias : "SELECT COUNT(*) FROM categorias;",
 	editarCategoria : "UPDATE categorias SET nombre = :nombre, descripcion = :descripcion, imagen = :imagen WHERE categoriaid = :categoriaid;",
 	activarCategoria: "UPDATE categorias SET activo = :activo WHERE categoriaid = :categoriaid",
-	buscarCategoria: "SELECT userid, nombre, categoriaid, imagen, FROM categorias WHERE nombre LIKE :search OR descripcion LIKE :search;",
+	buscarCategoria: "SELECT userid, nombre, categoriaid, imagen FROM categorias WHERE nombre LIKE :search OR descripcion LIKE :search;",
 });
 
 module.exports = CRUD;
