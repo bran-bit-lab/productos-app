@@ -117,7 +117,7 @@ class CategoryTableComponent {
 			return 'No disponible';
 		}
 
-		return nombre + ' ' + apellido;
+		return name + ' ' + surname;
 	}
 
 	setRows( category ) {
