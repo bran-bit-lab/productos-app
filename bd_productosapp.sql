@@ -32,7 +32,7 @@ CREATE TABLE `categorias` (
   PRIMARY KEY (`categoriaid`),
   KEY `userid` (`userid`),
   CONSTRAINT `categorias_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `usuarios` (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,6 +51,15 @@ INSERT INTO `categorias` VALUES (1,'Bebidas','prueba de desarrollo',7,1,'');
 INSERT INTO `categorias` VALUES (1,'Frutas','prueba de desarrollo',8,1,'');
 INSERT INTO `categorias` VALUES (1,'verduras','prueba de desarrollo',9,1,'');
 INSERT INTO `categorias` VALUES (1,'Carnes','prueba de desarrollo',10,1,'');
+INSERT INTO `categorias` VALUES (17,'Miscelaneo','prueba de desarrollo',11,1,'');
+INSERT INTO `categorias` VALUES (17,'Miscelaneo','prueba de desarrollo',13,1,'');
+INSERT INTO `categorias` VALUES (17,'Circuito','Lectura de potencia',14,1,'C:\\Users\\Brian\\Documents\\Diseños Multisim\\Imagenes\\Actividad_4_PR1.jpg');
+INSERT INTO `categorias` VALUES (17,'Actividad','Rtotal',15,1,'C:\\Users\\Brian\\Documents\\Diseños Multisim\\Imagenes\\Actividad_2_Rtotal.jpg');
+INSERT INTO `categorias` VALUES (17,'formula','capacitancia',16,1,'');
+INSERT INTO `categorias` VALUES (17,'Formula','impedancia Capacitiva',17,1,'C:\\Users\\Brian\\Documents\\Archivos\\XAMPP\\htdocs\\productos-app\\src\\imagenes\\categorias\\1619382008916.jpg');
+INSERT INTO `categorias` VALUES (17,'Carga','condensador',18,1,'C:\\Users\\Brian\\Documents\\Archivos\\XAMPP\\htdocs\\productos-app\\src\\imagenes\\categorias\\1619382261982.jpg');
+INSERT INTO `categorias` VALUES (17,'nuevo registro','con imagen',19,1,'C:\\Users\\Brian\\Documents\\Archivos\\XAMPP\\htdocs\\productos-app\\src\\imagenes\\categorias\\1619991280274.jpg');
+INSERT INTO `categorias` VALUES (17,'iCincoV','cambioCuatro',23,1,'C:\\Users\\Brian\\Documents\\Archivos\\XAMPP\\htdocs\\productos-app\\src\\imagenes\\categorias\\1619991331472.jpg');
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,14 +99,15 @@ DROP TABLE IF EXISTS `productos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `productos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) DEFAULT NULL,
   `nombre` char(30) DEFAULT NULL,
   `descripcion` varchar(600) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `imagen` varchar(255) DEFAULT NULL,
+  `productoid` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`productoid`),
   KEY `userid` (`userid`),
   CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `categorias` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,6 +116,16 @@ CREATE TABLE `productos` (
 
 LOCK TABLES `productos` WRITE;
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
+INSERT INTO `productos` VALUES (NULL,'Teclado','Genius',NULL,1);
+INSERT INTO `productos` VALUES (NULL,'Monitor','Samsung',NULL,2);
+INSERT INTO `productos` VALUES (NULL,'Telefono','Iphone',NULL,3);
+INSERT INTO `productos` VALUES (NULL,'Mouse','VIT',NULL,4);
+INSERT INTO `productos` VALUES (NULL,'Cuaderno','Doble linea',NULL,5);
+INSERT INTO `productos` VALUES (NULL,'Lapiz','Mongol',NULL,6);
+INSERT INTO `productos` VALUES (NULL,'Carpeta','Manila',NULL,7);
+INSERT INTO `productos` VALUES (NULL,'Bombillo','LED',NULL,8);
+INSERT INTO `productos` VALUES (NULL,'Papel','Bond',NULL,9);
+INSERT INTO `productos` VALUES (NULL,'Papel','Lustrillo',NULL,10);
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,7 +155,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'test1','apellido1','correo1@prueba.com','prueba','ventas',1);
+INSERT INTO `usuarios` VALUES (1,'test1','apellido1','correo1@prueba.com','prueba','Ventas',1);
 INSERT INTO `usuarios` VALUES (2,'test2','apellido2','correo2@prueba.com','prueba','ventas',1);
 INSERT INTO `usuarios` VALUES (3,'test3','apellido3','correo3@prueba.com','prueba','ventas',1);
 INSERT INTO `usuarios` VALUES (4,'test4','apellido4','correo4@prueba.com','prueba','ventas',1);
@@ -164,4 +184,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-28 16:02:02
+-- Dump completed on 2021-05-16 18:20:35

@@ -18,6 +18,14 @@ const CRUD = Object.freeze({
 	editarCategoria : "UPDATE categorias SET nombre = :nombre, descripcion = :descripcion, imagen = :imagen WHERE categoriaid = :categoriaid;",
 	activarCategoria: "UPDATE categorias SET activo = :activo WHERE categoriaid = :categoriaid",
 	buscarCategoria: "SELECT userid, nombre, categoriaid, imagen FROM categorias WHERE nombre LIKE :search OR descripcion LIKE :search;",
+
+	//products ...
+	crearProductos : "INSERT INTO productos (userid, nombre, descripcion, imagen) VALUES(:userid, :nombre, :descripcion, :imagen);",
+	//listarProductos : "SELECT productos.*, categorias.nombre AS nombre_categoria, usuarios.nombre AS nombre_usuario, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid LIMIT :start, :limit;",
+	obtenerTotalProductos : "SELECT COUNT(*) FROM productos;",
+	editarProductos : "UPDATE productos SET nombre = :nombre, descripcion = :descripcion, imagen = :imagen WHERE categoriaid = :categoriaid;",
+	activarProducto: "UPDATE productos SET activo = :activo WHERE productoid = :prodcutoid",
+	buscarproducto: "SELECT userid, nombre, productoid, imagen FROM productos WHERE nombre LIKE :search OR descripcion LIKE :search;",
 });
 
 module.exports = CRUD;
