@@ -1,3 +1,5 @@
+// require ambito global
+
 const { remote } = require('electron');
 const { readFileAssets, readFileImageAsync } = remote.require('./util_functions/file');
 const { CategoriasController } = remote.require('./controllers/categorias_controller');
@@ -6,17 +8,24 @@ const productsElement = document.querySelector('#products');
 const categoriesElement = document.querySelector('#category');
 const footer = document.querySelector('#footer');
 
+// load tables
 productsElement.innerHTML = readFileAssets( '/products/products-table/products-table-component.html' );
 categoriesElement.innerHTML = readFileAssets( '/products/categories-table/categories-table-component.html' );
+
+// load modals
 footer.innerHTML = readFileAssets('/products/categories-form/categories-form.html');
 footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-component.html' );
+footer.innerHTML += readFileAssets('/products/products-form/products-form.html');
 
 const Tab = require('bootstrap/js/dist/tab');
 const Modal = require('bootstrap/js/dist/modal');
 
 const ProductsTableComponent = require('./products-table/products-table-component');
+const { openModalNewProduct, openModalEditProduct, handleChangeQuantity } = require('./products-form/products-form');
+
 const CategoryTableComponent = require('./categories-table/categories-table-component');
 const { openModalNewCategory, openImageDialog, resetForm, openModalEditCategory } = require('./categories-form/categories-form');
+
 const PaginationComponent = require('../shared/pagination/pagination-component');
 const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 

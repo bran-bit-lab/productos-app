@@ -4,7 +4,7 @@ class ProductsTableComponent {
 
 		// this.totalProducts = document.querySelector('#totalProducts');
 		// this.availableProducts = document.querySelector('#availableProducts');
-		
+
 		this.tbody = productsElement.querySelector('#tbody-products');
 		this.pagination = productsElement.querySelector('#pagination');
 
@@ -16,19 +16,19 @@ class ProductsTableComponent {
 	}
 
 	editProduct() {
-		console.log('editProduct');
+		openModalEditProduct();
 	}
 
 	activeProduct() {
 		console.log('active product');
 	}
 
-	getProducts() {
+	getAll() {
 
 	}
 
 	getCategory( categoriaId ) {
-		
+
 		// @string retorna el nombre de la categoria
 
 		return CATEGORIAS.find(( categoria ) => categoria.id === categoriaId ).nombre;
@@ -39,7 +39,7 @@ class ProductsTableComponent {
 		// @number devuelve el total de los productos activos
 
 		return PRODUCTOS.reduce(( accum, product, index ) => {
-			
+
 			if ( product.disponible && product.cantidad > 0 ) {
 				return accum = accum + 1;
 			}
@@ -78,7 +78,7 @@ class ProductsTableComponent {
 	}
 
 	render() {
-		
+
 		// this.availableProducts.textContent = this.getProductsActive();
 		// this.totalProducts.textContent = PRODUCTOS.length;
 

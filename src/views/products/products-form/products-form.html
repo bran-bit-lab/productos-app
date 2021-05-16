@@ -1,0 +1,66 @@
+<form novalidate name="products-form">
+  <div class="modal fade" tabindex="-1" id="products-form" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <div class="row mt-3">
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="product-name">Nombre:</label>
+                <input type="text" class="form-control" name="product-name" id="product-name" />
+                <div class="invalid-feedback text-center" id="error-product-name"></div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="product-quantity">Cantidad:</label>
+                <input onchange="handleChangeQuantity( this )" type="number" min="0" max="1000" id="product-quantity"
+                  name="product-quantity" class="form-control" />
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="product-category">Categoría:</label>
+                <select name="product-category" id="product-category" class="form-control">
+                  <option value="" selected>Seleccione</option>
+                  <option value="1">Carnes</option>
+                  <option value="2">Verduras</option>
+                  <option value="3">Bebidas</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="product-price">Precio unitario:</label>
+                <input onchange="handleChangeQuantity( this )" type="number" min="0" max="999" step="0.01"
+                  class="form-control" name="product-price" id="product-price" />
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-check">
+                <input name="product-available" type="checkbox" id="product-available" class="form-check-input" />
+                <label class="form-check-label" for="product-available">Producto disponible</label>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="resetForm( true )">Limpiar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
