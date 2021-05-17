@@ -11,8 +11,8 @@ class ProductsTableComponent {
 		this.render = this.render.bind( this );
 	}
 
-	addProduct() {
-		console.log('add product');
+	addProduct( data ) {
+		console.log( data );
 	}
 
 	editProduct() {

@@ -21,7 +21,7 @@ const Tab = require('bootstrap/js/dist/tab');
 const Modal = require('bootstrap/js/dist/modal');
 
 const ProductsTableComponent = require('./products-table/products-table-component');
-const { openModalNewProduct, openModalEditProduct, handleChangeQuantity } = require('./products-form/products-form');
+const { openModalNewProduct, openModalEditProduct, handleChangeQuantity, resetFormProducts } = require('./products-form/products-form');
 
 const CategoryTableComponent = require('./categories-table/categories-table-component');
 const { openModalNewCategory, openImageDialog, resetForm, openModalEditCategory } = require('./categories-form/categories-form');

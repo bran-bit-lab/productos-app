@@ -23,6 +23,7 @@
                 <label for="product-quantity">Cantidad:</label>
                 <input onchange="handleChangeQuantity( this )" type="number" min="0" max="1000" id="product-quantity"
                   name="product-quantity" class="form-control" />
+                  <div class="invalid-feedback text-center" id="error-product-quantity"></div>
               </div>
             </div>
 
@@ -35,6 +36,7 @@
                   <option value="2">Verduras</option>
                   <option value="3">Bebidas</option>
                 </select>
+                <div class="invalid-feedback text-center" id="error-product-category"></div>
               </div>
             </div>
 
@@ -43,13 +45,23 @@
                 <label for="product-price">Precio unitario:</label>
                 <input onchange="handleChangeQuantity( this )" type="number" min="0" max="999" step="0.01"
                   class="form-control" name="product-price" id="product-price" />
+                <div class="invalid-feedback text-center" id="error-product-price"></div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 align-self-center">
+              <div class="form-check">
+                <input name="product-available" type="checkbox" id="product-available" class="form-check-input" />
+                <label class="form-check-label" for="product-available">Producto disponible</label>
+                <div class="invalid-feedback text-center" id="error-product-available"></div>
               </div>
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="form-check">
-                <input name="product-available" type="checkbox" id="product-available" class="form-check-input" />
-                <label class="form-check-label" for="product-available">Producto disponible</label>
+              <div class="form-group">
+                <label for="product-description">Descripción:</label>
+                <textarea name="product-description" id="product-description" maxlength="600" class="form-control"></textarea>
+                <div class="invalid-feedback text-center" id="error-product-description"></div>
               </div>
             </div>
 
@@ -57,7 +69,7 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" onclick="resetForm( true )">Limpiar</button>
+          <button type="button" class="btn btn-secondary" onclick="resetFormProducts( true )">Limpiar</button>
           <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
       </div>
