@@ -68,7 +68,7 @@ const PRODUCTOS = [
 		descripcion: 'ensalada para tu familia',
 		precioUnitario: 0.2,
 		disponible: false,
-		cantidad: 0,
+		cantidad: 5,
 		categoriaId: 6
 	},
 	{

@@ -243,6 +243,7 @@ hideElement( imageContainer );
 hideElement( errorFile );
 
 footer.querySelector('#category-form').addEventListener('hidden.bs.modal', cleanFormOnClose );
+
 categoryForm.addEventListener( 'submit', handleSubmit );
 
 module.exports = {

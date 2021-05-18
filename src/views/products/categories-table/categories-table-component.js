@@ -8,6 +8,7 @@ class CategoryTableComponent {
 		this.pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
 		this.getAll = this.getAll.bind( this );
 		this.activeCategory = this.activeCategory.bind( this );
+		this.openModalConfirm = this.openModalConfirm.bind( this );
 
 		// nav-table
 		this.totalPages = 0;
@@ -66,13 +67,16 @@ class CategoryTableComponent {
 
 		let found = this.categories.find(( category ) => category.categoriaid === idCategory );
 		let title = `${ found.activo ? 'Desactivar' : 'Activar' } la categoría ${ idCategory }`;
-
 		let element = (`
 			<p class="text-center">
 				¿Esta seguro de ${ found.activo ? 'desactivar' : 'activar' } la categoria de
 				${ found.nombre }?
 			</p>
 		`);
+
+		closeModalConfirm = ModalConfirmComponent.closeModalConfirm.bind(
+			this.activeCategory
+		);
 
 		return ModalConfirmComponent.openModalConfirm( title, element, idCategory );
 	}

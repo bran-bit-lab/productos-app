@@ -49,7 +49,6 @@ class ProductsComponent {
 
 				// se hace la consulta antes de renderizar
 
-				console.log( getPaginationStorage('categoriesTable') );
 				categoryTableComponent.getAll( null, getPaginationStorage('categoriesTable') );
 
 				break;
@@ -102,9 +101,8 @@ const categoryTableComponent = new CategoryTableComponent();
 // binding
 const changePagination = PaginationComponent.changePagination.bind( categoryTableComponent );
 
-const closeModalConfirm =  ModalConfirmComponent.closeModalConfirm.bind(
-	categoryTableComponent.activeCategory
-);
+// binding active function
+let closeModalConfirm = null;
 
 document.addEventListener('DOMContentLoaded', productsComponent.setHtml );
 
@@ -120,6 +118,7 @@ document.querySelector('search-bar-component')
 			}
 
 			default: {
+					productsTableComponent.searchProducts.call( productsTableComponent, $event.detail.value )
 				break;
 			}
 		}

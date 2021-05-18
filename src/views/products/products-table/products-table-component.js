@@ -9,28 +9,44 @@ class ProductsTableComponent {
 		this.pagination = productsElement.querySelector('#pagination');
 
 		this.render = this.render.bind( this );
-	}
+		this.openModalConfirm = this.openModalConfirm.bind( this );
 
-	addProduct( data ) {
-		console.log( data );
-	}
-
-	editProduct() {
-		openModalEditProduct();
-	}
-
-	activeProduct() {
-		console.log('active product');
 	}
 
 	getAll() {
+	}
 
+	createProduct( data ) {
+		console.log( data ); // enviar al controlador
+	}
+
+	selectProduct( idProduct ) {
+		let found = PRODUCTOS.find( product => product.id === idProduct );
+
+		openModalEditProduct( found );
+	}
+
+	editProduct( data ) {
+		console.log( data );  // enviar al controlador
+	}
+
+	activeProduct({ id, confirm }) {
+
+		if ( !confirm ) {
+			return;
+		}
+
+		let found = PRODUCTOS.find(( product ) => product.id === id );
+
+		console.log( found );  // enviar al controller
+	}
+
+	searchProducts( $event ) {
+		console.log( $event );
 	}
 
 	getCategory( categoriaId ) {
-
 		// @string retorna el nombre de la categoria
-
 		return CATEGORIAS.find(( categoria ) => categoria.id === categoriaId ).nombre;
 	}
 
@@ -48,6 +64,23 @@ class ProductsTableComponent {
 		}, 0 );
 	}
 
+	openModalConfirm( idProduct ) {
+
+		let found = PRODUCTOS.find(( product ) => product.id === idProduct );
+		let title = `${ found.disponible ? 'Desactivar' : 'Activar' } el producto ${ idProduct }`;
+		let element = (`
+			<p class="text-center">
+				¿Esta seguro de ${ found.disponible ? 'desactivar' : 'activar' } la disponibilidad del producto
+				${ found.nombre }?
+			</p>
+		`);
+
+		// reasigna el bind de la funcion
+		closeModalConfirm = ModalConfirmComponent.closeModalConfirm.bind( this.activeProduct );
+
+		return ModalConfirmComponent.openModalConfirm( title, element, idProduct );
+	}
+
 	setRows( product ) {
 		return (`
 			<tr class="text-center">
@@ -56,18 +89,20 @@ class ProductsTableComponent {
 				<td>${ product.cantidad > 0 ? product.cantidad : ('<span class="text-danger">Agotado</span>') }</td>
 				<td>${ this.getCategory( product.categoriaId ) }</td>
 				<td>${ product.precioUnitario }$</td>
-				<td>${ product.disponible && product.cantidad > 0 ? 'disponible' : ('<span class="text-danger">no disponible</span>') }</td>
+				<td>${ product.disponible && product.cantidad > 0 ? 'disponible' :
+					('<span class="text-danger">no disponible</span>') }
+				</td>
 				<td>
 					<button
 						type="button"
-						onclick="productsTableComponent.editProduct()"
+						onclick="productsTableComponent.selectProduct( ${ product.id } )"
 						class="btn btn-primary btn-sm"
 					>
 						<i class="fas fa-edit"></i>
 					</button>
 					<button
 						type="button"
-						onclick="productsTableComponent.activeProduct()"
+						onclick="productsTableComponent.openModalConfirm( ${ product.id } )"
 						class="btn btn-danger btn-sm"
 					>
 						<i class="fas fa-trash"></i>
@@ -101,9 +136,7 @@ class ProductsTableComponent {
 					</td>
 				</tr>
 			`);
-
 		}
-
 	}
 }
 

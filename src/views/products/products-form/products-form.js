@@ -9,14 +9,82 @@ function openModalNewProduct() {
 
   editProductForm = false;
 
+  setForm();
+
   modalFormProducts.toggle();
 }
 
-function openModalEditProduct() {
+function openModalEditProduct( product ) {
 
   editProductForm = true;
 
-  console.log('modal edit-product');
+  const modal = footer.querySelector('#products-form');
+
+  modal.querySelector('.modal-title').textContent = `Editar producto ${ product.id }`;
+
+  setForm( product );
+
+  modalFormProducts.toggle();
+}
+
+function setForm( product ) {
+
+  const inputs = Array.from( productForm.querySelectorAll('input') );
+  const select = productForm.querySelector('select');
+  const textarea = productForm.querySelector('textarea');
+
+  // se asignan los datos de la categoría
+  select.innerHTML = (`
+    <option value="">Seleccione</option>
+    ${ CATEGORIAS.map(( category ) => (`
+        <option value="${ category.id }">${ category.nombre }</option>
+      `)).join('')
+    }
+  `);
+
+  // pasará por la condicional si es nuevo
+  if ( !product ) {
+    return;
+  }
+
+  textarea.value = product.descripcion;
+  select.value = product.categoriaId;
+
+  inputs.forEach(( element ) => {
+
+    switch ( element.name ) {
+
+      case 'product-name': {
+        element.value = product.nombre;
+        break;
+      }
+
+      case 'product-quantity': {
+        element.value = product.cantidad;
+        break;
+      }
+
+      case 'product-available': {
+        element.checked = product.disponible;
+        break;
+      }
+
+      case 'product-price': {
+        element.value = product.precioUnitario;
+        break;
+      }
+
+      case 'product-description': {
+        element.value = product.descripcion;
+        break;
+      }
+
+      default: {
+        element.value = '';
+        break;
+      }
+    }
+  });
 }
 
 function handleSubmit( $event ) {
@@ -41,10 +109,10 @@ function handleSubmit( $event ) {
     }
 
     if ( editProductForm ) {
-      productsTableComponent.editProduct();
+      productsTableComponent.editProduct( data );
 
     } else {
-      productsTableComponent.addProduct( data );
+      productsTableComponent.createProduct( data );
 
     }
 
@@ -194,7 +262,7 @@ const errorProductPrice = footer.querySelector('#error-product-price');
 const errorProductDescription = footer.querySelector('#error-product-description');
 const errorProductCategory = footer.querySelector('#error-product-category');
 
-let editProductForm  = false;
+let editProductForm = false;
 
 productForm.addEventListener( 'submit', handleSubmit );
 
