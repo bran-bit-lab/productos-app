@@ -15,35 +15,45 @@ function openModalEditCategory( category ) {
 	newCategory = false;
 	categorySelected = category;
 
-	// si existe una imagen en el registro realiza la lectura
-	if ( categorySelected.imagen && categorySelected.imagen.length > 0 ) {
+	/*
+		DOCUMENTACION (retirar si se solicita de procesamiento de imagenes):
+		si existe una imagen en el registro realiza la lectura retirar si incluye el
+		modulo para el cliente
 
-		readFileImageAsync( categorySelected.imagen, ({ base64, path, typeFile }) =>  {
+		if ( categorySelected.imagen && categorySelected.imagen.length > 0 ) {
 
-			// console.log( typeFile );
+			readFileImageAsync( categorySelected.imagen, ({ base64, path, typeFile }) =>  {
 
-			const imgElement = (`<img src="data:image/${ typeFile };base64,${ base64 }" alt="imagen" class="image-foto" />`);
+				// console.log( typeFile );
 
-			imageContainer.innerHTML = imgElement;
-			footer.querySelector('#category-image').value = path;
+				const imgElement = (`<img src="data:image/${ typeFile };base64,${ base64 }"
+					alt="imagen" class="image-foto" />`);
 
-			hideElement( imageDefault );
-			showElement( imageContainer );
+				imageContainer.innerHTML = imgElement;
+				footer.querySelector('#category-image').value = path;
+
+				hideElement( imageDefault );
+				showElement( imageContainer );
+
+				footer.querySelector('.modal-title').textContent = 'Editar categoría';
+				setForm( categorySelected );
+
+				modalFormCategory.toggle();
+			});
+
+		} else {
 
 			footer.querySelector('.modal-title').textContent = 'Editar categoría';
 			setForm( categorySelected );
 
 			modalFormCategory.toggle();
-		});
+		}
+	*/
 
-	} else {
+	footer.querySelector('.modal-title').textContent = 'Editar categoría';
+	setForm( categorySelected );
 
-		footer.querySelector('.modal-title').textContent = 'Editar categoría';
-		setForm( categorySelected );
-
-		modalFormCategory.toggle();
-	}
-
+	modalFormCategory.toggle();
 }
 
 function openImageDialog() {
@@ -205,10 +215,15 @@ function renderErrors( element, message ) {
 
 function cleanFormOnClose( $event ) {
 
-	imageContainer.innerHTML = '';
+	/*
+		Documentacion de procesamiento de imagen:
 
-	hideElement( imageContainer );
-	showElement( imageDefault );
+		// imageContainer.innerHTML = '';
+		// hideElement( imageContainer );
+		// showElement( imageDefault );
+
+	*/
+
 
 	resetForm( true );
 }
@@ -239,8 +254,10 @@ const errorCategoryDescription = categoryForm.querySelector('#error-category-des
 let newCategory = true; // new | edit
 let categorySelected = null;
 
-hideElement( imageContainer );
-hideElement( errorFile );
+/*
+	hideElement( imageContainer );
+	hideElement( errorFile );
+*/
 
 footer.querySelector('#category-form').addEventListener('hidden.bs.modal', cleanFormOnClose );
 

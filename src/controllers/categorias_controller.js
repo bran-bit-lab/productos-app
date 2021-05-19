@@ -173,9 +173,7 @@ class CategoriasController {
 
 	static editarCategoria( categoria, usuario, imagenRegistrada ) {
 
-		//console.log( categoria, imagenRegistrada, "imagen_registrada" );
-
-		let change = categoria['imagen'].length > 0 && imagenRegistrada !== categoria['imagen'];
+		/* let change = categoria['imagen'].length > 0 && imagenRegistrada !== categoria['imagen'];
 
 		if ( change == true && (imagenRegistrada.length > 0) ){
 
@@ -187,7 +185,7 @@ class CategoriasController {
 		} else {
 			categoria['imagen'] = this.urlImage( categoria['imagen'] );
 
-		};
+		};*/
 
 		this.database.update( CRUD.editarCategoria, categoria, ( error ) => {
 

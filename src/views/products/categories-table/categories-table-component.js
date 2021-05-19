@@ -32,7 +32,7 @@ class CategoryTableComponent {
 
 		let found = this.categories.find( category => category.categoriaid === data.categoriaid );
 
-		CategoriasController.editarCategoria( data, getUserLogged(), found.imagen );
+		CategoriasController.editarCategoria( data, getUserLogged(), found.imagen || null );
 
 		this.getAll( null,   getPaginationStorage('categoriesTable') );
 
@@ -137,11 +137,11 @@ class CategoryTableComponent {
 						('<i class="fas fa-times text-danger"></i>')
 					}
 				</td>
-				<td>${ category.imagen && category.imagen.length > 0 ?
+				<!-- <td>${ category.imagen && category.imagen.length > 0 ?
 						('<i class="fas fa-check text-success"></i>') :
 						('<i class="fas fa-times text-danger"></i>')
 				 	}
-				 </td>
+				 </td> -->
 				<td>
 					<button
 						type="button"
