@@ -15,17 +15,14 @@ class ProductosController {
 		return this.setUrlImage || ( this.setUrlImage = new CategoriasController().setUrlImage );
 	}
 
-	static crearProducto( producto, categoria, usuario ) {
+	static crearProducto( producto, usuario ) {
 
 		let nuevoProducto = {
-			...product,
+			...producto,
 			userid: usuario['userid']
 		};
 
-		if ( nuevoProducto['imagen'] && nuevoProducto['imagen'].length > 0 ) {
-			nuevaProducto['imagen'] = this.urlImage( nuevoProducto['imagen'] );
-		}
-
+		
 		this.database.insert( CRUD.crearProducto, nuevoProducto, ( error ) => {
 
 			const notificacion = new Notification({
@@ -210,3 +207,5 @@ class ProductosController {
 	}
 
 }
+
+module.exports = { ProductosController };

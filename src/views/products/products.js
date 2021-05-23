@@ -3,6 +3,7 @@
 const { remote } = require('electron');
 const { readFileAssets, readFileImageAsync } = remote.require('./util_functions/file');
 const { CategoriasController } = remote.require('./controllers/categorias_controller');
+const { ProductosController } = remote.require('./controllers/productos_controllers');
 
 const productsElement = document.querySelector('#products');
 const categoriesElement = document.querySelector('#category');

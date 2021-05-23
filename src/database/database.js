@@ -11,7 +11,7 @@ class Database {
 		// @params data: object es el arreglo del formulario
 		// @params callback: function se ejecuta cuando la respuesta sea exitosas
 
-		mysqlAPI.query( sql, data, callback );
+		console.log( mysqlAPI.query( sql, data, callback ));
 	}
 
 	getTotalRecords( sql, callback ) {
@@ -70,7 +70,7 @@ try {
 
  	let arregloConexion = JSON.parse( data );
 
- 	user = arregloConexion["user_gabriel_ventas"];
+ 	user = arregloConexion["root_brandon"];
 
 } catch ( error ) {
 

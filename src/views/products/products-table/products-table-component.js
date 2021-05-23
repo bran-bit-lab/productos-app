@@ -17,7 +17,9 @@ class ProductsTableComponent {
 	}
 
 	createProduct( data ) {
-		console.log( data ); // enviar al controlador
+
+		ProductosController.crearProducto( data, getUserLogged() );
+		// console.log( data, ProductosController ); // enviar al controlador
 	}
 
 	selectProduct( idProduct ) {

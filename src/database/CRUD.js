@@ -20,8 +20,8 @@ const CRUD = Object.freeze({
 	buscarCategoria: "SELECT userid, nombre, categoriaid, imagen FROM categorias WHERE nombre LIKE :search OR descripcion LIKE :search;",
 
 	//products ...
-	crearProductos : "INSERT INTO productos (userid, nombre, descripcion, imagen) VALUES(:userid, :nombre, :descripcion, :imagen);",
-	//listarProductos : "SELECT productos.*, categorias.nombre AS nombre_categoria, usuarios.nombre AS nombre_usuario, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid LIMIT :start, :limit;",
+	crearProducto : "INSERT INTO productos (userid, categoriaid, nombre, descripcion, cantidad, precio, disponibilidad) VALUES( :userid, :categoriaid, :nombre, :descripcion, :cantidad, :precio, :disponibilidad );",
+	listarProductos : "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid SELECT :start, :limit;",
 	obtenerTotalProductos : "SELECT COUNT(*) FROM productos;",
 	editarProductos : "UPDATE productos SET nombre = :nombre, descripcion = :descripcion, imagen = :imagen WHERE categoriaid = :categoriaid;",
 	activarProducto: "UPDATE productos SET activo = :activo WHERE productoid = :prodcutoid",
@@ -84,11 +84,13 @@ ALTER TABLE categorias AUTO_INCREMENT= 1;
 //CRUD Productos
 
 CREATE TABLE productos (
-	id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	userid int,
-	FOREIGN KEY (userid) REFERENCES categorias(userid),
+	productoid int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	userid int NOT NULL,
+	categoriaid int NOT NULL,
 	nombre char(30),
-	descripcion varchar(600)
+	descripcion varchar(600),
+		FOREIGN KEY (categoriaid) REFERENCES categorias(categoriaid),
+		FOREIGN KEY (userid) REFERENCES usuarios(userid)
 );
 
 INSERT INTO productos(nombre, descripcion)
@@ -96,12 +98,13 @@ INSERT INTO productos(nombre, descripcion)
 
 SELECT * FROM productos;
 
+ALTER TABLE productos
+	ADD COLUMN precio DECIMAL (12,2);
+
 UPDATE productos
 	SET descripcion = 'r22' WHERE id = 1;
 
 DELETE FROM productos WHERE id = 1;
-
-ALTER TABLE productos AUTO_INCREMENT=1;
 
 //CRUD Notas
 

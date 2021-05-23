@@ -99,15 +99,20 @@ DROP TABLE IF EXISTS `productos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `productos` (
-  `userid` int(11) DEFAULT NULL,
+  `productoid` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL,
+  `categoriaid` int(11) NOT NULL,
   `nombre` char(30) DEFAULT NULL,
   `descripcion` varchar(600) DEFAULT NULL,
-  `imagen` varchar(255) DEFAULT NULL,
-  `productoid` int(11) NOT NULL AUTO_INCREMENT,
+  `cantidad` int(11) DEFAULT '0',
+  `precio` decimal(12,2) DEFAULT NULL,
+  `disponibilidad` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`productoid`),
+  KEY `categoriaid` (`categoriaid`),
   KEY `userid` (`userid`),
-  CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `categorias` (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`categoriaid`) REFERENCES `categorias` (`categoriaid`),
+  CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `usuarios` (`userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -116,16 +121,18 @@ CREATE TABLE `productos` (
 
 LOCK TABLES `productos` WRITE;
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
-INSERT INTO `productos` VALUES (NULL,'Teclado','Genius',NULL,1);
-INSERT INTO `productos` VALUES (NULL,'Monitor','Samsung',NULL,2);
-INSERT INTO `productos` VALUES (NULL,'Telefono','Iphone',NULL,3);
-INSERT INTO `productos` VALUES (NULL,'Mouse','VIT',NULL,4);
-INSERT INTO `productos` VALUES (NULL,'Cuaderno','Doble linea',NULL,5);
-INSERT INTO `productos` VALUES (NULL,'Lapiz','Mongol',NULL,6);
-INSERT INTO `productos` VALUES (NULL,'Carpeta','Manila',NULL,7);
-INSERT INTO `productos` VALUES (NULL,'Bombillo','LED',NULL,8);
-INSERT INTO `productos` VALUES (NULL,'Papel','Bond',NULL,9);
-INSERT INTO `productos` VALUES (NULL,'Papel','Lustrillo',NULL,10);
+INSERT INTO `productos` VALUES (1,17,23,'Teclado','Genius',0,NULL,1);
+INSERT INTO `productos` VALUES (2,17,23,'Monitor','Samsung',0,NULL,1);
+INSERT INTO `productos` VALUES (3,17,23,'Telefono','Iphone',0,NULL,1);
+INSERT INTO `productos` VALUES (4,17,23,'Mouse','VIT',0,NULL,1);
+INSERT INTO `productos` VALUES (5,17,23,'Cuaderno','Doble linea',0,NULL,1);
+INSERT INTO `productos` VALUES (6,17,23,'Carpeta','Manila',0,NULL,1);
+INSERT INTO `productos` VALUES (7,17,23,'Bombillo','LED',0,NULL,1);
+INSERT INTO `productos` VALUES (8,17,23,'Papel','Bond',0,NULL,1);
+INSERT INTO `productos` VALUES (9,17,23,'Papel','Lustrillo',0,NULL,1);
+INSERT INTO `productos` VALUES (10,17,23,'Lapiz','Mongol',0,NULL,1);
+INSERT INTO `productos` VALUES (11,17,2,'prueba','prueba',22,1.48,1);
+INSERT INTO `productos` VALUES (12,17,1,'pruebados','pruebados',34,123.22,0);
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,7 +178,7 @@ INSERT INTO `usuarios` VALUES (13,'test13','apellido13','correo13@prueba.com','p
 INSERT INTO `usuarios` VALUES (14,'test14','apellido14','correo14@prueba.com','prueba','ventas',0);
 INSERT INTO `usuarios` VALUES (15,'test15','apellido15','correo15@prueba.com','prueba','ventas',0);
 INSERT INTO `usuarios` VALUES (16,'test','apellido','correo16@prueba.com','$2a$10$wv4wCtHYqRoyXLNsIa.8IO7h2wwX/xH.ojDBq5TYh8M7SSe9mkYKe','Almacen',0);
-INSERT INTO `usuarios` VALUES (17,'test','apellido','correo17@prueba.com','$2a$10$fwC6xJ.HtnXgEbThvOR7jO.ucFfkpLSBuHbWQoBwujYwtlHMcdE5i','Administracion',1);
+INSERT INTO `usuarios` VALUES (17,'test','Silva','correo17@prueba.com','$2a$10$fwC6xJ.HtnXgEbThvOR7jO.ucFfkpLSBuHbWQoBwujYwtlHMcdE5i','Administracion',1);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -184,4 +191,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-16 18:20:35
+-- Dump completed on 2021-05-23 17:17:11

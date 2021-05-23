@@ -70,7 +70,7 @@ function setForm( product ) {
       }
 
       case 'product-price': {
-        element.value = product.precioUnitario;
+        element.value = product.precio;
         break;
       }
 
@@ -95,9 +95,9 @@ function handleSubmit( $event ) {
 
   const data = {
     nombre: formData.get('product-name'),
-    categoria_id: formData.get('product-category'),
+    categoriaid: formData.get('product-category'),
     cantidad: formData.get('product-quantity'),
-    precioUnitario: formData.get('product-price'),
+    precio: formData.get('product-price'),
     disponibilidad: formData.get('product-available') === 'on',
     descripcion: formData.get('product-description') || ''
   };
@@ -141,8 +141,8 @@ function validateData( productData, callback ) {
   const {
     nombre,
     cantidad,
-    categoria_id,
-    precioUnitario,
+    categoriaid,
+    precio,
     disponibilidad,
     descripcion
   } = productData;
@@ -184,7 +184,7 @@ function validateData( productData, callback ) {
     renderErrors( errorProductName, ERROR_MESSAGES.min(3) );
   }
 
-  if ( categoria_id.trim().length === 0 ) {
+  if ( categoriaid.trim().length === 0 ) {
     errors += 1;
     renderErrors( errorProductCategory, ERROR_MESSAGES.required );
   }
@@ -205,12 +205,12 @@ function validateData( productData, callback ) {
   }
 
 
-  if ( !PATTERNS.onlyNumbersWithDecimal.test( precioUnitario ) ) {
+  if ( !PATTERNS.onlyNumbersWithDecimal.test( precio ) ) {
     errors += 1;
     renderErrors( errorProductPrice, ERROR_MESSAGES.onlyNumbersWithDecimal );
   }
 
-  if ( precioUnitario.trim().length === 0 ) {
+  if ( precio.trim().length === 0 ) {
     errors += 1;
     renderErrors( errorProductPrice, ERROR_MESSAGES.required );
   }
@@ -222,7 +222,7 @@ function validateData( productData, callback ) {
 
   // se parsea los datos de las cantidades a numeros
   productData.cantidad = Number.parseFloat( productData.cantidad );
-  productData.precioUnitario = Number.parseFloat( productData.precioUnitario );
+  productData.precio = Number.parseFloat( productData.precio );
 
   callback( false, productData );
 }
