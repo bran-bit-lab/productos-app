@@ -89,6 +89,8 @@ class CategoryTableComponent {
 			return this.getAll( null, pagination );
 		}
 
+		console.log( $event );
+
 		this.users = await CategoriasController.buscarCategoria({ search: $event });
 
 		// console.log( this.users );

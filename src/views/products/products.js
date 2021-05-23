@@ -104,22 +104,19 @@ const changePagination = PaginationComponent.changePagination.bind( categoryTabl
 // binding active function
 let closeModalConfirm = null;
 
+// custom Events
 document.addEventListener('DOMContentLoaded', productsComponent.setHtml );
 
-// custom Events
-document.querySelector('search-bar-component')
-	.addEventListener('search', ( $event ) => {
+for ( let element of document.querySelectorAll('search-bar-component') ) {
 
-		switch ( $event.detail.from ) {
+	element.addEventListener('search', ( $event ) => {
 
-			case 'categories': {
-				categoryTableComponent.searchCategories.call( categoryTableComponent, $event.detail.value )
-				break;
-			}
+		if ( $event.detail.from  === 'categories' ) {
+			categoryTableComponent.searchCategories.call( categoryTableComponent, $event.detail.value )
 
-			default: {
-					productsTableComponent.searchProducts.call( productsTableComponent, $event.detail.value )
-				break;
-			}
+		} else {
+			productsTableComponent.searchProducts.call( productsTableComponent, $event.detail.value )
+
 		}
 	});
+}
