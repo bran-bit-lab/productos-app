@@ -6,8 +6,9 @@
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
   <link rel="stylesheet" href="users.css">
   <title>Gestion de Usuarios</title>
-  <!-- se importan los web components antes de contruir el body -->
+  <!-- se importan los web components antes de construir el body -->
   <script src="../components/searchbar-component.js"></script>
+  <script src="../components/pagination-component.js"></script>
 </head>
 <body>
 	<main class="container p-3 h-100">
@@ -70,17 +71,7 @@
           <!-- table -->
         </div>
 
-        <div class="row pt-2">
-          <div class="col-sm-6 col-12 text-start">
-            Total de usuarios registrados: <span id="totalUsers"></span>
-          </div>
-          <div class="col-sm-6 col-12 text-end">
-            Página actual: <span id="paginationValue"></span> de <span id="paginationEnd"></span>
-          </div>
-        </div>
-
-        <!-- pagination -->
-        <nav aria-label="Table navigation" id="pagination" class="mt-2"></nav>
+        <pagination-component id="pagination-users" from="users"></pagination-component>
       </div>
 		</div>
 	</main>

@@ -27,7 +27,6 @@ const { openModalNewProduct, openModalEditProduct, handleChangeQuantity, resetFo
 const CategoryTableComponent = require('./categories-table/categories-table-component');
 const { openModalNewCategory, openImageDialog, resetForm, openModalEditCategory } = require('./categories-form/categories-form');
 
-const PaginationComponent = require('../shared/pagination/pagination-component');
 const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 
 class ProductsComponent {
@@ -61,7 +60,7 @@ class ProductsComponent {
 				elementsCategory.forEach( ( elementHTML ) => hideElement( elementHTML ) );
 
 				productsTableComponent.getAll( null, getPaginationStorage('productsTable') )
-				
+
 				break;
 			}
 		}
@@ -99,15 +98,13 @@ const productsComponent = new ProductsComponent();
 const productsTableComponent = new ProductsTableComponent();
 const categoryTableComponent = new CategoryTableComponent();
 
-// binding
-const changePagination = PaginationComponent.changePagination.bind( categoryTableComponent );
-
 // binding active function
 let closeModalConfirm = null;
 
 // custom Events
 document.addEventListener('DOMContentLoaded', productsComponent.setHtml );
 
+// search-bar
 for ( let element of document.querySelectorAll('search-bar-component') ) {
 
 	element.addEventListener('search', ( $event ) => {
@@ -117,6 +114,21 @@ for ( let element of document.querySelectorAll('search-bar-component') ) {
 
 		} else {
 			productsTableComponent.searchProducts.call( productsTableComponent, $event.detail.value )
+
+		}
+	});
+}
+
+// pagination
+for ( let element of document.querySelectorAll('pagination-component') ) {
+
+	element.addEventListener('pagination', ( $event ) => {
+
+		if ( $event.detail.from === 'categories' ) {
+			categoryTableComponent.getAll( null, $event.detail.value, $event.detail.page );
+
+		} else {
+			productsTableComponent.getAll( null, $event.detail.value, $event.detail.page );
 
 		}
 	});

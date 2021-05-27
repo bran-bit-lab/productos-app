@@ -29,12 +29,11 @@ const PaginationComponent = require('../shared/pagination/pagination-component')
 class UsersComponent {
 
 	// pagination table users
-	totalPages = 0;
-	currentPage = 0;
+	pages = 1;
 
 	constructor() {
 
-		this.pagination = document.querySelector('#pagination');
+		this.pagination = document.querySelector('#pagination-users');
 		this.tbody = document.querySelector('#tbody-user');
 		this.totalUsers = document.querySelector('#totalUsers');
 
@@ -42,11 +41,9 @@ class UsersComponent {
 		this.deleteUser = this.deleteUser.bind( this );
 		this.changeRole = this.changeRole.bind( this );
 		this.getAll = this.getAll.bind( this );
-
-		this.pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
 	}
 
-	async getAll( $event, pagination = [ 0, 10 ] ) {
+	async getAll( $event, pagination = [ 0, 10 ], page = this.page ) {
 
 		try {
 
@@ -55,6 +52,8 @@ class UsersComponent {
 			let totalUsers = await UsersController.obtenerTotalUsuarios();
 
 			sessionStorage.setItem('usersTable', JSON.stringify({ pagination }));
+
+			this.page = page;
 
 			this.renderUsers(
 				totalUsers['totalPaginas'],
@@ -178,23 +177,18 @@ class UsersComponent {
 		`);
 	}
 
-	renderUsers( totalRegisters = null , totalPages = null, search = false ) {
+	renderUsers( totalPages = null , totalRegisters = null, search = false ) {
 
 		if ( !search ) {
 
-			let paginationValue = document.querySelector('#paginationValue');
-			let paginationEnd = document.querySelector('#paginationEnd');
+			let paginationElement = document.querySelector('#pagination-users');
 
-			this.totalUsers.textContent = totalPages;
-
-			PaginationComponent.setButtonsPagination.call( this, totalRegisters );
-
-			this.totalPages = totalRegisters;
-
-			paginationValue.textContent =  this.currentPage + 1;
-			paginationEnd.textContent = this.totalPages;
+			// asignacion de parametros para pagination compoent
+			this.tbody.innerHTML = '';
+			paginationElement._limit = totalPages;
+			paginationElement._registers = totalRegisters;
+			paginationElement._page = this.page;
 		}
-
 
 		if ( USERS.length > 0 ) {
 
@@ -230,8 +224,6 @@ const closeModalConfirm =  ModalConfirmComponent.closeModalConfirm.bind(
 	usersComponent.deleteUser
 );
 
-const changePagination = PaginationComponent.changePagination.bind( usersComponent )
-
 // =============================
 // Events
 // =============================
@@ -251,4 +243,9 @@ document.querySelector('search-bar-component')
 	.addEventListener(
 		'search',
 		( $event ) => usersComponent.getUser.call( usersComponent, $event.detail.value )
+);
+
+document.querySelector('pagination-component').addEventListener(
+	'pagination',
+	( $event ) => usersComponent.getAll( null,  $event.detail.value, $event.detail.page )
 );

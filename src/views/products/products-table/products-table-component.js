@@ -6,7 +6,7 @@ class ProductsTableComponent {
 		// this.availableProducts = document.querySelector('#availableProducts');
 
 		this.tbody = productsElement.querySelector('#tbody-products');
-		this.pagination = productsElement.querySelector('#pagination');
+		this.pagination = productsElement.querySelector('#pagination-products');
 
 		this.render = this.render.bind( this );
 		this.getAll = this.getAll.bind( this );
@@ -18,13 +18,15 @@ class ProductsTableComponent {
 		this.products = [];
 	}
 
-	async getAll( $event = null, pagination = [0,10] ) {
+	async getAll( $event = null, pagination = [0,10], page = this.page ) {
 
 		try {
-			this.products = await ProductosController.listarProductos( pagination );
 
 			let totalProducts = await ProductosController.obtenerTotalProductos();
+			this.products = await ProductosController.listarProductos( pagination );
+			this.page = page;
 
+			sessionStorage.setItem('productsTable', JSON.stringify({ pagination }));
 			this.render( totalProducts );
 
 		} catch ( error ) {
@@ -34,9 +36,10 @@ class ProductsTableComponent {
 	}
 
 	createProduct( data ) {
-
+		
 		ProductosController.crearProducto( data, getUserLogged() );
-		// console.log( data, ProductosController ); // enviar al controlador
+
+		this.getAll( null, getPaginationStorage('categoriesTable') );
 	}
 
 	selectProduct( idProduct ) {
@@ -135,42 +138,13 @@ class ProductsTableComponent {
 
 		if ( !search ) {
 
-			let paginationElement = document.querySelector('pagination-component');
+			let paginationElement = document.querySelector('#pagination-products');
 
 			this.tbody.innerHTML = '';
 			paginationElement._limit = totalProducts.totalPaginas;
 			paginationElement._registers = totalProducts.totalRegistros;
 			paginationElement._page = this.page;
 		}
-
-		// paginationElement.setAttribute('totalRegisters', totalProducts.totalRegistros.toString() );
-
-		// console.log( paginationElement );
-
-		/* if ( !search ) {
-
-
-
-			let paginationValue = document.querySelector('#paginationValue');
-			let paginationEnd = document.querySelector('#paginationEnd');
-			let totalCategoriesElement = document.querySelector('#totalCategory');
-
-			console.log({ paginationValue, paginationEnd, totalCategoriesElement });
-
-
-			this.tbody.innerHTML = '';
-			this.totalPages = totalCategories.totalPaginas;
-			this.totalRegisters = totalCategories.totalRegistros;
-
-			totalCategoriesElement.textContent = this.totalRegisters;
-			paginationValue.textContent =  this.currentPage + 1;
-			paginationEnd.textContent = this.totalPages;
-
-			PaginationComponent.setButtonsPagination.call( this, this.totalPages );
-		} */
-
-
-		console.log('render');
 
 		if ( this.products.length > 0 ) {
 

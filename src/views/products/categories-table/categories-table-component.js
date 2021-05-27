@@ -3,7 +3,7 @@ class CategoryTableComponent {
 	constructor() {
 
 		this.tbody = categoriesElement.querySelector('#tbody-categories');
-		this.pagination = categoriesElement.querySelector('#pagination');
+		this.pagination = categoriesElement.querySelector('#pagination-categories');
 
 		this.pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
 		this.getAll = this.getAll.bind( this );
@@ -11,9 +11,7 @@ class CategoryTableComponent {
 		this.openModalConfirm = this.openModalConfirm.bind( this );
 
 		// nav-table
-		this.totalPages = 0;
-		this.totalRegisters = 0;
-		this.currentPage = 0;
+		this.page = 1;
 
 		this.categories = [];
 	}
@@ -25,7 +23,7 @@ class CategoryTableComponent {
 
 		CategoriasController.crearCategoria( data, getUserLogged() );
 
-		this.getAll( null,   getPaginationStorage('categoriesTable') );
+		this.getAll( null,  getPaginationStorage('categoriesTable') );
 	}
 
 	editCategory( data ) {
@@ -34,7 +32,7 @@ class CategoryTableComponent {
 
 		CategoriasController.editarCategoria( data, getUserLogged(), found.imagen || null );
 
-		this.getAll( null,   getPaginationStorage('categoriesTable') );
+		this.getAll( null,  getPaginationStorage('categoriesTable') );
 
 	}
 
@@ -98,12 +96,13 @@ class CategoryTableComponent {
 		this.render( this.users, null, true );
 	}
 
-	async getAll( $event, pagination = [0, 10] ) {
+	async getAll( $event, pagination = [0, 10], page = this.page ) {
 
 		try {
 
 			this.categories = await CategoriasController.listarCategorias( pagination );
 			let totalCategories = await CategoriasController.obtenerTotalCategorias();
+			this.page = page;
 
 			// console.log( categories );
 
@@ -168,19 +167,12 @@ class CategoryTableComponent {
 
 		if ( !search ) {
 
-			let paginationValue = document.querySelector('#paginationValue');
-			let paginationEnd = document.querySelector('#paginationEnd');
-			let totalCategoriesElement = document.querySelector('#totalCategory');
+			let paginationElement = document.querySelector('#pagination-categories');
 
 			this.tbody.innerHTML = '';
-			this.totalPages = totalCategories.totalPaginas;
-			this.totalRegisters = totalCategories.totalRegistros;
-
-			totalCategoriesElement.textContent = this.totalRegisters;
-			paginationValue.textContent =  this.currentPage + 1;
-			paginationEnd.textContent = this.totalPages;
-
-			PaginationComponent.setButtonsPagination.call( this, this.totalPages );
+			paginationElement._limit = totalCategories.totalPaginas;
+			paginationElement._registers = totalCategories.totalRegistros;
+			paginationElement._page = this.page;
 		}
 
 		if ( categorias.length > 0 ) {

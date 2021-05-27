@@ -1,23 +1,17 @@
 class PaginationComponentElement extends HTMLElement {
 
   constructor() {
+
       super();
+
+      // props
       this.limit = this._limit;
       this.registers = this._registers;
       this.page = this._page;
+      this.from = this.getAttribute('from');
 
+      // methods
       this.render = this.render.bind( this );
-
-      /*
-        Documentacion para la utilizacion de template
-
-        this.attachShadow({ mode: 'open' })
-
-        const template = document.createElement('template');
-        template.innerHTML = (`<nav><slot /></nav>`)
-
-        this.shadowRoot. appendChild( template.content.cloneNode( true ) );
-      */
   }
 
   // atributos que se estaran observando
@@ -26,27 +20,29 @@ class PaginationComponentElement extends HTMLElement {
   }
 
   // es obligatorio los set y get ya que invocan el attributeChangedCallback
-  // cuando se cambia el atributo
+  // cuando cambian de valor
 
   set _limit( val = '' ) {
     return this.setAttribute('limit', val );
+  }
+
+  set _page( val = '' ) {
+    return this.setAttribute('page', val || '1' );
+  }
+
+  set _registers( val = '' ) {
+    return this.setAttribute('registers', val );
   }
 
   get _limit() {
     return this.getAttribute('limit');
   }
 
-  set _page( val = '' ) {
-    return this.setAttribute('page', val );
-  }
 
   get _page() {
     return this.getAttribute('page');
   }
 
-  set _registers( val = '' ) {
-    return this.setAttribute('registers', val );
-  }
 
   get _registers() {
     return this.getAttribute('registers');
@@ -59,8 +55,8 @@ class PaginationComponentElement extends HTMLElement {
       return;
     }
 
-    this._page = index;
-    console.log( index );
+    // this._page = index;
+    this.sendPagination( index );
   }
 
   next( index = this.limit ) {
@@ -70,14 +66,27 @@ class PaginationComponentElement extends HTMLElement {
       return;
     }
 
-    this._page = index;
-    console.log( index );
+    // this._page = index;
+    this.sendPagination( index );
   }
 
-  connectedCallback() {
-  }
 
-  disconnectedCallback() {
+  sendPagination( page, pagination = 10 ) {
+    let indexPagination = ( +page - 1 ) * pagination;
+
+    let event = new CustomEvent('pagination', {
+      detail: {
+        from: this.from,
+        value: [ indexPagination, pagination ],
+        page // pagina actual
+      },
+      bubbles: true,
+      cancel: true
+    });
+
+    console.log( event );
+
+    this.dispatchEvent( event );
   }
 
   attributeChangedCallback( name, oldValue, newValue ) {
@@ -85,13 +94,12 @@ class PaginationComponentElement extends HTMLElement {
     // console.log({ name, oldValue, newValue });
 
     if ( oldValue !== newValue ) {
-
       this[name] = newValue;
       this.render();
     }
   }
 
-  // renderiza el resultado
+
   render() {
 
     this.innerHTML = (`
@@ -100,7 +108,7 @@ class PaginationComponentElement extends HTMLElement {
           Total de registros: <span>${ this.registers }</span>
         </div>
         <div class="col-sm-6 col-12 text-end">
-          Página actual: <span>${ +this.page }</span> de <span>${ this.limit }</span>
+          Página actual: <span>${ +this.page }</span> de <span>${ +this.limit }</span>
         </div>
       </div>
 
