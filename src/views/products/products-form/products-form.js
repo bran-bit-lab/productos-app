@@ -102,6 +102,8 @@ function handleSubmit( $event ) {
     descripcion: formData.get('product-description') || ''
   };
 
+  // console.log( formData.get('product-available') );
+
   validateData( data, ( error, data ) => {
 
     if ( error ) {

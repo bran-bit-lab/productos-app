@@ -22,7 +22,8 @@ class ProductosController {
 			userid: usuario['userid']
 		};
 
-		
+		// console.log( nuevoProducto );
+
 		this.database.insert( CRUD.crearProducto, nuevoProducto, ( error ) => {
 
 			const notificacion = new Notification({
@@ -118,7 +119,7 @@ class ProductosController {
 		});
 	}
 
-	static listarProductos( pagination, usuario ) {
+	static listarProductos( pagination ) {
 
 		return new Promise(( resolve, reject ) => {
 
@@ -145,7 +146,7 @@ class ProductosController {
 		//console.log( categoria, imagenRegistrada, "imagen_registrada" );
 
 		let change = producto['imagen'].length > 0 && imagenRegistrada !== producto['imagen'];
-		
+
 		if ( change == true && (imagenRegistrada.length > 0) ){
 
 			deleteImageSync ( imagenRegistrada );

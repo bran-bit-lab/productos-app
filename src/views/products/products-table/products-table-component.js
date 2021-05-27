@@ -9,11 +9,28 @@ class ProductsTableComponent {
 		this.pagination = productsElement.querySelector('#pagination');
 
 		this.render = this.render.bind( this );
+		this.getAll = this.getAll.bind( this );
 		this.openModalConfirm = this.openModalConfirm.bind( this );
 
+		// primera pagina
+		this.page = 1;
+
+		this.products = [];
 	}
 
-	getAll() {
+	async getAll( $event = null, pagination = [0,10] ) {
+
+		try {
+			this.products = await ProductosController.listarProductos( pagination );
+
+			let totalProducts = await ProductosController.obtenerTotalProductos();
+
+			this.render( totalProducts );
+
+		} catch ( error ) {
+			console.log( error );
+
+		}
 	}
 
 	createProduct( data ) {
@@ -86,25 +103,23 @@ class ProductsTableComponent {
 	setRows( product ) {
 		return (`
 			<tr class="text-center">
-				<td>${ product.id }</td>
+				<td>${ product.productoid }</td>
 				<td>${ product.nombre }</td>
-				<td>${ product.cantidad > 0 ? product.cantidad : ('<span class="text-danger">Agotado</span>') }</td>
-				<td>${ this.getCategory( product.categoriaId ) }</td>
-				<td>${ product.precioUnitario }$</td>
-				<td>${ product.disponible && product.cantidad > 0 ? 'disponible' :
-					('<span class="text-danger">no disponible</span>') }
-				</td>
+				<td>${ product.cantidad > 0 ? product.cantidad : ('<span class="text-danger">No disponible</span>') }</td>
+				<td>${ product.nombre_categoria || 'No disponible' }</td>
+				<td>${ product.precio || ('<span class="text-danger">No disponible</span>') }</td>
+				<td>${ product.disponibilidad ? ('<i class="fas fa-check text-success"></i>') : ('<i class="fas fa-times text-danger"></i>') }</td>
 				<td>
 					<button
 						type="button"
-						onclick="productsTableComponent.selectProduct( ${ product.id } )"
+						onclick="productsTableComponent.selectProduct( ${ product.productoid } )"
 						class="btn btn-primary btn-sm"
 					>
 						<i class="fas fa-edit"></i>
 					</button>
 					<button
 						type="button"
-						onclick="productsTableComponent.openModalConfirm( ${ product.id } )"
+						onclick="productsTableComponent.openModalConfirm( ${ product.productoid } )"
 						class="btn btn-danger btn-sm"
 					>
 						<i class="fas fa-trash"></i>
@@ -114,18 +129,54 @@ class ProductsTableComponent {
 		`);
 	}
 
-	render() {
+	render( totalProducts, search = false ) {
 
-		// this.availableProducts.textContent = this.getProductsActive();
-		// this.totalProducts.textContent = PRODUCTOS.length;
+		// console.log( totalProducts );
 
-		this.tbody.innerHTML = '';
+		if ( !search ) {
 
-		if ( PRODUCTOS.length > 0 ) {
+			let paginationElement = document.querySelector('pagination-component');
+
+			this.tbody.innerHTML = '';
+			paginationElement._limit = totalProducts.totalPaginas;
+			paginationElement._registers = totalProducts.totalRegistros;
+			paginationElement._page = this.page;
+		}
+
+		// paginationElement.setAttribute('totalRegisters', totalProducts.totalRegistros.toString() );
+
+		// console.log( paginationElement );
+
+		/* if ( !search ) {
+
+
+
+			let paginationValue = document.querySelector('#paginationValue');
+			let paginationEnd = document.querySelector('#paginationEnd');
+			let totalCategoriesElement = document.querySelector('#totalCategory');
+
+			console.log({ paginationValue, paginationEnd, totalCategoriesElement });
+
+
+			this.tbody.innerHTML = '';
+			this.totalPages = totalCategories.totalPaginas;
+			this.totalRegisters = totalCategories.totalRegistros;
+
+			totalCategoriesElement.textContent = this.totalRegisters;
+			paginationValue.textContent =  this.currentPage + 1;
+			paginationEnd.textContent = this.totalPages;
+
+			PaginationComponent.setButtonsPagination.call( this, this.totalPages );
+		} */
+
+
+		console.log('render');
+
+		if ( this.products.length > 0 ) {
 
 			this.pagination.style.display = 'block';
 
-			this.tbody.innerHTML = PRODUCTOS.map( this.setRows.bind( this ) ).join('');
+			this.tbody.innerHTML = this.products.map( this.setRows.bind( this ) ).join('');
 
 		} else {
 

@@ -37,6 +37,10 @@ class SearchBarComponent extends HTMLElement {
        y no seguirlos dará como resultado un elemento personalizado que el analizador o las API DOM no pueden instanciar.
        Esto es cierto incluso si el trabajo se realiza dentro de una microtarea iniciada por el constructor,
        ya que un punto de control de microtareas puede ocurrir inmediatamente después de la construcción.
+
+       9. Para usar el changeAtrrtibutes debes incluir un set y un get de cada prop que necesite que se escuche
+       no puedes utilziar guinones o guion bajo para las propiedades que se escuchan, porque no las toma ver ejemplo de
+       paginacion
     */
   }
 
@@ -68,7 +72,7 @@ class SearchBarComponent extends HTMLElement {
   }
 
   getHtml() {
-    
+
     let range = document.createRange();
     let nodeHTML = range.createContextualFragment(
       (`

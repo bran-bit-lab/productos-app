@@ -60,8 +60,8 @@ class ProductsComponent {
 				elementsProducts.forEach( ( elementHTML ) => showElement( elementHTML ) );
 				elementsCategory.forEach( ( elementHTML ) => hideElement( elementHTML ) );
 
-				productsTableComponent.render();
-
+				productsTableComponent.getAll( null, getPaginationStorage('productsTable') )
+				
 				break;
 			}
 		}
