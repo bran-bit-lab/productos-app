@@ -141,6 +141,24 @@ class ProductosController {
 		});
 	}
 
+
+	static listarCategorias() {
+
+		return new Promise(( resolve, reject ) => {
+
+			this.database.consult( CRUD.listadoCategoriasProductos, ( error, results ) => {
+
+				if ( error ) {
+					console.log( error );
+
+					reject( error );
+				}
+
+				resolve( results );
+			})
+		})
+	}
+
 	static editarProducto( producto, usuario, imagenRegistrada ) {
 
 		//console.log( categoria, imagenRegistrada, "imagen_registrada" );

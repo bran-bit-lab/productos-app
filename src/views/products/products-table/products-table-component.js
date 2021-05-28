@@ -2,9 +2,6 @@ class ProductsTableComponent {
 
 	constructor() {
 
-		// this.totalProducts = document.querySelector('#totalProducts');
-		// this.availableProducts = document.querySelector('#availableProducts');
-
 		this.tbody = productsElement.querySelector('#tbody-products');
 		this.pagination = productsElement.querySelector('#pagination-products');
 
@@ -23,14 +20,17 @@ class ProductsTableComponent {
 		try {
 
 			let totalProducts = await ProductosController.obtenerTotalProductos();
+			
 			this.products = await ProductosController.listarProductos( pagination );
+			
 			this.page = page;
 
 			sessionStorage.setItem('productsTable', JSON.stringify({ pagination }));
 			this.render( totalProducts );
 
 		} catch ( error ) {
-			console.log( error );
+			
+			console.error( error );
 
 		}
 	}
@@ -43,7 +43,8 @@ class ProductsTableComponent {
 	}
 
 	selectProduct( idProduct ) {
-		let found = PRODUCTOS.find( product => product.id === idProduct );
+
+		let found = this.products.find( product => product.productoid === idProduct );
 
 		openModalEditProduct( found );
 	}
@@ -65,11 +66,6 @@ class ProductsTableComponent {
 
 	searchProducts( $event ) {
 		console.log( $event );
-	}
-
-	getCategory( categoriaId ) {
-		// @string retorna el nombre de la categoria
-		return CATEGORIAS.find(( categoria ) => categoria.id === categoriaId ).nombre;
 	}
 
 	getProductsActive() {
@@ -111,6 +107,7 @@ class ProductsTableComponent {
 				<td>${ product.cantidad > 0 ? product.cantidad : ('<span class="text-danger">No disponible</span>') }</td>
 				<td>${ product.nombre_categoria || 'No disponible' }</td>
 				<td>${ product.precio || ('<span class="text-danger">No disponible</span>') }</td>
+				<td>${ this.setName( product.nombre_usuario, product.apellido ) }</td>
 				<td>${ product.disponibilidad ? ('<i class="fas fa-check text-success"></i>') : ('<i class="fas fa-times text-danger"></i>') }</td>
 				<td>
 					<button
@@ -130,6 +127,15 @@ class ProductsTableComponent {
 				</td>
 			</tr>
 		`);
+	}
+
+	setName( name = '', surname = '' ) {
+
+		if ( name.length > 0 && surname.length > 0 ) {
+			return name + ' ' + surname;
+		}
+
+		return 'No disponible';
 	}
 
 	render( totalProducts, search = false ) {

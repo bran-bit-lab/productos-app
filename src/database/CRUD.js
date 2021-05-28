@@ -18,6 +18,7 @@ const CRUD = Object.freeze({
 	editarCategoria : "UPDATE categorias SET nombre = :nombre, descripcion = :descripcion, imagen = :imagen WHERE categoriaid = :categoriaid;",
 	activarCategoria: "UPDATE categorias SET activo = :activo WHERE categoriaid = :categoriaid",
 	buscarCategoria: "SELECT userid, nombre, categoriaid, imagen FROM categorias WHERE nombre LIKE :search OR descripcion LIKE :search;",
+	listadoCategoriasProductos: "SELECT nombre, categoriaid FROM categorias",
 
 	//products ...
 	crearProducto : "INSERT INTO productos (userid, categoriaid, nombre, descripcion, cantidad, precio, disponibilidad) VALUES( :userid, :categoriaid, :nombre, :descripcion, :cantidad, :precio, :disponibilidad );",

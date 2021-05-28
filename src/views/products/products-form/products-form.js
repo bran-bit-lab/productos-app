@@ -1,33 +1,57 @@
 // ============================
 // ProductsFormComponent
 // ============================
-function openModalNewProduct() {
+async function openModalNewProduct() {
 
-  const modal = footer.querySelector('#products-form');
+  try {
 
-  modal.querySelector('.modal-title').textContent = 'Nuevo producto';
+    const categories = await ProductosController.listarCategorias();
 
-  editProductForm = false;
+    const modal = footer.querySelector('#products-form');
 
-  setForm();
+    modal.querySelector('.modal-title').textContent = 'Nuevo producto';
 
-  modalFormProducts.toggle();
+    editProductForm = false;
+
+    setForm( null, categories );
+
+    modalFormProducts.toggle();
+
+
+  } catch ( error ) {
+
+    console.error( error );
+  }
+
 }
 
-function openModalEditProduct( product ) {
+async function openModalEditProduct( product ) {
 
-  editProductForm = true;
+  try {
 
-  const modal = footer.querySelector('#products-form');
+    const categories = await ProductosController.listarCategorias();
 
-  modal.querySelector('.modal-title').textContent = `Editar producto ${ product.id }`;
+    editProductForm = true;
 
-  setForm( product );
+    const modal = footer.querySelector('#products-form');
 
-  modalFormProducts.toggle();
+    modal.querySelector('.modal-title').textContent = `Editar producto ${ product.categoriaid }`;
+
+    console.log({ product, categories });
+
+    setForm( product, categories );
+
+    modalFormProducts.toggle();
+
+
+  } catch ( error ) {
+
+    console.error( error );
+  }
+
 }
 
-function setForm( product ) {
+function setForm( product, categories ) {
 
   const inputs = Array.from( productForm.querySelectorAll('input') );
   const select = productForm.querySelector('select');
@@ -36,8 +60,8 @@ function setForm( product ) {
   // se asignan los datos de la categoría
   select.innerHTML = (`
     <option value="">Seleccione</option>
-    ${ CATEGORIAS.map(( category ) => (`
-        <option value="${ category.id }">${ category.nombre }</option>
+    ${ categories.map(( category ) => (`
+        <option value="${ category.categoriaid }">${ category.nombre }</option>
       `)).join('')
     }
   `);
@@ -48,7 +72,7 @@ function setForm( product ) {
   }
 
   textarea.value = product.descripcion;
-  select.value = product.categoriaId;
+  select.value = product.categoriaid;
 
   inputs.forEach(( element ) => {
 
@@ -60,17 +84,17 @@ function setForm( product ) {
       }
 
       case 'product-quantity': {
-        element.value = product.cantidad;
+        element.value = product.cantidad || 0;
         break;
       }
 
       case 'product-available': {
-        element.checked = product.disponible;
+        element.checked = product.disponibilidad === 1 || product.disponibilidad === true;
         break;
       }
 
       case 'product-price': {
-        element.value = product.precio;
+        element.value = product.precio || 0;
         break;
       }
 
