@@ -84,7 +84,7 @@ class PaginationComponentElement extends HTMLElement {
       cancel: true
     });
 
-    console.log( event );
+    // console.log( event );
 
     this.dispatchEvent( event );
   }

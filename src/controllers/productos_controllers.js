@@ -66,7 +66,9 @@ class ProductosController {
 
 					console.log( error );
 
-					return reject( error );
+					reject( error );
+
+					return;
 				}
 
 				const totalRegistros = resultado[0]['COUNT(*)'];
@@ -95,7 +97,9 @@ class ProductosController {
 
 					console.log( error );
 
-					return reject( error );
+					reject( error );
+
+					return;
 				}
 
 				// console.log( results );
@@ -125,8 +129,8 @@ class ProductosController {
 
 	static editarProducto( producto, usuario ) {
 
-		console.log (producto, "<-- log del producto");
-	
+		// console.log (producto, "<-- log del producto");
+
 		this.database.update( CRUD.editarProducto, producto, ( error ) => {
 
 			const notificacion = new Notification({
@@ -158,7 +162,7 @@ class ProductosController {
 	static activarProducto( producto ) {
 
 		//console.log (producto, "<-- log del producto");
-	
+
 		this.database.update( CRUD.activarProducto, producto, ( error ) => {
 
 			const notificacion = new Notification({
@@ -186,12 +190,12 @@ class ProductosController {
 				notificacion.show();
   		});
 	}
-	
+
 	static buscarProducto( search ) {
 
 		return new Promise(( resolve, reject ) => {
 
-				this.database.find( CRUD.buscarproducto, search, ( error, results ) => {
+				this.database.find( CRUD.buscarProducto, search, ( error, results ) => {
 
 					const notificacion = new Notification({
 						title: '',
@@ -209,11 +213,12 @@ class ProductosController {
 
 						console.log( error );
 
-						return reject( error );
+						reject( error );
 
+						return;
 					}
 
-					return resolve( results );
+					resolve( results );
 				});
 		});
 	}

@@ -21,23 +21,25 @@ class ProductsTableComponent {
 		try {
 
 			let totalProducts = await ProductosController.obtenerTotalProductos();
-			
+
 			this.products = await ProductosController.listarProductos( pagination );
-			
+
+			// console.log( this.products );
+
 			this.page = page;
 
 			sessionStorage.setItem('productsTable', JSON.stringify({ pagination }));
 			this.render( totalProducts );
 
 		} catch ( error ) {
-			
+
 			console.error( error );
 
 		}
 	}
 
 	createProduct( data ) {
-		
+
 		ProductosController.crearProducto( data, getUserLogged() );
 
 		this.getAll( null, getPaginationStorage('productsTable') );
@@ -61,7 +63,7 @@ class ProductsTableComponent {
 		}
 
 		console.log( data );  // enviar al controlador
-		
+
 		ProductosController.editarProducto( data, getUserLogged() );
 
 		this.getAll( null, getPaginationStorage('productsTable') );
@@ -73,13 +75,10 @@ class ProductsTableComponent {
 			return;
 		}
 
-		// array equivocado
-		// console.log({ id, products: this.products });
 		let found = this.products.find(( product ) => product.productoid === id );
-		
-		console.log( found );  // enviar al controller
-		
-		// cieto que mando 2 propiedades
+
+		// console.log( found );
+
 		ProductosController.activarProducto({
 			productoid: id,
 			disponibilidad: !found.disponibilidad // se invierte el valor
@@ -88,22 +87,22 @@ class ProductsTableComponent {
 		this.getAll( null, getPaginationStorage('productsTable') );
 	}
 
-	searchProducts( $event ) {
+	async searchProducts( $event = '' ) {
+
+		if ( $event.length === 0 ) {
+
+			let { pagination } = getPaginationStorage('productsTable');
+
+			this.getAll( null, pagination );
+
+			return;
+		}
+
 		console.log( $event );
-	}
 
-	getProductsActive() {
+		this.products = await ProductosController.buscarProducto({ search: $event });
 
-		// @number devuelve el total de los productos activos
-
-		return PRODUCTOS.reduce(( accum, product, index ) => {
-
-			if ( product.disponible && product.cantidad > 0 ) {
-				return accum = accum + 1;
-			}
-
-			return accum;
-		}, 0 );
+		this.render( null, true );
 	}
 
 	openModalConfirm( idProduct ) {
@@ -186,9 +185,9 @@ class ProductsTableComponent {
 
 			this.pagination.style.display = 'none';
 
-			this.tbody.innerHTML += (`
+			this.tbody.innerHTML = (`
 				<tr class="text-center">
-					<td colspan="7" class="text-danger">
+					<td colspan="8" class="text-danger">
 						No existen registros de productos disponibles
 					</td>
 				</tr>

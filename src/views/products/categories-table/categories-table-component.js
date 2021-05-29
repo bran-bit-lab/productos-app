@@ -89,11 +89,11 @@ class CategoryTableComponent {
 
 		console.log( $event );
 
-		this.users = await CategoriasController.buscarCategoria({ search: $event });
+		this.categories = await CategoriasController.buscarCategoria({ search: $event });
 
 		// console.log( this.users );
 
-		this.render( this.users, null, true );
+		this.render( this.categories, null, true );
 	}
 
 	async getAll( $event, pagination = [0, 10], page = this.page ) {

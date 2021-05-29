@@ -30,4 +30,4 @@
  ya que un punto de control de microtareas puede ocurrir inmediatamente después de la construcción.
 
  9. Para usar el attributeChangedCallback debes incluir un set y un get de cada prop que necesite que se escuche dentro del
- componente no puedes utilziar guinones o guion bajo para las propiedades que se escuchan, porque no las toma. segun estadares ver ejemplo de paginacion
+ componente no puedes utilzar guinones o guion bajo para las propiedades que se escuchan, porque no las toma. segun estadares ver ejemplo de paginacion
