@@ -8,6 +8,7 @@ class ProductsTableComponent {
 		this.render = this.render.bind( this );
 		this.getAll = this.getAll.bind( this );
 		this.openModalConfirm = this.openModalConfirm.bind( this );
+		this.activeProduct = this.activeProduct.bind( this );
 
 		// primera pagina
 		this.page = 1;
@@ -39,7 +40,7 @@ class ProductsTableComponent {
 		
 		ProductosController.crearProducto( data, getUserLogged() );
 
-		this.getAll( null, getPaginationStorage('categoriesTable') );
+		this.getAll( null, getPaginationStorage('productsTable') );
 	}
 
 	selectProduct( idProduct ) {
@@ -49,8 +50,21 @@ class ProductsTableComponent {
 		openModalEditProduct( found );
 	}
 
-	editProduct( data ) {
+	editProduct( data, idProduct ) {
+
+		// busque el registro
+		let found = this.products.find( product => product.productoid === idProduct );
+
+		data = {
+			...data,
+			productoid: found.productoid
+		}
+
 		console.log( data );  // enviar al controlador
+		
+		ProductosController.editarProducto( data, getUserLogged() );
+
+		this.getAll( null, getPaginationStorage('productsTable') );
 	}
 
 	activeProduct({ id, confirm }) {
@@ -59,9 +73,19 @@ class ProductsTableComponent {
 			return;
 		}
 
-		let found = PRODUCTOS.find(( product ) => product.id === id );
-
+		// array equivocado
+		// console.log({ id, products: this.products });
+		let found = this.products.find(( product ) => product.productoid === id );
+		
 		console.log( found );  // enviar al controller
+		
+		// cieto que mando 2 propiedades
+		ProductosController.activarProducto({
+			productoid: id,
+			disponibilidad: !found.disponibilidad // se invierte el valor
+		});
+
+		this.getAll( null, getPaginationStorage('productsTable') );
 	}
 
 	searchProducts( $event ) {
@@ -84,7 +108,7 @@ class ProductsTableComponent {
 
 	openModalConfirm( idProduct ) {
 
-		let found = PRODUCTOS.find(( product ) => product.id === idProduct );
+		let found = this.products.find(( product ) => product.productoid === idProduct );
 		let title = `${ found.disponible ? 'Desactivar' : 'Activar' } el producto ${ idProduct }`;
 		let element = (`
 			<p class="text-center">

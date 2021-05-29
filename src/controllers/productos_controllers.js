@@ -49,42 +49,6 @@ class ProductosController {
 		});
 	}
 
-	static openImageDialog( win, callback ) {
-
-		// se le pasa un objeto de configuracion
-
-		const config = Object.freeze({
-			properties: ['openFile'],
-			title: 'Abrir imagen',
-			buttonLabel: 'Seleccionar',
-			filters: [
-				{ name: 'Imágenes .jpg .png', extensions: [ 'jpg', 'png', 'jpeg' ] }
-			]
-		});
-
-		dialog.showOpenDialog( win, config )
-			.then( result => {
-
-				if ( result.canceled ) {
-					return;
-				}
-
-				// lee el archivo de imagen y lo devuelve al renderizado
-				readFileImageAsync( result.filePaths[0], ( imgObject ) => callback( imgObject ) );
-			})
-			.catch( error => {
-
-				console.log( error );
-
-				const notificacion = new Notification({
-					title: 'Error',
-					body: 'Error al cargar archivo'
-				});
-
-				notificacion.show();
-			});
-	}
-
 	static obtenerTotalProductos() {
 
 		return new Promise( ( resolve, reject ) => {
@@ -141,8 +105,7 @@ class ProductosController {
 		});
 	}
 
-
-	static listarCategorias() {
+	static listarCategorias() { // este es el metodo que no estaba incluido lo que fue agregarlo
 
 		return new Promise(( resolve, reject ) => {
 
@@ -159,24 +122,11 @@ class ProductosController {
 		})
 	}
 
-	static editarProducto( producto, usuario, imagenRegistrada ) {
 
-		//console.log( categoria, imagenRegistrada, "imagen_registrada" );
+	static editarProducto( producto, usuario ) {
 
-		let change = producto['imagen'].length > 0 && imagenRegistrada !== producto['imagen'];
-
-		if ( change == true && (imagenRegistrada.length > 0) ){
-
-			deleteImageSync ( imagenRegistrada );
-
-			producto['imagen'] = this.urlImage( producto['imagen'] );
-			console.log(producto['imagen']);
-
-		} else {
-			producto['imagen'] = this.urlImage( producto['imagen'] );
-
-		};
-
+		console.log (producto, "<-- log del producto");
+	
 		this.database.update( CRUD.editarProducto, producto, ( error ) => {
 
 			const notificacion = new Notification({
@@ -189,7 +139,7 @@ class ProductosController {
 				// throw error;  // mostrará el error en pantalla
 
 				notificacion['title'] = 'Error!!';
-				notificacion['body'] = 'Error al actualizar categoria';
+				notificacion['body'] = 'Error al actualizar producto';
 
 				notificacion.show();
 
@@ -199,30 +149,73 @@ class ProductosController {
 			}
 
 				notificacion['title'] = 'Exito!!';
-				notificacion['body'] = 'Categoria Actualizada';
+				notificacion['body'] = 'Producto Modificado';
 
 				notificacion.show();
-
   		});
 	}
 
-	setUrlImage( urlImagen ) {
+	static activarProducto( producto ) {
 
-		try {
+		//console.log (producto, "<-- log del producto");
+	
+		this.database.update( CRUD.activarProducto, producto, ( error ) => {
 
-			// aqui se cambia el nombre se le pasa un timestamp
-			let nuevoNombreImagen = `categorias/${ Date.now() }.${ urlImagen.split('.')[1] }`;
+			const notificacion = new Notification({
+				title: '',
+				body: ''
+			});
 
-			let resultadoUrl = copyFile( urlImagen, nuevoNombreImagen );
+			if ( error ) {
 
-			// se devuelve el string preformateado del copyFile
-			return resultadoUrl;
+				// throw error;  // mostrará el error en pantalla
 
-		} catch ( error ) {
-			console.log( error );
+				notificacion['title'] = 'Error!!';
+				notificacion['body'] = 'Error al actualizar producto';
 
-			throw error;
-		}
+				notificacion.show();
+
+				console.log( error );
+
+				return;
+			}
+
+				notificacion['title'] = 'Exito!!';
+				notificacion['body'] = 'Producto Modificado';
+
+				notificacion.show();
+  		});
+	}
+	
+	static buscarProducto( search ) {
+
+		return new Promise(( resolve, reject ) => {
+
+				this.database.find( CRUD.buscarproducto, search, ( error, results ) => {
+
+					const notificacion = new Notification({
+						title: '',
+						body: ''
+					});
+
+					if ( error ) {
+
+						// throw error;  // mostrará el error en pantalla
+
+						notificacion['title'] = 'Error!!';
+						notificacion['body'] = 'Error al buscar Producto';
+
+						notificacion.show();
+
+						console.log( error );
+
+						return reject( error );
+
+					}
+
+					return resolve( results );
+				});
+		});
 	}
 
 }

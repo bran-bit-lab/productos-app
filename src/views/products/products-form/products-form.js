@@ -33,6 +33,8 @@ async function openModalEditProduct( product ) {
 
     editProductForm = true;
 
+    productId = product.productoid;
+
     const modal = footer.querySelector('#products-form');
 
     modal.querySelector('.modal-title').textContent = `Editar producto ${ product.categoriaid }`;
@@ -117,7 +119,7 @@ function handleSubmit( $event ) {
 
   const formData = new FormData( productForm );
 
-  const data = {
+  const data = {  // este es la info que se manda
     nombre: formData.get('product-name'),
     categoriaid: formData.get('product-category'),
     cantidad: formData.get('product-quantity'),
@@ -135,7 +137,7 @@ function handleSubmit( $event ) {
     }
 
     if ( editProductForm ) {
-      productsTableComponent.editProduct( data );
+      productsTableComponent.editProduct( data, productId );
 
     } else {
       productsTableComponent.createProduct( data );
@@ -289,6 +291,7 @@ const errorProductDescription = footer.querySelector('#error-product-description
 const errorProductCategory = footer.querySelector('#error-product-category');
 
 let editProductForm = false;
+let productId = null;
 
 productForm.addEventListener( 'submit', handleSubmit );
 
