@@ -11,8 +11,8 @@ function renderListCategory() {
 	`);
 }
 
-function renderCardPorducts() {
-	
+function renderCardProducts() {
+
 	products.innerHTML = '';
 
 	PRODUCTOS.forEach(( product ) => products.innerHTML += `
@@ -21,7 +21,7 @@ function renderCardPorducts() {
 			  <img src="https://via.placeholder.com/150" class="card-img-top p-0">
 			  <div class="card-body">
 			    <p class="card-text">
-			    	Some quick example text to build on the card title and make up the 
+			    	Some quick example text to build on the card title and make up the
 			    	bulk of the card's content.
 			    </p>
 				</div>
@@ -37,10 +37,10 @@ function searchPorductsByCategory( $event ) {
 	// tecla enter = 13
 	if ( $event.keyCode !== 13 ) {
 		return;
-	
+
 	}
 
-	const rexp = /^[a-z\s]+$/;	
+	const rexp = /^[a-z\s]+$/;
 	let value = $event.target.value.trim().toLowerCase();
 
 	if ( !rexp.test( value ) ) {
@@ -52,10 +52,9 @@ function searchPorductsByCategory( $event ) {
 	console.log( value );
 }
 
-categorySearch.addEventListener('keyup', searchPorductsByCategory );
+// categorySearch.addEventListener('keyup', searchPorductsByCategory );
 
 document.addEventListener('DOMContentLoaded', () => {
-	renderListCategory();
-	renderCardPorducts();
+	// renderListCategory();
+	renderCardProducts();
 });
-	

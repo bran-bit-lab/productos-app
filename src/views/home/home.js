@@ -1,13 +1,13 @@
 require('bootstrap/js/dist/dropdown');  // dropdown boostrap
 
 class HomeComponent {
-	
+
 	openUsers() {
 		return redirectTo('../users/users.html');
 	}
 
 	openOrders() {
-		console.log('abrir ordenes');
+		return redirectTo('../orders/orders.html');
 	}
 
 	openEstadistics() {
@@ -19,15 +19,15 @@ class HomeComponent {
 	}
 
 	logOut() {
-		
+
 		sessionStorage.removeItem('userLogged');
-		
+
 		return redirectTo('../login/login.html');
 	}
 
 	showOptions() {
 
-		// se consulta el area que pertenece el usuario 
+		// se consulta el area que pertenece el usuario
 		// y oculta las opciones dependiendo del caso
 
 		const userLogged = getUserLogged();
@@ -42,7 +42,7 @@ class HomeComponent {
 const homeComponent = new HomeComponent();
 
 document.addEventListener('DOMContentLoaded', () => {
-	
+
 	const values = [ 50, 100, 80, 25 ];
 
 	const elementsDOM = document.querySelectorAll('span');

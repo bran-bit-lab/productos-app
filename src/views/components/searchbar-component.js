@@ -5,8 +5,6 @@ class SearchBarComponent extends HTMLElement {
     super();
 
     this.handleChangeInput = this.handleChangeInput.bind( this );
-
-
   }
 
   handleChangeInput( $event ) {

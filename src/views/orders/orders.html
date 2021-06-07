@@ -9,26 +9,18 @@
 </head>
 <body>
 	<!-- <nav></nav> -->
-	<main class="d-flex flex-row justify-content-between">
-		<!-- menu lateral -->
-    <aside>
-    	<h5 class="text-center p-3">Categorías</h5>
-    	<div class="row justify-content-center mb-3">
-    		<input 
-                class="form-control" 
-                id="category-search" 
-                type="text" 
-                placeholder="Buscar ..." 
-            />
-    	</div>
-    	<ul id="product-category"></ul>
-    </aside>
-    <div class="main">
-    	<h2 class="border-bottom pb-2 mb-3">Seleccionar productos</h2>
-    	<div class="row" id="products"></div>
+	<main class="container p-3 h-100">
+
+    <div class="d-flex flex-row justify-content-between border-bottom">
+      <h2>
+        <i class="fas fa-arrow-circle-left point" onclick="redirectTo('../home/home.html')"></i>
+        <span class="ml-3">Notas de entrega</span>
+      </h2>
     </div>
+
 	</main>
-		<script src="../products/products.hardcode.js"></script>
-    <script src="orders.js"></script>
+  <script src="../global.js"></script>
+	<script src="../products/products.hardcode.js"></script>
+  <script src="orders.js"></script>
 </body>
 </html>
