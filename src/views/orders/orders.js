@@ -1,60 +1,109 @@
-const categorias = document.querySelector('#product-category');
-const products = document.querySelector('#products');
-const categorySearch = document.querySelector('#category-search');
+// =========================
+// Carga de modulos JS
+// =========================
 
-function renderListCategory() {
+const { remote } = require('electron');
+const { readFileAssets } = remote.require('./util_functions/file');
+const deliveryNotes = document.querySelector('#delivery-note');
 
-	categorias.innerHTML = '';
+class OrdersTableComponent {
+	constructor() {
 
-	CATEGORIAS.forEach(( categoria ) => categorias.innerHTML += `
-		<li>${ categoria.nombre }</li>
-	`);
-}
+		this.deliveryNotes = new Array(10).fill({
+			id: 0,
+			name: 'test',
+			description: 'prueba de desarrollo',
+			created_by: 'Gabriel Martinez',
+			order_by: 'Cliente 1',
+			state: 'Entregado'
+		});
 
-function renderCardProducts() {
+		this.deliveryTable = document.querySelector('#tbody-delivery-notes');
+		this.searchComponent = document.querySelector('search-bar-component');
 
-	products.innerHTML = '';
-
-	PRODUCTOS.forEach(( product ) => products.innerHTML += `
-		<div class="col-12 col-sm-6 col-lg-3 card-column">
-			<div class="card p-0" style="width: 15rem;">
-			  <img src="https://via.placeholder.com/150" class="card-img-top p-0">
-			  <div class="card-body">
-			    <p class="card-text">
-			    	Some quick example text to build on the card title and make up the
-			    	bulk of the card's content.
-			    </p>
-				</div>
-			</div>
-		</div>
-	`);
-}
-
-function searchPorductsByCategory( $event ) {
-
-	$event.preventDefault();
-
-	// tecla enter = 13
-	if ( $event.keyCode !== 13 ) {
-		return;
-
+		// events
+		this.searchComponent.addEventListener('search', this.searchDeliveryNote );
 	}
 
-	const rexp = /^[a-z\s]+$/;
-	let value = $event.target.value.trim().toLowerCase();
-
-	if ( !rexp.test( value ) ) {
-		console.log('El valor no coincide con los parametros de búsqueda');
-		return;
-
+	getAll() {
+		this.render();
 	}
 
-	console.log( value );
+	createDeliveryNote() {
+		console.log('se crea nueva orden');
+	}
+
+	editDeiliveryNote( data ) {
+		console.log( data );
+	}
+
+	searchDeliveryNote( $event ) {
+		let value = $event.detail.value;
+		console.log( value );
+	}
+
+	showPDF( idDeliveryNote ) {
+		// codigo que genera el PDF al usuario
+	}
+
+	setRows( deliveryNote, index ) {
+		return (`
+			<tr class="text-center">
+				<td>${ index + 1 }</td>
+				<td>${ deliveryNote.name }</td>
+				<td>${ deliveryNote.description }</td>
+				<td>${ deliveryNote.created_by }</td>
+				<td>${ deliveryNote.order_by }</td>
+				<td>${ deliveryNote.state }</td>
+				<td>
+				<button
+					type="button"
+					onclick="ordersTableComponent.editDeiliveryNote( ${ index + 1 } )"
+					class="btn btn-primary btn-sm"
+				>
+					<i class="fas fa-edit"></i>
+				</button>
+				<button
+					type="button"
+					onclick="ordersTableComponent.showPDF( ${ index + 1 } )"
+					class="btn btn-secondary btn-sm"
+				>
+					<i class="far fa-file-pdf"></i>
+				</button>
+				</td>
+			</tr>
+		`);
+	}
+
+	render( search = false ) {
+
+		if ( !search ) {
+
+			this.deliveryTable.innerHTML = '';
+
+			let paginationElement = document.querySelector('pagination-component');
+
+			paginationElement._limit = 1;
+			paginationElement._registers = this.deliveryNotes.length;
+			paginationElement._page = 1;
+		}
+
+		if ( this.deliveryNotes.length > 0 ) {
+
+			this.deliveryTable.innerHTML = this.deliveryNotes.map( this.setRows ).join('');
+
+		} else {
+
+			this.deliveryTable.innerHTML = (`
+				<tr class="text-center">
+					<td colspan="8" class="text-danger">
+							No existen registros de notas de entregas disponibles
+					</td>
+				</tr>
+			`);
+		}
+	}
 }
 
-// categorySearch.addEventListener('keyup', searchPorductsByCategory );
-
-document.addEventListener('DOMContentLoaded', () => {
-	// renderListCategory();
-	renderCardProducts();
-});
+const ordersTableComponent = new OrdersTableComponent();
+ordersTableComponent.render();

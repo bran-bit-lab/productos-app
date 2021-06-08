@@ -26,6 +26,10 @@ body {
 	padding: 0 20px;
 }
 
+.table-responsive {
+	background: #fff;
+	border-radius: 5px;
+}
 
 
 .hide {
