@@ -30,11 +30,11 @@ class OrdersTableComponent {
 	}
 
 	createDeliveryNote() {
-		console.log('se crea nueva orden');
+		redirectTo('./orders-form/orders-form.html');
 	}
 
-	editDeiliveryNote( data ) {
-		console.log( data );
+	editDeiliveryNote( idDelivery ) {
+		redirectTo('./orders-form/orders-form.html?idDelivery=' + idDelivery )
 	}
 
 	searchDeliveryNote( $event ) {
@@ -107,3 +107,6 @@ class OrdersTableComponent {
 
 const ordersTableComponent = new OrdersTableComponent();
 ordersTableComponent.render();
+
+
+console.log( window.history );

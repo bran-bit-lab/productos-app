@@ -18,7 +18,7 @@ function showElement( element ) {
 }
 
 function redirectTo( path ) {
-	return location.href = path;
+  return location.href = path;
 }
 
 function getUserLogged() {
