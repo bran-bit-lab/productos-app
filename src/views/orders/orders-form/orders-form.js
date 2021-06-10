@@ -3,6 +3,14 @@ class OrdersForm {
     this.delivery = null;
   }
 
+  selectProducts() {
+
+  }
+
+  selectClients() {
+
+  }
+
   getParamsUrl() {
 
     /*
@@ -30,7 +38,7 @@ class OrdersForm {
 
       this.delivery = match['groups'].idDelivery;
 
-      document.querySelector('#title').innerText = 'Editar entrega';
+      document.querySelector('#title').innerText = 'Editar entrega ' + this.delivery;
 
     } else { // new
       console.log('nueva entrega');
@@ -38,11 +46,6 @@ class OrdersForm {
       document.querySelector('#title').innerText = 'Nueva entrega';
     }
   }
-}
-
-
-function back() {
-  redirectTo('../orders.html');
 }
 
 const ordersForm = new OrdersForm();

@@ -3,21 +3,72 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <title>Products app</title>
+    <title>Productos app</title>
     <!-- Mitigacion de cross site scripting -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="../orders.css">
-    <!-- <script src="../components/searchbar-component.js"></script>
-    <script src="../components/pagination-component.js"></script> -->
+    <link rel="stylesheet" href="../orders.css" />
+    <link rel="stylesheet" href="./orders-form.css" />
   </head>
   <body>
     <main class="container p-3 h-100">
       <div class="d-flex flex-row justify-content-between border-bottom">
         <h2>
-          <i class="fas fa-arrow-circle-left point" onclick="back()"></i>
+          <i class="fas fa-arrow-circle-left point" onclick="redirectTo('../orders.html');"></i>
           <span class="ml-3" id="title"></span>
         </h2>
       </div>
+      <form>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label class="form-label" for="delivery-name">Nombre de la entrega:</label>
+              <input type="text" name="delivery-name" id="delivery-name" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label for="delivery-description" class="form-label">Descripcion de la entrega:</label>
+              <input name="delivery-description" class="form-control" />
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group select-state">
+              <label for="delivery-state" class="form-label">Estado de la entrega</label>
+              <select name="delivery-state" class="form-control">
+                <option value="1" selected>En proceso</option>
+                <option value="2">Aceptado</option>
+                <option value="3">Entregada</option>
+                <option value="4">Cancelada</option>
+                <option value="5">Pospuesto</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="delivery-date" class="form-label">Fecha de entrega</label>
+              <input type="date" class="form-control" />
+            </div>
+          </div>
+        </div>
+
+        <!-- productos-table -->
+        <div class="row mt-5">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span>Productos</span>
+              <button class="btn btn-success btn-sm">
+                <i class="fas fa-plus"></i>
+                Añadir
+              </button>
+            </div>
+            <div class="card-body">
+
+            </div>
+          </div>
+        </div>
+
+
+
+      </form>
+
     </main>
     <script src="../../global.js"></script>
     <script type="text/javascript" src="./orders-form.js"></script>

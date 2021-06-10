@@ -1,0 +1,7 @@
+form {
+  margin-top: 2rem;
+}
+
+.form-group ~.form-group {
+  margin-top: 2rem;
+}
