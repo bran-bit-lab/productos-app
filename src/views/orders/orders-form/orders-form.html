@@ -30,10 +30,13 @@
               <input name="delivery-description" id="delivery-description" class="form-control" />
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="delivery-client" class="form-label">Nombre cliente</label>
-              <input type="input" id="delivery-client" class="form-control"  />
-            </div>
+              <select class="form-control" name="delivery-client" id="delivery-client">
+                <option value="1">Bazar Valparaiso S.A</option>
+                <option value="2">Comercializadora Los Teques C.A</option>
+              </select>
+            </div> -->
           </div>
           <div class="col">
             <div class="form-group select-state">
@@ -49,13 +52,39 @@
 
             <div class="form-group">
               <label for="delivery-date" class="form-label">Fecha de entrega</label>
-              <input type="date" id="delivery-date" class="form-control" />
+              <input type="date" id="delivery-date" name="delivery-date" class="form-control" />
             </div>
           </div>
         </div>
 
         <!-- productos-table -->
         <div class="row mt-5">
+
+          <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span>Clientes</span>
+              <button class="btn btn-success btn-sm">
+                <i class="fas fa-plus"></i>
+                Añadir
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead class="text-center">
+                    <th>Id</th>
+                    <th>Nombre Cliente</th>
+                    <th>Tipo</th>
+                    <th>Direccion</th>
+                    <th>Telefono</th>
+                    <th>Acciones</th>
+                  </thead>
+                  <tbody id="table-clients-selected"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
               <span>Productos</span>
