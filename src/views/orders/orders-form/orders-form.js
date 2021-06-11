@@ -27,7 +27,7 @@ class OrdersForm {
     // calculate total
     let total = this.productsSelected.reduce(( accum, product, index ) => {
       return accum += ( product.priceUnit * product.quantity )
-    }, 0 ) || 0;
+    }, 0 );
 
     if ( this.productsSelected.length > 0 ) {
 
@@ -39,10 +39,13 @@ class OrdersForm {
           <td class="d-flex justify-content-center">
               <input
                 type="number"
-                value=${ product.quantity.toString() }
+                value=${ product.quantity }
                 class="form-control text-center"
                 min="1"
                 max="9999"
+                onchange="ordersForm.handleChangeQuantity(
+                  Number.parseInt( event.target.value ), ${ index + 1 }
+                )"
               />
           </td>
           <td>
@@ -105,8 +108,37 @@ class OrdersForm {
       document.querySelector('#title').innerText = 'Nueva entrega';
     }
   }
+
+  handleSubmit( event ) {
+    console.log( event );
+    event.preventDefault();
+  }
+
+  handleChangeQuantity( value, idDelivery ) {
+
+    console.log({ value, idDelivery });
+
+    this.productsSelected = this.productsSelected.map(( product, index ) => {
+
+      if ( ( index + 1 ) === idDelivery ) {
+        return {
+          ...product,
+          quantity: value
+        };
+      }
+
+      return product
+    });
+
+    console.log( this.productsSelected );
+
+    // se actualiza la tabla con el cambio local ...
+  }
 }
 
 const ordersForm = new OrdersForm();
+const form = document.forms[0];
 
 document.addEventListener('DOMContentLoaded', ordersForm.getParamsUrl );
+
+form.addEventListener('submit', ordersForm.handleSubmit );
