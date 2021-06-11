@@ -27,13 +27,18 @@
 
             <div class="form-group">
               <label for="delivery-description" class="form-label">Descripcion de la entrega:</label>
-              <input name="delivery-description" class="form-control" />
+              <input name="delivery-description" id="delivery-description" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label for="delivery-client" class="form-label">Nombre cliente</label>
+              <input type="input" id="delivery-client" class="form-control"  />
             </div>
           </div>
           <div class="col">
             <div class="form-group select-state">
               <label for="delivery-state" class="form-label">Estado de la entrega</label>
-              <select name="delivery-state" class="form-control">
+              <select name="delivery-state" id="delivery-state" class="form-control">
                 <option value="1" selected>En proceso</option>
                 <option value="2">Aceptado</option>
                 <option value="3">Entregada</option>
@@ -44,7 +49,7 @@
 
             <div class="form-group">
               <label for="delivery-date" class="form-label">Fecha de entrega</label>
-              <input type="date" class="form-control" />
+              <input type="date" id="delivery-date" class="form-control" />
             </div>
           </div>
         </div>
@@ -60,13 +65,27 @@
               </button>
             </div>
             <div class="card-body">
-
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead class="text-center">
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Acciones</th>
+                  </thead>
+                  <tbody id="table-products-selected"></tbody>
+                  <tfoot></tfoot>
+                </table>
+              </div>
             </div>
           </div>
         </div>
 
-
-
+        <div class="d-flex w-100 justify-content-center mt-5 pb-4">
+          <button type="reset" class="btn btn-secondary" style="margin-right: 20px">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Aceptar</button>
+        </div>
       </form>
 
     </main>

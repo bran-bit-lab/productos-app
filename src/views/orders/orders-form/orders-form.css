@@ -5,3 +5,11 @@ form {
 .form-group ~.form-group {
   margin-top: 2rem;
 }
+
+#table-products-selected td {
+  vertical-align: middle;
+}
+
+tfoot, tr, td {
+  border-style: none;
+}

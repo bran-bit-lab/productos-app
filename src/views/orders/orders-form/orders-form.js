@@ -1,6 +1,15 @@
 class OrdersForm {
   constructor() {
     this.delivery = null;
+    this.productsSelected = new Array( 5 ).fill({
+      id: 1,
+      name: 'test',
+      description: 'test de producto',
+      priceUnit: 250,
+      quantity: 5
+    });
+
+    this.setProductsTable();
   }
 
   selectProducts() {
@@ -8,7 +17,57 @@ class OrdersForm {
   }
 
   selectClients() {
+  }
 
+  setProductsTable() {
+
+    const tableProducts = document.querySelector('#table-products-selected');
+    const tableFooter = document.querySelector('tfoot');
+
+    // calculate total
+    let total = this.productsSelected.reduce(( accum, product, index ) => {
+      return accum += ( product.priceUnit * product.quantity )
+    }, 0 ) || 0;
+
+    if ( this.productsSelected.length > 0 ) {
+
+      tableProducts.innerHTML = this.productsSelected.map(( product, index ) => (`
+        <tr class="text-center">
+          <td>${ index + 1 }</td>
+          <td>${ product.name }</td>
+          <td>${ product.priceUnit }</td>
+          <td class="d-flex justify-content-center">
+              <input
+                type="number"
+                value=${ product.quantity.toString() }
+                class="form-control text-center"
+                min="1"
+                max="9999"
+              />
+          </td>
+          <td>
+            <i class="fas fa-trash"></i>
+          </td>
+        </tr>
+      `)).join('');
+
+    } else {
+      tableProducts.innerHTML = (`
+        <tr class="text-center">
+          <td colspan="5" class="text-danger">
+            No existen productos seleccionados
+          </td>
+        </tr>
+      `);
+    }
+
+    // table footer
+    tableFooter.innerHTML = (`
+      <tr class="text-end">
+        <td colspan="4"></td>
+        <td colspan="1">Total: ${ total }$</td>
+      </tr>
+    `);
   }
 
   getParamsUrl() {
