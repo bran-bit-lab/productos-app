@@ -64,6 +64,44 @@ INSERT INTO `categorias` VALUES (17,'iCincoV','cambioCuatro',23,1,'');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `clientes`
+--
+
+DROP TABLE IF EXISTS `clientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clientes` (
+  `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_cliente` char(30) DEFAULT NULL,
+  `direccion_entrega` varchar(255) DEFAULT NULL,
+  `rif` char(30) DEFAULT NULL,
+  `telefono_contacto` char(30) DEFAULT NULL,
+  PRIMARY KEY (`id_cliente`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clientes`
+--
+
+LOCK TABLES `clientes` WRITE;
+/*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
+INSERT INTO `clientes` VALUES (1,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+INSERT INTO `clientes` VALUES (2,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+INSERT INTO `clientes` VALUES (3,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+INSERT INTO `clientes` VALUES (4,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+INSERT INTO `clientes` VALUES (5,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+INSERT INTO `clientes` VALUES (6,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+INSERT INTO `clientes` VALUES (7,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+INSERT INTO `clientes` VALUES (8,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+INSERT INTO `clientes` VALUES (9,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+INSERT INTO `clientes` VALUES (10,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+INSERT INTO `clientes` VALUES (11,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+INSERT INTO `clientes` VALUES (12,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+/*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `notas`
 --
 
@@ -71,15 +109,19 @@ DROP TABLE IF EXISTS `notas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `notas` (
-  `nro` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) DEFAULT NULL,
-  `cliente` char(50) DEFAULT NULL,
-  `status` char(30) DEFAULT NULL,
+  `status` enum('EN_PROCESO','ACEPTADO','ENTREGADA','CANCELADA','POSPUESTO') DEFAULT 'EN_PROCESO',
   `creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`nro`),
+  `descripcion_nota` varchar(255) DEFAULT NULL,
+  `fecha_entrega` date DEFAULT NULL,
+  `id_cliente` int(11) DEFAULT NULL,
+  `id_nota` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id_nota`),
   KEY `userid` (`userid`),
-  CONSTRAINT `notas_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `usuarios` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `id_cliente` (`id_cliente`),
+  CONSTRAINT `notas_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `usuarios` (`userid`),
+  CONSTRAINT `notas_ibfk_2` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,6 +130,20 @@ CREATE TABLE `notas` (
 
 LOCK TABLES `notas` WRITE;
 /*!40000 ALTER TABLE `notas` DISABLE KEYS */;
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:45','descripcion de prueba','2021-06-13',1,15);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:45','descripcion de prueba','2021-06-13',1,16);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:45','descripcion de prueba','2021-06-13',1,17);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:45','descripcion de prueba','2021-06-13',1,18);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:46','descripcion de prueba','2021-06-13',1,19);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:46','descripcion de prueba','2021-06-13',1,20);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:46','descripcion de prueba','2021-06-13',1,21);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:46','descripcion de prueba','2021-06-13',1,22);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:46','descripcion de prueba','2021-06-13',1,23);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:46','descripcion de prueba','2021-06-13',1,24);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:46','descripcion de prueba','2021-06-13',1,25);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:46','descripcion de prueba','2021-06-13',1,26);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:43:48','descripcion de prueba',NULL,1,27);
+INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:45:05','descripcion de prueba','2021-06-13',1,28);
 /*!40000 ALTER TABLE `notas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +177,7 @@ CREATE TABLE `productos` (
 
 LOCK TABLES `productos` WRITE;
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
-INSERT INTO `productos` VALUES (1,17,23,'Teclado','Genius',0,NULL,1);
+INSERT INTO `productos` VALUES (1,17,23,'Teclado','Genius',0,NULL,0);
 INSERT INTO `productos` VALUES (2,17,23,'Monitor','Samsung',0,NULL,1);
 INSERT INTO `productos` VALUES (3,17,23,'Telefono','Iphone',0,NULL,1);
 INSERT INTO `productos` VALUES (4,17,23,'Mouse','VIT',0,NULL,1);
@@ -132,7 +188,7 @@ INSERT INTO `productos` VALUES (8,17,23,'Papel','Bond',0,NULL,1);
 INSERT INTO `productos` VALUES (9,17,23,'Papel','Lustrillo',0,NULL,1);
 INSERT INTO `productos` VALUES (10,17,23,'Lapiz','Mongol',0,NULL,1);
 INSERT INTO `productos` VALUES (11,17,2,'prueba','prueba',22,1.48,1);
-INSERT INTO `productos` VALUES (12,17,1,'pruebados','pruebados',34,123.22,0);
+INSERT INTO `productos` VALUES (12,17,18,'pruebados','pruebados',10,123.22,1);
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,4 +247,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-23 17:17:11
+-- Dump completed on 2021-06-13 17:01:27
