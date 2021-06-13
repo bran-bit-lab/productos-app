@@ -3,23 +3,24 @@ ALTER TABLE clientes ADD (
 	telefono_contacto CHAR(30)
 	);*/
 /*
-INSERT INTO `clientes` VALUES (NULL,'cliente', 'j-12345678', 'direccion de prueba', '0212-123.45.67');
-INSERT INTO `clientes` VALUES (NULL,'cliente', 'j-12345678', 'direccion de prueba', '0212-123.45.67');
-INSERT INTO `clientes` VALUES (NULL,'cliente', 'j-12345678', 'direccion de prueba', '0212-123.45.67');
-INSERT INTO `clientes` VALUES (NULL,'cliente', 'j-12345678', 'direccion de prueba', '0212-123.45.67');
-INSERT INTO `clientes` VALUES (NULL,'cliente', 'j-12345678', 'direccion de prueba', '0212-123.45.67');
-INSERT INTO `clientes` VALUES (NULL,'cliente', 'j-12345678', 'direccion de prueba', '0212-123.45.67');
-INSERT INTO `clientes` VALUES (NULL,'cliente', 'j-12345678', 'direccion de prueba', '0212-123.45.67');
-INSERT INTO `clientes` VALUES (NULL,'cliente', 'j-12345678', 'direccion de prueba', '0212-123.45.67');
-INSERT INTO `clientes` VALUES (NULL,'cliente', 'j-12345678', 'direccion de prueba', '0212-123.45.67');
-INSERT INTO `clientes` VALUES (NULL,'cliente', 'j-12345678', 'direccion de prueba', '0212-123.45.67');
-INSERT INTO `clientes` VALUES (NULL,'cliente', 'j-12345678', 'direccion de prueba', '0212-123.45.67');
-INSERT INTO `clientes` VALUES (NULL,'cliente', 'j-12345678', 'direccion de prueba', '0212-123.45.67');
+INSERT INTO `notas` VALUES (17, DEFAULT, NULL, 'descripcion de prueba', '2021-06-13', 1, null);
+INSERT INTO `notas` VALUES (17, DEFAULT, NULL, 'descripcion de prueba', '2021-06-13', 1, null);
+INSERT INTO `notas` VALUES (17, DEFAULT, NULL, 'descripcion de prueba', '2021-06-13', 1, null);
+INSERT INTO `notas` VALUES (17, DEFAULT, NULL, 'descripcion de prueba', '2021-06-13', 1, null);
+INSERT INTO `notas` VALUES (17, DEFAULT, NULL, 'descripcion de prueba', '2021-06-13', 1, null);
+INSERT INTO `notas` VALUES (17, DEFAULT, NULL, 'descripcion de prueba', '2021-06-13', 1, null);
+INSERT INTO `notas` VALUES (17, DEFAULT, NULL, 'descripcion de prueba', '2021-06-13', 1, null);
+INSERT INTO `notas` VALUES (17, DEFAULT, NULL, 'descripcion de prueba', '2021-06-13', 1, null);
+INSERT INTO `notas` VALUES (17, DEFAULT, NULL, 'descripcion de prueba', '2021-06-13', 1, null);
+INSERT INTO `notas` VALUES (17, DEFAULT, NULL, 'descripcion de prueba', '2021-06-13', 1, null);
+INSERT INTO `notas` VALUES (17, DEFAULT, NULL, 'descripcion de prueba', '2021-06-13', 1, null);
+INSERT INTO `notas` VALUES (17, DEFAULT, NULL, 'descripcion de prueba', '2021-06-13', 1, null);
 */
-/* Para DATETIME YYYY-MM-DD
-ALTER TABLE notas ADD (
-	descripcion_nota varchar(255),
-	fecha_entrega DATE,
-	FOREIGN KEY (cliente) REFERENCES clientes (id_cliente) 
-);
+
+INSERT INTO `notas`( userid, descripcion_nota, id_cliente, fecha_entrega ) VALUES (17, 'descripcion de prueba', 1, "2021-06-13");
+
+/*Para DATETIME YYYY-MM-DD*/
+/*
+ALTER TABLE notas
+	MODIFY COLUMN status ENUM ('EN_PROCESO','ACEPTADO','ENTREGADA','CANCELADA','POSPUESTO') DEFAULT 'EN_PROCESO';
 */

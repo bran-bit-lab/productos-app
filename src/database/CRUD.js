@@ -28,12 +28,20 @@ const CRUD = Object.freeze({
 	activarProducto : "UPDATE productos SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
 	buscarProducto : "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.nombre LIKE :search OR productos.descripcion LIKE :search;",
 
-	// clientess ...
+	// clientes ...
 	crearCliente : "INSERT INTO clientes (nombre_cliente, direccion_entrega, rif, telefono_contacto) VALUES (:nombre_cliente, :direccion_entrega, :rif, :telefono_contacto);",
 	listarClientes : "SELECT * FROM clientes LIMIT :start, :limit;",
 	obtenerTotalClientes : "SELECT COUNT(*) FROM clientes;",
 	editarCliente : "UPDATE Clientes SET nombre_cliente = :nombre_cliente, direccion_entrega = :direccion_entrega, rif = :rif, telefono_contacto = :telefono_contacto WHERE id_cliente = :id_cliente;",
 	buscarCliente: "SELECT nombre_cliente, direccion_entrega, rif, telefono_contacto FROM clientes WHERE nombre_cliente LIKE :search OR rif LIKE :search;",
+
+	// notas ...
+	crearNota: "INSERT INTO notas( userid, descripcion_nota, id_cliente, fecha_entrega ) VALUES (:userid, :descripcion_nota, :id_cliente, :fecha_entrega);",
+	listarNotas : "SELECT Notas.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM Notas LEFT JOIN usuarios ON Notas.userid = usuarios.userid INNER JOIN categorias ON Notas.categoriaid = categorias.categoriaid LIMIT :start, :limit;",
+	obtenerTotalNotas : "SELECT COUNT(*) FROM Notas;",
+	editarProducto : "UPDATE Notas SET categoriaid = :categoriaid, nombre = :nombre, descripcion = :descripcion, cantidad = :cantidad, precio = :precio, disponibilidad = :disponibilidad WHERE productoid = :productoid;",
+	activarProducto : "UPDATE Notas SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
+	buscarProducto : "SELECT Notas.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM Notas LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.nombre LIKE :search OR productos.descripcion LIKE :search;",
 });
 
 module.exports = CRUD;
