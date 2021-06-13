@@ -26,7 +26,14 @@ const CRUD = Object.freeze({
 	obtenerTotalProductos : "SELECT COUNT(*) FROM productos;",
 	editarProducto : "UPDATE productos SET categoriaid = :categoriaid, nombre = :nombre, descripcion = :descripcion, cantidad = :cantidad, precio = :precio, disponibilidad = :disponibilidad WHERE productoid = :productoid;",
 	activarProducto : "UPDATE productos SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
-	buscarProducto : "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.nombre LIKE :search OR productos.descripcion LIKE :search;"
+	buscarProducto : "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.nombre LIKE :search OR productos.descripcion LIKE :search;",
+
+	// clientess ...
+	crearCliente : "INSERT INTO clientes (nombre_cliente, direccion_entrega, rif, telefono_contacto) VALUES (:nombre_cliente, :direccion_entrega, :rif, :telefono_contacto);",
+	listarClientes : "SELECT * FROM clientes LIMIT :start, :limit;",
+	obtenerTotalClientes : "SELECT COUNT(*) FROM clientes;",
+	editarCliente : "UPDATE Clientes SET nombre_cliente = :nombre_cliente, direccion_entrega = :direccion_entrega, rif = :rif, telefono_contacto = :telefono_contacto WHERE id_cliente = :id_cliente;",
+	buscarCliente: "SELECT nombre_cliente, direccion_entrega, rif, telefono_contacto FROM clientes WHERE nombre_cliente LIKE :search OR rif LIKE :search;",
 });
 
 module.exports = CRUD;
@@ -90,8 +97,8 @@ CREATE TABLE productos (
 	categoriaid int NOT NULL,
 	nombre char(30),
 	descripcion varchar(600),
-		FOREIGN KEY (categoriaid) REFERENCES categorias(categoriaid),
-		FOREIGN KEY (userid) REFERENCES usuarios(userid)
+	FOREIGN KEY (categoriaid) REFERENCES categorias(categoriaid),
+	FOREIGN KEY (userid) REFERENCES usuarios(userid)
 );
 
 INSERT INTO productos(nombre, descripcion)
