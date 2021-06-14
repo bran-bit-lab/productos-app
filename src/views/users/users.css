@@ -5,6 +5,10 @@ body {
 	overflow-y: auto !important;
 }
 
+.nav-link {
+	border: none;
+}
+
 #info {
 	display: none;
 }

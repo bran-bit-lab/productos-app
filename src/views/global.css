@@ -37,7 +37,7 @@ body {
 }
 
 .show {
-	display: block !important;
+	display: initial !important;
 }
 
 .btn-success {

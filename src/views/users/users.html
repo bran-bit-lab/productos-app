@@ -19,16 +19,24 @@
 
         <h2>
           <i class="fas fa-arrow-circle-left point" onclick="redirectTo('../home/home.html')"></i>
-          <span class="ml-3">Gestión de usuarios</span>
+          <span class="ml-3 users">Gestión de usuarios</span>
+          <span class="ml-3 clients">Gestión de clientes</span>
         </h2>
 
         <div class="btn-group">
           <button
-            class="btn btn-success btn-sm"
+            class="btn btn-success users btn-sm"
             onclick="ModalUserComponent.openModal('new')"
           >
             <i class="fas fa-plus"></i>
             Añadir usuario
+          </button>
+          <button
+            class="btn btn-success clients btn-sm"
+            onclick="ModalUserComponent.openModal('new')"
+          >
+            <i class="fas fa-plus"></i>
+            Añadir cliente
           </button>
       		<button
       			type="button"
@@ -47,31 +55,36 @@
     		retirar el acceso, cambiar datos de usuarios y otorgar permisos elevados.
     	</article>
 
+      <!-- tabs -->
       <div class="main-content mt-5">
-        <search-bar-component from="users"></search-bar-component>
-        <div class="row justify-content-sm-end justify-content-center">
+        <ul class="nav nav-pills justify-content-center mt-3 mb-3" id="users-list">
+          <li class="nav-item">
+            <button
+              class="nav-link point active btn-sm"
+              href="#users"
+              aria-name="users"
+              aria-selected="true"
+            >Usuarios</button>
+          </li>
+          <li class="nav-item">
+            <button
+              type="button"
+              class="nav-link point btn-sm"
+              href="#clients"
+              aria-name="clients"
+            >Clientes</button>
+          </li>
+        </ul>
 
-          <!-- table -->
-          <div class="table-responsive w-100">
-          	<table class="table table-striped">
-          		<thead>
-          			<tr class="text-center">
-          				<th>Codigo:</th>
-          				<th>Nombre:</th>
-          				<th>Apellido:</th>
-          				<th>Correo:</th>
-          				<th>Área:</th>
-                  <th>Activo en la app:</th>
-          				<th>Acciones</th>
-          			</tr>
-          		</thead>
-          		<tbody id="tbody-user"></tbody>
-          	</table>
+        <!-- tabla principal with tabs -->
+        <div class="tab-content">
+          <div class="tab-pane fade active show" id="users"></div>
+          <div  class="tab-pane fade" id="clients">
+            text-client
           </div>
-          <!-- table -->
         </div>
 
-        <pagination-component id="pagination-users" from="users"></pagination-component>
+
       </div>
 		</div>
 	</main>

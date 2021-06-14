@@ -6,213 +6,90 @@ const { remote } = require('electron');
 const { UsersController } = remote.require('./controllers/users_controller');
 const { readFileAssets } = remote.require('./util_functions/file');
 const Modal = require('bootstrap/js/dist/modal');
+const Tab = require('bootstrap/js/dist/tab');
 
 // users
-let USERS = [];
 const footer = document.querySelector('#modals');
 const info = document.querySelector('#info');
 
 // components html
-
 footer.innerHTML += readFileAssets( '/users/users-modal-form/users-modal-form-component.html' );
 footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-component.html' );
 footer.innerHTML += readFileAssets( '/users/users-modal-role/users-modal-role-component.html' );
 
+const UsersTableComponent = require('./users-table/users-table-component');
+
 const ModalUserComponent = require('./users-modal-form/users-modal-form-component');
 const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 const ModalChangeRole = require('./users-modal-role/users-modal-role-component');
-const PaginationComponent = require('../shared/pagination/pagination-component');
 
 // ==========================================
 // Users component
 // ==========================================
 class UsersComponent {
-
-	// pagination table users
-	pages = 1;
-
 	constructor() {
+		this.usersContent = document.querySelector('#users');
+		this.clientsContent = document.querySelector('#clients');
 
-		this.pagination = document.querySelector('#pagination-users');
-		this.tbody = document.querySelector('#tbody-user');
-		this.totalUsers = document.querySelector('#totalUsers');
+		this.usersContent.innerHTML = readFileAssets( '/users/users-table/users-table-component.html' );
 
-		this.renderUsers = this.renderUsers.bind( this );
-		this.deleteUser = this.deleteUser.bind( this );
-		this.changeRole = this.changeRole.bind( this );
-		this.getAll = this.getAll.bind( this );
+		this.setHtml = this.setHtml.bind( this );
 	}
 
-	async getAll( $event, pagination = [ 0, 10 ], page = this.page ) {
+	setHtml() {
 
-		try {
+		const tabList = Array.from( document.querySelectorAll('#users-list button') );
 
-			USERS = await UsersController.listarUsuarios( pagination );
+		tabList.forEach( this.setOptionsTabs.bind( this ) );
 
-			let totalUsers = await UsersController.obtenerTotalUsuarios();
-
-			sessionStorage.setItem('usersTable', JSON.stringify({ pagination }));
-
-			this.page = page;
-
-			this.renderUsers(
-				totalUsers['totalPaginas'],
-				totalUsers['totalRegistros']
-			);
-
-		} catch ( error ) {
-
-			console.error( error );
-		}
-
+		this.changeView();
 	}
 
-	async getUser( search ) {
+	setOptionsTabs( elementTab ) {
 
-		const rexp = /^[\w\d\s]+$/;
+		let tabTrigger = new Tab( elementTab );
 
-		if ( search.length === 0 ) {
+		elementTab.addEventListener('click', ( $event ) => {
 
-			let { pagination } = JSON.parse(  sessionStorage.getItem('usersTable') );
+			let nameTab = elementTab.getAttribute('aria-name');
 
-			return this.getAll(
-				null,
-				pagination
-			);
-		}
+			tabTrigger.show();
 
+			this.changeView( nameTab );
 
-		if ( !rexp.test( search ) ) {
-			console.log('no concuerda con expresion regular');
-			return;
-		}
-
-		// search es la busqueda
-		USERS = await UsersController.buscarUsuarios({ search :search });
-
-		this.renderUsers( null, null, true );
-	}
-
-	deleteUser({ id, confirm }) {
-
-		if ( !confirm ) {
-			return;
-		}
-
-		let found = USERS.find(( user ) => user.userid === id );
-
-		UsersController.cambiarEstadoUsuarios({
-			estado: !found.estado,
-			userid: id
+			$event.preventDefault();
 		});
-
-		return this.getAll( null, getPaginationStorage('usersTable') );
 	}
 
-	newUser( form ) {
+	changeView( tabName = 'users' ) {
 
-		UsersController.crearUsuario( form );
+		const usersElements = Array.from( document.querySelectorAll('.users') );
+		const clientsElements = Array.from( document.querySelectorAll('.clients') );
 
-		return this.getAll( null, getPaginationStorage('usersTable') );
-	}
+		switch ( tabName ) {
+			case 'clients': {
 
-	changeRole( user ) {
+				usersElements.forEach(( element ) => hideElement( element ));
+				clientsElements.forEach(( element ) => showElement( element ));
 
-		UsersController.cambiarRolUsuarios({  // aqui ya se envia el objeto como tal
-			area: user.role,
-			userid: user.id
-		});
+				break;
+			}
 
-		return this.getAll( null, PaginationComponent.getPaginationStorage('usersTable') );
-	}
+			default: {
 
-	openModalConfirm( idUser = null ) {
+				usersElements.forEach(( element ) => showElement( element ));
+				clientsElements.forEach(( element ) => hideElement( element ));
 
-		let found = USERS.find(( user ) => user.userid === idUser );
-		let title = `${ found.estado ? 'Remover' : 'Otorgar' } acceso al usuario ${ idUser }`;
+				usersTableComponent.getAll( null, getPaginationStorage('usersTable') );
 
-		// description
-		let element = (`
-			<p class="text-center">
-				¿Esta seguro de ${ found.estado ? 'remover' : 'otorgar' } acceso al usuario a
-				${ found.nombre + ' ' + found.apellido }?
-			</p>`
-		);
-
-		return ModalConfirmComponent.openModalConfirm( title, element, idUser );
-	}
-
-	getRowTable( user ) {
-		return (`
-			<tr class="text-center">
-				<td>${ user.userid }</td>
-				<td>${ user.nombre }</td>
-				<td>${ user.apellido }</td>
-				<td>${ user.correo }</td>
-				<td>${ user.area }</td>
-				<td>${ user.estado ?
-						('<i class="fas fa-check text-success"></i>') :
-						('<i class="fas fa-times text-danger"></i>')
-					}
-				</td>
-				<td>
-					<button
-						type="button"
-						onclick="ModalChangeRole.openModalRole( ${ user.userid } )"
-						class="btn btn-primary btn-sm"
-						${ getUserLogged().userid === user.userid ? 'disabled' : '' }
-					>
-						<i class="fas fa-user"></i>
-					</button>
-					<button
-						type="button"
-						onclick="usersComponent.openModalConfirm( ${ user.userid } )"
-						class="btn btn-danger btn-sm"
-						${ getUserLogged().userid === user.userid ? 'disabled' : '' }
-					>
-						<i class="fas fa-trash"></i>
-					</button>
-				</td>
-			</tr>
-		`);
-	}
-
-	renderUsers( totalPages = null , totalRegisters = null, search = false ) {
-
-		if ( !search ) {
-
-			let paginationElement = document.querySelector('#pagination-users');
-
-			// asignacion de parametros para pagination compoent
-			this.tbody.innerHTML = '';
-			paginationElement._limit = totalPages;
-			paginationElement._registers = totalRegisters;
-			paginationElement._page = this.page;
-		}
-
-		if ( USERS.length > 0 ) {
-
-			showElement( this.pagination );
-
-			this.tbody.innerHTML = USERS.map(( user ) => this.getRowTable( user ))
-				.join('');
-
-		} else {
-
-			hideElement( this.pagination );
-
-			this.tbody.innerHTML = (`
-				<tr class="text-center">
-					<td colspan="7" class="text-danger">
-						No existen registros de usuarios disponibles
-					</td>
-				</tr>
-			`);
+				break;
+			}
 		}
 	}
 }
 
 const usersComponent = new UsersComponent();
+const usersTableComponent = new UsersTableComponent();
 
 const userForm = document.forms['formUsers'];
 const changeRoleForm = document.forms['user-change-role-form'];
@@ -236,16 +113,11 @@ changeRoleForm.addEventListener('submit', ModalChangeRole.getForm.bind(
 	usersComponent
 ));
 
-document.addEventListener('DOMContentLoaded', usersComponent.getAll );
+document.addEventListener('DOMContentLoaded', usersComponent.setHtml );
 
 // custom Events
-document.querySelector('search-bar-component')
+/*document.querySelector('search-bar-component')
 	.addEventListener(
 		'search',
 		( $event ) => usersComponent.getUser.call( usersComponent, $event.detail.value )
-);
-
-document.querySelector('pagination-component').addEventListener(
-	'pagination',
-	( $event ) => usersComponent.getAll( null,  $event.detail.value, $event.detail.page )
-);
+);*/
