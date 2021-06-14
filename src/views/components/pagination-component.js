@@ -74,6 +74,8 @@ class PaginationComponentElement extends HTMLElement {
   sendPagination( page, pagination = 10 ) {
     let indexPagination = ( +page - 1 ) * pagination;
 
+    console.log(page, pagination, this);
+
     let event = new CustomEvent('pagination', {
       detail: {
         from: this.from,

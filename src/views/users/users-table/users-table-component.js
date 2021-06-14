@@ -34,10 +34,7 @@ class UsersTableComponent {
 
 			this.page = page;
 
-			this.renderUsers(
-				totalUsers['totalPaginas'],
-				totalUsers['totalRegistros']
-			);
+			this.renderUsers( totalUsers.totalPaginas, totalUsers.totalRegistros );
 
 		} catch ( error ) {
 
@@ -78,7 +75,7 @@ class UsersTableComponent {
 			return;
 		}
 
-		let found = USERS.find(( user ) => user.userid === id );
+		let found = this.users.find(( user ) => user.userid === id );
 
 		UsersController.cambiarEstadoUsuarios({
 			estado: !found.estado,
@@ -102,7 +99,7 @@ class UsersTableComponent {
 			userid: user.id
 		});
 
-		return this.getAll( null, PaginationComponent.getPaginationStorage('usersTable') );
+		return this.getAll( null, getPaginationStorage('usersTable') );
 	}
 
 	openModalConfirm( idUser = null ) {
@@ -118,11 +115,12 @@ class UsersTableComponent {
 			</p>`
 		);
 
-		return ModalConfirmComponent.openModalConfirm( title, element, idUser );
+    closeModalConfirm = ModalConfirmComponent.closeModalConfirm.bind( this.deleteUser );
+
+    return ModalConfirmComponent.openModalConfirm( title, element, idUser );
 	}
 
 	getRowTable( user ) {
-    console.log( user );
 		return (`
 			<tr class="text-center">
 				<td>${ user.userid }</td>
@@ -146,7 +144,7 @@ class UsersTableComponent {
 					</button>
 					<button
 						type="button"
-						onclick="usersComponent.openModalConfirm( ${ user.userid } )"
+						onclick="usersTableComponent.openModalConfirm( ${ user.userid } )"
 						class="btn btn-danger btn-sm"
 						${ getUserLogged().userid === user.userid ? 'disabled' : '' }
 					>
@@ -161,13 +159,11 @@ class UsersTableComponent {
 
 		if ( !search ) {
 
-			let paginationElement = document.querySelector('#pagination-users');
-
-			// asignacion de parametros para pagination compoent
+			// asignacion de parametros para pagination component
 			this.tbody.innerHTML = '';
-			paginationElement._limit = totalPages;
-			paginationElement._registers = totalRegisters;
-			paginationElement._page = this.page;
+			this.pagination._limit = totalPages;
+			this.pagination._registers = totalRegisters;
+			this.pagination._page = this.page;
 		}
 
 		if ( this.users.length > 0 ) {

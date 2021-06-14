@@ -2,7 +2,7 @@ const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const { Notification } = require('electron');
 
-class ClientesControllers {
+class ClientesController {
 
 	databaseInstance = null;
 
@@ -147,16 +147,8 @@ class ClientesControllers {
 
 	  		});
 	}
-
-};
-
-
-
-
-
-
-
+}
 
 module.exports = {
-	ClientesControllers
+	ClientesController
 };

@@ -4,6 +4,7 @@
 
 const { remote } = require('electron');
 const { UsersController } = remote.require('./controllers/users_controller');
+const { ClientesController } = remote.require('./controllers/clientes_controller');
 const { readFileAssets } = remote.require('./util_functions/file');
 const Modal = require('bootstrap/js/dist/modal');
 const Tab = require('bootstrap/js/dist/tab');
@@ -23,6 +24,7 @@ const ModalUserComponent = require('./users-modal-form/users-modal-form-componen
 const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 const ModalChangeRole = require('./users-modal-role/users-modal-role-component');
 
+const ClientsTableComponent = require('./clients-table/clients-table-component');
 // ==========================================
 // Users component
 // ==========================================
@@ -32,7 +34,7 @@ class UsersComponent {
 		this.clientsContent = document.querySelector('#clients');
 
 		this.usersContent.innerHTML = readFileAssets( '/users/users-table/users-table-component.html' );
-
+		this.clientsContent.innerHTML = readFileAssets( '/users/clients-table/clients-table-component.html' );
 		this.setHtml = this.setHtml.bind( this );
 	}
 
@@ -72,6 +74,8 @@ class UsersComponent {
 				usersElements.forEach(( element ) => hideElement( element ));
 				clientsElements.forEach(( element ) => showElement( element ));
 
+				clientsTableComponent.getAll( null, getPaginationStorage('clientsTable') );
+
 				break;
 			}
 
@@ -90,6 +94,7 @@ class UsersComponent {
 
 const usersComponent = new UsersComponent();
 const usersTableComponent = new UsersTableComponent();
+const clientsTableComponent = new ClientsTableComponent();
 
 const userForm = document.forms['formUsers'];
 const changeRoleForm = document.forms['user-change-role-form'];
@@ -97,9 +102,7 @@ const changeRoleForm = document.forms['user-change-role-form'];
 // ============================
 // Binding
 // ============================
-const closeModalConfirm =  ModalConfirmComponent.closeModalConfirm.bind(
-	usersComponent.deleteUser
-);
+let closeModalConfirm =  null;
 
 // =============================
 // Events
@@ -115,9 +118,17 @@ changeRoleForm.addEventListener('submit', ModalChangeRole.getForm.bind(
 
 document.addEventListener('DOMContentLoaded', usersComponent.setHtml );
 
-// custom Events
-/*document.querySelector('search-bar-component')
-	.addEventListener(
-		'search',
-		( $event ) => usersComponent.getUser.call( usersComponent, $event.detail.value )
-);*/
+// custom Events search-bar
+for ( const element of document.querySelectorAll('search-bar-component') ) {
+
+	element.addEventListener('search', ( $event ) => {
+		if ( $event.detail.from === 'clients' ) {
+			// code here...
+
+		} else {
+			console.log( $event );
+			usersTableComponent.getUser.call( usersTableComponent, $event.detail.value )
+
+		}
+	});
+}

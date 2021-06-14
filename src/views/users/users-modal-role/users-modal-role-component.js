@@ -36,7 +36,7 @@ function getForm( $event, userComponent = this ) {
 		selected = value;
 	}
 
-	userComponent.changeRole({ id, role: selected });
+	usersTableComponent.changeRole({ id, role: selected });
 
 	return closeModalRole();
 }

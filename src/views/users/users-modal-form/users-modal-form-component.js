@@ -35,10 +35,10 @@ function getForm( $event, userComponent = this ) {
 		}
 
 		if ( idUser ) {
-			userComponent.editUser( idUser, data );
+			usersTableComponent.editUser( idUser, data );
 
 		} else {
-			userComponent.newUser( data );
+			usersTableComponent.newUser( data );
 
 		}
 
