@@ -17,6 +17,7 @@ const info = document.querySelector('#info');
 footer.innerHTML += readFileAssets( '/users/users-modal-form/users-modal-form-component.html' );
 footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-component.html' );
 footer.innerHTML += readFileAssets( '/users/users-modal-role/users-modal-role-component.html' );
+footer.innerHTML += readFileAssets( '/users/clients-modal-form/client-modal-form-component.html' );
 
 const UsersTableComponent = require('./users-table/users-table-component');
 
@@ -25,6 +26,8 @@ const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-com
 const ModalChangeRole = require('./users-modal-role/users-modal-role-component');
 
 const ClientsTableComponent = require('./clients-table/clients-table-component');
+
+const ModalClientComponent = require('./clients-modal-form/client-modal-form-component');
 // ==========================================
 // Users component
 // ==========================================

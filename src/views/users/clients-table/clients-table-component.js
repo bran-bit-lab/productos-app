@@ -49,6 +49,7 @@ class ClientsTableComponent {
           <button
             type="button"
             class="btn btn-primary btn-sm"
+            onclick="ModalClientComponent.openModal('edit', ${ client.id_cliente })"
           >
             <i class="fas fa-edit"></i>
           </button>

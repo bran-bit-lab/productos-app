@@ -1,0 +1,62 @@
+<!-- form-user -->
+<form noValidate  class="form" name="formClients">
+  <div class="modal fade modal-clients">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title"></h5>
+            <button
+              type="button"
+              class="btn-close"
+              onclick="ModalClientComponent.closeModal()"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="row">
+
+              <div class="col-sm-6 col-12">
+
+                <div class="form-group">
+                  <label for="name-client">Nombre cliente:</label>
+                  <input type="text" id="name-client" name="nombre_cliente" class="form-control" />
+                  <div class="invalid-feedback text-center" id="error-name"></div>
+                </div>
+
+                <div class="form-group only-new">
+                  <label for="direction-client">Direccion:</label>
+                  <input class="form-control" type="text" name="direccion_entrega" id="direction-client" />
+                  <div class="invalid-feedback text-center" id="error-direction"></div>
+                </div>
+
+              </div>
+              <div class="col-sm-6 col-12">
+
+                <div class="form-group">
+                  <label for="rif-client">RIF:</label>
+                  <input type="text" id="rif-client" name="rif" placeholder="J-12345678-1..." class="form-control" />
+                  <div class="invalid-feedback text-center" id="error-rif"></div>
+                </div>
+
+                 <div class="form-group">
+                  <label for="phone-client">Telefono cliente:</label>
+                  <input type="email" id="phone-client" name="telefono_contacto" placeholder="0212-1234567..." class="form-control" />
+                  <div class="invalid-feedback text-center" id="error-phone"></div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+            >Limpiar</button>
+            <button type="submit" class="btn btn-primary">Aceptar</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</form>

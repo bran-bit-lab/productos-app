@@ -56,7 +56,7 @@ function openModal( method = 'new', id = null ) {
 		footer.querySelectorAll('.only-new').forEach(( node ) => node.style.display = 'none');
 
 		idUser = id;
-		let found = USERS.find(( user ) => user.id === id );
+		let found = UsersTableComponent.users.find(( user ) => user.id === id );
 
 		setForm( found );
 
