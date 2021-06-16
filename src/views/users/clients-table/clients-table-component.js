@@ -3,6 +3,7 @@ class ClientsTableComponent {
     this.clients = [];
     this.page = 1;
     this.pagination = document.querySelector('#pagination-clients');
+    this.searchBar = document.querySelector('search-bar-component[from="clients"]')
     this.tbody = document.querySelector('#tbody-client');
     this.getAll = this.getAll.bind( this );
 
@@ -31,10 +32,53 @@ class ClientsTableComponent {
   }
 
   setEvents() {
+
+    // setEventListeners
+
     this.pagination.addEventListener(
       'pagination',
       ( $event ) => this.getAll( null,  $event.detail.value, $event.detail.page )
     );
+
+    this.searchBar.addEventListener(
+      'search',
+      ( $event ) => this.searchClient( $event.detail.value )
+    );
+  }
+
+  addClient( client ) {
+    ClientesController.crearCliente( client );
+
+    this.getAll( null, getPaginationStorage('clientsTable'));
+  }
+
+  editClient( client ) {
+    ClientesController.editarCliente( client );
+
+    this.getAll( null, getPaginationStorage('clientsTable'));
+  }
+
+  async searchClient( search ) {
+
+    const rexp = /^[\w-\d\s]+$/;
+
+		if ( search.length === 0 ) {
+
+			let { pagination } = JSON.parse( sessionStorage.getItem('clientsTable') );
+
+			return this.getAll( null, pagination );
+		}
+
+		if ( !rexp.test( search ) ) {
+			console.log('no concuerda con expresion regular');
+			return;
+
+    }
+
+		// search es la busqueda
+		this.clients = await ClientesController.buscarCliente({ search });
+
+		this.renderClients( null, null, true );
   }
 
   setRows( client ) {
@@ -42,8 +86,8 @@ class ClientsTableComponent {
       <tr class="text-center">
         <td>${ client.id_cliente }</td>
         <td>${ client.nombre_cliente }</td>
-        <td>${ client.direccion_entrega }</td>
         <td>${ client.rif }</td>
+        <td>${ sliceString( client.direccion_entrega, 0, 30 ) }</td>
         <td>${ client.telefono_contacto }</td>
         <td>
           <button

@@ -145,7 +145,12 @@ class ClientesController {
 					return;
 				}
 
-	  		});
+				notificacion['title'] = 'Actualizacion exitosa!!';
+				notificacion['body'] = 'Cliente actualzado con exito';
+
+				notificacion.show();
+
+	  	});
 	}
 }
 

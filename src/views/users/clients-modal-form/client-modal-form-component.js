@@ -78,7 +78,7 @@ function validate( data, callback ) {
     phone: 'El numero de telefono no es valido'
 	});
 
-  console.log( data );
+  // console.log( data );
 
 	const PATTERNS = Object.freeze({
 		email: new RegExp( /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/ ),
@@ -134,9 +134,9 @@ function validate( data, callback ) {
 		renderErrors( directionErrorsNode, ERROR_MESSAGES.min( 2 ) );
 	}
 
-	if ( direccion_entrega.trim().length > 30 ) {
+	if ( direccion_entrega.trim().length > 255 ) {
 		errors = errors + 1;
-		renderErrors( directionErrorsNode, ERROR_MESSAGES.max( 30 ) );
+		renderErrors( directionErrorsNode, ERROR_MESSAGES.max( 255 ) );
 	}
 
 	// ==================================================
@@ -213,7 +213,13 @@ function handleSubmit( $event ) {
       return;
     }
 
-    // send to controller ...
+    if ( idClient ) {
+      clientsTableComponent.editClient({ ...data, id_cliente: idClient });
+
+    } else {
+        clientsTableComponent.addClient( data );
+
+    }
 
     closeModal();
   });
@@ -257,7 +263,10 @@ const directionErrorsNode = clientForm.querySelector('#error-direction');
 const rifErrorsNode = clientForm.querySelector('#error-rif');
 const phoneErrorsNode = clientForm.querySelector('#error-phone');
 
+footer.querySelector('.modal-clients').addEventListener('hidden.bs.modal', () => resetFields( true )  );
+
 module.exports = {
   openModal,
-  closeModal
+  closeModal,
+  resetFields
 };

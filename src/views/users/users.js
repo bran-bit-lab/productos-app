@@ -6,6 +6,7 @@ const { remote } = require('electron');
 const { UsersController } = remote.require('./controllers/users_controller');
 const { ClientesController } = remote.require('./controllers/clientes_controller');
 const { readFileAssets } = remote.require('./util_functions/file');
+const { sliceString } = remote.require('./util_functions/string');
 const Modal = require('bootstrap/js/dist/modal');
 const Tab = require('bootstrap/js/dist/tab');
 
