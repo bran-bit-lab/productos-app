@@ -1,9 +1,15 @@
 const { remote } = require('electron');
 const { dateToString } = remote.require('./util_functions/time');
+const { readFileAssets } = remote.require('./util_functions/file');
+const { ClientesController } = remote.require('./controllers/clientes_controller');
+
+const Modal = require('bootstrap/js/dist/modal');
 
 class OrdersForm {
 
   constructor() {
+
+    this.footer = document.querySelector('footer');
 
     this.deliveryId = null;
     this.productsSelected = new Array( 5 ).fill({
@@ -22,9 +28,11 @@ class OrdersForm {
       phone: '04129101803'
     });
 
-    this.setForm();
-    this.setProductsTable();
-    this.setClientsTable();
+    this.setHtml(() => {
+      this.setForm();
+      this.setProductsTable();
+      this.setClientsTable();
+    });
   }
 
   setForm( delivery = null ) {
@@ -74,9 +82,11 @@ class OrdersForm {
   }
 
   selectProducts() {
+    console.log('seleccionar productos...');
   }
 
   selectClients() {
+    openModalClients();
   }
 
   setClientsTable()  {
@@ -226,10 +236,24 @@ class OrdersForm {
       this.setProductsTable();
     }
   }
+
+  setHtml( callback ) {
+    try {
+      this.footer.innerHTML += readFileAssets('/orders/modal-clients/modal-client-component.html');
+      callback();
+
+    } catch ( error ) {
+      console.error( error );
+
+    }
+  }
 }
 
 const form = document.forms[0];
 const ordersForm = new OrdersForm();
+const { openModalClients } = require('../modal-clients/modal-client-component');
+let clientsSelected = [];
+let productsSelected = [];
 
 document.addEventListener('DOMContentLoaded', ordersForm.getParamsUrl );
 

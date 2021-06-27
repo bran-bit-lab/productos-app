@@ -29,14 +29,6 @@
               <label for="delivery-description" class="form-label">Descripcion de la entrega:</label>
               <input name="delivery-description" id="delivery-description" class="form-control" />
             </div>
-
-            <!-- <div class="form-group">
-              <label for="delivery-client" class="form-label">Nombre cliente</label>
-              <select class="form-control" name="delivery-client" id="delivery-client">
-                <option value="1">Bazar Valparaiso S.A</option>
-                <option value="2">Comercializadora Los Teques C.A</option>
-              </select>
-            </div> -->
           </div>
           <div class="col">
             <div class="form-group select-state">
@@ -63,9 +55,9 @@
           <div class="card mb-3">
             <div class="card-header d-flex justify-content-between align-items-center">
               <span>Clientes</span>
-              <button class="btn btn-success btn-sm">
+              <button class="btn btn-success btn-sm" type="button" onclick="ordersForm.selectClients()">
                 <i class="fas fa-plus"></i>
-                Añadir
+                Seleccionar
               </button>
             </div>
             <div class="card-body">
@@ -88,9 +80,9 @@
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
               <span>Productos</span>
-              <button class="btn btn-success btn-sm">
+              <button class="btn btn-success btn-sm" onclick="ordersForm.selectProducts()" type="button">
                 <i class="fas fa-plus"></i>
-                Añadir
+                Seleccionar
               </button>
             </div>
             <div class="card-body">
@@ -118,6 +110,7 @@
       </form>
 
     </main>
+    <footer id="footer"></footer>
     <script src="../../global.js"></script>
     <script type="text/javascript" src="./orders-form.js"></script>
   </body>
