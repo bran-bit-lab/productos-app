@@ -21,13 +21,7 @@ class OrdersForm {
       quantity: 5
     });
 
-    this.clientsSelected = new Array(1).fill({
-      id: 1,
-      name: 'Comercializadora Valparaiso',
-      type: 'Juridico',
-      direction: 'Av. Principal de Manicomio',
-      phone: '04129101803'
-    });
+    this.clientsSelected = [];
 
     this.setHtml(() => {
       this.setForm();
@@ -87,7 +81,7 @@ class OrdersForm {
   }
 
   selectClients() {
-     modalClientComponent.openModalClients();
+    modalClientComponent.openModalClients( getPaginationStorage('clientsModalTable') );
   }
 
   setClientsTable()  {
@@ -96,13 +90,13 @@ class OrdersForm {
     if ( this.clientsSelected.length > 0 ) {
       tableClients.innerHTML = this.clientsSelected.map(( client ) => (`
         <tr class="text-center">
-          <td>${ client.id }</td>
-          <td>${ client.name }</td>
-          <td>${ client.type }</td>
-          <td>${ client.direction }</td>
-          <td>${ client.phone }</td>
+          <td>${ client.id_cliente }</td>
+          <td>${ client.nombre_cliente }</td>
+          <td>${ client.rif }</td>
+          <td>${ client.direccion_entrega }</td>
+          <td>${ client.telefono_contacto }</td>
           <td>
-            <i class="fas fa-trash" onclick="ordersForm.deleteProduct( ${ client.id } )"></i>
+            <i class="fas fa-trash point" onclick="ordersForm.deleteClient( ${ client.id_cliente } )"></i>
           </td>
         </tr>
       `)).join('');
@@ -111,7 +105,7 @@ class OrdersForm {
       tableClients.innerHTML = (`
         <tr class="text-center">
           <td colspan="6" class="text-danger">
-            No existen cliente seleccionado
+            No hay cliente seleccionado
           </td>
         </tr>
       `);
@@ -223,10 +217,10 @@ class OrdersForm {
 
   deleteProduct( idProduct ) {
 
-    if ( this.deliveryId ) { // edit
+    if ( this.deliveryId ) {
       console.log('edit');
 
-    } else { // new
+    } else {
 
       console.log('new');
 
@@ -235,6 +229,21 @@ class OrdersForm {
       console.log( idProduct, this.productsSelected );
 
       this.setProductsTable();
+    }
+  }
+
+  deleteClient( idClient ) {
+
+    console.log( idClient );
+
+    if ( this.deliveryId ) {
+      console.log('edit');
+
+    } else {
+
+      this.clientsSelected = this.clientsSelected.filter(( client ) => client.id_cliente !== idClient );
+
+      this.setClientsTable();
     }
   }
 
@@ -254,8 +263,6 @@ const form = document.forms[0];
 const ordersForm = new OrdersForm();
 const modalClientComponent = new ModalClientComponent();
 
-let clientsSelected = [];
-let productsSelected = [];
 
 document.addEventListener('DOMContentLoaded', ordersForm.getParamsUrl );
 

@@ -10,14 +10,16 @@ class ModalClientComponent {
     this.submitButton = this.modalClients.querySelector('#submit-button');
     this.searchBar = this.modalClients.querySelector('search-bar-component');
     this.clients = [];
+    this.clientSelected = []; // clientes seleccionados
     this.page = 1;
     this.modalClientsInstance = new Modal( this.modalClients, { backdrop: 'static' });
     this.setEvents();
   }
 
   setEvents() {
+
     this.modalClients.addEventListener('shown.bs.modal', () => {
-      clientsSelected = [];
+      this.clientsSelected = [];
       this.submitButton.setAttribute('disabled', '');
     });
 
@@ -31,13 +33,13 @@ class ModalClientComponent {
     });
   }
 
-  async openModalClients( pagination = [0, 10]) {
+  async openModalClients( pagination = [0, 10] ) {
 
     try {
 
       this.clients = await ClientesController.listarClientes( pagination );
 
-      console.log( this.clients );
+      // console.log( this.clients );
 
       let totalClients = await ClientesController.obtenerTotalClientes();
 
@@ -108,12 +110,12 @@ class ModalClientComponent {
     const rowElement = $event.target.parentNode.parentNode;
     const id_client = +rowElement.querySelector('td[name="id_cliente"]').innerText;
 
-    clientsSelected = [];
-    clientsSelected.push( this.clients.find(( client ) => client.id_cliente === id_client ) )
+    this.clientSelected = [];
+    this.clientSelected.push( this.clients.find(( client ) => client.id_cliente === id_client ) );
 
     // activa el boton si el usuario selecciona un cliente
 
-    if ( clientsSelected.length > 0 ) {
+    if ( this.clientSelected.length > 0 ) {
       this.submitButton.removeAttribute('disabled');
     }
   }
@@ -139,6 +141,16 @@ class ModalClientComponent {
     this.clients = await ClientesController.buscarCliente({ search });
 
     this.renderClients( null, null, true );
+  }
+
+
+  closeModalClients() {
+
+    ordersForm.clientsSelected = this.clientSelected;
+
+    this.modalClientsInstance.hide();
+
+    ordersForm.setClientsTable();
   }
 }
 
