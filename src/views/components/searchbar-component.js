@@ -39,7 +39,7 @@ class SearchBarComponent extends HTMLElement {
     let range = document.createRange();
     let nodeHTML = range.createContextualFragment(
       (`
-        <div class="row justify-content-end">
+        <div class="d-flex w-100 justify-content-end">
           <div class="form-group w-25 p-0">
             <input type="text" placeholder="Buscar ..." class="form-control form-control-sm" />
           </div>

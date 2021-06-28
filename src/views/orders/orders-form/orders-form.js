@@ -4,6 +4,7 @@ const { readFileAssets } = remote.require('./util_functions/file');
 const { ClientesController } = remote.require('./controllers/clientes_controller');
 
 const Modal = require('bootstrap/js/dist/modal');
+const { ModalClientComponent } = require('../modal-clients/modal-client-component');
 
 class OrdersForm {
 
@@ -86,7 +87,7 @@ class OrdersForm {
   }
 
   selectClients() {
-    openModalClients();
+     modalClientComponent.openModalClients();
   }
 
   setClientsTable()  {
@@ -251,7 +252,8 @@ class OrdersForm {
 
 const form = document.forms[0];
 const ordersForm = new OrdersForm();
-const { openModalClients } = require('../modal-clients/modal-client-component');
+const modalClientComponent = new ModalClientComponent();
+
 let clientsSelected = [];
 let productsSelected = [];
 

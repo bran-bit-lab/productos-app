@@ -6,7 +6,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="table-responsive w-100">
+        <search-bar-component from="clients-modal"></search-bar-component>
+        <div class="table-responsive w-100 mt-3">
           <table class="table table-striped">
             <thead class="text-center">
               <th>Id:</th>
@@ -17,6 +18,7 @@
             <tbody id="tbody-clients"></tbody>
           </table>
         </div>
+        <pagination-component id="pagination-clients" from="clients-modal"></pagination-component>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

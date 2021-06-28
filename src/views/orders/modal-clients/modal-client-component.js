@@ -1,109 +1,147 @@
 // =============================
 //  Modal client component
 // =============================
+class ModalClientComponent {
 
-async function openModalClients() {
-
-  function setTableClients( clients ) {
-     const tbody = modalClients.querySelector('#tbody-clients');
-
-     if ( clients.length > 0 ) {
-       tbody.innerHTML = clients.map(( client ) => (`
-         <tr class="text-center">
-           <td name="id_cliente">${ client.id_cliente }</td>
-           <td name="nombre_cliente">${ client.nombre_cliente }</td>
-           <td name="rif">${ client.rif }</td>
-           <td>
-            <input
-              type="radio"
-              class="form-check-input point"
-              id="client_${ client.id_cliente }"
-              name="client"
-            />
-           </td>
-         </tr>
-        `)).join('');
-
-        for ( const input of tbody.querySelectorAll('input[type="radio"]') ) {
-          input.addEventListener( 'change', handleChange );
-        }
-
-     } else {
-       tbody.innerHTML = (`
-         <tr class="text-center">
-           <td colspan="6" class="text-danger">No existen clientes disponibles</td>
-         </tr>
-       `);
-
-     }
+  constructor() {
+    this.modalClients = ordersForm.footer.querySelector('#modal-clients');
+    this.tbody = this.modalClients.querySelector('#tbody-clients');
+    this.pagination = this.modalClients.querySelector('#pagination-clients');
+    this.submitButton = this.modalClients.querySelector('#submit-button');
+    this.searchBar = this.modalClients.querySelector('search-bar-component');
+    this.clients = [];
+    this.page = 1;
+    this.modalClientsInstance = new Modal( this.modalClients, { backdrop: 'static' });
+    this.setEvents();
   }
 
-  function handleChange( $event ) {
-
-    // obtenemos el row del segundo nivel
-    const rowElement = $event.target.parentNode.parentNode;
-    const submitButton = modalClients.querySelector('#submit-button');
-    let row = null;
-
-    // se transforma el nodo en un objeto js
-    Array.from( rowElement.querySelectorAll('td') ).forEach(( element, index, array ) => {
-      if ( index === ( array.length - 1 ) ) {
-        return;
-      }
-
-      if ( element.getAttribute('name') === 'id_cliente' ) {
-        row = { ...row, [element.getAttribute('name')]: +element.innerText };
-        return;
-      }
-
-      row = { ...row, [element.getAttribute('name')]: element.innerText };
+  setEvents() {
+    this.modalClients.addEventListener('shown.bs.modal', () => {
+      clientsSelected = [];
+      this.submitButton.setAttribute('disabled', '');
     });
 
+    this.pagination.addEventListener('pagination', ( $event ) => {
+      this.page = $event.detail.page;
+      this.openModalClients( $event.detail.value );
+    });
 
-    // console.log({ clientsSelected, row });
+    this.searchBar.addEventListener('search', ( $event ) => {
+      this.searchClient( $event.detail.value );
+    });
+  }
 
-    clientsSelected = [];
-    clientsSelected = clientsSelected.concat([ row ]);
+  async openModalClients( pagination = [0, 10]) {
 
-    // activa el boton si el usuario selecciona un cliente
-    if ( clientsSelected.length > 0 ) {
-      submitButton.removeAttribute('disabled');
+    try {
+
+      this.clients = await ClientesController.listarClientes( pagination );
+
+      console.log( this.clients );
+
+      let totalClients = await ClientesController.obtenerTotalClientes();
+
+      setPaginationStorage('clientsModalTable', { pagination });
+      
+      this.renderClients( totalClients.totalPaginas, totalClients.totalRegistros );
+
+
+      if ( !this.modalClientsInstance._isShown ) {
+        this.modalClientsInstance.show();
+      }
+
+
+    } catch ( error ) {
+      console.error( error );
+
     }
   }
 
-  try {
+  renderClients( totalPages = 0, totalRegisters = 0, search = false ) {
+     
+    if ( !search ) {
 
-    let clients = await ClientesController.listarClientes(
-      getPaginationStorage('clientsTable')
-    );
+      this.tbody.innerHTML = '';
+      this.pagination._limit = totalPages;
+      this.pagination._registers = totalRegisters;
+      this.pagination._page = this.page;
+    }
 
-    console.log( clients );
-    setTableClients( clients );
+    if ( this.clients.length > 0 ) {
+      showElement( this.pagination );
 
-    modalClientsInstance.toggle();
+      this.tbody.innerHTML = this.clients.map(( client ) => (`
+       <tr class="text-center">
+         <td name="id_cliente">${ client.id_cliente }</td>
+         <td name="nombre_cliente">${ client.nombre_cliente }</td>
+         <td name="rif">${ client.rif }</td>
+         <td>
+          <input
+            type="radio"
+            class="form-check-input point"
+            id="client_${ client.id_cliente }"
+            name="client"
+          />
+         </td>
+       </tr>
+      `)).join('');
 
-  } catch ( error ) {
-    console.error( error );
+      for ( const input of this.tbody.querySelectorAll('input[type="radio"]') ) {
+        input.addEventListener( 'change', this.handleChange.bind( this ) );
+      }
 
+   } else {      
+      hideElement( this.pagination );
+
+      this.tbody.innerHTML = (`
+        <tr class="text-center">
+         <td colspan="6" class="text-danger">No existen clientes disponibles</td>
+       </tr>
+     `);
+
+    }
+  }
+
+  handleChange( $event ) {
+
+    // obtenemos el padre tr en 2 niveles
+    const rowElement = $event.target.parentNode.parentNode;
+    const id_client = +rowElement.querySelector('td[name="id_cliente"]').innerText;
+
+    clientsSelected = [];
+    clientsSelected.push( this.clients.find(( client ) => client.id_cliente === id_client ) )
+
+    // activa el boton si el usuario selecciona un cliente
+
+    if ( clientsSelected.length > 0 ) {
+      this.submitButton.removeAttribute('disabled');
+    }
+  }
+
+  async searchClient( search ) {
+
+    const rexp = /^[\w-\d\s]+$/;
+
+    if ( search.length === 0 ) {
+
+      let { pagination } = JSON.parse( sessionStorage.getItem('clientsModalTable') );
+
+      return this.openModalClients( pagination );
+    }
+
+    if ( !rexp.test( search ) ) {
+      console.log('no concuerda con expresion regular');
+      return;
+
+    }
+
+    // search es la busqueda
+    this.clients = await ClientesController.buscarCliente({ search });
+
+    this.renderClients( null, null, true );
   }
 }
 
-
-const modalClients = ordersForm.footer.querySelector('#modal-clients');
-const modalClientsInstance = new Modal( modalClients, {
-  backdrop: 'static'
-});
-
-modalClients.addEventListener('shown.bs.modal', () => {
-
-  const submitButton = modalClients.querySelector('#submit-button');
-
-  clientsSelected = [];
-  submitButton.setAttribute('disabled', '');
-})
-
-console.log( modalClientsInstance );
-
 module.exports = {
-  openModalClients
+  ModalClientComponent
 }
