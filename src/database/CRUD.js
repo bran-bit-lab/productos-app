@@ -27,6 +27,7 @@ const CRUD = Object.freeze({
 	editarProducto : "UPDATE productos SET categoriaid = :categoriaid, nombre = :nombre, descripcion = :descripcion, cantidad = :cantidad, precio = :precio, disponibilidad = :disponibilidad WHERE productoid = :productoid;",
 	activarProducto : "UPDATE productos SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
 	buscarProducto : "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.nombre LIKE :search OR productos.descripcion LIKE :search;",
+	listarProductosActivos: "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.disponibilidad = TRUE LIMIT :start, :limit;",
 
 	// clientes ...
 	crearCliente : "INSERT INTO clientes (nombre_cliente, direccion_entrega, rif, telefono_contacto) VALUES (:nombre_cliente, :direccion_entrega, :rif, :telefono_contacto);",
@@ -37,11 +38,11 @@ const CRUD = Object.freeze({
 
 	// notas ...
 	crearNota: "INSERT INTO notas( userid, descripcion_nota, id_cliente, fecha_entrega ) VALUES (:userid, :descripcion_nota, :id_cliente, :fecha_entrega);",
-	listarNotas : "SELECT Notas.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM Notas LEFT JOIN usuarios ON Notas.userid = usuarios.userid INNER JOIN categorias ON Notas.categoriaid = categorias.categoriaid LIMIT :start, :limit;",
+	listarNotas : "SELECT notas.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM Notas LEFT JOIN usuarios ON Notas.userid = usuarios.userid INNER JOIN categorias ON Notas.categoriaid = categorias.categoriaid LIMIT :start, :limit;",
 	obtenerTotalNotas : "SELECT COUNT(*) FROM Notas;",
-	editarProducto : "UPDATE Notas SET categoriaid = :categoriaid, nombre = :nombre, descripcion = :descripcion, cantidad = :cantidad, precio = :precio, disponibilidad = :disponibilidad WHERE productoid = :productoid;",
-	activarProducto : "UPDATE Notas SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
-	buscarProducto : "SELECT Notas.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM Notas LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.nombre LIKE :search OR productos.descripcion LIKE :search;",
+	editarNotas : "UPDATE notas SET categoriaid = :categoriaid, nombre = :nombre, descripcion = :descripcion, cantidad = :cantidad, precio = :precio, disponibilidad = :disponibilidad WHERE productoid = :productoid;",
+	activarNotas : "UPDATE notas SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
+	buscarNotas : "SELECT notas.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM Notas LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.nombre LIKE :search OR productos.descripcion LIKE :search;",
 });
 
 module.exports = CRUD;

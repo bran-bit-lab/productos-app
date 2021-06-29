@@ -2,9 +2,11 @@ const { remote } = require('electron');
 const { dateToString } = remote.require('./util_functions/time');
 const { readFileAssets } = remote.require('./util_functions/file');
 const { ClientesController } = remote.require('./controllers/clientes_controller');
+const { ProductosController } = remote.require('./controllers/productos_controllers');
 
 const Modal = require('bootstrap/js/dist/modal');
 const { ModalClientComponent } = require('../modal-clients/modal-client-component');
+const { ModalProductsComponent } = require('../modal-products/modal-products-component');
 
 class OrdersForm {
 
@@ -13,14 +15,7 @@ class OrdersForm {
     this.footer = document.querySelector('footer');
 
     this.deliveryId = null;
-    this.productsSelected = new Array( 5 ).fill({
-      id: 1,
-      name: 'test',
-      description: 'test de producto',
-      priceUnit: 250,
-      quantity: 5
-    });
-
+    this.productsSelected = [];
     this.clientsSelected = [];
 
     this.setHtml(() => {
@@ -42,24 +37,6 @@ class OrdersForm {
 
   getParamsUrl() {
 
-    const query = location.search;
-    const regex = /(?<idDelivery>[0-9]+)/;
-
-    let match = query.match( regex );
-
-    if ( match ) { // edit
-      console.log('editar entrega', match['groups'].idDelivery );
-
-      this.deliveryId = match['groups'].idDelivery;
-
-      document.querySelector('#title').innerText = 'Editar entrega ' + this.deliveryId;
-
-    } else { // new
-      console.log('nueva entrega');
-
-      document.querySelector('#title').innerText = 'Nueva entrega';
-    }
-
     /*
       documentacion
 
@@ -74,10 +51,28 @@ class OrdersForm {
       console.log( date.match( regex ) );
       const regex = /^\?new=(?<new>true|false)&idDelivery=(?<idDelivery>[0-9]+)$/;
     */
+
+    const query = location.search;
+    const regex = /(?<idDelivery>[0-9]+)/;
+
+    let match = query.match( regex );
+
+    if ( match ) { // edit
+      // console.log('editar entrega', match['groups'].idDelivery );
+
+      this.deliveryId = match['groups'].idDelivery;
+
+      document.querySelector('#title').innerText = 'Editar entrega ' + this.deliveryId;
+
+    } else { // new
+      // console.log('nueva entrega');
+
+      document.querySelector('#title').innerText = 'Nueva entrega';
+    }
   }
 
   selectProducts() {
-    console.log('seleccionar productos...');
+    modalProductsComponent.openModalProducts( getPaginationStorage('productsModalTable') );
   }
 
   selectClients() {
@@ -248,8 +243,12 @@ class OrdersForm {
   }
 
   setHtml( callback ) {
+    
     try {
+
       this.footer.innerHTML += readFileAssets('/orders/modal-clients/modal-client-component.html');
+      this.footer.innerHTML += readFileAssets('/orders/modal-products/modal-products-component.html');
+      
       callback();
 
     } catch ( error ) {
@@ -262,6 +261,7 @@ class OrdersForm {
 const form = document.forms[0];
 const ordersForm = new OrdersForm();
 const modalClientComponent = new ModalClientComponent();
+const modalProductsComponent = new ModalProductsComponent();
 
 
 document.addEventListener('DOMContentLoaded', ordersForm.getParamsUrl );

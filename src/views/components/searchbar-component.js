@@ -25,7 +25,7 @@ class SearchBarComponent extends HTMLElement {
 
     this.from = this.getAttribute('from') || '';
 
-    this.appendChild( this.getHtml() );
+    this.innerHTML = this.getHtml();
 
     this.querySelector('input').addEventListener('input', this.handleChangeInput );
   }
@@ -36,18 +36,13 @@ class SearchBarComponent extends HTMLElement {
 
   getHtml() {
 
-    let range = document.createRange();
-    let nodeHTML = range.createContextualFragment(
-      (`
-        <div class="d-flex w-100 justify-content-end">
-          <div class="form-group w-25 p-0">
-            <input type="text" placeholder="Buscar ..." class="form-control form-control-sm" />
-          </div>
+   return (`
+      <div class="d-flex w-100 justify-content-end">
+        <div class="form-group w-25 p-0">
+          <input type="text" placeholder="Buscar ..." class="form-control form-control-sm" />
         </div>
-      `)
-    );
-
-    return nodeHTML;
+      </div>
+    `);
   }
 }
 

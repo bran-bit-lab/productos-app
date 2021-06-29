@@ -18,10 +18,15 @@ class ModalClientComponent {
 
   setEvents() {
 
+    // abrir modal
     this.modalClients.addEventListener('shown.bs.modal', () => {
-      this.clientsSelected = [];
       this.submitButton.setAttribute('disabled', '');
     });
+
+    // cerrar modal
+    this.modalClients.addEventListener('hide.bs.modal', () => {
+      this.clientSelected = [];
+    })
 
     this.pagination.addEventListener('pagination', ( $event ) => {
       this.page = $event.detail.page;
@@ -83,6 +88,7 @@ class ModalClientComponent {
             class="form-check-input point"
             id="client_${ client.id_cliente }"
             name="client"
+            ${ this.checkClient( client ) ? 'checked' : '' }
           />
          </td>
        </tr>
@@ -151,6 +157,11 @@ class ModalClientComponent {
     this.modalClientsInstance.hide();
 
     ordersForm.setClientsTable();
+  }
+
+  checkClient( client ) {
+    console.log( this.clientSelected );
+    return this.clientSelected.findIndex(( clientSelec ) => clientSelec.id_cliente === client.id_cliente ) !== -1;
   }
 }
 

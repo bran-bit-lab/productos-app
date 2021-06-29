@@ -109,6 +109,30 @@ class ProductosController {
 		});
 	}
 
+	static listarProductosActivos( pagination ) {
+
+		return new Promise(( resolve, reject ) => {
+
+			pagination = { start: pagination[0], limit: pagination[1] };
+
+			this.database.consult( CRUD.listarProductosActivos, pagination, ( error, results ) => {
+
+				if ( error ) {
+
+					console.log( error );
+
+					reject( error );
+
+					return;
+				}
+
+				// console.log( results );
+				resolve( results );
+			});
+
+		});
+	}
+
 	static listarCategorias() { // este es el metodo que no estaba incluido lo que fue agregarlo
 
 		return new Promise(( resolve, reject ) => {

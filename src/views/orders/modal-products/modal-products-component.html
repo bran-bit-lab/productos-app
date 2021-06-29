@@ -1,0 +1,37 @@
+<div class="modal" id="modal-products" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Seleccionar productos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <search-bar-component from="products-modal"></search-bar-component>
+        <div class="table-responsive w-100 mt-3">
+          <table class="table table-striped">
+            <thead class="text-center">
+              <th>Id:</th>
+              <th>Nombre producto:</th>
+              <th>Categoria:</th>
+              <th>Precio:</th>
+              <th>Seleccione:</th>
+            </thead>
+            <tbody id="tbody-products"></tbody>
+          </table>
+        </div>
+        <pagination-component id="pagination-products" from="products-modal"></pagination-component>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          onclick="modalProductsComponent.closeModalProducts()" 
+          id="submit-button"
+        >
+          Seleccionar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

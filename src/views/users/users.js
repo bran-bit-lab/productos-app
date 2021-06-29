@@ -33,6 +33,7 @@ const ModalClientComponent = require('./clients-modal-form/client-modal-form-com
 // Users component
 // ==========================================
 class UsersComponent {
+
 	constructor() {
 		this.usersContent = document.querySelector('#users');
 		this.clientsContent = document.querySelector('#clients');
