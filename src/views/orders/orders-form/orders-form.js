@@ -17,6 +17,7 @@ class OrdersForm {
     this.deliveryId = null;
     this.productsSelected = [];
     this.clientsSelected = [];
+    this.totalOrder = 0;
 
     this.setHtml(() => {
       this.setForm();
@@ -107,36 +108,42 @@ class OrdersForm {
     }
   }
 
+  calculateTotal() {
+    
+    this.totalOrder = this.productsSelected.reduce(( accum, product, index ) => {
+      return accum += ( product.precio * product.cantidad_seleccionada )
+    }, 0 )
+
+    this.totalOrder.toFixed(2);
+  }
+
   setProductsTable() {
 
     const tableProducts = document.querySelector('#table-products-selected');
     const tableFooter = document.querySelector('tfoot');
 
-    // calculate total
-    let total = this.productsSelected.reduce(( accum, product, index ) => {
-      return accum += ( product.priceUnit * product.quantity )
-    }, 0 );
+    this.calculateTotal();
 
     if ( this.productsSelected.length > 0 ) {
-      tableProducts.innerHTML = this.productsSelected.map(( product, index ) => (`
+      tableProducts.innerHTML = this.productsSelected.map(( product ) => (`
         <tr class="text-center">
-          <td>${ index + 1 }</td>
-          <td>${ product.name }</td>
-          <td>${ product.priceUnit }</td>
+          <td>${ product.productoid }</td>
+          <td>${ product.nombre }</td>
+          <td>${ product.precio }</td>
           <td class="d-flex justify-content-center">
               <input
                 type="number"
-                value=${ product.quantity }
+                value="${ product.cantidad_seleccionada }"
+                max="${ product.cantidad }"
                 class="form-control text-center"
                 min="1"
-                max="9999"
                 onchange="ordersForm.handleChangeQuantity(
-                  +event.target.value, ${ index + 1 }
+                  +event.target.value, ${ product.productoid }
                 )"
               />
           </td>
           <td>
-            <i class="fas fa-trash" onclick="ordersForm.deleteProduct( ${ index + 1 } )"></i>
+            <i class="fas fa-trash" onclick="ordersForm.deleteProduct( ${ product.productoid } )"></i>
           </td>
         </tr>
       `)).join('');
@@ -156,7 +163,7 @@ class OrdersForm {
     tableFooter.innerHTML = (`
       <tr class="text-end">
         <td colspan="4"></td>
-        <td colspan="1">Total: ${ total }$</td>
+        <td colspan="1" id="totalOrder">Total: ${ this.totalOrder }$</td>
       </tr>
     `);
   }
@@ -192,21 +199,18 @@ class OrdersForm {
     }
 
     // actualiza los cambios locales
-    this.productsSelected = this.productsSelected.map(( product, index ) => {
+    this.productsSelected = this.productsSelected.map(( product ) => {
 
-      if ( ( index + 1 ) === idDelivery ) {
+      if ( product.productoid === idDelivery ) {
         return {
           ...product,
-          quantity: value
+          cantidad_seleccionada: value
         };
       }
 
-      return product
+      return product;
     });
-
-    console.log( this.productsSelected );
-
-    // renderiza la tabla local
+   
     this.setProductsTable();
   }
 
@@ -219,7 +223,7 @@ class OrdersForm {
 
       console.log('new');
 
-      this.productsSelected = this.productsSelected.filter(( product, index ) => ( index + 1 ) !== idProduct );
+      this.productsSelected = this.productsSelected.filter(( product ) => product.productoid !== idProduct );
 
       console.log( idProduct, this.productsSelected );
 

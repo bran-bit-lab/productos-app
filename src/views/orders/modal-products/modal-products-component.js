@@ -16,8 +16,11 @@ class ModalProductsComponent {
   setEvents() {
 
     this.modalProducts.addEventListener('shown.bs.modal', () => {
-      this.productsSelected = [];
       this.submitButton.setAttribute('disabled', '');
+    });
+
+    this.modalProducts.addEventListener('hide.bs.modal', () => {
+      this.productsSelected = [];
     });
 
     this.pagination.addEventListener('pagination', ( $event ) => {
@@ -118,6 +121,7 @@ class ModalProductsComponent {
     	if ( index === -1 ) {
     		
     		let product = this.products.find(( product ) => product.productoid === id_product );
+        product = {...product, cantidad_seleccionada: 1 };
     		
     		this.productsSelected.push( product );
     	}
@@ -177,7 +181,7 @@ class ModalProductsComponent {
 
 
     // mandar al formulario de orden
-    // ordersForm.setProductsTable();
+    ordersForm.setProductsTable();
   }
 
   checkProduct( product ) {
