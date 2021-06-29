@@ -160,8 +160,9 @@ class ModalClientComponent {
   }
 
   checkClient( client ) {
-    console.log( this.clientSelected );
-    return this.clientSelected.findIndex(( clientSelec ) => clientSelec.id_cliente === client.id_cliente ) !== -1;
+    return this.clientSelected.findIndex( 
+        clientSelec => clientSelec.id_cliente === client.id_cliente 
+      ) !== -1;
   }
 }
 

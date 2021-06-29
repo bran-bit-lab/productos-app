@@ -37,7 +37,7 @@ async function openModalEditProduct( product ) {
 
     const modal = footer.querySelector('#products-form');
 
-    modal.querySelector('.modal-title').textContent = `Editar producto ${ product.categoriaid }`;
+    modal.querySelector('.modal-title').textContent = `Editar producto ${ product.productoid }`;
 
     console.log({ product, categories });
 

@@ -59,16 +59,16 @@ class OrdersForm {
     let match = query.match( regex );
 
     if ( match ) { // edit
-      // console.log('editar entrega', match['groups'].idDelivery );
-
+   
       this.deliveryId = match['groups'].idDelivery;
 
       document.querySelector('#title').innerText = 'Editar entrega ' + this.deliveryId;
+      document.querySelector('.select-state').style.display = '';
 
     } else { // new
-      // console.log('nueva entrega');
-
+    
       document.querySelector('#title').innerText = 'Nueva entrega';
+      document.querySelector('.select-state').style.display = 'none';
     }
   }
 
@@ -108,15 +108,7 @@ class OrdersForm {
     }
   }
 
-  calculateTotal() {
-    
-    this.totalOrder = this.productsSelected.reduce(( accum, product, index ) => {
-      return accum += ( product.precio * product.cantidad_seleccionada )
-    }, 0 )
-
-    this.totalOrder.toFixed(2);
-  }
-
+  
   setProductsTable() {
 
     const tableProducts = document.querySelector('#table-products-selected');
@@ -143,7 +135,10 @@ class OrdersForm {
               />
           </td>
           <td>
-            <i class="fas fa-trash" onclick="ordersForm.deleteProduct( ${ product.productoid } )"></i>
+            <i 
+              class="fas fa-trash point" 
+              onclick="ordersForm.deleteProduct( ${ product.productoid } )"
+            ></i>
           </td>
         </tr>
       `)).join('');
@@ -158,32 +153,47 @@ class OrdersForm {
       `);
 
     }
-
-    // table footer
-    tableFooter.innerHTML = (`
-      <tr class="text-end">
-        <td colspan="4"></td>
-        <td colspan="1" id="totalOrder">Total: ${ this.totalOrder }$</td>
-      </tr>
-    `);
   }
 
   handleSubmit( event ) {
 
-    let formData = new FormData( form );
-
-    let data = {
-      name: formData.get('delivery-name'),
-      state: formData.get('delivery-state'),
-      description: formData.get('delivery-description'),
-      // client_id: +formData.get('delivery-client'),
-      date_delivery: formData.get('delivery-date'),
-      products: this.productsSelected
-    };
-
-    console.log( data );
-
     event.preventDefault();
+
+
+    if ( this.productsSelected.length > 0 && this.clientsSelected.length > 0 ) {
+
+      let formData = new FormData( form );
+
+      let data = {
+        // nombre: formData.get('delivery-name'),
+        state: formData.get('delivery-state') || 'EN_PROCESO',
+        description_nota: formData.get('delivery-description'),
+        id_cliente: this.clientsSelected[0].id_cliente,
+        date_delivery: formData.get('delivery-date'),
+        userid: getUserLogged().userid,
+        products: this.productsSelected, 
+        total_order: this.totalOrder
+      };
+
+      console.log( data );
+    
+    } else if ( this.productsSelected.length === 0 && this.clientsSelected.length > 0 ) {
+
+      // despleguar una alerta para indicar al usuario que
+      alert('Debes ingresar productos a la orden');
+
+    } else if ( this.productsSelected.length > 0 && this.clientsSelected.length === 0  ) {
+
+      // despleguar una alerta para indicar al usuario que
+      alert('Debes ingresar un cliente en la orden');
+
+    } else {
+
+      alert('Debes ingresar un cliente y productos en la orden');
+    }
+  }
+
+  validateForm( data, callback ) {
   }
 
   handleChangeQuantity( value, idDelivery ) {
@@ -211,7 +221,7 @@ class OrdersForm {
       return product;
     });
    
-    this.setProductsTable();
+    this.calculateTotal();
   }
 
   deleteProduct( idProduct ) {
@@ -259,6 +269,18 @@ class OrdersForm {
       console.error( error );
 
     }
+  }
+
+  calculateTotal() {
+    
+    this.totalOrder = this.productsSelected.reduce(( accum, product, index ) => {
+      return accum += ( product.precio * product.cantidad_seleccionada )
+    }, 0 )
+
+    this.totalOrder.toFixed(2);
+
+     // table footer
+    document.querySelector('#totalOrder').innerText = (`Total: ${ this.totalOrder }$`);
   }
 }
 

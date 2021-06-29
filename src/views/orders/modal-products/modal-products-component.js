@@ -29,7 +29,7 @@ class ModalProductsComponent {
     });
 
     this.searchBar.addEventListener('search', ( $event ) => {
-      this.searchClient( $event.detail.value );
+      this.searchProduct( $event.detail.value );
     });
   }
 
@@ -45,7 +45,7 @@ class ModalProductsComponent {
 
       setPaginationStorage('productsModalTable', { pagination });
       
-      this.renderClients( totalProducts.totalPaginas, totalProducts.totalRegistros );
+      this.renderProducts( totalProducts.totalPaginas, totalProducts.totalRegistros );
 
 
       if ( !this.modalProductsInstance._isShown ) {
@@ -59,7 +59,7 @@ class ModalProductsComponent {
     }
   }
 
-  renderClients( totalPages = 0, totalRegisters = 0, search = false ) {
+  renderProducts( totalPages = 0, totalRegisters = 0, search = false ) {
      
     if ( !search ) {
 
@@ -134,8 +134,6 @@ class ModalProductsComponent {
 
     }
 
-
-  	console.log( this.productsSelected );
     // activa el boton si el usuario selecciona un producto
 
     if ( this.productsSelected.length > 0 ) {
@@ -147,7 +145,7 @@ class ModalProductsComponent {
     }
   }
 
-  async searchClient( search ) {
+  async searchProduct( search ) {
 
     const rexp = /^[\w-\d\s]+$/;
 
@@ -155,7 +153,7 @@ class ModalProductsComponent {
 
       let { pagination } = JSON.parse( sessionStorage.getItem('productsModalTable') );
 
-      return this.openModalClients( pagination );
+      return this.openModalProducts( pagination );
     }
 
     if ( !rexp.test( search ) ) {
@@ -165,9 +163,9 @@ class ModalProductsComponent {
     }
 
     // search es la busqueda
-    this.products = await ClientesController.buscarCliente({ search });
+    this.products = await ProductosController.buscarProducto({ search });
 
-    this.renderClients( null, null, true );
+    this.renderProducts( null, null, true );
   }
 
 
@@ -188,7 +186,9 @@ class ModalProductsComponent {
   	
   	// retorna cuales son los elementos seleccionados y los marca en la lista
 
-  	return this.productsSelected.findIndex( productSelect => productSelect.productoid === product.productoid ) !== -1;
+  	return this.productsSelected.findIndex( 
+      productSelect => productSelect.productoid === product.productoid 
+    ) !== -1;
   }
 }
 

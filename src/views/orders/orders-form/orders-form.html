@@ -22,17 +22,12 @@
       <form>
         <div class="row">
           <div class="col">
-            <div class="form-group">
-              <label class="form-label" for="delivery-name">Nombre de la entrega:</label>
-              <input type="text" name="delivery-name" id="delivery-name" class="form-control" />
-            </div>
-
+        
             <div class="form-group">
               <label for="delivery-description" class="form-label">Descripcion de la entrega:</label>
               <input name="delivery-description" id="delivery-description" class="form-control" />
             </div>
-          </div>
-          <div class="col">
+
             <div class="form-group select-state">
               <label for="delivery-state" class="form-label">Estado de la entrega</label>
               <select name="delivery-state" id="delivery-state" class="form-control">
@@ -42,7 +37,9 @@
                 <option value="4">Cancelada</option>
                 <option value="5">Pospuesto</option>
               </select>
-            </div>
+            </div> 
+          </div>
+          <div class="col">
 
             <div class="form-group">
               <label for="delivery-date" class="form-label">Fecha de entrega</label>
@@ -98,7 +95,12 @@
                     <th>Acciones</th>
                   </thead>
                   <tbody id="table-products-selected"></tbody>
-                  <tfoot></tfoot>
+                  <tfoot>
+                    <tr class="text-end">
+                      <td colspan="4"></td>
+                      <td colspan="1" id="totalOrder"></td>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
             </div>

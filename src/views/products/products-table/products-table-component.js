@@ -111,7 +111,7 @@ class ProductsTableComponent {
 		let title = `${ found.disponible ? 'Desactivar' : 'Activar' } el producto ${ idProduct }`;
 		let element = (`
 			<p class="text-center">
-				¿Esta seguro de ${ found.disponible ? 'desactivar' : 'activar' } la disponibilidad del producto
+				¿Esta seguro de ${ found.disponibilidad ? 'desactivar' : 'activar' } la disponibilidad del producto
 				${ found.nombre }?
 			</p>
 		`);
