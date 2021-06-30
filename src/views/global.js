@@ -43,3 +43,12 @@ function getPaginationStorage( key ) {
 function setPaginationStorage( key, value ) {
   sessionStorage.setItem( key, JSON.stringify( value ) );
 }
+
+function renderErrors( element, message ) {
+
+  let html = (`<small class="text-danger">${ message }</small>`);
+
+  element.innerHTML = html;
+
+  showElement( element );
+}

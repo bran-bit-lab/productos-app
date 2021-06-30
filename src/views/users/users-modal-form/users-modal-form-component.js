@@ -221,15 +221,6 @@ function validateForm( data, callback ) {
 	return callback( false, data );
 }
 
-function renderErrors( element, message ) {
-
-	let html = (`<small class="text-danger">${ message }</small>`);
-
-	element.innerHTML = html;
-
-	showElement( element );
-}
-
 function resetFields( button = false ) {
 
 	// se limpia los errores de validación

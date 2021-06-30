@@ -255,15 +255,6 @@ function validateData( productData, callback ) {
   callback( false, productData );
 }
 
-function renderErrors( element, message ) {
-
-  let html = (`<small class="text-danger">${ message }</small>`);
-
-	element.innerHTML = html;
-
-	showElement( element );
-}
-
 function resetFormProducts( button = false ) {
 
   hideElement( errorProductName );

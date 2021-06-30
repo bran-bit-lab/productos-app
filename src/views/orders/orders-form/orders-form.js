@@ -163,41 +163,50 @@ class OrdersForm {
 
     event.preventDefault();
 
-
     if ( this.productsSelected.length > 0 && this.clientsSelected.length > 0 ) {
 
       let formData = new FormData( form );
 
       let data = {
-        // nombre: formData.get('delivery-name'),
         status: formData.get('delivery-state') || 'EN_PROCESO',
-        descripcion_nota: formData.get('delivery-description'),
+        descripcion_nota: formData.get('delivery-description').trim() || '',
         id_cliente: this.clientsSelected[0].id_cliente,
-        fecha_entrega: formData.get('delivery-date'),
+        fecha_entrega: formData.get('delivery-date').trim() || '',
         userid: getUserLogged().userid,
         productos: this.productsSelected, 
         total_order: this.totalOrder
       };
 
-      console.log( data );
+      this.validateForm( data, ( error ) => {
+        
+        if ( error ) {
+          return;
+        }
+
+        console.log( data );
+
+      });
     
     } else if ( this.productsSelected.length === 0 && this.clientsSelected.length > 0 ) {
 
-      // despleguar una alerta para indicar al usuario que
-      // alert('Debes ingresar productos a la orden');
+      // desplegar una alerta para indicar al usuario que
+      // 'Debes ingresar productos a la orden';
 
-    } else if ( this.productsSelected.length > 0 && this.clientsSelected.length === 0  ) {
+    } else if ( this.productsSelected.length > 0 && this.clientsSelected.length === 0 ) {
 
-      // despleguar una alerta para indicar al usuario que
-      // alert('Debes ingresar un cliente en la orden');
+      // desplegar una alerta para indicar al usuario que
+      // 'Debes ingresar un cliente en la orden'
 
     } else {
 
-      // alert('Debes ingresar un cliente y productos en la orden');
+      // desplegar una alerta para indicar al usuario que
+      // 'Debes ingresar un cliente y productos en la orden'
     }
   }
 
   validateForm( data, callback ) {
+
+    this.resetForm();
 
     const ERROR_MESSAGES = Object.freeze({
       required: 'campo requerido',
@@ -220,37 +229,31 @@ class OrdersForm {
       phone: new RegExp( /^[0-9]{4}-[0-9]{7}$/ )
     });
 
-    const { descripction_nota, fecha_entrega } = data;
+    const { descripcion_nota, fecha_entrega } = data;
 
     let errors = 0;
 
     // ==================================
     //  descripcion_nota 
     // ==================================
-    if ( !PATTERNS.onlyLetters.test( descripction_nota ) ) {
+    if ( !PATTERNS.onlyLetters.test( descripcion_nota ) ) {
       errors += 1;
       renderErrors( this.errorDescription, ERROR_MESSAGES.pattern );
     }
 
-    if ( descripction_nota.trim().length === 0 ) {
+    if ( descripcion_nota.trim().length === 0 ) {
       errors += 1;
       renderErrors( this.errorDescription, ERROR_MESSAGES.required );
     }
 
-    if ( descripction_nota.trim().length > 255 ) {
+    if ( descripcion_nota.trim().length > 255 ) {
       errors += 1;
       renderErrors( this.errorDescription, ERROR_MESSAGES.max( 255 ) );
     }
 
-    if ( descripction_nota.trim().length > 0 && descripction_nota.trim().length > 2 ) {
+    if ( descripcion_nota.trim().length > 0 && descripcion_nota.trim().length < 3 ) {
       errors += 1;
       renderErrors( this.errorDescription, ERROR_MESSAGES.min( 3 ) );
-    }
-
-    if ( errors > 0 ) {
-      callback( true );
-
-      return;
     }
 
     // ==================================
@@ -260,6 +263,13 @@ class OrdersForm {
     if ( fecha_entrega.trim().length === 0 ) {
       errors += 1;
       renderErrors( this.errorDeliveryDate, ERROR_MESSAGES.required )
+    }
+
+
+    if ( errors > 0 ) {
+      callback( true );
+
+      return;
     }
 
     callback( null, data );
@@ -301,8 +311,6 @@ class OrdersForm {
 
     } else {
 
-      console.log('new');
-
       this.productsSelected = this.productsSelected.filter(( product ) => product.productoid !== idProduct );
 
       console.log( idProduct, this.productsSelected );
@@ -312,8 +320,6 @@ class OrdersForm {
   }
 
   deleteClient( idClient ) {
-
-    console.log( idClient );
 
     if ( this.deliveryId ) {
       console.log('edit');
@@ -349,8 +355,19 @@ class OrdersForm {
 
     this.totalOrder.toFixed(2);
 
-     // table footer
+    // table footer
     document.querySelector('#totalOrder').innerText = (`Total: ${ this.totalOrder }$`);
+  }
+
+  resetForm( button = false ) {
+    
+    hideElement( this.errorDescription );
+    hideElement( this.errorDeliveryDate );
+
+    if ( button ) {
+      form.reset();
+      document.querySelector('#delivery-description').focus();
+    }
   }
 }
 

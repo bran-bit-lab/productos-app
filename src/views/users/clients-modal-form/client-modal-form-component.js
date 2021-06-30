@@ -240,14 +240,6 @@ function resetFields( button = false ) {
 	return footer.querySelector('#name-client').focus();
 }
 
-function renderErrors( element, message ) {
-
-	let html = (`<small class="text-danger">${ message }</small>`);
-
-	element.innerHTML = html;
-
-	showElement( element );
-}
 
 let idClient = null;
 

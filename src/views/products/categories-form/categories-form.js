@@ -51,6 +51,7 @@ function openModalEditCategory( category ) {
 	*/
 
 	footer.querySelector('.modal-title').textContent = 'Editar categoría';
+
 	setForm( categorySelected );
 
 	modalFormCategory.toggle();
@@ -204,15 +205,6 @@ function setForm( category ) {
 	});
 }
 
-function renderErrors( element, message ) {
-
-	let html = (`<small class="text-danger">${ message }</small>`);
-
-	element.innerHTML = html;
-
-	showElement( element );
-}
-
 function cleanFormOnClose( $event ) {
 
 	/*
@@ -223,7 +215,6 @@ function cleanFormOnClose( $event ) {
 		// showElement( imageDefault );
 
 	*/
-
 
 	resetForm( true );
 }
