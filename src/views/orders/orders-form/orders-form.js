@@ -19,6 +19,10 @@ class OrdersForm {
     this.clientsSelected = [];
     this.totalOrder = 0;
 
+    // errors
+    this.errorDescription = document.querySelector('#error-delivery-description');
+    this.errorDeliveryDate = document.querySelector('#error-delivery-date');
+
     this.setHtml(() => {
       this.setForm();
       this.setProductsTable();
@@ -166,12 +170,12 @@ class OrdersForm {
 
       let data = {
         // nombre: formData.get('delivery-name'),
-        state: formData.get('delivery-state') || 'EN_PROCESO',
-        description_nota: formData.get('delivery-description'),
+        status: formData.get('delivery-state') || 'EN_PROCESO',
+        descripcion_nota: formData.get('delivery-description'),
         id_cliente: this.clientsSelected[0].id_cliente,
-        date_delivery: formData.get('delivery-date'),
+        fecha_entrega: formData.get('delivery-date'),
         userid: getUserLogged().userid,
-        products: this.productsSelected, 
+        productos: this.productsSelected, 
         total_order: this.totalOrder
       };
 
@@ -180,20 +184,86 @@ class OrdersForm {
     } else if ( this.productsSelected.length === 0 && this.clientsSelected.length > 0 ) {
 
       // despleguar una alerta para indicar al usuario que
-      alert('Debes ingresar productos a la orden');
+      // alert('Debes ingresar productos a la orden');
 
     } else if ( this.productsSelected.length > 0 && this.clientsSelected.length === 0  ) {
 
       // despleguar una alerta para indicar al usuario que
-      alert('Debes ingresar un cliente en la orden');
+      // alert('Debes ingresar un cliente en la orden');
 
     } else {
 
-      alert('Debes ingresar un cliente y productos en la orden');
+      // alert('Debes ingresar un cliente y productos en la orden');
     }
   }
 
   validateForm( data, callback ) {
+
+    const ERROR_MESSAGES = Object.freeze({
+      required: 'campo requerido',
+      email: 'correo inválido',
+      min: ( min ) => 'minimo ' + min + ' caracteres',
+      max: ( max ) => 'máximo ' + max + ' caracteres',
+      pattern: 'Patrón de datos inválido',
+      notMatch: 'La contraseña no coincide',
+      rif: 'El rif no es valido',
+      phone: 'El numero de telefono no es valido'
+    });
+
+    // console.log( data );
+
+    const PATTERNS = Object.freeze({
+      email: new RegExp( /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/ ),
+      onlyLetters: new RegExp( /^[a-zA-Z\s]+$/ ),
+      area: new RegExp( /^Ventas|Almacen|Administracion$/ ),
+      rif: new RegExp( /^(J|j)-[0-9]{1,8}-[0-9]{1}|(V|v)-[0-9]{1,8}-[0-9]{1}|(G|g)-[0-9]{1,8}-[0-9]{1}$/ ),
+      phone: new RegExp( /^[0-9]{4}-[0-9]{7}$/ )
+    });
+
+    const { descripction_nota, fecha_entrega } = data;
+
+    let errors = 0;
+
+    // ==================================
+    //  descripcion_nota 
+    // ==================================
+    if ( !PATTERNS.onlyLetters.test( descripction_nota ) ) {
+      errors += 1;
+      renderErrors( this.errorDescription, ERROR_MESSAGES.pattern );
+    }
+
+    if ( descripction_nota.trim().length === 0 ) {
+      errors += 1;
+      renderErrors( this.errorDescription, ERROR_MESSAGES.required );
+    }
+
+    if ( descripction_nota.trim().length > 255 ) {
+      errors += 1;
+      renderErrors( this.errorDescription, ERROR_MESSAGES.max( 255 ) );
+    }
+
+    if ( descripction_nota.trim().length > 0 && descripction_nota.trim().length > 2 ) {
+      errors += 1;
+      renderErrors( this.errorDescription, ERROR_MESSAGES.min( 3 ) );
+    }
+
+    if ( errors > 0 ) {
+      callback( true );
+
+      return;
+    }
+
+    // ==================================
+    //  fecha entrega 
+    // ==================================
+
+    if ( fecha_entrega.trim().length === 0 ) {
+      errors += 1;
+      renderErrors( this.errorDeliveryDate, ERROR_MESSAGES.required )
+    }
+
+    callback( null, data );
+
   }
 
   handleChangeQuantity( value, idDelivery ) {
