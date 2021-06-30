@@ -217,7 +217,7 @@ function handleSubmit( $event ) {
       clientsTableComponent.editClient({ ...data, id_cliente: idClient });
 
     } else {
-        clientsTableComponent.addClient( data );
+      clientsTableComponent.addClient( data );
 
     }
 
@@ -240,10 +240,10 @@ function resetFields( button = false ) {
 	return footer.querySelector('#name-client').focus();
 }
 
-
 let idClient = null;
 
 const clientForm = document.forms['formClients'];
+
 clientForm.addEventListener( 'submit',  handleSubmit );
 
 const modalClientForm = new Modal( footer.querySelector('.modal-clients'), {
