@@ -77,7 +77,7 @@ CREATE TABLE `clientes` (
   `rif` char(30) DEFAULT NULL,
   `telefono_contacto` char(30) DEFAULT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,18 +86,19 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
-INSERT INTO `clientes` VALUES (2,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
-INSERT INTO `clientes` VALUES (3,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
-INSERT INTO `clientes` VALUES (4,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
-INSERT INTO `clientes` VALUES (5,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
-INSERT INTO `clientes` VALUES (6,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
-INSERT INTO `clientes` VALUES (7,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
-INSERT INTO `clientes` VALUES (8,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
-INSERT INTO `clientes` VALUES (9,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
-INSERT INTO `clientes` VALUES (10,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
-INSERT INTO `clientes` VALUES (11,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
-INSERT INTO `clientes` VALUES (12,'cliente','j-12345678','direccion de prueba','0212-123.45.67');
+INSERT INTO `clientes` VALUES (1,'cliente','direccion de prueba','j12345678','0212-123.45.67');
+INSERT INTO `clientes` VALUES (2,'cliente','direccion de prueba','j-12345678','0414-1234567');
+INSERT INTO `clientes` VALUES (3,'cliente','direccion de prueba','j-12345678','0414-1234567');
+INSERT INTO `clientes` VALUES (4,'cliente','direccion de prueba','j-12345678','0414-1234567');
+INSERT INTO `clientes` VALUES (5,'cliente','direccion de prueba','j-12345678','0414-1234567');
+INSERT INTO `clientes` VALUES (6,'cliente','direccion de prueba','j-12345678','0414-1234567');
+INSERT INTO `clientes` VALUES (7,'cliente','direccion de prueba','j-12345678','0414-1234567');
+INSERT INTO `clientes` VALUES (8,'cliente','direccion de prueba','j-12345678','0414-1234567');
+INSERT INTO `clientes` VALUES (9,'cliente','direccion de prueba','j-12345678','0414-1234567');
+INSERT INTO `clientes` VALUES (10,'cliente','direccion de prueba','j-12345678','0414-1234567');
+INSERT INTO `clientes` VALUES (11,'cliente','direccion de prueba','j-12345678','0414-1234567');
+INSERT INTO `clientes` VALUES (12,'cliente','direccion de prueba','j-12345678','0414-1234567');
+INSERT INTO `clientes` VALUES (13,'cliente','direccion de prueba','j-12345678','0414-1234567');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,8 +144,39 @@ INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:46','descripcion d
 INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:46','descripcion de prueba','2021-06-13',1,25);
 INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:46','descripcion de prueba','2021-06-13',1,26);
 INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:43:48','descripcion de prueba',NULL,1,27);
-INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:45:05','descripcion de prueba','2021-06-13',1,28);
 /*!40000 ALTER TABLE `notas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `notas_productos`
+--
+
+DROP TABLE IF EXISTS `notas_productos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notas_productos` (
+  `id_NP` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_nota` int(11) DEFAULT NULL,
+  `id_producto` int(11) DEFAULT NULL,
+  `cantidad_selecionada` int(11) NOT NULL,
+  PRIMARY KEY (`id_NP`),
+  KEY `id_nota` (`id_nota`),
+  KEY `id_producto` (`id_producto`),
+  CONSTRAINT `notas_productos_ibfk_1` FOREIGN KEY (`id_nota`) REFERENCES `notas` (`id_nota`),
+  CONSTRAINT `notas_productos_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`productoid`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notas_productos`
+--
+
+LOCK TABLES `notas_productos` WRITE;
+/*!40000 ALTER TABLE `notas_productos` DISABLE KEYS */;
+INSERT INTO `notas_productos` VALUES (8,15,1,3);
+INSERT INTO `notas_productos` VALUES (9,15,7,5);
+INSERT INTO `notas_productos` VALUES (10,16,4,3);
+/*!40000 ALTER TABLE `notas_productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -247,4 +279,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-13 17:01:27
+-- Dump completed on 2021-07-04 16:26:03

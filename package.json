@@ -47,6 +47,7 @@
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.0.0-beta1",
     "electron-squirrel-startup": "^1.0.0",
+    "inquirer": "^8.1.1",
     "mysql": "^2.18.1"
   },
   "devDependencies": {
