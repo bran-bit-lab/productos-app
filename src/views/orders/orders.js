@@ -20,6 +20,7 @@ class OrdersTableComponent {
 
 		// events
 		this.setEvents();
+		this.getAll();
 	}
 	
 	setEvents() {
@@ -128,7 +129,3 @@ class OrdersTableComponent {
 }
 
 const ordersTableComponent = new OrdersTableComponent();
-ordersTableComponent.getAll();
-
-
-console.log( window.history );
