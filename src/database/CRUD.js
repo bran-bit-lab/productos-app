@@ -17,7 +17,7 @@ const CRUD = Object.freeze({
 	obtenerTotalCategorias : "SELECT COUNT(*) FROM categorias;",
 	editarCategoria : "UPDATE categorias SET nombre = :nombre, descripcion = :descripcion, imagen = :imagen WHERE categoriaid = :categoriaid;",
 	activarCategoria: "UPDATE categorias SET activo = :activo WHERE categoriaid = :categoriaid",
-	buscarCategoria: "SELECT userid, nombre, categoriaid, imagen FROM categorias WHERE nombre LIKE :search OR descripcion LIKE :search;",
+	buscarCategoria: "SELECT categorias.*, usuarios.nombre AS nombre_usuario, usuarios.apellido FROM categorias LEFT JOIN usuarios ON categorias.userid = usuarios.userid WHERE categorias.nombre LIKE :search OR descripcion LIKE :search;",
 	listadoCategoriasProductos: "SELECT nombre, categoriaid FROM categorias",
 
 	//products ...
@@ -42,7 +42,7 @@ const CRUD = Object.freeze({
 	obtenerTotalNotas : "SELECT COUNT(*) FROM notas;",
 	editarNotas : "UPDATE notas SET categoriaid = :categoriaid, nombre = :nombre, descripcion = :descripcion, cantidad = :cantidad, precio = :precio, disponibilidad = :disponibilidad WHERE productoid = :productoid;",
 	activarNotas : "UPDATE notas SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
-	buscarNotas : "SELECT notas.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM Notas LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.nombre LIKE :search OR productos.descripcion LIKE :search;",
+	buscarNotas : "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, usuarios.nombre AS nombre_usuario, usuarios.apellido AS apellido_usuario, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente WHERE clientes.nombre_cliente LIKE :search OR notas.descripcion_nota LIKE :search;",
 });
 
 module.exports = CRUD;

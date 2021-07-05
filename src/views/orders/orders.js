@@ -24,24 +24,32 @@ class OrdersTableComponent {
 	}
 	
 	setEvents() {
-		this.searchComponent.addEventListener('search', this.searchDeliveryNote );
+		this.searchComponent.addEventListener('search', this.searchDeliveryNote.bind( this ) );
 		
 		this.pagination.addEventListener('pagination', ( $event ) => {
 			this.page = $event.detail.page;
-			console.log( $event.detail );
 			this.getAll( $event.detail.value );
 		});	
 	}
 
 	async getAll( pagination = getPaginationStorage('notesTable') ) {
 		
-		console.log( pagination );
+		try {
+			
+			this.deliveryNotes = await NotasController.listarNotas( pagination );
 		
-		this.deliveryNotes = await NotasController.listarNotas( pagination );
+			const totalOrders = await NotasController.obtenerTotalNotas();
 		
-		const totalOrders = await NotasController.obtenerTotalNotas();
+			setPaginationStorage('notesTable', { pagination });
 		
-		this.render( totalOrders.totalPaginas, totalOrders.totalRegistros );
+			this.render( totalOrders.totalPaginas, totalOrders.totalRegistros );
+		}
+		
+		catch ( error ) {
+			
+			console.error( error );
+		}
+		
 	}
 
 	createDeliveryNote() {
@@ -52,9 +60,32 @@ class OrdersTableComponent {
 		redirectTo('./orders-form/orders-form.html?idDelivery=' + idDelivery )
 	}
 
-	searchDeliveryNote( $event ) {
-		let value = $event.detail.value;
-		console.log( value );
+	async searchDeliveryNote( $event ) {
+		
+		const search = $event.detail.value;		
+		const rexp = /^[\w-\d\s]+$/;
+
+		if ( search.length === 0 ) {
+
+		  let { pagination } = JSON.parse( sessionStorage.getItem('notesTable') );
+
+		  this.getAll( pagination );
+		  
+		  return;
+		}
+
+		if ( !rexp.test( search ) ) {
+			
+		  console.log('no concuerda con expresion regular');
+		  
+		  return;
+		}
+		
+		this.deliveryNotes = await NotasController.buscarNota({ search: '%' + search + '%' });
+
+		console.log( this.deliveryNotes );
+
+		this.render( null, null, true );		
 	}
 
 	showPDF( idDeliveryNote ) {
@@ -73,14 +104,14 @@ class OrdersTableComponent {
 				<td>
 				<button
 					type="button"
-					onclick="ordersTableComponent.editDeiliveryNote( ${ index + 1 } )"
+					onclick="ordersTableComponent.editDeiliveryNote( ${ deliveryNote.id_nota } )"
 					class="btn btn-primary btn-sm"
 				>
 					<i class="fas fa-edit"></i>
 				</button>
 				<button
 					type="button"
-					onclick="ordersTableComponent.showPDF( ${ index + 1 } )"
+					onclick="ordersTableComponent.showPDF( ${ deliveryNote.id_nota } )"
 					class="btn btn-secondary btn-sm"
 				>
 					<i class="far fa-file-pdf"></i>

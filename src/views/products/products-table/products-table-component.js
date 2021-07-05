@@ -98,9 +98,7 @@ class ProductsTableComponent {
 			return;
 		}
 
-		console.log( $event );
-
-		this.products = await ProductosController.buscarProducto({ search: $event });
+		this.products = await ProductosController.buscarProducto({ search: '%' + $event + '%' });
 
 		this.render( null, true );
 	}

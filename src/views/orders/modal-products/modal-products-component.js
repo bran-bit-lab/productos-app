@@ -161,9 +161,9 @@ class ModalProductsComponent {
       return;
 
     }
-
+    
     // search es la busqueda
-    this.products = await ProductosController.buscarProducto({ search });
+    this.products = await ProductosController.buscarProducto({ search: '%' + search + '%' });
 
     this.renderProducts( null, null, true );
   }

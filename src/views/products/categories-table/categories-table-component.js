@@ -87,11 +87,11 @@ class CategoryTableComponent {
 			return this.getAll( null, pagination );
 		}
 
-		console.log( $event );
+		
 
-		this.categories = await CategoriasController.buscarCategoria({ search: $event });
+		this.categories = await CategoriasController.buscarCategoria({ search: '%' + $event + '%' });
 
-		// console.log( this.users );
+		console.log( this.categories );
 
 		this.render( this.categories, null, true );
 	}
@@ -177,7 +177,6 @@ class CategoryTableComponent {
 
 		if ( categorias.length > 0 ) {
 
-			console.log(this.tbody);
 			this.pagination.style.display = 'block';
 
 			this.tbody.innerHTML = categorias.map( this.setRows.bind( this ) ).join('');

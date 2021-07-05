@@ -64,7 +64,7 @@ class UsersTableComponent {
 		}
 
 		// search es la busqueda
-		this.users = await UsersController.buscarUsuarios({ search :search });
+		this.users = await UsersController.buscarUsuarios({ search: '%' + search + '%' });
 
 		this.renderUsers( null, null, true );
 	}

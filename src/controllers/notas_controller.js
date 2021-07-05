@@ -103,23 +103,6 @@ class NotasController {
 		});
 	}
 
-	static listarCategorias() { // este es el metodo que no estaba incluido lo que fue agregarlo
-
-		return new Promise(( resolve, reject ) => {
-
-			this.database.consult( CRUD.listadoCategoriasProductos, ( error, results ) => {
-
-				if ( error ) {
-					console.log( error );
-
-					reject( error );
-				}
-
-				resolve( results );
-			})
-		})
-	}
-
 
 	static editarProducto( producto, usuario ) {
 
@@ -189,7 +172,9 @@ class NotasController {
 
 		return new Promise(( resolve, reject ) => {
 
-				this.database.find( CRUD.buscarProducto, search, ( error, results ) => {
+				// console.log( CRUD.buscarNotas );
+
+				this.database.find( CRUD.buscarNotas, search, ( error, results ) => {
 
 					const notificacion = new Notification({
 						title: '',
@@ -198,7 +183,7 @@ class NotasController {
 
 					if ( error ) {
 
-						// throw error;  // mostrará el error en pantalla
+						// throw error; 
 
 						notificacion['title'] = 'Error!!';
 						notificacion['body'] = 'Error al buscar Nota';

@@ -144,7 +144,7 @@ class ModalClientComponent {
     }
 
     // search es la busqueda
-    this.clients = await ClientesController.buscarCliente({ search });
+    this.clients = await ClientesController.buscarCliente({ search: '%' + search + '%' });
 
     this.renderClients( null, null, true );
   }
