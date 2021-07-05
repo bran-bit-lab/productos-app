@@ -48,7 +48,7 @@ class NotasController {
 
 		return new Promise( ( resolve, reject ) => {
 
-			this.database.getTotalRecords( CRUD.obtenerTotalProductos, ( error, resultado ) => {
+			this.database.getTotalRecords( CRUD.obtenerTotalNotas, ( error, resultado ) => {
 
 				const notificacion = new Notification({
 					title: 'Error en obtener los registros',
@@ -80,13 +80,13 @@ class NotasController {
 		});
 	}
 
-	static listarProductos( pagination ) {
+	static listarNotas( pagination ) {
 
 		return new Promise(( resolve, reject ) => {
 
 			pagination = { start: pagination[0], limit: pagination[1] };
 
-			this.database.consult( CRUD.listarProductos, pagination, ( error, results ) => {
+			this.database.consult( CRUD.listarNotas, pagination, ( error, results ) => {
 
 				if ( error ) {
 
@@ -97,7 +97,6 @@ class NotasController {
 					return;
 				}
 
-				// console.log( results );
 				resolve( results );
 			});
 
@@ -170,7 +169,7 @@ class NotasController {
 				// throw error;  // mostrará el error en pantalla
 
 				notificacion['title'] = 'Error!!';
-				notificacion['body'] = 'Error al actualizar producto';
+				notificacion['body'] = 'Error al actualizar nota';
 
 				notificacion.show();
 
@@ -186,7 +185,7 @@ class NotasController {
   		});
 	}
 
-	static buscarProducto( search ) {
+	static buscarNota( search ) {
 
 		return new Promise(( resolve, reject ) => {
 
@@ -202,7 +201,7 @@ class NotasController {
 						// throw error;  // mostrará el error en pantalla
 
 						notificacion['title'] = 'Error!!';
-						notificacion['body'] = 'Error al buscar Producto';
+						notificacion['body'] = 'Error al buscar Nota';
 
 						notificacion.show();
 
@@ -220,4 +219,4 @@ class NotasController {
 
 }
 
-module.exports = { ProductosController };
+module.exports = { NotasController };

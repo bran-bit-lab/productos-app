@@ -4,29 +4,43 @@
 
 const { remote } = require('electron');
 const { readFileAssets } = remote.require('./util_functions/file');
+const { showLog } = remote.require('./util_functions/time');
+const { NotasController } = remote.require('./controllers/notas_controller');
 const deliveryNotes = document.querySelector('#delivery-note');
 
 class OrdersTableComponent {
+	
 	constructor() {
 
-		this.deliveryNotes = new Array(10).fill({
-			id: 0,
-			name: 'test',
-			description: 'prueba de desarrollo',
-			created_by: 'Gabriel Martinez',
-			order_by: 'Cliente 1',
-			state: 'Entregado'
-		});
-
+		this.deliveryNotes = [];
 		this.deliveryTable = document.querySelector('#tbody-delivery-notes');
 		this.searchComponent = document.querySelector('search-bar-component');
+		this.pagination = document.querySelector('#pagination-delivery');
+		this.page = 1;
 
 		// events
+		this.setEvents();
+	}
+	
+	setEvents() {
 		this.searchComponent.addEventListener('search', this.searchDeliveryNote );
+		
+		this.pagination.addEventListener('pagination', ( $event ) => {
+			this.page = $event.detail.page;
+			console.log( $event.detail );
+			this.getAll( $event.detail.value );
+		});	
 	}
 
-	getAll() {
-		this.render();
+	async getAll( pagination = getPaginationStorage('notesTable') ) {
+		
+		console.log( pagination );
+		
+		this.deliveryNotes = await NotasController.listarNotas( pagination );
+		
+		const totalOrders = await NotasController.obtenerTotalNotas();
+		
+		this.render( totalOrders.totalPaginas, totalOrders.totalRegistros );
 	}
 
 	createDeliveryNote() {
@@ -47,14 +61,14 @@ class OrdersTableComponent {
 	}
 
 	setRows( deliveryNote, index ) {
+		
 		return (`
 			<tr class="text-center">
-				<td>${ index + 1 }</td>
-				<td>${ deliveryNote.name }</td>
-				<td>${ deliveryNote.description }</td>
-				<td>${ deliveryNote.created_by }</td>
-				<td>${ deliveryNote.order_by }</td>
-				<td>${ deliveryNote.state }</td>
+				<td>${ deliveryNote.id_nota }</td>
+				<td>${ deliveryNote.descripcion_nota }</td>
+				<td>${ this.getName( deliveryNote.nombre_usuario, deliveryNote.apellido_usuario ) }</td>
+				<td>${ deliveryNote.nombre_cliente }</td>
+				<td>${ deliveryNote.status }</td>
 				<td>
 				<button
 					type="button"
@@ -74,23 +88,31 @@ class OrdersTableComponent {
 			</tr>
 		`);
 	}
+	
+	getName( name = '', surname = '' ) {
+		
+		if ( name.length > 0 && surname.length > 0 ) {
+			return name + ' ' + surname;
+		}
+		
+		return 'No disponible'
+	}
 
-	render( search = false ) {
+	render( totalPages = 0, totalRegisters = 0, search = false ) {
 
 		if ( !search ) {
-
+			
 			this.deliveryTable.innerHTML = '';
-
-			let paginationElement = document.querySelector('pagination-component');
-
-			paginationElement._limit = 1;
-			paginationElement._registers = this.deliveryNotes.length;
-			paginationElement._page = 1;
+			this.pagination._limit = totalPages;
+			this.pagination._registers = totalRegisters;
+			this.pagination._page = this.page;
 		}
 
 		if ( this.deliveryNotes.length > 0 ) {
 
-			this.deliveryTable.innerHTML = this.deliveryNotes.map( this.setRows ).join('');
+			this.deliveryTable.innerHTML = this.deliveryNotes.map( 
+				this.setRows.bind( this ) 
+			).join('');
 
 		} else {
 
@@ -106,7 +128,7 @@ class OrdersTableComponent {
 }
 
 const ordersTableComponent = new OrdersTableComponent();
-ordersTableComponent.render();
+ordersTableComponent.getAll();
 
 
 console.log( window.history );

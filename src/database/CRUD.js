@@ -38,8 +38,8 @@ const CRUD = Object.freeze({
 
 	// notas ...
 	crearNota: "INSERT INTO notas( userid, descripcion_nota, id_cliente, fecha_entrega ) VALUES (:userid, :descripcion_nota, :id_cliente, :fecha_entrega);",
-	listarNotas : "SELECT notas.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM Notas LEFT JOIN usuarios ON Notas.userid = usuarios.userid INNER JOIN categorias ON Notas.categoriaid = categorias.categoriaid LIMIT :start, :limit;",
-	obtenerTotalNotas : "SELECT COUNT(*) FROM Notas;",
+	listarNotas : "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, usuarios.nombre AS nombre_usuario, usuarios.apellido AS apellido_usuario, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente LIMIT :start, :limit;",
+	obtenerTotalNotas : "SELECT COUNT(*) FROM notas;",
 	editarNotas : "UPDATE notas SET categoriaid = :categoriaid, nombre = :nombre, descripcion = :descripcion, cantidad = :cantidad, precio = :precio, disponibilidad = :disponibilidad WHERE productoid = :productoid;",
 	activarNotas : "UPDATE notas SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
 	buscarNotas : "SELECT notas.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM Notas LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.nombre LIKE :search OR productos.descripcion LIKE :search;",
