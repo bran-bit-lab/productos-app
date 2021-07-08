@@ -78,7 +78,8 @@ class ModalProductsComponent {
          <td name="productoid">${ product.productoid }</td>
          <td name="nombre_producto">${ product.nombre }</td>
          <td name="nombre_categoria">${ product.nombre_categoria }</td>
-         <td name="price">${ product.precio ? product.precio : 0 }</td>
+         <td name="quantity">${ product.cantidad }</td>
+         <td name="price">${ product.precio ? product.precio : 0 }$</td>
          <td>
           <input
             type="checkbox"
@@ -121,7 +122,7 @@ class ModalProductsComponent {
     	if ( index === -1 ) {
     		
     		let product = this.products.find(( product ) => product.productoid === id_product );
-        product = {...product, cantidad_seleccionada: 1 };
+        product = {...product, precio: product.precio || 0, cantidad_seleccionada: 1 };
     		
     		this.productsSelected.push( product );
     	}

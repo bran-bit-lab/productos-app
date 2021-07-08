@@ -134,7 +134,7 @@ class OrdersForm {
                 class="form-control text-center"
                 min="1"
                 onchange="ordersForm.handleChangeQuantity(
-                  +event.target.value, ${ product.productoid }
+                  this, ${ product.productoid }, ${ product.cantidad }
                 )"
               />
           </td>
@@ -174,8 +174,9 @@ class OrdersForm {
         fecha_entrega: formData.get('delivery-date').trim() || '',
         userid: getUserLogged().userid,
         productos: this.productsSelected, 
-        total_order: this.totalOrder
+        total_order: Number.parseFloat( this.totalOrder.toFixed(2) ) || 0
       };
+      
 
       this.validateForm( data, ( error ) => {
         
@@ -276,17 +277,20 @@ class OrdersForm {
 
   }
 
-  handleChangeQuantity( value, idDelivery ) {
+  handleChangeQuantity( element, idDelivery, quantityTotal ) {
 
     // console.log({ value, idDelivery });
 
-    if ( value < 1 ) {
-      value = 1;
+    if ( +element.value < 1 ) {
+      element.value = 1;
+      
 
-    } else if ( value > 9999 ) {
-      value = 9999
-
+    } else if ( +element.value > quantityTotal ) {
+      element.value = quantityTotal;
+	
     }
+    
+    console.log( element.value );
 
     // actualiza los cambios locales
     this.productsSelected = this.productsSelected.map(( product ) => {
@@ -294,7 +298,7 @@ class OrdersForm {
       if ( product.productoid === idDelivery ) {
         return {
           ...product,
-          cantidad_seleccionada: value
+          cantidad_seleccionada: +element.value
         };
       }
 
@@ -351,12 +355,10 @@ class OrdersForm {
     
     this.totalOrder = this.productsSelected.reduce(( accum, product, index ) => {
       return accum += ( product.precio * product.cantidad_seleccionada )
-    }, 0 )
-
-    this.totalOrder.toFixed(2);
+    }, 0 );
 
     // table footer
-    document.querySelector('#totalOrder').innerText = (`Total: ${ this.totalOrder }$`);
+    document.querySelector('#totalOrder').innerText = (`Total: ${ this.totalOrder.toFixed(2) }$`);
   }
 
   resetForm( button = false ) {
