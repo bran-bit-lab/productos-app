@@ -9,12 +9,12 @@ class NotasController {
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
-// Aqui se crea el objeto nota que contiene el { user, status, descripcion, fecha _de-entrega }
 
 	static crearNota( nota ) {
+
 		// nota tiene todas las propiedades del nota de entrega + productos, nopuedes enviar todo eso
 		// por que mostrarar un error si haces un log de nota te trae toda la informacion debes extraer
-		// sus propiedades y crear el objeto para cada consulta 
+		// sus propiedades y crear el objeto para cada consulta
 
 		let nuevaNota = {
 			userid: nota['userid'],
@@ -41,37 +41,32 @@ class NotasController {
 				return;
 			}
 
-			// en una funcion aparte para que no caigas en un callback hell
-			// dentro de la misma clase
-
 			try {
-
 				// recuerda que obtener id nota es un metodo estatico se invoca nombre_clase.metodo()
 				let ultimoRegistro = await NotasController.obtenerIdNota();
 
 				console.log( ultimoRegistro );
 
-			} catch ( error ) {
+				// ... continuar con la inserccion de datos
 
+				notificacion['title'] = 'Éxito';
+				notificacion['body'] = 'Nota creada con éxito';
+
+				notificacion.show();
+
+			} catch ( error ) {
 				console.error( error );
 			}
 
-			// ...
-
-			notificacion['title'] = 'Éxito';
-			notificacion['body'] = 'Nota creada con éxito';
-
-			notificacion.show();
-
 		});
-
 	}
 
-	static obtenerIdNota () {
+	static obtenerIdNota() {
 
 		return new Promise( ( resolve, reject ) => {
 
-			this.database.consult( CRUD.ultimoRegistro, null, (error, resultado) => {
+			this.database.consult( CRUD.ultimoRegistro, null, ( error, resultado ) => {
+
 				const  notificacion = new Notification({
 					title: 'Error en obtener los registros',
 					body: 'No se pudo obtener el registro'
@@ -80,7 +75,6 @@ class NotasController {
 				if ( error ) {
 
 					notificacion.show();
-
 					console.log( error );
 
 					reject( error );
@@ -95,7 +89,7 @@ class NotasController {
 			});
 		});
 
-	}	
+	}
 
 	static obtenerTotalNotas() {
 
@@ -254,7 +248,6 @@ class NotasController {
 				});
 		});
 	}
-
 }
 
 module.exports = { NotasController };
