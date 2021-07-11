@@ -1,5 +1,7 @@
 
 
+ SELECT *FROM notas ORDER BY id_nota DESC LIMIT 0, 1;  /* con esto lo decimos que se traiga el ultimo si no me equivoco
+
 
 
 /*

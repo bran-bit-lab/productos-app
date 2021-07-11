@@ -9,17 +9,22 @@ class NotasController {
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
+// Aqui se crea el objeto nota que contiene el { user, status, descripcion, fecha _de-entrega }
 
 	static crearNota( nota ) {
+		// nota tiene todas las propiedades del nota de entrega + productos, nopuedes enviar todo eso
+		// por que mostrarar un error si haces un log de nota te trae toda la informacion debes extraer
+		// sus propiedades y crear el objeto para cada consulta 
 
-		/*let nuevaNota = {
-			...nota,
-			userid: usuario['userid']
-		};*/
+		let nuevaNota = {
+			userid: nota['userid'],
+			status: nota['status'],
+			descripcion_nota: nota['descripcion_nota'],
+			id_cliente: nota['id_cliente'],
+			fecha_entrega: nota['fecha_entrega']
+		};
 
-		console.log( nota );
-
-		/*this.database.insert( CRUD.crearNota, nuevaNota, ( error ) => {
+		this.database.insert( CRUD.crearNota, nuevaNota, async ( error ) => {
 
 			const notificacion = new Notification({
 				title: '',
@@ -36,13 +41,61 @@ class NotasController {
 				return;
 			}
 
+			// en una funcion aparte para que no caigas en un callback hell
+			// dentro de la misma clase
+
+			try {
+
+				// recuerda que obtener id nota es un metodo estatico se invoca nombre_clase.metodo()
+				let ultimoRegistro = await NotasController.obtenerIdNota();
+
+				console.log( ultimoRegistro );
+
+			} catch ( error ) {
+
+				console.error( error );
+			}
+
+			// ...
+
 			notificacion['title'] = 'Éxito';
 			notificacion['body'] = 'Nota creada con éxito';
 
 			notificacion.show();
 
-		});*/
+		});
+
 	}
+
+	static obtenerIdNota () {
+
+		return new Promise( ( resolve, reject ) => {
+
+			this.database.consult( CRUD.ultimoRegistro, null, (error, resultado) => {
+				const  notificacion = new Notification({
+					title: 'Error en obtener los registros',
+					body: 'No se pudo obtener el registro'
+				});
+
+				if ( error ) {
+
+					notificacion.show();
+
+					console.log( error );
+
+					reject( error );
+
+					return;
+				}
+
+				const ultimoRegistro = resultado[0];
+
+				// el resolve es el valor de vuelta asignado
+				resolve( ultimoRegistro );
+			});
+		});
+
+	}	
 
 	static obtenerTotalNotas() {
 
