@@ -3,6 +3,7 @@ const { dateToString } = remote.require('./util_functions/time');
 const { readFileAssets } = remote.require('./util_functions/file');
 const { ClientesController } = remote.require('./controllers/clientes_controller');
 const { ProductosController } = remote.require('./controllers/productos_controllers');
+const { NotasController } = remote.require('./controllers/notas_controller');
 
 const Modal = require('bootstrap/js/dist/modal');
 const { ModalClientComponent } = require('../modal-clients/modal-client-component');
@@ -63,14 +64,14 @@ class OrdersForm {
     let match = query.match( regex );
 
     if ( match ) { // edit
-   
+
       this.deliveryId = match['groups'].idDelivery;
 
       document.querySelector('#title').innerText = 'Editar entrega ' + this.deliveryId;
       document.querySelector('.select-state').style.display = '';
 
     } else { // new
-    
+
       document.querySelector('#title').innerText = 'Nueva entrega';
       document.querySelector('.select-state').style.display = 'none';
     }
@@ -112,7 +113,7 @@ class OrdersForm {
     }
   }
 
-  
+
   setProductsTable() {
 
     const tableProducts = document.querySelector('#table-products-selected');
@@ -139,8 +140,8 @@ class OrdersForm {
               />
           </td>
           <td>
-            <i 
-              class="fas fa-trash point" 
+            <i
+              class="fas fa-trash point"
               onclick="ordersForm.deleteProduct( ${ product.productoid } )"
             ></i>
           </td>
@@ -173,21 +174,21 @@ class OrdersForm {
         id_cliente: this.clientsSelected[0].id_cliente,
         fecha_entrega: formData.get('delivery-date').trim() || '',
         userid: getUserLogged().userid,
-        productos: this.productsSelected, 
+        productos: this.productsSelected,
         total_order: Number.parseFloat( this.totalOrder.toFixed(2) ) || 0
       };
-      
+
 
       this.validateForm( data, ( error ) => {
-        
+
         if ( error ) {
           return;
         }
 
-        console.log( data );
-
+        // crea la nota
+        NotasController.crearNota( data );
       });
-    
+
     } else if ( this.productsSelected.length === 0 && this.clientsSelected.length > 0 ) {
 
       // desplegar una alerta para indicar al usuario que
@@ -235,7 +236,7 @@ class OrdersForm {
     let errors = 0;
 
     // ==================================
-    //  descripcion_nota 
+    //  descripcion_nota
     // ==================================
     if ( !PATTERNS.onlyLetters.test( descripcion_nota ) ) {
       errors += 1;
@@ -258,7 +259,7 @@ class OrdersForm {
     }
 
     // ==================================
-    //  fecha entrega 
+    //  fecha entrega
     // ==================================
 
     if ( fecha_entrega.trim().length === 0 ) {
@@ -283,13 +284,13 @@ class OrdersForm {
 
     if ( +element.value < 1 ) {
       element.value = 1;
-      
+
 
     } else if ( +element.value > quantityTotal ) {
       element.value = quantityTotal;
-	
+
     }
-    
+
     console.log( element.value );
 
     // actualiza los cambios locales
@@ -304,7 +305,7 @@ class OrdersForm {
 
       return product;
     });
-   
+
     this.calculateTotal();
   }
 
@@ -337,12 +338,12 @@ class OrdersForm {
   }
 
   setHtml( callback ) {
-    
+
     try {
 
       this.footer.innerHTML += readFileAssets('/orders/modal-clients/modal-client-component.html');
       this.footer.innerHTML += readFileAssets('/orders/modal-products/modal-products-component.html');
-      
+
       callback();
 
     } catch ( error ) {
@@ -352,7 +353,7 @@ class OrdersForm {
   }
 
   calculateTotal() {
-    
+
     this.totalOrder = this.productsSelected.reduce(( accum, product, index ) => {
       return accum += ( product.precio * product.cantidad_seleccionada )
     }, 0 );
@@ -362,7 +363,7 @@ class OrdersForm {
   }
 
   resetForm( button = false ) {
-    
+
     hideElement( this.errorDescription );
     hideElement( this.errorDeliveryDate );
 

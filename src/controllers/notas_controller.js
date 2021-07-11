@@ -10,16 +10,16 @@ class NotasController {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
 
-	static crearNota( nota, usuario ) {
+	static crearNota( nota ) {
 
-		let nuevaNota = {
+		/*let nuevaNota = {
 			...nota,
 			userid: usuario['userid']
-		};
+		};*/
 
-		// console.log( nuevaNota );
+		console.log( nota );
 
-		this.database.insert( CRUD.crearNota, nuevaNota, ( error ) => {
+		/*this.database.insert( CRUD.crearNota, nuevaNota, ( error ) => {
 
 			const notificacion = new Notification({
 				title: '',
@@ -41,7 +41,7 @@ class NotasController {
 
 			notificacion.show();
 
-		});
+		});*/
 	}
 
 	static obtenerTotalNotas() {
@@ -183,7 +183,7 @@ class NotasController {
 
 					if ( error ) {
 
-						// throw error; 
+						// throw error;
 
 						notificacion['title'] = 'Error!!';
 						notificacion['body'] = 'Error al buscar Nota';
