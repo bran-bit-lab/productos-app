@@ -131,9 +131,9 @@ class OrdersForm {
               <input
                 type="number"
                 value="${ product.cantidad_seleccionada }"
-                max="${ product.cantidad }"
                 class="form-control text-center"
                 min="1"
+                max="${ product.cantidad }"
                 onchange="ordersForm.handleChangeQuantity(
                   this, ${ product.productoid }, ${ product.cantidad }
                 )"
@@ -282,7 +282,7 @@ class OrdersForm {
 
     // console.log({ value, idDelivery });
 
-    if ( +element.value < 1 ) {
+   if ( +element.value < 1 ) {
       element.value = 1;
 
 

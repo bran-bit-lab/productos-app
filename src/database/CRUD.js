@@ -44,6 +44,9 @@ const CRUD = Object.freeze({
 	editarNotas : "UPDATE notas SET categoriaid = :categoriaid, nombre = :nombre, descripcion = :descripcion, cantidad = :cantidad, precio = :precio, disponibilidad = :disponibilidad WHERE productoid = :productoid;",
 	activarNotas : "UPDATE notas SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
 	buscarNotas : "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, usuarios.nombre AS nombre_usuario, usuarios.apellido AS apellido_usuario, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente WHERE clientes.nombre_cliente LIKE :search OR notas.descripcion_nota LIKE :search;",
+
+	// notas_productos ...
+	crearNotaProducto: "INSERT INTO notas_productos( id_nota, id_producto, cantidad_selecionada ) VALUES ( :id_nota, :id_producto, :cantidad_selecionada );"
 });
 
 module.exports = CRUD;

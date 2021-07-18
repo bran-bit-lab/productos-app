@@ -1,4 +1,4 @@
-const { Notification } = require('electron');
+const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 
@@ -23,7 +23,22 @@ class NotasController {
 			id_cliente: nota['id_cliente'],
 			fecha_entrega: nota['fecha_entrega']
 		};
+		
+		let arrayProductos = nota['productos'];
 
+		const validarCantidad = arrayProductos.every((producto) => producto['cantidad_seleccionada'] <= producto['cantidad']);
+					
+		if(validarCantidad === false){
+			
+			dialog.showMessageBox (null, {
+				type: 'warning',
+				title: 'advertencia',
+				message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
+			});
+
+			return;
+		}
+		
 		this.database.insert( CRUD.crearNota, nuevaNota, async ( error ) => {
 
 			const notificacion = new Notification({
@@ -38,17 +53,26 @@ class NotasController {
 
 				notificacion.show();
 
+				console.log(error)
 				return;
+
 			}
 
 			try {
 				// recuerda que obtener id nota es un metodo estatico se invoca nombre_clase.metodo()
 				let ultimoRegistro = await NotasController.obtenerIdNota();
 
-				console.log( ultimoRegistro );
+				
+				arrayProductos = arrayProductos.map((producto) => {
+					return {
+						id_nota: ultimoRegistro['id_nota'],
+						id_producto: producto['productoid'],
+						cantidad_selecionada: producto['cantidad_seleccionada']
+					}
+				});
 
-				// ... continuar con la inserccion de datos
-
+				arrayProductos.forEach (NotasController.insertarNotasProductos.bind( new Database() ));
+				
 				notificacion['title'] = 'Éxito';
 				notificacion['body'] = 'Nota creada con éxito';
 
@@ -58,6 +82,19 @@ class NotasController {
 				console.error( error );
 			}
 
+		});
+	}
+
+	static insertarNotasProductos (notaProducto) {
+
+		//console.log( notaProducto );
+
+		this.insert( CRUD.crearNotaProducto, notaProducto, ( error, resultado ) => { 
+
+			if ( error ){
+				console.log(error)
+				return
+			}
 		});
 	}
 
