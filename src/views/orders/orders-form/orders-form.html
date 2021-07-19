@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <title>Productos app</title>
+    <title>Products app</title>
     <!-- Mitigacion de cross site scripting -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" href="../orders.css" />
@@ -22,7 +22,7 @@
       <form name="note-form">
         <div class="row">
           <div class="col">
-        
+
             <div class="form-group">
               <label for="delivery-description" class="form-label">Descripcion de la entrega:</label>
               <input name="delivery-description" id="delivery-description" class="form-control" />
@@ -38,7 +38,7 @@
                 <option value="CANCELADA">Cancelada</option>
                 <option value="POSPUESTO">Pospuesto</option>
               </select>
-            </div> 
+            </div>
           </div>
           <div class="col">
 
@@ -111,7 +111,17 @@
 
         <div class="d-flex w-100 justify-content-center mt-5 pb-4">
           <button type="reset" class="btn btn-secondary" style="margin-right: 20px">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Aceptar</button>
+          <button type="submit" class="btn btn-primary" id="submit-button">Aceptar</button>
+          <button
+            class="btn btn-primary"
+            style="display: none;"
+            type="submit"
+            disabled
+            id="load-button"
+          >
+            <i class="fas fa-spinner fa-pulse"></i>
+            Aceptar
+          </button>
         </div>
       </form>
 

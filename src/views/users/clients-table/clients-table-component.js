@@ -10,16 +10,15 @@ class ClientsTableComponent {
     this.setEvents();
   }
 
-  async getAll( $event = null, pagination = [0, 10], page = this.page ) {
+  async getAll( $event = null, pagination = [0, 10] ) {
+
     try {
+
       this.clients = await ClientesController.listarClientes( pagination );
 
       const totalClients = await ClientesController.obtenerTotalClientes();
 
       sessionStorage.setItem('clientsTable', JSON.stringify({ pagination }));
-
-      // set the page ...
-      this.page = page;
 
       // console.log({ clients: this.clients, totalClients, pagination });
 
@@ -33,17 +32,12 @@ class ClientsTableComponent {
 
   setEvents() {
 
-    // setEventListeners
+    this.pagination.addEventListener( 'pagination', ( $event ) => {
+      this.page = $event.detail.page;
+      this.getAll( null,  $event.detail.value );
+    });
 
-    this.pagination.addEventListener(
-      'pagination',
-      ( $event ) => this.getAll( null,  $event.detail.value, $event.detail.page )
-    );
-
-    this.searchBar.addEventListener(
-      'search',
-      ( $event ) => this.searchClient( $event.detail.value )
-    );
+    this.searchBar.addEventListener('search', ( $event ) => this.searchClient( $event.detail.value ));
   }
 
   addClient( client ) {

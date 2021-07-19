@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Home</title>
+  <title>Products app</title>
   <!-- Mitigacion de cross site scripting -->
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
   <link rel="stylesheet" href="./home.css">
@@ -13,23 +13,23 @@
 		<div>
 			<div class="border-bottom d-flex justify-content-between align-items-center">
 				<h2>Products-app</h2>
-				<i 
-					class="fas fa-sign-out-alt point p-0" 
-					onclick="homeComponent.logOut()" 
+				<i
+					class="fas fa-sign-out-alt point p-0"
+					onclick="homeComponent.logOut()"
 					style="font-size: 24px">
 				</i>
 			</div>
 			<article class="text-center p-3">
 				Bienvenido a products app, tu herramienta de Gestión, puedes consultar las
 				diferentes opciones de tu aplicación seleccionando una de las tarjetas. las cifras representan
-				la cantidad actual de registros en las diferentes áreas de tu negocio. 
-			</article>			
+				la cantidad actual de registros en las diferentes áreas de tu negocio.
+			</article>
 		</div>
-		
+
 		<h4>Empecemos:</h4>
 
 		<div class="mt-4 row justify-content-around">
-			
+
 			<div class="card point" id="users" onclick="homeComponent.openUsers()">
   			<div class="card-body text-center">
   				<div class="row justify-content-center align-items-center h-100">
@@ -50,12 +50,12 @@
   			</div>
 			</div>
 
-			
+
 
 		</div>
 
 		<div class="row justify-content-around mt-5">
-			
+
 			<div class="card point" id="orders" onclick="homeComponent.openOrders()">
 				<div class="card-body text-center">
 					<div class="row justify-content-center align-items-center h-100">
@@ -75,7 +75,7 @@
 	  				</div>
 	  			</div>
 			</div>
-			
+
 		</div>
 	</div>
 	<script src="./../global.js"></script>

@@ -23,6 +23,8 @@ class OrdersForm {
     // errors
     this.errorDescription = document.querySelector('#error-delivery-description');
     this.errorDeliveryDate = document.querySelector('#error-delivery-date');
+    this.loadButton = document.querySelector('#load-button');
+    this.submitButton = document.querySelector('#submit-button');
 
     this.setHtml(() => {
       this.setForm();
@@ -185,24 +187,39 @@ class OrdersForm {
           return;
         }
 
-        // crea la nota
-        NotasController.crearNota( data );
+
+        if ( this.deliveryId ) {
+
+          // edit
+
+        } else {  // new
+
+          try {
+
+            this.submitButton.style.display = 'none';
+            this.loadButton.style.display = '';
+
+            // genera un loading de 3 segundos mientra registra la nota + productos
+            setTimeout(() => {
+              NotasController.crearNota( data );
+              redirectTo('../orders.html');
+            }, 3000 );
+
+          } catch ( error ) {
+            console.log( error );
+
+          }
+        }
       });
 
     } else if ( this.productsSelected.length === 0 && this.clientsSelected.length > 0 ) {
-
-      // desplegar una alerta para indicar al usuario que
-      // 'Debes ingresar productos a la orden';
+      NotasController.showAlert( 'warning', 'Advertencia', 'Debes ingresar productos a la nota de entrega' );
 
     } else if ( this.productsSelected.length > 0 && this.clientsSelected.length === 0 ) {
-
-      // desplegar una alerta para indicar al usuario que
-      // 'Debes ingresar un cliente en la orden'
+      NotasController.showAlert( 'warning', 'Advertencia', 'Debes ingresar un cliente en la nota de entrega' );
 
     } else {
-
-      // desplegar una alerta para indicar al usuario que
-      // 'Debes ingresar un cliente y productos en la orden'
+      NotasController.showAlert( 'warning', 'Advertencia', 'Debes ingresar productos y un cliente en la nota de entrega' );
     }
   }
 

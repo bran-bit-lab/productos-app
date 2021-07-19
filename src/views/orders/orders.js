@@ -9,7 +9,7 @@ const { NotasController } = remote.require('./controllers/notas_controller');
 const deliveryNotes = document.querySelector('#delivery-note');
 
 class OrdersTableComponent {
-	
+
 	constructor() {
 
 		this.deliveryNotes = [];
@@ -22,34 +22,35 @@ class OrdersTableComponent {
 		this.setEvents();
 		this.getAll();
 	}
-	
+
 	setEvents() {
 		this.searchComponent.addEventListener('search', this.searchDeliveryNote.bind( this ) );
-		
+
 		this.pagination.addEventListener('pagination', ( $event ) => {
 			this.page = $event.detail.page;
 			this.getAll( $event.detail.value );
-		});	
+		});
 	}
 
-	async getAll( pagination = getPaginationStorage('notesTable') ) {
-		
+	async getAll( pagination = [0,10] ) {
+
 		try {
-			
+
 			this.deliveryNotes = await NotasController.listarNotas( pagination );
-		
+
 			const totalOrders = await NotasController.obtenerTotalNotas();
-		
+
 			setPaginationStorage('notesTable', { pagination });
-		
+
+			console.log( totalOrders );
 			this.render( totalOrders.totalPaginas, totalOrders.totalRegistros );
 		}
-		
+
 		catch ( error ) {
-			
+
 			console.error( error );
 		}
-		
+
 	}
 
 	createDeliveryNote() {
@@ -61,8 +62,8 @@ class OrdersTableComponent {
 	}
 
 	async searchDeliveryNote( $event ) {
-		
-		const search = $event.detail.value;		
+
+		const search = $event.detail.value;
 		const rexp = /^[\w-\d\s]+$/;
 
 		if ( search.length === 0 ) {
@@ -70,22 +71,22 @@ class OrdersTableComponent {
 		  let { pagination } = JSON.parse( sessionStorage.getItem('notesTable') );
 
 		  this.getAll( pagination );
-		  
+
 		  return;
 		}
 
 		if ( !rexp.test( search ) ) {
-			
+
 		  console.log('no concuerda con expresion regular');
-		  
+
 		  return;
 		}
-		
+
 		this.deliveryNotes = await NotasController.buscarNota({ search: '%' + search + '%' });
 
 		console.log( this.deliveryNotes );
 
-		this.render( null, null, true );		
+		this.render( null, null, true );
 	}
 
 	showPDF( idDeliveryNote ) {
@@ -93,7 +94,7 @@ class OrdersTableComponent {
 	}
 
 	setRows( deliveryNote, index ) {
-		
+
 		return (`
 			<tr class="text-center">
 				<td>${ deliveryNote.id_nota }</td>
@@ -120,20 +121,20 @@ class OrdersTableComponent {
 			</tr>
 		`);
 	}
-	
+
 	getName( name = '', surname = '' ) {
-		
+
 		if ( name.length > 0 && surname.length > 0 ) {
 			return name + ' ' + surname;
 		}
-		
+
 		return 'No disponible'
 	}
 
 	render( totalPages = 0, totalRegisters = 0, search = false ) {
 
 		if ( !search ) {
-			
+
 			this.deliveryTable.innerHTML = '';
 			this.pagination._limit = totalPages;
 			this.pagination._registers = totalRegisters;
@@ -142,8 +143,8 @@ class OrdersTableComponent {
 
 		if ( this.deliveryNotes.length > 0 ) {
 
-			this.deliveryTable.innerHTML = this.deliveryNotes.map( 
-				this.setRows.bind( this ) 
+			this.deliveryTable.innerHTML = this.deliveryNotes.map(
+				this.setRows.bind( this )
 			).join('');
 
 		} else {
