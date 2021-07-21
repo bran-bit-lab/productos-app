@@ -43,7 +43,7 @@ class Database {
 
 		mysqlAPI.end(( error ) => {
 			if ( error ) {
-				console.log( error );
+				throw error;
 			}
 
 			console.log('Conexion cerrada exitosamente');
@@ -103,7 +103,7 @@ mysqlAPI.config.queryFormat = Database.sqlParse;
 mysqlAPI.connect(( error ) => {
 
 	if ( error ) {
-		throw error
+		throw error;
 	};
 
 	console.log('Base de datos en linea!!');
