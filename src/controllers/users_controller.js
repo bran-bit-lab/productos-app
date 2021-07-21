@@ -266,6 +266,10 @@ class UsersController {
 
 	}
 
+	// metodo para actualizar el perfil
+	static actualizarPerfil( perfil ) {
+		console.log( perfil );
+	}
 }
 
 

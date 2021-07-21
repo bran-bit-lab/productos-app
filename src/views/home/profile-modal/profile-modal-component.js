@@ -3,9 +3,12 @@ class ProfileModalComponent {
     this.footer = document.querySelector('footer');
 
     this.setHtml(() => {
-      this.modal = new Modal( document.querySelector('#modal-profile'),  {
+      this.modal = document.querySelector('#modal-profile');
+      this.modalInstance = new Modal( this.modal,  {
         backdrop: 'static'
       });
+
+      this.modal.addEventListener('show.bs.modal', () => this.resetForm( true ));
 
       this.formProfile = document.forms['profile-form'];
       this.formProfile.addEventListener('submit', this.handleSubmit.bind( this ));
@@ -14,10 +17,17 @@ class ProfileModalComponent {
       this.errorName = this.formProfile.querySelector('#profile-error-name');
       this.errorSurname = this.formProfile.querySelector('#profile-error-surname');
       this.errorEmail = this.formProfile.querySelector('#profile-error-email');
+      this.errorPassword = this.formProfile.querySelector('#profile-error-password');
+      this.errorConfirmation = this.formProfile.querySelector('#profile-error-confirm');
     });
   }
 
   openModalProfile() {
+    this.modalInstance.show();
+  }
+
+  setForm() {
+
     const userLogged = getUserLogged();
 
     for ( const input of this.formProfile.querySelectorAll('input') ) {
@@ -48,8 +58,6 @@ class ProfileModalComponent {
           break;
       }
     }
-
-    this.modal.show();
   }
 
   setHtml( callback ) {
@@ -82,7 +90,10 @@ class ProfileModalComponent {
         return;
       };
 
-       console.log( data );
+      // update profile
+      console.log( UsersController );
+      UsersController.actualizarPerfil( data );
+      this.modalInstance.hide();
     });
   }
 
@@ -178,11 +189,55 @@ class ProfileModalComponent {
   		renderErrors( this.errorEmail, ERROR_MESSAGES.max( 30 ) );
   	}
 
+		// ===================================================
+		// contraseña validaciones
+		// ===================================================
+
+		if ( password.length === 0 ) {
+			errors = errors + 1;
+			renderErrors( this.errorPassword, ERROR_MESSAGES.required );
+		}
+
+		if ( password.length < 8 && password.length > 0 ) {
+			errors = errors + 1;
+			renderErrors( this.errorPassword, ERROR_MESSAGES.min( 8 ) )
+		}
+
+		if ( passwordConfirmation.length === 0 ) {
+			errors = errors + 1;
+			renderErrors( this.errorConfirmation, ERROR_MESSAGES.required )
+		}
+
+		if ( passwordConfirmation !== password ) {  // contraseñas diferentes
+			errors = errors + 1;
+			renderErrors( this.errorConfirmation, ERROR_MESSAGES.notMatch );
+		}
+
+    // ====================================================
+    // contador de errores
+    // ====================================================
     if ( errors > 0 ) {
       callback( true );
+      return;
     }
 
     callback();
+  }
+
+  resetForm( button = false ) {
+
+    hideElement( this.errorEmail );
+    hideElement( this.errorName );
+    hideElement( this.errorSurname );
+    hideElement( this.errorPassword );
+    hideElement( this.errorConfirmation );
+
+    if ( button ) {
+      this.formProfile.reset();
+      this.setForm();
+    }
+
+    this.formProfile.querySelector('#profile-name').focus();
   }
 }
 
