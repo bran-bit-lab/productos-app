@@ -4,7 +4,7 @@ const file = require('../util_functions/file');
 let user = null;
 
 class Database {
-	
+
 	insert( sql, data, callback ) {
 
 		// @params sql: string es una variable de consulta a la BD.
@@ -38,6 +38,19 @@ class Database {
 		mysqlAPI.query( sql, data, callback );
 	}
 
+	// metodo de cierre de conexion
+	static closeConnection() {
+
+		mysqlAPI.end(( error ) => {
+			if ( error ) {
+				console.log( error );
+			}
+
+			console.log('Conexion cerrada exitosamente');
+		});
+	}
+
+	// sql parser
 	static sqlParse( query, values ) {
 
 		if ( !values ) {
