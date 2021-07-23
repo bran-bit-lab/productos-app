@@ -3,6 +3,9 @@ require('bootstrap/js/dist/dropdown');  // dropdown boostrap
 
 const { remote } = require('electron');
 const { UsersController } = remote.require('./controllers/users_controller');
+const { ClientesController } = remote.require('./controllers/clientes_controller');
+const { ProductosController } = remote.require('./controllers/productos_controllers');
+const { NotasController } = remote.require('./controllers/notas_controller');
 const { readFileAssets } = remote.require('./util_functions/file');
 
 const { ProfileModalComponent } = require('./profile-modal/profile-modal-component');
@@ -56,17 +59,59 @@ class HomeComponent {
 		}
 	}
 
-	initCards() {
+	reduceValues( accum, totals, index ) {
 
-		const values = [ 50, 100, 80, 25 ];
+		// se agrupan los valores usuarios y clientes y se suman
+		if ( index < 2 ) {
 
-		const elementsDOM = document.querySelectorAll('span');
+			if ( index === 0 ) {  // usuarios
+				return accum.concat([ totals.totalRegistros ]);
 
-		for ( let i = 0; i < elementsDOM.length; i++ ) {
-			elementsDOM[i].innerText = values[i];
+			} else { // clientes
+				accum[0] += totals.totalRegistros;
+
+				return accum;
+			}
 		}
 
-		this.showOptions();
+		return accum.concat([ totals.totalRegistros ]);
+	}
+
+	initCards() {
+
+		Promise.all([
+
+			// total usuarios
+			UsersController.obtenerTotalUsuarios(),
+			ClientesController.obtenerTotalClientes(),
+
+			// total estadisticas
+			ClientesController.obtenerTotalClientes(),
+
+			// total notas
+			NotasController.obtenerTotalNotas(),
+
+			// total productos
+			ProductosController.obtenerTotalProductos()
+		])
+			.then( response => {
+
+				console.log( response );
+
+				let values = response.reduce( this.reduceValues, [] );
+				console.log( values );
+
+				const elementsDOM = document.querySelectorAll('span');
+
+				for ( let i = 0; i < elementsDOM.length; i++ ) {
+					elementsDOM[i].innerText = values[i];
+				}
+
+				this.showOptions();
+			})
+			.catch( error => {
+				console.error( error );
+			});
 	}
 }
 

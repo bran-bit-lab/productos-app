@@ -62,13 +62,12 @@ class NotasController {
 				// recuerda que obtener id nota es un metodo estatico se invoca nombre_clase.metodo()
 				let ultimoRegistro = await NotasController.obtenerIdNota();
 
-
-				arrayProductos = arrayProductos.map((producto) => {
+				arrayProductos = arrayProductos.map(( producto ) => {
 					return {
 						id_nota: ultimoRegistro['id_nota'],
 						id_producto: producto['productoid'],
 						cantidad_selecionada: producto['cantidad_seleccionada']
-					}
+					};
 				});
 
 				arrayProductos.forEach( NotasController.insertarNotasProductos.bind( new Database() ));
