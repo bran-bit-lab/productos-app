@@ -25,6 +25,7 @@ const CRUD = Object.freeze({
 	listarProductos : "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid LIMIT :start, :limit;",
 	obtenerTotalProductos : "SELECT COUNT(*) FROM productos;",
 	editarProducto : "UPDATE productos SET categoriaid = :categoriaid, nombre = :nombre, descripcion = :descripcion, cantidad = :cantidad, precio = :precio, disponibilidad = :disponibilidad WHERE productoid = :productoid;",
+	cantidadProducto : "UPDATE productos SET cantidad = :cantidad WHERE productoid = :productoid;",
 	activarProducto : "UPDATE productos SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
 	buscarProducto : "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.nombre LIKE :search OR productos.descripcion LIKE :search;",
 	listarProductosActivos: "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.disponibilidad = TRUE LIMIT :start, :limit;",
@@ -46,7 +47,7 @@ const CRUD = Object.freeze({
 	buscarNotas : "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, usuarios.nombre AS nombre_usuario, usuarios.apellido AS apellido_usuario, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente WHERE clientes.nombre_cliente LIKE :search OR notas.descripcion_nota LIKE :search;",
 
 	// notas_productos ...
-	crearNotaProducto: "INSERT INTO notas_productos( id_nota, id_producto, cantidad_selecionada ) VALUES ( :id_nota, :id_producto, :cantidad_selecionada );"
+	crearNotaProducto: "INSERT INTO notas_productos( id_nota, id_producto, cantidad_seleccionada ) VALUES ( :id_nota, :id_producto, :cantidad_seleccionada );"
 });
 
 module.exports = CRUD;

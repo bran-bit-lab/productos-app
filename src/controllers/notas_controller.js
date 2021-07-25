@@ -24,7 +24,7 @@ class NotasController {
 			fecha_entrega: nota['fecha_entrega']
 		};
 
-		let arrayProductos = nota['productos'];
+		let arrayProductos = nota['productos']; // aqui te trae toda la info de los producto aqui esta la cantidad
 
 		const validarCantidad = arrayProductos.every(( producto ) => producto['cantidad_seleccionada'] <= producto['cantidad']);
 
@@ -62,12 +62,16 @@ class NotasController {
 				// recuerda que obtener id nota es un metodo estatico se invoca nombre_clase.metodo()
 				let ultimoRegistro = await NotasController.obtenerIdNota();
 
+				// aqui se filtro lo campos excluyendo la cantidad
+				//console.log (arrayProductos);
+
 
 				arrayProductos = arrayProductos.map((producto) => {
 					return {
 						id_nota: ultimoRegistro['id_nota'],
 						id_producto: producto['productoid'],
-						cantidad_selecionada: producto['cantidad_seleccionada']
+						cantidad_seleccionada: producto['cantidad_seleccionada'],
+						cantidad: producto['cantidad']
 					}
 				});
 
@@ -98,8 +102,37 @@ class NotasController {
 				console.log( error );
 				throw error;
 			}
-
+		
+			NotasController.actualizarCantidad.call( new Database(), notaProducto );
+					
 		});
+
+	}
+
+	static actualizarCantidad( notaProducto ) {
+
+
+		
+		let restarCantidad = notaProducto['cantidad'] - notaProducto['cantidad_seleccionada']
+		
+		let productoActualizado = {
+			productoid: notaProducto['id_producto'],
+			cantidad: restarCantidad	
+		};
+		
+		this.update( CRUD.cantidadProducto, productoActualizado, ( error ) => {
+
+			if ( error ) {
+
+				// throw error;  // mostrará el error en pan
+
+				console.log( error );
+
+				return;
+			}
+			
+			//console.log ( '---->', CRUD.cantidadProducto, '<-----' )
+  		});
 	}
 
 	static obtenerIdNota() {

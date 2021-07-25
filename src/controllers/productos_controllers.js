@@ -150,7 +150,6 @@ class ProductosController {
 		})
 	}
 
-
 	static editarProducto( producto, usuario ) {
 
 		// console.log (producto, "<-- log del producto");
