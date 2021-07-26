@@ -4,7 +4,7 @@ const file = require('../util_functions/file');
 let user = null;
 
 class Database {
-	
+
 	insert( sql, data, callback ) {
 
 		// @params sql: string es una variable de consulta a la BD.

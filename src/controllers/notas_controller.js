@@ -16,6 +16,8 @@ class NotasController {
 		// por que mostrarar un error si haces un log de nota te trae toda la informacion debes extraer
 		// sus propiedades y crear el objeto para cada consulta
 
+		// console.log( nota );
+
 		let nuevaNota = {
 			userid: nota['userid'],
 			status: nota['status'],
@@ -97,42 +99,37 @@ class NotasController {
 
 		this.insert( CRUD.crearNotaProducto, notaProducto, ( error, resultado ) => {
 
-			if ( error ){
+			if ( error ) {
 
 				console.log( error );
 				throw error;
 			}
-		
+
 			NotasController.actualizarCantidad.call( new Database(), notaProducto );
-					
 		});
 
 	}
 
 	static actualizarCantidad( notaProducto ) {
 
-
-		
 		let restarCantidad = notaProducto['cantidad'] - notaProducto['cantidad_seleccionada']
-		
+
 		let productoActualizado = {
 			productoid: notaProducto['id_producto'],
-			cantidad: restarCantidad	
+			cantidad: restarCantidad
 		};
-		
+
 		this.update( CRUD.cantidadProducto, productoActualizado, ( error ) => {
 
 			if ( error ) {
 
-				// throw error;  // mostrará el error en pan
+				// throw error;  // mostrará el error en pantalla
 
 				console.log( error );
 
 				return;
 			}
-			
-			//console.log ( '---->', CRUD.cantidadProducto, '<-----' )
-  		});
+  	});
 	}
 
 	static obtenerIdNota() {
