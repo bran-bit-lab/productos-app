@@ -72,11 +72,19 @@ class OrdersForm {
       document.querySelector('#title').innerText = 'Editar entrega ' + this.deliveryId;
       document.querySelector('.select-state').style.display = '';
 
+      // se consulta a la base de datos
+      this.getDeliveryNote( this.deliveryId );
+
     } else { // new
 
       document.querySelector('#title').innerText = 'Nueva entrega';
       document.querySelector('.select-state').style.display = 'none';
     }
+  }
+
+  async getDeliveryNote( idNote ) {
+   let nota =  await NotasController.obtenerNota( idNote );
+   console.log( nota );
   }
 
   selectProducts() {
@@ -397,6 +405,6 @@ const modalClientComponent = new ModalClientComponent();
 const modalProductsComponent = new ModalProductsComponent();
 
 
-document.addEventListener('DOMContentLoaded', ordersForm.getParamsUrl );
+document.addEventListener('DOMContentLoaded', ordersForm.getParamsUrl.bind( ordersForm ) );
 
 form.addEventListener('submit', ordersForm.handleSubmit.bind( ordersForm ) );

@@ -1,6 +1,7 @@
 const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
+const TIME = require('../util_functions/time');
 
 class NotasController {
 
@@ -161,6 +162,57 @@ class NotasController {
 		});
 
 	}
+
+	static obtenerNota( idNota ) {
+
+		return new Promise( ( resolve, reject ) => {
+
+			this.database.consult( CRUD.obtenerNota, {id_nota: idNota}, ( error, resultadoNota ) => {
+
+				if ( error ){
+					console.log ( error )
+					reject ( error )
+					return
+				} 
+
+				let nota = resultadoNota[0];
+				// newDate parsea la fecha para pasar a la funcion dateSpanish la cual la envia en formato español 
+				nota['fecha_entrega'] = TIME.dateSpanish( new Date( nota['fecha_entrega'] ) )
+
+				this.database.consult( CRUD.obtenerNotaProducto, {id_nota: idNota}, ( error, resultadoNotaProducto ) => {
+
+					if ( error ){
+						console.log ( error )
+						reject ( error )
+						return
+					}
+
+					
+					// console.log( ">>>>>>>", { nota, resultadoNotaProducto }, "<<<<<<<" );
+										
+					resolve({ 
+						...nota, 
+						productos: resultadoNotaProducto, 
+						total_order: NotasController.calcularTotalNotas( resultadoNotaProducto )  
+					});
+				});
+
+			});
+
+		});
+
+	}
+
+	static calcularTotalNotas( arrayNotaProducto ) {
+
+		const reducer = (accumulator, currentValue) => {
+						return accumulator = accumulator + ( currentValue['cantidad_seleccionada'] * currentValue['precio'] )
+					}
+					
+		return Number.parseFloat( arrayNotaProducto.reduce(reducer, 0).toFixed(2) );
+		
+	}
+
 
 	static obtenerTotalNotas() {
 

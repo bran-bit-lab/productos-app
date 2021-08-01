@@ -1,10 +1,10 @@
 
-
- SELECT *FROM notas ORDER BY id_nota DESC LIMIT 0, 1;  /* con esto lo decimos que se traiga el ultimo si no me equivoco
-
+SELECT DATE_FORMAT( fecha_entrega, '%d-%m-%Y') AS fecha_entrega, notas.* FROM notas WHERE id_nota = 64;
+	
 
 
 /*
+ SELECT *FROM notas ORDER BY id_nota DESC LIMIT 0, 1;  /* con esto lo decimos que se traiga el ultimo si no me equivoco
 CREATE TABLE notas_productos (
 	id_NP bigint NOT NULL PRIMARY KEY,
 	id_nota int, 

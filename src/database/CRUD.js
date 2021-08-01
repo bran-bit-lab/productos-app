@@ -47,7 +47,9 @@ const CRUD = Object.freeze({
 	buscarNotas : "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, usuarios.nombre AS nombre_usuario, usuarios.apellido AS apellido_usuario, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente WHERE clientes.nombre_cliente LIKE :search OR notas.descripcion_nota LIKE :search;",
 
 	// notas_productos ...
-	crearNotaProducto: "INSERT INTO notas_productos( id_nota, id_producto, cantidad_seleccionada ) VALUES ( :id_nota, :id_producto, :cantidad_seleccionada );"
+	crearNotaProducto: "INSERT INTO notas_productos( id_nota, id_producto, cantidad_seleccionada ) VALUES ( :id_nota, :id_producto, :cantidad_seleccionada );",
+	obtenerNotaProducto: "SELECT notas_productos.id_NP, notas_productos.cantidad_seleccionada, categorias.nombre AS nombre_categoria, usuarios.nombre AS nombre_usuario, usuarios.apellido, productos.* FROM notas_productos INNER JOIN productos ON notas_productos.id_producto = productos.productoid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid INNER JOIN usuarios ON usuarios.userid = productos.userid WHERE notas_productos.id_nota = :id_nota;", //Listado de productos asociados a la nota
+	obtenerNota: "SELECT * FROM notas WHERE id_nota = :id_nota;"
 });
 
 module.exports = CRUD;
