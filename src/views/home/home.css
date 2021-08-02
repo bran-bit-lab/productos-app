@@ -29,7 +29,7 @@ i {
 	padding: 20px;
 }
 
-.fa-sign-out-alt {
+.fa-sign-out-alt, .fa-user {
 	color: var(--bs-secondary);
 }
 
@@ -37,4 +37,14 @@ svg {
 	height: 100px !important;
 	width: initial !important;
 	margin-bottom: 20px;
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+.form-group label {
+	font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
 }

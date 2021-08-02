@@ -1,6 +1,8 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const { Database } = require('./database/database');
+
 const urlAssets = __dirname + '/views';
 
 require('electron-reload')( __dirname );
@@ -36,6 +38,8 @@ app.on('window-all-closed', () => {
         app.quit();
     }
 
+    // close the connection
+    Database.closeConnection();
 });
 
 //crea nueva ventana de navegador mientras la app esta activa y no hallan ventanas visibles

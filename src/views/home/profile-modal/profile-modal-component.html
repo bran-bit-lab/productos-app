@@ -1,0 +1,51 @@
+<form novalidate name="profile-form">
+  <div class="modal fade" id="modal-profile" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar mi perfil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body ps-4 pe-4">
+          <div class="row">
+            <div class="col-12  col-md-6">
+              <!-- id-profile -->
+              <input hidden value="" id="profile-id" name="userid" />
+              <div class="form-group">
+                <label for="profile-name" class="form-label">Nombre:</label>
+                <input type="text" name="nombre" class="form-control" id="profile-name" />
+                <div class="invalid-feedback text-center" id="profile-error-name"></div>
+              </div>
+              <div class="form-group">
+                <label for="profile-email" class="form-label">Correo:</label>
+                <input type="email" name="correo" id="profile-email" class="form-control" />
+                <div class="invalid-feedback text-center" id="profile-error-email"></div>
+              </div>
+              <div class="form-group">
+                <label for="profile-password-confirmation" class="form-label">Confirmar Contrasena:</label>
+                <input type="password" name="password-confirmation" id="profile-password-confirmation" class="form-control" />
+                <div class="invalid-feedback text-center" id="profile-error-confirm"></div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="profile-surname" class="form-label">Apellido:</label>
+                <input type="text" name="apellido" class="form-control" id="profile-surname" />
+                <div class="invalid-feedback text-center" id="profile-error-surname"></div>
+              </div>
+              <div class="form-group">
+                <label for="profile-password" class="form-label">Nueva Contrasena:</label>
+                <input type="password" name="password" id="profile-password" class="form-control" />
+                <div class="invalid-feedback text-center" id="profile-error-password"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="profileModalComponent.resetForm( true )" class="btn btn-secondary">Limpiar</button>
+          <button type="submit" class="btn btn-primary">Actualizar perfil</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

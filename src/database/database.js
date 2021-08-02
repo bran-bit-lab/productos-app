@@ -38,6 +38,19 @@ class Database {
 		mysqlAPI.query( sql, data, callback );
 	}
 
+	// metodo de cierre de conexion
+	static closeConnection() {
+
+		mysqlAPI.end(( error ) => {
+			if ( error ) {
+				throw error;
+			}
+
+			console.log('Conexion cerrada exitosamente');
+		});
+	}
+
+	// sql parser
 	static sqlParse( query, values ) {
 
 		if ( !values ) {
@@ -90,7 +103,7 @@ mysqlAPI.config.queryFormat = Database.sqlParse;
 mysqlAPI.connect(( error ) => {
 
 	if ( error ) {
-		throw error
+		throw error;
 	};
 
 	console.log('Base de datos en linea!!');
