@@ -113,10 +113,21 @@ class OrdersForm {
   }
 
   selectProducts() {
+
+    // se asignan el valor al hijo
+    if ( this.deliveryId ) {
+      modalProductsComponent.productsSelected = this.productsSelected;
+    }
+
     modalProductsComponent.openModalProducts( getPaginationStorage('productsModalTable') );
   }
 
   selectClients() {
+
+    if ( this.deliveryId ) {
+      modalClientComponent.clientSelected = this.clientsSelected;
+    }
+
     modalClientComponent.openModalClients( getPaginationStorage('clientsModalTable') );
   }
 
@@ -213,36 +224,13 @@ class OrdersForm {
         total_order: Number.parseFloat( this.totalOrder.toFixed(2) ) || 0
       };
 
-
       this.validateForm( data, ( error ) => {
 
         if ( error ) {
           return;
         }
 
-
-        if ( this.deliveryId ) {
-
-          // edit
-
-        } else {  // new
-
-          try {
-
-            this.submitButton.style.display = 'none';
-            this.loadButton.style.display = '';
-
-            // genera un loading de 3 segundos mientra registra la nota + productos
-            setTimeout(() => {
-              NotasController.crearNota( data );
-              redirectTo('../orders.html');
-            }, 3000 );
-
-          } catch ( error ) {
-            console.log( error );
-
-          }
-        }
+        this.sendData( data );
       });
 
     } else if ( this.productsSelected.length === 0 && this.clientsSelected.length > 0 ) {
@@ -253,6 +241,35 @@ class OrdersForm {
 
     } else {
       NotasController.showAlert( 'warning', 'Advertencia', 'Debes ingresar productos y un cliente en la nota de entrega' );
+    }
+  }
+
+  sendData( data ) {
+
+    try {
+
+      this.submitButton.style.display = 'none';
+      this.loadButton.style.display = '';
+
+      if ( this.deliveryId ) {
+        console.log( data );
+
+      } else { // new
+
+        // genera un loading de 3 segundos mientra registra la nota + productos
+
+        setTimeout(() => {
+
+          NotasController.crearNota( data );
+          redirectTo('../orders.html');
+
+        }, 3000 );
+
+      }
+
+    } catch ( error ) {
+      console.log( error );
+
     }
   }
 
@@ -341,7 +358,7 @@ class OrdersForm {
 
     }
 
-    console.log( element.value );
+    // console.log( element.value );
 
     // actualiza los cambios locales
     this.productsSelected = this.productsSelected.map(( product ) => {
