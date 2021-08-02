@@ -6,6 +6,7 @@ const { UsersController } = remote.require('./controllers/users_controller');
 const { ClientesController } = remote.require('./controllers/clientes_controller');
 const { ProductosController } = remote.require('./controllers/productos_controllers');
 const { NotasController } = remote.require('./controllers/notas_controller');
+const { CategoriasController } = remote.require('./controllers/categorias_controller');
 const { readFileAssets } = remote.require('./util_functions/file');
 
 const { ProfileModalComponent } = require('./profile-modal/profile-modal-component');
@@ -59,31 +60,18 @@ class HomeComponent {
 		}
 	}
 
-	reduceValues( accum, totals, index ) {
-
-		// se agrupan los valores usuarios y clientes y se suman
-		if ( index < 2 ) {
-
-			if ( index === 0 ) {  // usuarios
-				return accum.concat([ totals.totalRegistros ]);
-
-			} else { // clientes
-				accum[0] += totals.totalRegistros;
-
-				return accum;
-			}
-		}
-
-		return accum.concat([ totals.totalRegistros ]);
+	reduceValues( accum, total ) {
+		return accum += total.totalRegistros;
 	}
 
 	initCards() {
 
 		Promise.all([
-
-			// total usuarios
-			UsersController.obtenerTotalUsuarios(),
-			ClientesController.obtenerTotalClientes(),
+			// total usuarios y clientes
+			Promise.all([
+				UsersController.obtenerTotalUsuarios(),
+				ClientesController.obtenerTotalClientes(),
+			]),
 
 			// total estadisticas
 			ClientesController.obtenerTotalClientes(),
@@ -91,17 +79,27 @@ class HomeComponent {
 			// total notas
 			NotasController.obtenerTotalNotas(),
 
-			// total productos
-			ProductosController.obtenerTotalProductos()
+			// total productos y categorias
+			Promise.all([
+				ProductosController.obtenerTotalProductos(),
+				CategoriasController.obtenerTotalCategorias()
+			])
 		])
 			.then( response => {
 
-				console.log( response );
-
-				let values = response.reduce( this.reduceValues, [] );
-				console.log( values );
+				// console.log( response );
 
 				const elementsDOM = document.querySelectorAll('span');
+				let values = response.map(( value ) => {
+
+					if ( Array.isArray( value ) ) {
+						return value.reduce( this.reduceValues, 0 );
+					}
+
+					return value.totalRegistros;
+				});
+
+				// console.log( values );
 
 				for ( let i = 0; i < elementsDOM.length; i++ ) {
 					elementsDOM[i].innerText = values[i];

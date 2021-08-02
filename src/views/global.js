@@ -25,6 +25,10 @@ function getUserLogged() {
 	return JSON.parse( sessionStorage.getItem('userLogged') );
 }
 
+function setUserLogged( user ) {
+  return sessionStorage.setItem('userLogged', JSON.stringify( user ));
+}
+
 function getPaginationStorage( key ) {
 
   /*

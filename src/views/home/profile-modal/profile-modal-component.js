@@ -85,15 +85,24 @@ class ProfileModalComponent {
       passwordConfirmation: formData.get('password-confirmation') || ''
     };
 
-    this.validate( data, ( error ) => {
+    this.validate( data, async ( error ) => {
+
       if ( error ) {
         return;
       };
 
-      // update profile
-      console.log( UsersController );
-      UsersController.actualizarPerfil( data );
-      this.modalInstance.hide();
+      try {
+        let userLogged = await UsersController.actualizarPerfil( data );
+        setUserLogged( userLogged );
+        console.log( userLogged );
+
+      } catch ( err ) {
+        console.error( err );
+
+      } finally {
+        this.modalInstance.hide();
+
+      }
     });
   }
 

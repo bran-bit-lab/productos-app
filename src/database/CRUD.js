@@ -7,6 +7,7 @@ const CRUD = Object.freeze({
 	editarRolUsuario : "UPDATE usuarios SET area = :area WHERE userid = :userid;",
 	editarEstadoUsuario : "UPDATE usuarios SET estado = :estado WHERE userid = :userid;",
 	buscarUsuario: "SELECT userid, nombre, apellido, correo, area, estado FROM usuarios WHERE nombre LIKE :search OR apellido LIKE :search OR correo LIKE :search OR area LIKE :search;",
+	actualizarPerfil: "UPDATE usuarios SET nombre = :nombre, apellido = :apellido, correo = :correo, password = :password WHERE userid = :userid",
 
 	// login ...
 	validarUsuario: "SELECT * FROM usuarios WHERE correo = :correo AND estado = TRUE;",

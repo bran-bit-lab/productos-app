@@ -268,7 +268,45 @@ class UsersController {
 
 	// metodo para actualizar el perfil
 	static actualizarPerfil( perfil ) {
-		console.log( perfil );
+
+		return new Promise(( resolve, reject ) => {
+
+			const saltRounds = 10;
+			const salt = bcrypt.genSaltSync( 10 );
+
+			delete perfil['passwordConfirmation'];
+
+			perfil['password'] = bcrypt.hashSync( perfil['password'], salt );
+
+			this.database.update( CRUD.actualizarPerfil, perfil, ( error ) => {
+
+				let notificacion = new Notification({
+					title: '',
+					body: ''
+				});
+
+				if ( error ) {
+
+					notificacion['title'] = 'Error!!';
+					notificacion['body'] = 'Error al actualizar perfil';
+
+					console.log( error );
+
+					notificacion.show();
+
+					return reject( error );
+				}
+
+				notificacion['title'] = 'Exito';
+				notificacion['body'] = 'Perfil del usuario actualizado';
+
+				notificacion.show();
+
+				delete perfil['password'];
+
+				resolve( perfil );
+			});
+		});
 	}
 }
 
