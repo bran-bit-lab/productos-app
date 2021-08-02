@@ -58,11 +58,11 @@ function checkAsset( url ) {
 function deleteImageSync ( url ) {
 	try{
 		fs.unlinkSync( url ) ;
-		
-	}catch(error){
+
+	}catch( error ){
 		conosole.log(error)
 	}
-	
+
 }
 
 

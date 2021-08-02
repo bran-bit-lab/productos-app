@@ -165,35 +165,39 @@ class NotasController {
 
 	static obtenerNota( idNota ) {
 
-		return new Promise( ( resolve, reject ) => {
+		return new Promise( async ( resolve, reject ) => {
 
-			this.database.consult( CRUD.obtenerNota, {id_nota: idNota}, ( error, resultadoNota ) => {
+			this.database.consult( CRUD.obtenerNota, 	{ id_nota: idNota }, ( error, resultadoNota ) => {
 
-				if ( error ){
-					console.log ( error )
-					reject ( error )
-					return
-				} 
+				if ( error ) {
+					console.log( error );
+
+					reject( error );
+
+					return;
+				}
 
 				let nota = resultadoNota[0];
-				// newDate parsea la fecha para pasar a la funcion dateSpanish la cual la envia en formato español 
-				nota['fecha_entrega'] = TIME.dateSpanish( new Date( nota['fecha_entrega'] ) )
 
-				this.database.consult( CRUD.obtenerNotaProducto, {id_nota: idNota}, ( error, resultadoNotaProducto ) => {
+				// newDate parsea la fecha para pasar a la funcion dateSpanish la cual la envia en formato español
+				nota['fecha_entrega'] = TIME.dateToString( new Date( nota['fecha_entrega'] ) );
 
-					if ( error ){
-						console.log ( error )
-						reject ( error )
-						return
+				this.database.consult( CRUD.obtenerNotaProducto, 	{ id_nota: idNota }, ( error, resultadoNotaProducto ) => {
+
+					if ( error ) {
+						console.log( error );
+
+						reject( error );
+
+						return;
 					}
 
-					
 					// console.log( ">>>>>>>", { nota, resultadoNotaProducto }, "<<<<<<<" );
-										
-					resolve({ 
-						...nota, 
-						productos: resultadoNotaProducto, 
-						total_order: NotasController.calcularTotalNotas( resultadoNotaProducto )  
+
+					resolve({
+						...nota,
+						productos: resultadoNotaProducto,
+						total_order: NotasController.calcularTotalNotas( resultadoNotaProducto )
 					});
 				});
 
@@ -205,12 +209,11 @@ class NotasController {
 
 	static calcularTotalNotas( arrayNotaProducto ) {
 
-		const reducer = (accumulator, currentValue) => {
-						return accumulator = accumulator + ( currentValue['cantidad_seleccionada'] * currentValue['precio'] )
-					}
-					
+		const reducer = ( accumulator, currentValue ) => {
+			return accumulator = accumulator + ( currentValue['cantidad_seleccionada'] * currentValue['precio'] );
+		}
+
 		return Number.parseFloat( arrayNotaProducto.reduce(reducer, 0).toFixed(2) );
-		
 	}
 
 

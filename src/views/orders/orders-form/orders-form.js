@@ -14,11 +14,13 @@ class OrdersForm {
   constructor() {
 
     this.footer = document.querySelector('footer');
-
+    this.noteForm = document.forms['note-form'];
     this.deliveryId = null;
     this.productsSelected = [];
     this.clientsSelected = [];
     this.totalOrder = 0;
+
+    this.note = null;
 
     // errors
     this.errorDescription = document.querySelector('#error-delivery-description');
@@ -83,8 +85,31 @@ class OrdersForm {
   }
 
   async getDeliveryNote( idNote ) {
-   let nota =  await NotasController.obtenerNota( idNote );
-   console.log( nota );
+
+   this.note = await NotasController.obtenerNota( idNote );
+
+   console.log( this.note );
+
+   // se añaden al formulario
+   const inputs = this.noteForm.querySelectorAll('input');
+   const select = this.noteForm.querySelector('select');
+
+   inputs[0].value = this.note.descripcion_nota;
+   inputs[1].value = this.note.fecha_entrega;
+
+   select.value = this.note.status;
+
+   this.productsSelected = this.note.productos;
+   this.clientsSelected = this.clientsSelected.concat([{
+     direccion_entrega: this.note.direccion_entrega,
+     id_cliente: this.note.id_cliente,
+     nombre_cliente: this.note.nombre_cliente,
+     rif: this.note.rif,
+     telefono_contacto: this.note.telefono_contacto
+   }]);
+
+   this.setClientsTable();
+   this.setProductsTable();
   }
 
   selectProducts() {

@@ -36,6 +36,7 @@ const CRUD = Object.freeze({
 	obtenerTotalClientes : "SELECT COUNT(*) FROM clientes;",
 	editarCliente : "UPDATE clientes SET nombre_cliente = :nombre_cliente, direccion_entrega = :direccion_entrega, rif = :rif, telefono_contacto = :telefono_contacto WHERE id_cliente = :id_cliente;",
 	buscarCliente: "SELECT * FROM clientes WHERE nombre_cliente LIKE :search OR rif LIKE :search;",
+	obtenerCliente: "SELECT * FROM clientes WHERE id_cliente = :id_cliente",
 
 	// notas ...
 	crearNota: "INSERT INTO notas( userid, status, descripcion_nota, id_cliente, fecha_entrega ) VALUES (:userid, :status, :descripcion_nota, :id_cliente, :fecha_entrega);",
@@ -49,7 +50,7 @@ const CRUD = Object.freeze({
 	// notas_productos ...
 	crearNotaProducto: "INSERT INTO notas_productos( id_nota, id_producto, cantidad_seleccionada ) VALUES ( :id_nota, :id_producto, :cantidad_seleccionada );",
 	obtenerNotaProducto: "SELECT notas_productos.id_NP, notas_productos.cantidad_seleccionada, categorias.nombre AS nombre_categoria, usuarios.nombre AS nombre_usuario, usuarios.apellido, productos.* FROM notas_productos INNER JOIN productos ON notas_productos.id_producto = productos.productoid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid INNER JOIN usuarios ON usuarios.userid = productos.userid WHERE notas_productos.id_nota = :id_nota;", //Listado de productos asociados a la nota
-	obtenerNota: "SELECT * FROM notas WHERE id_nota = :id_nota;"
+	obtenerNota: "SELECT notas.*, clientes.* FROM notas INNER JOIN clientes ON clientes.id_cliente = notas.id_cliente  WHERE id_nota = :id_nota;"
 });
 
 module.exports = CRUD;

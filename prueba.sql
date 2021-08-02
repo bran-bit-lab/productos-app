@@ -1,13 +1,17 @@
 
 SELECT DATE_FORMAT( fecha_entrega, '%d-%m-%Y') AS fecha_entrega, notas.* FROM notas WHERE id_nota = 64;
-	
 
+/*SELECT notas_productos.id_NP notas_productos.cantidad_seleccionada, categorias.nombre AS nombre_categoria, usuarios.nombre AS nombre_usuario, usuarios.apellido, productos.* FROM notas_productos 
+	INNER JOIN productos ON notas_productos.id_producto = productos.productoid
+	INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid
+	INNER JOIN usuarios ON usuarios.userid = productos.userid
+	WHERE notas_productos.id_nota = :id_nota;*/
 
 /*
  SELECT *FROM notas ORDER BY id_nota DESC LIMIT 0, 1;  /* con esto lo decimos que se traiga el ultimo si no me equivoco
 CREATE TABLE notas_productos (
 	id_NP bigint NOT NULL PRIMARY KEY,
-	id_nota int, 
+	id_nota int,
 	FOREIGN KEY (id_nota) REFERENCES notas(id_nota),
 	id_producto int,
 	FOREIGN KEY (id_producto) REFERENCES productos(productoid),
