@@ -29,10 +29,27 @@ class OrdersForm {
     this.submitButton = document.querySelector('#submit-button');
 
     this.setHtml(() => {
+      ModalConfirmComponent = require('../../shared/modal-confirm/modal-confirm-component');
       this.setForm();
       this.setProductsTable();
       this.setClientsTable();
     });
+  }
+
+  setHtml( callback ) {
+
+    try {
+
+      this.footer.innerHTML += readFileAssets('/orders/modal-clients/modal-client-component.html');
+      this.footer.innerHTML += readFileAssets('/orders/modal-products/modal-products-component.html');
+      this.footer.innerHTML += readFileAssets('/shared/modal-confirm/modal-confirm-component.html');
+
+      callback();
+
+    } catch ( error ) {
+      console.error( error );
+
+    }
   }
 
   setForm( delivery = null ) {
@@ -88,7 +105,7 @@ class OrdersForm {
 
    this.note = await NotasController.obtenerNota( idNote );
 
-   console.log( this.note );
+   // console.log( this.note );
 
    // se añaden al formulario
    const inputs = this.noteForm.querySelectorAll('input');
@@ -252,7 +269,10 @@ class OrdersForm {
       this.loadButton.style.display = '';
 
       if ( this.deliveryId ) {
-        console.log( data );
+
+        setTimeout(() => {
+          NotasController.actualizarNota( data );
+        }, 3000 );
 
       } else { // new
 
@@ -379,22 +399,45 @@ class OrdersForm {
   deleteProduct( idProduct ) {
 
     if ( this.deliveryId ) {
-      console.log('edit');
+
+      let title = 'Eliminar producto ' + idProduct;
+      let description = 'Esta seguro de retirar este producto de la orden??';
+
+      closeModalConfirm = ModalConfirmComponent.closeModalConfirm.bind( this.confirmDeleteProduct );
+
+      ModalConfirmComponent.openModalConfirm( title, description, idProduct );
 
     } else {
 
       this.productsSelected = this.productsSelected.filter(( product ) => product.productoid !== idProduct );
 
-      console.log( idProduct, this.productsSelected );
+      // console.log( idProduct, this.productsSelected );
 
       this.setProductsTable();
+    }
+  }
+
+  async confirmDeleteProduct( data ) {
+    const { confirm, id } = data;
+
+    if ( confirm ) {
+      try {
+        console.log( data );
+      } catch ( error ) {
+        console.error( error );
+      }
     }
   }
 
   deleteClient( idClient ) {
 
     if ( this.deliveryId ) {
-      console.log('edit');
+      let title = 'Eliminar cliente ' + idClient;
+      let description = 'Esta seguro de retirar este cliente de la orden??';
+
+      closeModalConfirm = ModalConfirmComponent.closeModalConfirm.bind( this.confirmDeleteClient );
+
+      ModalConfirmComponent.openModalConfirm( title, description, idClient );
 
     } else {
 
@@ -404,18 +447,15 @@ class OrdersForm {
     }
   }
 
-  setHtml( callback ) {
+  async confirmDeleteClient( data ) {
+    const { confirm, id } = data;
 
-    try {
-
-      this.footer.innerHTML += readFileAssets('/orders/modal-clients/modal-client-component.html');
-      this.footer.innerHTML += readFileAssets('/orders/modal-products/modal-products-component.html');
-
-      callback();
-
-    } catch ( error ) {
-      console.error( error );
-
+    if ( confirm ) {
+      try {
+        console.log( data );
+      } catch ( error ) {
+        console.error( error );
+      }
     }
   }
 
@@ -441,11 +481,13 @@ class OrdersForm {
   }
 }
 
+let ModalConfirmComponent = null;
+let closeModalConfirm = null;
+
 const form = document.forms[0];
 const ordersForm = new OrdersForm();
 const modalClientComponent = new ModalClientComponent();
 const modalProductsComponent = new ModalProductsComponent();
-
 
 document.addEventListener('DOMContentLoaded', ordersForm.getParamsUrl.bind( ordersForm ) );
 

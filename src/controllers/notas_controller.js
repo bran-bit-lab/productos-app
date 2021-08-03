@@ -382,6 +382,11 @@ class NotasController {
 			title
 		});
 	}
+
+	static actualizarNota( nota ) {
+		// actualizar nota ...
+		console.log( nota );
+	}
 }
 
 module.exports = { NotasController };
