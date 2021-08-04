@@ -165,7 +165,7 @@ class NotasController {
 
 	static obtenerNota( idNota ) {
 
-		return new Promise( async ( resolve, reject ) => {
+		return new Promise(( resolve, reject ) => {
 
 			this.database.consult( CRUD.obtenerNota, 	{ id_nota: idNota }, ( error, resultadoNota ) => {
 
@@ -205,9 +205,7 @@ class NotasController {
 					});
 
 				});
-
 			});
-
 		});
 
 	}

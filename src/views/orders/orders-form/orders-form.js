@@ -97,8 +97,6 @@ class OrdersForm {
     } else { // new
 
       document.querySelector('#title').innerText = 'Nueva entrega';
-      // document.querySelector('.select-state').style.display = 'none';
-      // document.querySelector('.date-state').style.display = 'none';
     }
   }
 
