@@ -180,7 +180,11 @@ class NotasController {
 				let nota = resultadoNota[0];
 
 				// newDate parsea la fecha para pasar a la funcion dateSpanish la cual la envia en formato español
-				nota['fecha_entrega'] = TIME.dateToString( new Date( nota['fecha_entrega'] ) );
+				// si existe la fecha de entrega
+
+				if ( nota['fecha_entrega'] ) {
+					nota['fecha_entrega'] = TIME.dateToString( new Date( nota['fecha_entrega'] ) );
+				}
 
 				this.database.consult( CRUD.obtenerNotaProducto, 	{ id_nota: idNota }, ( error, resultadoNotaProducto ) => {
 
@@ -199,6 +203,7 @@ class NotasController {
 						productos: resultadoNotaProducto,
 						total_order: NotasController.calcularTotalNotas( resultadoNotaProducto )
 					});
+
 				});
 
 			});

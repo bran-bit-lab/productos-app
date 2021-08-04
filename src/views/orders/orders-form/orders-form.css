@@ -3,7 +3,7 @@ form {
 }
 
 .form-group ~.form-group {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 #table-products-selected td {

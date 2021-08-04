@@ -98,6 +98,7 @@ class OrdersForm {
 
       document.querySelector('#title').innerText = 'Nueva entrega';
       document.querySelector('.select-state').style.display = 'none';
+      document.querySelector('.date-state').style.display = 'none';
     }
   }
 
@@ -105,7 +106,9 @@ class OrdersForm {
 
    this.note = await NotasController.obtenerNota( idNote );
 
-   // console.log( this.note );
+   if ( this.note.fecha_entrega ) {
+     document.querySelector('.date-state').style.display = '';
+   }
 
    // se añaden al formulario
    const inputs = this.noteForm.querySelectorAll('input');
@@ -235,7 +238,8 @@ class OrdersForm {
         status: formData.get('delivery-state') || 'EN_PROCESO',
         descripcion_nota: formData.get('delivery-description').trim() || '',
         id_cliente: this.clientsSelected[0].id_cliente,
-        fecha_entrega: formData.get('delivery-date').trim() || '',
+        fecha_entrega: formData.get('delivery-state').trim() !== 'ENTREGADA' ?
+          null : dateToString(),
         userid: getUserLogged().userid,
         productos: this.productsSelected,
         total_order: Number.parseFloat( this.totalOrder.toFixed(2) ) || 0
@@ -349,11 +353,12 @@ class OrdersForm {
     //  fecha entrega
     // ==================================
 
-    if ( fecha_entrega.trim().length === 0 ) {
-      errors += 1;
-      renderErrors( this.errorDeliveryDate, ERROR_MESSAGES.required )
-    }
-
+    /*
+    *  if ( fecha_entrega.trim().length === 0 ) {
+    *    errors += 1;
+    *    renderErrors( this.errorDeliveryDate, ERROR_MESSAGES.required )
+    *  }
+    */
 
     if ( errors > 0 ) {
       callback( true );

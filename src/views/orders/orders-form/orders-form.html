@@ -21,12 +21,18 @@
       </div>
       <form name="note-form">
         <div class="row">
-          <div class="col">
+          <div class="col-12">
 
             <div class="form-group">
               <label for="delivery-description" class="form-label">Descripcion de la entrega:</label>
               <input name="delivery-description" id="delivery-description" class="form-control" />
               <div class="invalid-feedback text-center" id="error-delivery-description"></div>
+            </div>
+
+            <div class="form-group date-state" style="display: none;">
+              <label for="delivery-date" class="form-label">Fecha de entrega</label>
+              <input readonly type="date" id="delivery-date" name="delivery-date" class="form-control" />
+              <div class="invalid-feedback text-center" id="error-delivery-date"></div>
             </div>
 
             <div class="form-group select-state">
@@ -39,14 +45,7 @@
                 <option value="POSPUESTO">Pospuesto</option>
               </select>
             </div>
-          </div>
-          <div class="col">
 
-            <div class="form-group">
-              <label for="delivery-date" class="form-label">Fecha de entrega</label>
-              <input type="date" id="delivery-date" name="delivery-date" class="form-control" />
-              <div class="invalid-feedback text-center" id="error-delivery-date"></div>
-            </div>
           </div>
         </div>
 
