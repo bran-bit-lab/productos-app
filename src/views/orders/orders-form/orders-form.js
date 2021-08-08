@@ -253,13 +253,13 @@ class OrdersForm {
       });
 
     } else if ( this.productsSelected.length === 0 && this.clientsSelected.length > 0 ) {
-      NotasController.showAlert( 'warning', 'Advertencia', 'Debes ingresar productos a la nota de entrega' );
+      NotasController.mostrarAlerta( 'warning', 'Advertencia', 'Debes ingresar productos a la nota de entrega' );
 
     } else if ( this.productsSelected.length > 0 && this.clientsSelected.length === 0 ) {
-      NotasController.showAlert( 'warning', 'Advertencia', 'Debes ingresar un cliente en la nota de entrega' );
+      NotasController.mostrarAlerta( 'warning', 'Advertencia', 'Debes ingresar un cliente en la nota de entrega' );
 
     } else {
-      NotasController.showAlert( 'warning', 'Advertencia', 'Debes ingresar productos y un cliente en la nota de entrega' );
+      NotasController.mostrarAlerta( 'warning', 'Advertencia', 'Debes ingresar productos y un cliente en la nota de entrega' );
     }
   }
 
@@ -420,12 +420,18 @@ class OrdersForm {
     }
   }
 
-  async confirmDeleteProduct( data ) {
+  confirmDeleteProduct( data ) {
     const { confirm, id } = data;
 
     if ( confirm ) {
+
+      let noteProduct = ordersForm.productsSelected.find(( product ) => product.productoid === id );
+
       try {
-        console.log( data );
+        NotasController.retirarProductoNota( noteProduct );
+        ordersForm.productsSelected = ordersForm.productsSelected.filter(( product ) => product.productoid !== id );
+        ordersForm.setProductsTable();
+
       } catch ( error ) {
         console.error( error );
       }
@@ -454,11 +460,8 @@ class OrdersForm {
     const { confirm, id } = data;
 
     if ( confirm ) {
-      try {
-        console.log( data );
-      } catch ( error ) {
-        console.error( error );
-      }
+      ordersForm.clientsSelected = ordersForm.clientsSelected.filter(( client ) => client.id_cliente !== id );
+      ordersForm.setClientsTable();
     }
   }
 

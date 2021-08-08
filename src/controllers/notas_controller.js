@@ -106,12 +106,45 @@ class NotasController {
 				throw error;
 			}
 
-			NotasController.actualizarCantidad.call( new Database(), notaProducto );
+			// actualiza el valor de la cantidad del producto
+			NotasController.restarCantidad.call( new Database(), notaProducto );
 		});
 
 	}
 
-	static actualizarCantidad( notaProducto ) {
+	// en caso de que retire el producto de la nota
+	static retirarProductoNota( notaProducto ) {
+
+		this.database.delete( CRUD.eliminarNotaProducto, { id_NP: notaProducto['id_NP'] }, ( error ) => {
+
+			const notificacion = new Notification({
+				title: '',
+				body: ''
+			});
+
+			if ( error ) {
+				notificacion['title'] = 'Error!!';
+				notificacion['body'] = 'Error al retirar la orden del producto'
+
+				notificacion.show();
+
+				console.log( error );
+
+				throw error;
+			}
+
+			// console.log('aqui se elimino');
+
+			NotasController.sumarCantidad( notaProducto, () => {
+				notificacion['title'] = 'Exito!!';
+				notificacion['body'] = 'Producto retirado de la nota de entrega'
+				notificacion.show();
+			});
+
+		});
+	}
+
+	static restarCantidad( notaProducto ) {
 
 		let restarCantidad = notaProducto['cantidad'] - notaProducto['cantidad_seleccionada']
 
@@ -124,12 +157,38 @@ class NotasController {
 
 			if ( error ) {
 
-				// throw error;  // mostrará el error en pantalla
+				console.log( error );
+
+				throw error;  // mostrará el error en pantalla
+
+				return;
+			}
+  	});
+	}
+
+	static sumarCantidad( notaProducto, callback ) {
+
+		let sumarCantidad = notaProducto['cantidad'] + notaProducto['cantidad_seleccionada']
+
+		// console.log( notaProducto );
+
+		let productoActualizado = {
+			productoid: notaProducto['productoid'],
+			cantidad: sumarCantidad
+		};
+
+		this.database.update( CRUD.cantidadProducto, productoActualizado, ( error ) => {
+
+			if ( error ) {
+
+				throw error;  // mostrará el error en pantalla
 
 				console.log( error );
 
 				return;
 			}
+
+			callback();
   	});
 	}
 
@@ -219,7 +278,6 @@ class NotasController {
 		return Number.parseFloat( arrayNotaProducto.reduce(reducer, 0).toFixed(2) );
 	}
 
-
 	static obtenerTotalNotas() {
 
 		return new Promise( ( resolve, reject ) => {
@@ -279,71 +337,6 @@ class NotasController {
 		});
 	}
 
-
-	static editarProducto( producto, usuario ) {
-
-		// console.log (producto, "<-- log del producto");
-
-		this.database.update( CRUD.editarProducto, producto, ( error ) => {
-
-			const notificacion = new Notification({
-				title: '',
-				body: ''
-			});
-
-			if ( error ) {
-
-				// throw error;  // mostrará el error en pantalla
-
-				notificacion['title'] = 'Error!!';
-				notificacion['body'] = 'Error al actualizar producto';
-
-				notificacion.show();
-
-				console.log( error );
-
-				return;
-			}
-
-				notificacion['title'] = 'Exito!!';
-				notificacion['body'] = 'Producto Modificado';
-
-				notificacion.show();
-  		});
-	}
-
-	static activarProducto( producto ) {
-
-		//console.log (producto, "<-- log del producto");
-
-		this.database.update( CRUD.activarProducto, producto, ( error ) => {
-
-			const notificacion = new Notification({
-				title: '',
-				body: ''
-			});
-
-			if ( error ) {
-
-				// throw error;  // mostrará el error en pantalla
-
-				notificacion['title'] = 'Error!!';
-				notificacion['body'] = 'Error al actualizar nota';
-
-				notificacion.show();
-
-				console.log( error );
-
-				return;
-			}
-
-				notificacion['title'] = 'Exito!!';
-				notificacion['body'] = 'Producto Modificado';
-
-				notificacion.show();
-  		});
-	}
-
 	static buscarNota( search ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -378,7 +371,7 @@ class NotasController {
 		});
 	}
 
-	static showAlert( type = 'info', title, message ) {
+	static mostrarAlerta( type = 'info', title, message ) {
 		dialog.showMessageBox( null, {
 			message,
 			type,

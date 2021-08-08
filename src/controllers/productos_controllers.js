@@ -85,6 +85,40 @@ class ProductosController {
 		});
 	}
 
+	static obtenerTotalProductosActivos() {
+
+		return new Promise(( resolve, reject ) => {
+			this.database.getTotalRecords( CRUD.obtenerTotalProductosActivos, ( error, resultado ) => {
+
+				const notificacion = new Notification({
+					title: 'Error en obtener los registros',
+					body: 'No se pudo obtener el total de registros'
+				});
+
+				if ( error ) {
+
+					notificacion.show();
+
+					console.log( error );
+
+					reject( error );
+
+					return;
+				}
+
+				const totalRegistros = resultado[0]['COUNT(*)'];
+
+				let totalPaginas = ( totalRegistros / 10 );
+
+				resolve({
+					totalPaginas: Math.ceil( totalPaginas ),
+					totalRegistros: totalRegistros
+				});
+
+			});
+		});
+	}
+
 	static listarProductos( pagination ) {
 
 		return new Promise(( resolve, reject ) => {

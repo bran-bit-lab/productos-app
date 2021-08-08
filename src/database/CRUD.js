@@ -29,7 +29,8 @@ const CRUD = Object.freeze({
 	cantidadProducto : "UPDATE productos SET cantidad = :cantidad WHERE productoid = :productoid;",
 	activarProducto : "UPDATE productos SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
 	buscarProducto : "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.nombre LIKE :search OR productos.descripcion LIKE :search;",
-	listarProductosActivos: "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.disponibilidad = TRUE LIMIT :start, :limit;",
+	listarProductosActivos: "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.disponibilidad = TRUE AND productos.cantidad > 0 LIMIT :start, :limit;",
+	obtenerTotalProductosActivos: "SELECT COUNT(*) FROM productos WHERE disponibilidad = TRUE AND cantidad > 0;",
 
 	// clientes ...
 	crearCliente : "INSERT INTO clientes (nombre_cliente, direccion_entrega, rif, telefono_contacto) VALUES (:nombre_cliente, :direccion_entrega, :rif, :telefono_contacto);",
@@ -51,7 +52,8 @@ const CRUD = Object.freeze({
 	// notas_productos ...
 	crearNotaProducto: "INSERT INTO notas_productos( id_nota, id_producto, cantidad_seleccionada ) VALUES ( :id_nota, :id_producto, :cantidad_seleccionada );",
 	obtenerNotaProducto: "SELECT notas_productos.id_NP, notas_productos.cantidad_seleccionada, categorias.nombre AS nombre_categoria, usuarios.nombre AS nombre_usuario, usuarios.apellido, productos.* FROM notas_productos INNER JOIN productos ON notas_productos.id_producto = productos.productoid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid INNER JOIN usuarios ON usuarios.userid = productos.userid WHERE notas_productos.id_nota = :id_nota;", //Listado de productos asociados a la nota
-	obtenerNota: "SELECT notas.*, clientes.* FROM notas INNER JOIN clientes ON clientes.id_cliente = notas.id_cliente  WHERE id_nota = :id_nota;"
+	obtenerNota: "SELECT notas.*, clientes.* FROM notas INNER JOIN clientes ON clientes.id_cliente = notas.id_cliente  WHERE id_nota = :id_nota;",
+	eliminarNotaProducto: "DELETE FROM notas_productos WHERE id_NP = :id_NP;"
 });
 
 module.exports = CRUD;

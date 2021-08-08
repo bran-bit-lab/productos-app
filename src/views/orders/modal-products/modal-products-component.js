@@ -41,10 +41,10 @@ class ModalProductsComponent {
 
       console.log( this.products );
 
-      let totalProducts = await ProductosController.obtenerTotalProductos();
+      let totalProducts = await ProductosController.obtenerTotalProductosActivos();
 
       setPaginationStorage('productsModalTable', { pagination });
-      
+
       this.renderProducts( totalProducts.totalPaginas, totalProducts.totalRegistros );
 
 
@@ -60,7 +60,7 @@ class ModalProductsComponent {
   }
 
   renderProducts( totalPages = 0, totalRegisters = 0, search = false ) {
-     
+
     if ( !search ) {
 
       this.tbody.innerHTML = '';
@@ -70,7 +70,7 @@ class ModalProductsComponent {
     }
 
     if ( this.products.length > 0 ) {
-      
+
       showElement( this.pagination );
 
       this.tbody.innerHTML = this.products.map(( product ) => (`
@@ -96,7 +96,7 @@ class ModalProductsComponent {
         input.addEventListener( 'change', this.handleChange.bind( this ) );
       }
 
-   } else {      
+   } else {
       hideElement( this.pagination );
 
       this.tbody.innerHTML = (`
@@ -112,25 +112,25 @@ class ModalProductsComponent {
 
     const rowElement = $event.target.parentNode.parentNode;
     const id_product = +rowElement.querySelector('td[name="productoid"]').innerText;
-    
+
     if ( $event.target.checked ) {
-    	
+
     	let index = this.productsSelected.findIndex(( product ) => product.productoid === id_product );
 
     	// console.log({ id_product, index });
 
     	if ( index === -1 ) {
-    		
+
     		let product = this.products.find(( product ) => product.productoid === id_product );
         product = {...product, precio: product.precio || 0, cantidad_seleccionada: 1 };
-    		
+
     		this.productsSelected.push( product );
     	}
 
     } else {
 
     	this.productsSelected = this.productsSelected.filter(
-    		( product ) => product.productoid !== id_product 
+    		( product ) => product.productoid !== id_product
     	);
 
     }
@@ -139,10 +139,10 @@ class ModalProductsComponent {
 
     if ( this.productsSelected.length > 0 ) {
       this.submitButton.removeAttribute('disabled');
-    
+
     } else {
     	this.submitButton.setAttribute('disabled', '');
-    
+
     }
   }
 
@@ -162,7 +162,7 @@ class ModalProductsComponent {
       return;
 
     }
-    
+
     // search es la busqueda
     this.products = await ProductosController.buscarProducto({ search: '%' + search + '%' });
 
@@ -184,11 +184,11 @@ class ModalProductsComponent {
   }
 
   checkProduct( product ) {
-  	
+
   	// retorna cuales son los elementos seleccionados y los marca en la lista
 
-  	return this.productsSelected.findIndex( 
-      productSelect => productSelect.productoid === product.productoid 
+  	return this.productsSelected.findIndex(
+      productSelect => productSelect.productoid === product.productoid
     ) !== -1;
   }
 }
