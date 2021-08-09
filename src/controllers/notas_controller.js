@@ -380,8 +380,36 @@ class NotasController {
 	}
 
 	static actualizarNota( nota ) {
+
+		let notaActualizada = {
+			userid: nota['userid'],
+			status: nota['status'],
+			descripcion_nota: nota['descripcion_nota'],
+			id_cliente: nota['id_cliente'],
+			fecha_entrega: nota['fecha_entrega']
+		};
+
+		let arrayProductos = nota['productos'];
+
+		const validarCantidad = arrayProductos.every(( producto ) => producto['cantidad_seleccionada'] <= producto['cantidad']);
+
+		if ( validarCantidad === false ) {
+
+			dialog.showMessageBox (null, {
+				type: 'warning',
+				title: 'advertencia',
+				message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
+			});
+
+			throw new Error("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
+		}
+
+		console.log({ notaActualizada, arrayProductos });
+
 		// actualizar nota ...
-		console.log( nota );
+
+		// luego verificar el array de notas productos de la BD si esta en el array se actualiza la nota producto ...
+		// sino se crea ...
 	}
 }
 
