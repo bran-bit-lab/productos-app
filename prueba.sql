@@ -1,7 +1,9 @@
 
-SELECT DATE_FORMAT( fecha_entrega, '%d-%m-%Y') AS fecha_entrega, notas.* FROM notas WHERE id_nota = 64;
 
-/*SELECT notas_productos.id_NP notas_productos.cantidad_seleccionada, categorias.nombre AS nombre_categoria, usuarios.nombre AS nombre_usuario, usuarios.apellido, productos.* FROM notas_productos 
+/*
+SELECT cantidad + (4) as cantidad FROM productos WHERE productoid = 1; 
+SELECT DATE_FORMAT( fecha_entrega, '%d-%m-%Y') AS fecha_entrega, notas.* FROM notas WHERE id_nota = 64;
+SELECT notas_productos.id_NP notas_productos.cantidad_seleccionada, categorias.nombre AS nombre_categoria, usuarios.nombre AS nombre_usuario, usuarios.apellido, productos.* FROM notas_productos 
 	INNER JOIN productos ON notas_productos.id_producto = productos.productoid
 	INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid
 	INNER JOIN usuarios ON usuarios.userid = productos.userid

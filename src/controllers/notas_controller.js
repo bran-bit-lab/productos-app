@@ -2,6 +2,7 @@ const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const TIME = require('../util_functions/time');
+const { ProductosController } = require('./productos_controllers');
 
 class NotasController {
 
@@ -112,6 +113,34 @@ class NotasController {
 
 	}
 
+	static actualizarNotasProductos( notaProducto, sumaAlgebraica ) {
+
+		let objetoNP = { 
+			id_NP: notaProducto['id_NP'],
+		 	cantidad_seleccionada : notaProducto['cantidad_seleccionada']
+		 };
+
+
+		this.database.update( CRUD.actualizarNotaProducto, objetoNP, ( error, resultado ) => {
+
+			if ( error ) {
+
+				console.log( error );
+				throw error;
+			}
+
+			let productoActualizado = {
+				productoid: notaProducto['productoid'],
+				suma_algebraica: sumaAlgebraica
+			}
+
+			// importarproductosController y llamar a su metodo
+			//console.log (ProductosController);
+			ProductosController.editarCantidadProducto(productoActualizado);
+			
+		});
+	}
+	
 	// en caso de que retire el producto de la nota
 	static retirarProductoNota( notaProducto ) {
 
@@ -124,7 +153,7 @@ class NotasController {
 
 			if ( error ) {
 				notificacion['title'] = 'Error!!';
-				notificacion['body'] = 'Error al retirar la orden del producto'
+				notificacion['body'] = 'Error al retirar el producto de la orden'
 
 				notificacion.show();
 
@@ -192,7 +221,7 @@ class NotasController {
   	});
 	}
 
-	static obtenerIdNota() {
+	static obtenerIdNota( ) {
 
 		return new Promise( ( resolve, reject ) => {
 
@@ -402,11 +431,59 @@ class NotasController {
 			});
 
 			throw new Error("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
+			return;
 		}
 
-		console.log({ notaActualizada, arrayProductos });
+		//console.log({ nota, notaActualizada, arrayProductos });
 
 		// actualizar nota ...
+
+		// obtener las N_P asociadas al id
+
+		let idNota = nota['id_nota'];
+
+		this.database.consult( CRUD.listarNotasProductos, { id_nota : idNota }, ( error, results ) => {
+
+				if ( error ) {
+
+					console.log( error );
+
+					reject( error );
+
+					return;
+				}
+
+				const notaProductoDB = results;
+
+				arrayProductos.forEach(( notaProducto ) => {
+					
+					let index = notaProductoDB.findIndex(( notaProductoDB ) => {
+						return notaProducto['id_NP'] === notaProductoDB['id_NP'];
+					});
+					
+					if ( index === -1 ){
+						
+						NotasController.insertarNotasProductos(notaProducto)	
+					
+					} else {
+						
+						let cantidadBD = notaProductoDB[index]['cantidad_seleccionada'];	
+						let cantidadActualizada = notaProducto['cantidad_seleccionada'];
+
+						let sumaAlgebraica = (cantidadBD - cantidadActualizada);
+
+
+						NotasController.actualizarNotasProductos(notaProducto, sumaAlgebraica);
+
+						//console.log( notaProducto );
+					}
+
+				//actualizar producto despues de la N_P
+
+
+
+				});
+		});
 
 		// luego verificar el array de notas productos de la BD si esta en el array se actualiza la nota producto ...
 		// sino se crea ...

@@ -216,6 +216,22 @@ class ProductosController {
   		});
 	}
 
+	static editarCantidadProducto( productoActualizado ) {
+				
+		this.database.update( CRUD.actualizarCantidadProducto, productoActualizado, ( error ) => {
+			
+			if ( error ) {
+					
+				console.log( error );
+
+				return;
+			}
+
+			console.log('  producto actualizado  ')
+
+  		});
+	}
+
 	static activarProducto( producto ) {
 
 		//console.log (producto, "<-- log del producto");

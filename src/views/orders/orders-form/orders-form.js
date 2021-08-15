@@ -273,7 +273,7 @@ class OrdersForm {
       if ( this.deliveryId ) {
 
         setTimeout(() => {
-          NotasController.actualizarNota( data );
+          NotasController.actualizarNota({ ...data, id_nota:  Number.parseInt( this.deliveryId ) });
         }, 3000 );
 
       } else { // new

@@ -26,6 +26,7 @@ const CRUD = Object.freeze({
 	listarProductos : "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid LIMIT :start, :limit;",
 	obtenerTotalProductos : "SELECT COUNT(*) FROM productos;",
 	editarProducto : "UPDATE productos SET categoriaid = :categoriaid, nombre = :nombre, descripcion = :descripcion, cantidad = :cantidad, precio = :precio, disponibilidad = :disponibilidad WHERE productoid = :productoid;",
+	actualizarCantidadProducto : "UPDATE productos SET cantidad = cantidad + (:suma_algebraica) WHERE productoid = :productoid",
 	cantidadProducto : "UPDATE productos SET cantidad = :cantidad WHERE productoid = :productoid;",
 	activarProducto : "UPDATE productos SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
 	buscarProducto : "SELECT productos.*, usuarios.nombre AS nombre_usuario, categorias.nombre AS nombre_categoria, usuarios.apellido FROM productos LEFT JOIN usuarios ON productos.userid = usuarios.userid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid WHERE productos.nombre LIKE :search OR productos.descripcion LIKE :search;",
@@ -56,6 +57,8 @@ const CRUD = Object.freeze({
 	//Listado de productos asociados a la nota
 	obtenerNota: "SELECT notas.*, clientes.* FROM notas INNER JOIN clientes ON clientes.id_cliente = notas.id_cliente  WHERE id_nota = :id_nota;",
 	eliminarNotaProducto: "DELETE FROM notas_productos WHERE id_NP = :id_NP;",
+	listarNotasProductos: "SELECT * FROM notas_productos  WHERE id_nota = :id_nota;",
+	actualizarNotaProducto: "UPDATE notas_productos SET cantidad_seleccionada = :cantidad_seleccionada WHERE id_NP = :id_NP",
 	
 });
 
