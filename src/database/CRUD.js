@@ -46,8 +46,7 @@ const CRUD = Object.freeze({
 	listarNotas : "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, usuarios.nombre AS nombre_usuario, usuarios.apellido AS apellido_usuario, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente LIMIT :start, :limit;",
 	ultimoRegistro: "SELECT * FROM notas ORDER BY id_nota DESC LIMIT 0, 1;",
 	obtenerTotalNotas : "SELECT COUNT(*) FROM notas;",
-	editarNotas : "UPDATE notas SET categoriaid = :categoriaid, nombre = :nombre, descripcion = :descripcion, cantidad = :cantidad, precio = :precio, disponibilidad = :disponibilidad WHERE productoid = :productoid;",
-	activarNotas : "UPDATE notas SET disponibilidad = :disponibilidad WHERE productoid = :productoid",
+	editarNotas : "UPDATE notas SET userid = :userid, status = :status, descripcion_nota = :descripcion_nota, fecha_entrega = :fecha_entrega, id_cliente = :id_cliente WHERE id_nota = :id_nota;",
 	buscarNotas : "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, usuarios.nombre AS nombre_usuario, usuarios.apellido AS apellido_usuario, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente WHERE clientes.nombre_cliente LIKE :search OR notas.descripcion_nota LIKE :search;",
 
 	// notas_productos ...
@@ -59,7 +58,7 @@ const CRUD = Object.freeze({
 	eliminarNotaProducto: "DELETE FROM notas_productos WHERE id_NP = :id_NP;",
 	listarNotasProductos: "SELECT * FROM notas_productos  WHERE id_nota = :id_nota;",
 	actualizarNotaProducto: "UPDATE notas_productos SET cantidad_seleccionada = :cantidad_seleccionada WHERE id_NP = :id_NP",
-	
+
 });
 
 module.exports = CRUD;

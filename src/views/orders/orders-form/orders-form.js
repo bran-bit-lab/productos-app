@@ -274,7 +274,8 @@ class OrdersForm {
 
         setTimeout(() => {
           NotasController.actualizarNota({ ...data, id_nota:  Number.parseInt( this.deliveryId ) });
-        }, 3000 );
+          redirectTo('../orders.html');
+        }, 4000 );
 
       } else { // new
 
@@ -284,7 +285,6 @@ class OrdersForm {
 
           NotasController.crearNota( data );
           redirectTo('../orders.html');
-
         }, 3000 );
 
       }

@@ -216,20 +216,36 @@ class ProductosController {
   		});
 	}
 
-	static editarCantidadProducto( productoActualizado ) {
-				
+	static editarCantidadProducto( productoActualizado, callback = null ) {
+
 		this.database.update( CRUD.actualizarCantidadProducto, productoActualizado, ( error ) => {
-			
+
+			const notificacion = new Notification({
+				title: '',
+				body: ''
+			});
+
 			if ( error ) {
-					
+
 				console.log( error );
+
+				notificacion['title'] = 'Error !!';
+				notificacion['body'] = 'Error al actualizar la nota';
+
+				notificacion.show();
+
+				// throw error;
 
 				return;
 			}
 
-			console.log('  producto actualizado  ')
+			if ( callback ) {
+				callback();
+			}
 
-  		});
+			// console.log('  producto actualizado  ');
+
+  	});
 	}
 
 	static activarProducto( producto ) {
