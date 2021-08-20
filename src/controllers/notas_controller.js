@@ -2,7 +2,8 @@ const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const TIME = require('../util_functions/time');
-const { ProductosController } = require('./productos_controllers');
+// const { ProductosController } = require('./productos_controllers');
+const { NotasProductosController } = require('./notas_productos_controller');
 
 class NotasController {
 
@@ -81,7 +82,7 @@ class NotasController {
 				});
 
 				arrayProductos.forEach(( notaProducto ) => {
-					NotasController.insertarNotasProductos.call( NotasController.database, notaProducto );
+						NotasProductosController.insertarNotasProductos.call( NotasProductosController.database, notaProducto );
 				});
 
 				notificacion['title'] = 'Éxito';
@@ -96,136 +97,6 @@ class NotasController {
 			}
 
 		});
-	}
-
-	static insertarNotasProductos( notaProducto, callback = null ) {
-
-		// console.log( callback );
-
-		this.insert( CRUD.crearNotaProducto, notaProducto, ( error, resultado ) => {
-
-			if ( error ) {
-
-				console.log( error );
-				throw error;
-			}
-
-			// actualiza el valor de la cantidad del producto
-			NotasController.restarCantidad.call( NotasController.database, notaProducto, callback );
-		});
-
-	}
-
-	static actualizarNotasProductos( notaProducto, sumaAlgebraica, callback = null ) {
-
-		let objetoNP = {
-			id_NP: notaProducto['id_NP'],
-		 	cantidad_seleccionada : notaProducto['cantidad_seleccionada']
-		 };
-
-
-		this.database.update( CRUD.actualizarNotaProducto, objetoNP, ( error, resultado ) => {
-
-			if ( error ) {
-
-				console.log( error );
-				throw error;
-			}
-
-			let productoActualizado = {
-				productoid: notaProducto['productoid'],
-				suma_algebraica: sumaAlgebraica
-			}
-
-			ProductosController.editarCantidadProducto( productoActualizado, callback );
-
-		});
-	}
-
-	// en caso de que retire el producto de la nota
-	static retirarProductoNota( notaProducto ) {
-
-		this.database.delete( CRUD.eliminarNotaProducto, { id_NP: notaProducto['id_NP'] }, ( error ) => {
-
-			const notificacion = new Notification({
-				title: '',
-				body: ''
-			});
-
-			if ( error ) {
-				notificacion['title'] = 'Error!!';
-				notificacion['body'] = 'Error al retirar el producto de la orden'
-
-				notificacion.show();
-
-				console.log( error );
-
-				throw error;
-			}
-
-			// console.log('aqui se elimino');
-
-			NotasController.sumarCantidad( notaProducto, () => {
-				notificacion['title'] = 'Exito!!';
-				notificacion['body'] = 'Producto retirado de la nota de entrega'
-				notificacion.show();
-			});
-
-		});
-	}
-
-	static restarCantidad( notaProducto, callback = null ) {
-
-		let restarCantidad = notaProducto['cantidad'] - notaProducto['cantidad_seleccionada']
-
-		let productoActualizado = {
-			productoid: notaProducto['id_producto'],
-			cantidad: restarCantidad
-		};
-
-		this.update( CRUD.cantidadProducto, productoActualizado, ( error ) => {
-
-			if ( error ) {
-
-				console.log( error );
-
-				throw error;  // mostrará el error en pantalla
-
-				return;
-			}
-
-			// console.log( callback );
-
-			if ( callback !== null ) {
-				callback();
-			}
-  	});
-	}
-
-	static sumarCantidad( notaProducto, callback = null ) {
-
-		let sumarCantidad = notaProducto['cantidad'] + notaProducto['cantidad_seleccionada']
-
-		// console.log( notaProducto );
-
-		let productoActualizado = {
-			productoid: notaProducto['productoid'],
-			cantidad: sumarCantidad
-		};
-
-		this.database.update( CRUD.cantidadProducto, productoActualizado, ( error ) => {
-
-			if ( error ) {
-
-				throw error;  // mostrará el error en pantalla
-
-				console.log( error );
-
-				return;
-			}
-
-			callback();
-  	});
 	}
 
 	static obtenerIdNota( ) {
@@ -262,7 +133,7 @@ class NotasController {
 
 		return new Promise(( resolve, reject ) => {
 
-			this.database.consult( CRUD.obtenerNota, 	{ id_nota: idNota }, ( error, resultadoNota ) => {
+			this.database.consult( CRUD.obtenerNota, { id_nota: idNota }, ( error, resultadoNota ) => {
 
 				if ( error ) {
 					console.log( error );
@@ -488,11 +359,11 @@ class NotasController {
 								notificacion.show();
 							} : null;
 
-						if ( index === -1 ){
+						if ( index === -1 ) {
 
 							// crea la nota si no esta en el array
-							NotasController.insertarNotasProductos.call(
-								NotasController.database,
+							NotasProductosController.insertarNotasProductos.call(
+								NotasProductosController.database,
 								{
 									id_nota: idNota,
 									cantidad_seleccionada: notaProducto['cantidad_seleccionada'],
@@ -510,7 +381,7 @@ class NotasController {
 
 							let sumaAlgebraica = ( cantidadBD - cantidadActualizada );
 
-							NotasController.actualizarNotasProductos( notaProducto, sumaAlgebraica, callback );
+							NotasProductosController.actualizarNotasProductos( notaProducto, sumaAlgebraica, callback );
 						}
 				});
 

@@ -4,6 +4,7 @@ const { readFileAssets } = remote.require('./util_functions/file');
 const { ClientesController } = remote.require('./controllers/clientes_controller');
 const { ProductosController } = remote.require('./controllers/productos_controllers');
 const { NotasController } = remote.require('./controllers/notas_controller');
+const { NotasProductosController } = remote.require('./controllers/notas_productos_controller');
 
 const Modal = require('bootstrap/js/dist/modal');
 const { ModalClientComponent } = require('../modal-clients/modal-client-component');
@@ -428,7 +429,7 @@ class OrdersForm {
       let noteProduct = ordersForm.productsSelected.find(( product ) => product.productoid === id );
 
       try {
-        NotasController.retirarProductoNota( noteProduct );
+        NotasProductosController.retirarProductoNota( noteProduct );
         ordersForm.productsSelected = ordersForm.productsSelected.filter(( product ) => product.productoid !== id );
         ordersForm.setProductsTable();
 
@@ -456,7 +457,7 @@ class OrdersForm {
     }
   }
 
-  async confirmDeleteClient( data ) {
+  confirmDeleteClient( data ) {
     const { confirm, id } = data;
 
     if ( confirm ) {
