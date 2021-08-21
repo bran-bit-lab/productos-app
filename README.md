@@ -1,8 +1,8 @@
-# PRODUCTOS APP
+## PRODUCTOS APP
 
 Software construido en electronJS, utilizando Electron Forge
 
-### Requisitos:
+#### Requisitos:
 - nodeJS >= 10.0
 
 Una vez clonado el proyecto ejecuta el comando `npm install` para construir los
