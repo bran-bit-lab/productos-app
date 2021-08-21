@@ -13,4 +13,4 @@ Para exportar la aplicacion `npm package`
 Para crear binarios de la aplicacion `npm make`
 
 
-Para mas documentación de despliuegue consultar https://www.electronforge.io/
+Para mas documentacion de despliuegue consultar https://www.electronforge.io/
