@@ -389,6 +389,10 @@ class NotasController {
 
 		});
 	}
+
+	static generarPDFNota( idNota ) {
+		console.log({ idNota });
+	}
 }
 
 module.exports = { NotasController };

@@ -90,7 +90,7 @@ class OrdersTableComponent {
 	}
 
 	showPDF( idDeliveryNote ) {
-		// codigo que genera el PDF al usuario
+		NotasController.generarPDFNota( idDeliveryNote );
 	}
 
 	setRows( deliveryNote, index ) {
