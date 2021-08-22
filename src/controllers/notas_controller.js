@@ -1,9 +1,10 @@
-const { Notification, dialog } = require('electron');
+const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const TIME = require('../util_functions/time');
 // const { ProductosController } = require('./productos_controllers');
 const { NotasProductosController } = require('./notas_productos_controller');
+
 
 class NotasController {
 
@@ -392,6 +393,81 @@ class NotasController {
 
 	static generarPDFNota( idNota ) {
 		console.log({ idNota });
+
+		const opciones = {
+			title : 'Guardar como',
+			//defaultPath : '' ,
+			buttonLabel : 'guardar' ,
+			filters : [{ name: 'pdf', extensions: ['pdf'] }]
+		}
+
+		// esta tecnica es llamada closures se declara una varible tipo function en el 
+		// scope de la funcion
+		// esta es una variable de tipo funcion que se almacena en recibir path, pero se ejecuta
+		const recibirPath = ( path ) => {
+			// creamos la instancia de browser window
+			const winPdf = new BrowserWindow ({ width: 800, height: 600, show: false })
+			let path2 = __dirname + '\\test.html';
+
+			console.log( path2 )
+			// 
+			winPdf.loadURL( path2 )
+
+			const contents = winPdf.webContents
+			// console.log('<<<<',contents,'>>>>');
+			// lo siguiente es ocultar la ventana y generar un evento
+
+			contents.on('did-finish-load', () => {
+
+				console.log('document loaded', contents);
+
+				const optionsPDF = {
+				    marginsType: 0,
+				    pageSize: 'A4',
+				    printBackground: true,
+				    printSelectionOnly: false,
+				    landscape: false
+				};
+					
+				contents.__printToPDF( optionsPDF )
+					.then(( response ) => {
+						console.log( response, pdf, 'ventana generada con exito' )
+					})
+					.catch( ( error ) => {
+						console.log( error )
+					})
+			
+			})
+		} // este cierra la funcion
+
+
+
+		// 1
+		dialog.showSaveDialog( null , opciones )
+			
+			.then( ( response ) => {
+				console.log( response )
+
+				if ( response.canceled === true ) {
+					return;
+				}
+
+				console.log('guardamos el archivo ....');
+
+				// cuando se recibe la respuesta de la promesa se llama 
+				// recibe el path
+				recibirPath( response.filePath );	
+
+			})
+			.catch( ( error ) => {
+				console.log( error )
+			})
+
+
+		// aqui se va a genera el codigo de la ventana guardar como
+
+
+
 	}
 }
 
