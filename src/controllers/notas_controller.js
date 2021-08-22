@@ -2,9 +2,8 @@ const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const TIME = require('../util_functions/time');
-// const { ProductosController } = require('./productos_controllers');
 const { NotasProductosController } = require('./notas_productos_controller');
-
+const { formatUrl, writeFile } = require('../util_functions/file');
 
 class NotasController {
 
@@ -100,7 +99,7 @@ class NotasController {
 		});
 	}
 
-	static obtenerIdNota( ) {
+	static obtenerIdNota() {
 
 		return new Promise( ( resolve, reject ) => {
 
@@ -392,34 +391,21 @@ class NotasController {
 	}
 
 	static generarPDFNota( idNota ) {
-		console.log({ idNota });
 
-		const opciones = {
-			title : 'Guardar como',
-			//defaultPath : '' ,
-			buttonLabel : 'guardar' ,
-			filters : [{ name: 'pdf', extensions: ['pdf'] }]
-		}
+		// console.log({ idNota });
 
-		// esta tecnica es llamada closures se declara una varible tipo function en el 
-		// scope de la funcion
-		// esta es una variable de tipo funcion que se almacena en recibir path, pero se ejecuta
-		const recibirPath = ( path ) => {
-			// creamos la instancia de browser window
-			const winPdf = new BrowserWindow ({ width: 800, height: 600, show: false })
-			let path2 = __dirname + '\\test.html';
+		const recibirPath = function( path ) {
 
-			console.log( path2 )
-			// 
-			winPdf.loadURL( path2 )
+			const winPdf = new BrowserWindow({ width: 800, height: 600, show: false });
 
-			const contents = winPdf.webContents
-			// console.log('<<<<',contents,'>>>>');
+			winPdf.loadFile( formatUrl( __dirname, '../pdf/test.html' ) );
+
+			const contents = winPdf.webContents;
+
 			// lo siguiente es ocultar la ventana y generar un evento
-
 			contents.on('did-finish-load', () => {
 
-				console.log('document loaded', contents);
+				// console.log( 'document loaded', contents );
 
 				const optionsPDF = {
 				    marginsType: 0,
@@ -428,46 +414,56 @@ class NotasController {
 				    printSelectionOnly: false,
 				    landscape: false
 				};
-					
-				contents.__printToPDF( optionsPDF )
-					.then(( response ) => {
-						console.log( response, pdf, 'ventana generada con exito' )
+
+				//  console.log( contents.printToPDF );
+
+				contents.printToPDF( optionsPDF ).then(( dataBuffer ) => {
+
+						// console.log( dataBuffer );
+
+						writeFile( path, dataBuffer, ( error ) => {
+
+							if ( error ) {
+								console.log( error );
+
+								throw error;
+							}
+
+							console.log('PDF generado correctamente');
+						});
 					})
-					.catch( ( error ) => {
-						console.log( error )
+					.catch(( error ) => {
+						console.log( error );
 					})
-			
-			})
-		} // este cierra la funcion
+					.finally(() => {
 
+						// close the hidden window of pdf
+						winPdf.close();
+					});
+			});
+		}
 
+		// show save dialog
+		const opciones = {
+			title : 'Guardar como',
+			buttonLabel : 'guardar' ,
+			filters : [{ name: 'pdf', extensions: ['pdf'] }]
+		};
 
-		// 1
 		dialog.showSaveDialog( null , opciones )
-			
-			.then( ( response ) => {
-				console.log( response )
+			.then(( response ) => {
 
-				if ( response.canceled === true ) {
+				// console.log( response );
+
+				if ( response.canceled ) {
 					return;
 				}
 
-				console.log('guardamos el archivo ....');
-
-				// cuando se recibe la respuesta de la promesa se llama 
-				// recibe el path
-				recibirPath( response.filePath );	
-
+				recibirPath( response.filePath );
 			})
 			.catch( ( error ) => {
 				console.log( error )
-			})
-
-
-		// aqui se va a genera el codigo de la ventana guardar como
-
-
-
+			});
 	}
 }
 

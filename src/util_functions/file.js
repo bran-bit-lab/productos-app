@@ -25,6 +25,10 @@ function copyFile( url , dest ) {
 	return dest;
 }
 
+function writeFile( path, data, callback ) {
+	fs.writeFile( path, data, callback );
+}
+
 function readFileImageAsync( path, callback ) {
 
 	fs.stat( path, ( error, infoFile ) => {
@@ -55,11 +59,16 @@ function checkAsset( url ) {
 		'El archivo no existe';
 }
 
+function formatUrl( root = __dirname, url ) {
+	return path.join( root, url );
+}
+
 function deleteImageSync ( url ) {
-	try{
+
+	try {
 		fs.unlinkSync( url ) ;
 
-	}catch( error ){
+	} catch( error ) {
 		conosole.log(error)
 	}
 
@@ -74,5 +83,7 @@ module.exports = {
 	checkAsset,
 	readFileImageAsync,
 	copyFile,
-	deleteImageSync
+	deleteImageSync,
+	formatUrl,
+	writeFile
 };
