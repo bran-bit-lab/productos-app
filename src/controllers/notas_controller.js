@@ -1,9 +1,8 @@
-const { Notification, dialog, BrowserWindow } = require('electron');
+const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const TIME = require('../util_functions/time');
 const { NotasProductosController } = require('./notas_productos_controller');
-const { formatUrl, writeFile } = require('../util_functions/file');
 
 class NotasController {
 
@@ -394,11 +393,11 @@ class NotasController {
 
 		// console.log({ idNota });
 
-		const recibirPath = function( path ) {
+		const recibirPath = ( path ) => {
 
 			const winPdf = new BrowserWindow({ width: 800, height: 600, show: false });
 
-			winPdf.loadFile( formatUrl( __dirname, '../pdf/test.html' ) );
+			winPdf.loaURL(  __dirname, 'test.html' );
 
 			const contents = winPdf.webContents;
 
@@ -418,46 +417,14 @@ class NotasController {
 				//  console.log( contents.printToPDF );
 
 				contents.printToPDF( optionsPDF ).then(( dataBuffer ) => {
-
-						// console.log( dataBuffer );
-						writeFile( path, dataBuffer, ( error ) => {
-
-							const notificacion = new Notification({
-								title: 'Exito',
-								body: 'PDF de la nota de entrega: ' + idNota + ' generado correctamente'
-							});
-
-							if ( error ) {
-
-								console.log( error );
-
-								notificacion['title'] = 'Error!!';
-								notificacion['body'] = 'Error al generar el PDF';
-
-								notificacion.show();
-
-								throw error;
-							}
-
-							notificacion.show();
-
-							console.log('PDF generado correctamente');
-						});
+						console.log( dataBuffer );
 					})
 					.catch(( error ) => {
 						console.log( error );
-					})
-					.finally(() => {
-						// cierra la ventana del pdf, para que no consuma recursos del S.O.
-						winPdf.close();
 					});
 			});
 		}
 
-		// ==========================
-		// SAVE dialog
-		// ==========================
-		
 		const opciones = {
 			title : 'Guardar como',
 			buttonLabel : 'guardar' ,
