@@ -397,7 +397,7 @@ class NotasController {
 
 			const winPdf = new BrowserWindow({ width: 800, height: 600, show: false });
 
-			winPdf.loaURL(  __dirname, 'test.html' );
+			winPdf.loadURL(  __dirname + '\\test.html' );
 
 			const contents = winPdf.webContents;
 
