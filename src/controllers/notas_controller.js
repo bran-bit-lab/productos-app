@@ -420,14 +420,26 @@ class NotasController {
 				contents.printToPDF( optionsPDF ).then(( dataBuffer ) => {
 
 						// console.log( dataBuffer );
-
 						writeFile( path, dataBuffer, ( error ) => {
 
+							const notificacion = new Notification({
+								title: 'Exito',
+								body: 'PDF de la nota de entrega: ' + idNota + ' generado correctamente'
+							});
+
 							if ( error ) {
+
 								console.log( error );
+
+								notificacion['title'] = 'Error!!';
+								notificacion['body'] = 'Error al generar el PDF';
+
+								notificacion.show();
 
 								throw error;
 							}
+
+							notificacion.show();
 
 							console.log('PDF generado correctamente');
 						});
@@ -436,14 +448,16 @@ class NotasController {
 						console.log( error );
 					})
 					.finally(() => {
-
-						// close the hidden window of pdf
+						// cierra la ventana del pdf, para que no consuma recursos del S.O.
 						winPdf.close();
 					});
 			});
 		}
 
-		// show save dialog
+		// ==========================
+		// SAVE dialog
+		// ==========================
+		
 		const opciones = {
 			title : 'Guardar como',
 			buttonLabel : 'guardar' ,
