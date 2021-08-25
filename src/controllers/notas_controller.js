@@ -1,4 +1,4 @@
-const { Notification, dialog } = require('electron');
+const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const TIME = require('../util_functions/time');
