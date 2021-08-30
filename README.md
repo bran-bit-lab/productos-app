@@ -14,3 +14,9 @@ Para crear binarios de la aplicacion `npm run make`
 
 
 Para mas documentacion de despliuegue consultar https://www.electronforge.io/
+
+
+### ATENCIÓN limpiar el cache antes de construir los modules de node
+
+- verificar si existe data en cache: `npm cache verify`
+- limpiar con el comando ´npm cache clean -f´
