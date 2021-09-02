@@ -1,12 +1,16 @@
+
 const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const TIME = require('../util_functions/time');
 const { NotasProductosController } = require('./notas_productos_controller');
+const { PdfController } = require('./pdf_controller');
+const FILE = require('../util_functions/file')
 
 class NotasController {
 
 	databaseInstance = null;
+
 
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
@@ -391,8 +395,11 @@ class NotasController {
 
 	static generarPDFNota( idNota ) {
 
-		// console.log({ idNota });
+		const pdfController = new PdfController(); // creas un objeto PDF controller
 
+
+		// console.log({ idNota });
+/*
 		const recibirPath = ( path ) => {
 
 			const winPdf = new BrowserWindow({ width: 800, height: 600, show: false });
@@ -424,6 +431,8 @@ class NotasController {
 					});
 			});
 		}
+*/
+		//console.log ('pdfDocument -->', PDFDocument)
 
 		const opciones = {
 			title : 'Guardar como',
@@ -432,7 +441,7 @@ class NotasController {
 		};
 
 		dialog.showSaveDialog( null , opciones )
-			.then(( response ) => {
+			.then( async ( response ) => {
 
 				// console.log( response );
 
@@ -440,7 +449,22 @@ class NotasController {
 					return;
 				}
 
-				recibirPath( response.filePath );
+				//console.log ( "respuesta -->", response.filePath );
+				// ejecutamos
+				const data = await pdfController.createPdf( response.filePath );
+
+				FILE.writeFile( response.filePath, data, ( error ) => {
+
+					if (error){
+						console.log(error)
+						return;
+					}
+
+					console.log( 'documento guardado' )
+
+				});
+
+				console.log( data );
 			})
 			.catch( ( error ) => {
 				console.log( error )
