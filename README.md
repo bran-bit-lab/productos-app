@@ -15,7 +15,8 @@ Para crear binarios de la aplicacion `npm run make`
 
 Para mas documentacion de despliuegue consultar https://www.electronforge.io/
 
-## NOTA PARA DESARROLLO: Windows
 
-En caso de algun problema puedes limpiar la cache de tu equipo con el comando
-`npm cache clean -f` y luego `npm i`
+### ATENCI�N limpiar el cache antes de construir los modules de node
+
+- verificar si existe data en cache: `npm cache verify`
+- limpiar con el comando `npm cache clean -f`

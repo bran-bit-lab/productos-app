@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { ENV } = require('../env');
+const os = require('os');
 
 /*
 	Javascript se ejecuta en paralelo de forma sincrona y luego asincrona a
@@ -19,7 +20,7 @@ function readFileAssets( url ) {
 function copyFile( url , dest ) {
 	dest = path.join( ENV.PATH_PICTURES, dest );
 
-	console.log(dest);
+	// console.log( dest );
 	fs.copyFileSync( url , dest );
 
 	return dest;
@@ -63,15 +64,29 @@ function formatUrl( root = __dirname, url ) {
 	return path.join( root, url );
 }
 
-function deleteImageSync ( url ) {
+function deleteImageSync( url ) {
 
 	try {
-		fs.unlinkSync( url ) ;
+		fs.unlinkSync( url );
 
 	} catch( error ) {
-		conosole.log(error)
+		console.log(error)
 	}
 
+}
+
+function getHomePath( fileName = '' ) {
+
+	/*
+	*	@params fileName: string
+	*	return string
+	*/
+
+	if ( fileName.length > 0 ) {
+			return path.join( os.homedir(), '/' + fileName );
+	}
+
+	return path.join( os.homedir() );
 }
 
 
@@ -85,5 +100,6 @@ module.exports = {
 	copyFile,
 	deleteImageSync,
 	formatUrl,
-	writeFile
+	writeFile,
+	getHomePath
 };

@@ -158,7 +158,7 @@ CREATE TABLE `notas_productos` (
   `id_NP` bigint(20) NOT NULL AUTO_INCREMENT,
   `id_nota` int(11) DEFAULT NULL,
   `id_producto` int(11) DEFAULT NULL,
-  `cantidad_selecionada` int(11) NOT NULL,
+  `cantidad_seleccionada` int(11) NOT NULL,
   PRIMARY KEY (`id_NP`),
   KEY `id_nota` (`id_nota`),
   KEY `id_producto` (`id_producto`),

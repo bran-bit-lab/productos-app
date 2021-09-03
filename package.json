@@ -46,9 +46,11 @@
     "@popperjs/core": "^2.6.0",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.0.0-beta1",
+    "chart.js": "^3.5.1",
     "electron-squirrel-startup": "^1.0.0",
     "inquirer": "^8.1.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "pdf-lib": "^1.16.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",
@@ -57,7 +59,7 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
     "@electron-forge/maker-zip": "^6.0.0-beta.54",
     "@types/mysql": "^2.15.17",
-    "electron": "^11.1.0",
+    "electron": "11.4.12",
     "electron-reload": "^1.5.0"
   }
 }

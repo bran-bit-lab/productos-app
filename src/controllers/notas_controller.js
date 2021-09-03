@@ -1,12 +1,16 @@
+
 const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const TIME = require('../util_functions/time');
 const { NotasProductosController } = require('./notas_productos_controller');
+const { PdfController } = require('./pdf_controller');
+const FILE = require('../util_functions/file')
 
 class NotasController {
 
 	databaseInstance = null;
+
 
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
@@ -391,59 +395,56 @@ class NotasController {
 
 	static generarPDFNota( idNota ) {
 
-		// console.log({ idNota });
+		const pdfController = new PdfController(); // creas un objeto PDF controller
 
-		const recibirPath = ( path ) => {
-
-			const winPdf = new BrowserWindow({ width: 800, height: 600, show: false });
-
-			winPdf.loadURL(  __dirname + '\\test.html' );
-
-			const contents = winPdf.webContents;
-
-			// lo siguiente es ocultar la ventana y generar un evento
-			contents.on('did-finish-load', () => {
-
-				// console.log( 'document loaded', contents );
-
-				const optionsPDF = {
-				    marginsType: 0,
-				    pageSize: 'A4',
-				    printBackground: true,
-				    printSelectionOnly: false,
-				    landscape: false
-				};
-
-				//  console.log( contents.printToPDF );
-
-				contents.printToPDF( optionsPDF ).then(( dataBuffer ) => {
-						console.log( dataBuffer );
-					})
-					.catch(( error ) => {
-						console.log( error );
-					});
-			});
-		}
-
-		const opciones = {
-			title : 'Guardar como',
-			buttonLabel : 'guardar' ,
-			filters : [{ name: 'pdf', extensions: ['pdf'] }]
+		const options = {
+			title : 'Guardar Archivo',
+			buttonLabel : 'Guardar' ,
+			filters : [{ name: 'pdf', extensions: ['pdf'] }],
+			defaultPath: FILE.getHomePath()
 		};
 
-		dialog.showSaveDialog( null , opciones )
-			.then(( response ) => {
+		dialog.showSaveDialog( null, options )
+			.then( async ( response ) => {
 
-				// console.log( response );
+				/*	Documentación
+				*  response == { canceled: boolean,  filePath: string }
+				*/
 
 				if ( response.canceled ) {
 					return;
 				}
 
-				recibirPath( response.filePath );
+				const data = await pdfController.createPdf();
+
+				FILE.writeFile( response.filePath, data, ( error ) => {
+
+					const notification = new Notification({
+						title: 'Éxito',
+						body: 'Documento generado con éxito'
+					});
+
+					if ( error ) {
+
+						console.log( error );
+
+						notification['title'] = 'Error!!';
+						notification['body'] = 'Error al guardar archivo';
+
+						notificacion.show();
+
+						// throw error;
+
+						return;
+					}
+
+					notification.show();
+
+					// console.log( 'documento guardado' );
+				});
 			})
 			.catch( ( error ) => {
-				console.log( error )
+				console.log( error );
 			});
 	}
 }
