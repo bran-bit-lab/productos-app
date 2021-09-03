@@ -3,7 +3,7 @@
 Software construido en electronJS, utilizando Electron Forge
 
 #### Requisitos:
-- nodeJS >= 10.0
+- nodeJS >= 12.1.13
 
 Una vez clonado el proyecto ejecuta el comando `npm install` para construir los
 modulos de node.
@@ -14,3 +14,8 @@ Para crear binarios de la aplicacion `npm run make`
 
 
 Para mas documentacion de despliuegue consultar https://www.electronforge.io/
+
+## NOTA PARA DESARROLLO: Windows
+
+En caso de algun problema puedes limpiar la cache de tu equipo con el comando
+`npm cache clean -f` y luego `npm i`
