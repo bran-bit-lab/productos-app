@@ -411,13 +411,13 @@ class NotasController {
 				*  response == { canceled: boolean,  filePath: string }
 				*/
 
-				if ( response.canceled ) {
+				if ( response['canceled'] ) {
 					return;
 				}
 
 				const data = await pdfController.createPdf();
 
-				FILE.writeFile( response.filePath, data, ( error ) => {
+				FILE.writeFile( response['filePath'], data, ( error ) => {
 
 					const notification = new Notification({
 						title: 'Éxito',
