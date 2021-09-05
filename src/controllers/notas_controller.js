@@ -415,7 +415,9 @@ class NotasController {
 					return;
 				}
 
-				const data = await pdfController.createPdf();
+				const nota = await NotasController.obtenerNota( idNota )
+
+				const data = await pdfController.createPdf( nota );
 
 				FILE.writeFile( response['filePath'], data, ( error ) => {
 
