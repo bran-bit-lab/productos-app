@@ -3,7 +3,7 @@ class ClientsTableComponent {
     this.clients = [];
     this.page = 1;
     this.pagination = document.querySelector('#pagination-clients');
-    this.searchBar = document.querySelector('search-bar-component[from="clients"]')
+    this.searchBar = document.querySelector('search-bar-component[from="clients"]');
     this.tbody = document.querySelector('#tbody-client');
     this.getAll = this.getAll.bind( this );
 

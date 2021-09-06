@@ -122,18 +122,3 @@ changeRoleForm.addEventListener('submit', ModalChangeRole.getForm.bind(
 ));
 
 document.addEventListener('DOMContentLoaded', usersComponent.setHtml );
-
-// custom Events search-bar
-for ( const element of document.querySelectorAll('search-bar-component') ) {
-
-	element.addEventListener('search', ( $event ) => {
-		if ( $event.detail.from === 'clients' ) {
-			// code here...
-
-		} else {
-			console.log( $event );
-			usersTableComponent.getUser.call( usersTableComponent, $event.detail.value )
-
-		}
-	});
-}

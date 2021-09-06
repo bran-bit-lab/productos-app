@@ -3,6 +3,7 @@ class UsersTableComponent {
     this.pagination = document.querySelector('#pagination-users');
 		this.tbody = document.querySelector('#tbody-user');
 		this.totalUsers = document.querySelector('#totalUsers');
+    this.searchBar = document.querySelector('search-bar-component[from="users"]');
 
 		this.renderUsers = this.renderUsers.bind( this );
 		this.deleteUser = this.deleteUser.bind( this );
@@ -20,6 +21,8 @@ class UsersTableComponent {
     this.pagination.addEventListener( 'pagination',
     	( $event ) => this.getAll( null,  $event.detail.value, $event.detail.page )
     );
+
+    this.searchBar.addEventListener('search', ( $event ) => this.searchUser( $event.detail.value ));
   }
 
   async getAll( $event, pagination = [ 0, 10 ], page = this.page ) {
@@ -43,7 +46,7 @@ class UsersTableComponent {
 
 	}
 
-	async getUser( search ) {
+	async searchUser( search ) {
 
 		const rexp = /^[\w\d\s]+$/;
 
@@ -59,8 +62,10 @@ class UsersTableComponent {
 
 
 		if ( !rexp.test( search ) ) {
-			console.log('no concuerda con expresion regular');
-			return;
+
+      console.log('no concuerda con expresion regular');
+
+      return;
 		}
 
 		// search es la busqueda
