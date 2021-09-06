@@ -81,14 +81,14 @@ class PdfController {
 		  color: rgb( 0, 0, 0 ),
 		});
 
-		if (nota['productos'].length > 0){
+		if ( nota.productos.length > 0 ) {
 
 			let posicion = 18; //posicion donde se comienza a agregar el producto
 
 			nota.productos.forEach( ( producto ) => {
 				page.drawText([
 	      		`• id:   ${producto.productoid}`,
-			      `nombre:   ${producto.nombre.length > 15 ? producto.nombre + ' ...' : producto.nombre}`,
+			      `nombre:   ${producto.nombre.length > 15 ? producto.nombre.slice(0, 14) + ' ...' : producto.nombre}`,
 			      `cantidad:   ${producto.cantidad_seleccionada}`,
 			      `precio unitario:  ${producto.precio}$`,
 			    ].join('\t\t'), {
