@@ -404,27 +404,47 @@ class NotasController {
 			defaultPath: FILE.getHomePath()
 		};
 
+		const notification = new Notification({
+			title: 'Éxito',
+			body: 'Documento generado con éxito'
+		});
+
 		dialog.showSaveDialog( null, options )
 			.then( async ( response ) => {
 
 				/*	Documentación
 				*  response == { canceled: boolean,  filePath: string }
+				*  extensions = 'extensiones permitidas'
 				*/
+
+				const extensions = ['.pdf'];
 
 				if ( response['canceled'] ) {
 					return;
 				}
 
-				const nota = await NotasController.obtenerNota( idNota )
+				// verifica la extension del archivo que sea pdf
+				if ( !response['filePath'].includes( extensions[0] ) ) {
 
+					notification['title'] = 'Error !!';
+					notification['body'] = 'Extension del archivo no valida';
+
+					notification.show();
+
+					// console.log( response['filePath'] );
+
+					return;
+				}
+
+				// si existe el archivo lo sustituye
+				if ( FILE.checkAsset( response['filePath'], false ) ) {
+					FILE.deleteFileSync( response['filePath'] );
+				}
+
+				const nota = await NotasController.obtenerNota( idNota );
 				const data = await pdfController.createPdf( nota );
 
 				FILE.writeFile( response['filePath'], data, ( error ) => {
-
-					const notification = new Notification({
-						title: 'Éxito',
-						body: 'Documento generado con éxito'
-					});
 
 					if ( error ) {
 
@@ -441,11 +461,15 @@ class NotasController {
 					}
 
 					notification.show();
-
-					// console.log( 'documento guardado' );
 				});
 			})
 			.catch( ( error ) => {
+
+				notification['title'] = 'Error !!';
+				notification['body'] = 'Error al abrir ventana guardar';
+
+				notification.show();
+
 				console.log( error );
 			});
 	}

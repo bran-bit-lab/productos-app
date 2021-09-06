@@ -55,16 +55,22 @@ function readFileImageAsync( path, callback ) {
 	});
 }
 
-function checkAsset( url ) {
-  return fs.existsSync( path.join( __dirname, url ) ) ? 'El archivo existe' :
-		'El archivo no existe';
+function checkAsset( url, concat = true ) {
+
+	// return bool
+
+	if ( concat ) {
+			return fs.existsSync( path.join( __dirname, url ) );
+	}
+
+	return fs.existsSync( url );
 }
 
 function formatUrl( root = __dirname, url ) {
 	return path.join( root, url );
 }
 
-function deleteImageSync( url ) {
+function deleteFileSync( url ) {
 
 	try {
 		fs.unlinkSync( url );
@@ -98,7 +104,7 @@ module.exports = {
 	checkAsset,
 	readFileImageAsync,
 	copyFile,
-	deleteImageSync,
+	deleteFileSync,
 	formatUrl,
 	writeFile,
 	getHomePath

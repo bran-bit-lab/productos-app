@@ -8,20 +8,21 @@ class PdfController {
 		console.log( 'nota --> ', nota );
 
 		const pdfDoc = await PDFDocument.create();
-		const timesRomanFont = await pdfDoc.embedFont( StandardFonts.Helvetica );
+		const helveticaFont = await pdfDoc.embedFont( StandardFonts.Helvetica );
 		const helveticaBoldFont =  await pdfDoc.embedFont( StandardFonts.HelveticaBold );
 		const page = pdfDoc.addPage();
 		const { width, height } = page.getSize();
 
 		const fontSize = 20
-		
+
+		// datos hoja carta
 		// altura = 841.89 y ancho = 595.28
 
 		page.drawText('Productos-app', {
 		  x: 50,
 		  y: height - 2 * fontSize,
-		  size: fontSize,
-		  font: timesRomanFont,
+		  size: 24,
+		  font: helveticaFont,
 		  color: rgb(0, 0, 0),
 		});
 
@@ -30,11 +31,10 @@ class PdfController {
 		  y: height - 2 * fontSize,
 		  size: 14,
 		  font: helveticaBoldFont,
-		  color: rgb( 0,0.8,0.8 ),
+		  color: rgb( 0, 0.8, 0.8 ),
 		});
 
-		page.drawText('Fecha de creación: ' + TIME.dateSpanish( new Date(nota.creacion)), 
-		{
+		page.drawText('Fecha de creación: ' + TIME.dateSpanish( new Date(nota.creacion)), {
 		  x: 50,
 		  y: height - 2 * 40,
 		  size: 14,
@@ -46,37 +46,34 @@ class PdfController {
 		  x: width - 10 * fontSize,
 		  y: height - 2 * 40,
 		  size: 14,
-		  font: timesRomanFont,
+		  font: helveticaFont,
 		  color: rgb( 0, 0, 0 ),
 		});
 
-		page.drawText('Datos del Cliente: ', 
-		{
+		page.drawText('Datos del Cliente: ', {
 		  x: 50,
 		  y: height - 6 * fontSize,
-		  size: 16,
+		  size: 14,
 		  font: helveticaBoldFont,
 		  color: rgb( 0, 0, 0 ),
 		});
 
 		page.drawText([
-      		  `  • Nombre del cliente: `+ nota.nombre_cliente,
-		      `  • RIF: `+ nota.rif,
-		      `  • Telefono: `+ nota.telefono_contacto,
-		      `  • Direccion de Entrega: `+ nota.direccion_entrega,
-		      `  • Descripción: `+ nota.descripcion_nota,
-		      `  • Fecha de Entrega: ${nota.fecha_entrega ? nota.fecha_entrega : ''}`,
-		    	].join('\n'), 
-		{
-		  x: 50,
-		  y: height - 8 * fontSize,
-		  size: 14,
-		  font: timesRomanFont,
-		  color: rgb( 0, 0, 0 ),
+    		`Nombre del cliente: ${nota.nombre_cliente}`,
+	      `RIF: ${nota.rif}`,
+	      `Telefono: ${nota.telefono_contacto}`,
+	      `Direccion de Entrega: ${nota.direccion_entrega}`,
+	      `Descripción: ${nota.descripcion_nota}`,
+	      `Fecha de Entrega: ${nota.fecha_entrega ? nota.fecha_entrega : 'No entregado'}`,
+		  ].join('\n'), {
+			  x: 50,
+			  y: height - 8 * fontSize,
+			  size: 14,
+			  font: helveticaFont,
+			  color: rgb( 0, 0, 0 ),
 		});
 
-		page.drawText('Productos: ', 
-		{
+		page.drawText('Lista de productos: ', {
 		  x: 50,
 		  y: height - 16 * fontSize,
 		  size: 14,
@@ -85,27 +82,24 @@ class PdfController {
 		});
 
 		if (nota['productos'].length > 0){
-			
+
 			let posicion = 18; //posicion donde se comienza a agregar el producto
 
-			nota.productos.forEach( ( producto )=> {
+			nota.productos.forEach( ( producto ) => {
 				page.drawText([
-	      		  `   id `+ producto.productoid,
-			      `   nombre: `+ producto.nombre,
-			      `   cantidad: `+ producto.cantidad_seleccionada,
-			      `   precio: `+ producto.precio,
-			    ].join('\t'), 
-
-				{
-				  x: 50,
-				  y: height - posicion * fontSize,
-				  size: 14,
-				  font: timesRomanFont,
-				  color: rgb( 0, 0, 0 ),
+	      		`• id:   ${producto.productoid}`,
+			      `nombre:   ${producto.nombre.length > 15 ? producto.nombre + ' ...' : producto.nombre}`,
+			      `cantidad:   ${producto.cantidad_seleccionada}`,
+			      `precio unitario:  ${producto.precio}$`,
+			    ].join('\t\t'), {
+				  	x: 50,
+				  	y: height - posicion * fontSize,
+				  	size: 12,
+				  	font: helveticaFont,
+				  	color: rgb( 0, 0, 0 ),
 				});
 
 				posicion++;
-
 			});
 
 			page.drawRectangle({
@@ -117,30 +111,23 @@ class PdfController {
 			  color: rgb(1, 1, 1),
 			  opacity: 0.5,
 			  borderOpacity: 0.75,
-			})
-		
+			});
+
 		} else {
-			
-			page.drawText('No hay productos seleccionados ', 
-				{
-				  x: 50,
-				  y: height - 18 * fontSize,
-				  size: 14,
-				  font: helveticaBoldFont,
-				  color: rgb( 1, 0, 0 ),
-				});
-			}
 
-
+			page.drawText('No hay productos seleccionados ', {
+			  x: 50,
+			  y: height - 18 * fontSize,
+			  size: 14,
+			  font: helveticaBoldFont,
+			  color: rgb( 1, 0, 0 ),
+			});
+		}
 
 		const pdfBytes = await pdfDoc.save();
 
 		return pdfBytes;
 	}
-
-
-	
-
 }
 
 module.exports = { PdfController };
