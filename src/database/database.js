@@ -121,7 +121,12 @@ class Database {
 		mysqlAPI.connect(( error ) => {
 
 			if ( error ) {
-				throw error;
+
+				dialog.showErrorBox('Error!!', 'Usuario de acceso inválido');
+
+				console.log( error );
+
+				return;
 			};
 
 			console.log('Base de datos en linea!!');
