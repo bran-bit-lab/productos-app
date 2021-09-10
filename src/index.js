@@ -20,6 +20,7 @@ function createWindow() {
 
     win.loadFile( urlAssets + '/login/login.html' );
 
+    Database.connect();
 
     // win.webContents.openDevTools();
 }

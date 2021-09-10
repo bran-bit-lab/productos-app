@@ -1,7 +1,8 @@
+const { dialog } = require('electron');
 const mysql = require('mysql');
 const file = require('../util_functions/file');
 
-let user = null;
+let mysqlAPI = null;
 
 class Database {
 
@@ -41,7 +42,12 @@ class Database {
 	// metodo de cierre de conexion
 	static closeConnection() {
 
+		if ( !mysqlAPI ) {
+			return;
+		}
+
 		mysqlAPI.end(( error ) => {
+
 			if ( error ) {
 				throw error;
 			}
@@ -75,40 +81,53 @@ class Database {
 
 		}).bind( this ));
 	}
+
+	static connect() {
+
+		let user = null
+
+		try {
+
+			let data = file.readFile("/users-productos-app.ini");
+
+			let arregloConexion = JSON.parse( data );
+			let key = "user_gabriel_ventas";
+
+			if ( !arregloConexion.hasOwnProperty( key ) ) {
+				throw { title: 'Error !!', message: 'Error al conectar en Base de Datos' };
+			}
+
+			user = arregloConexion[ key ];
+
+		} catch ( error ) {
+
+			dialog.showErrorBox( error.title, error.message );
+
+			console.log( error );
+
+			return;
+		}
+
+		mysqlAPI = mysql.createConnection({
+			host: user["host"],
+			user: user["username"],
+			password: user["password"],
+			database: user["database"],
+			port: user["port"]
+		});
+
+		mysqlAPI.config.queryFormat = Database.sqlParse;
+
+		mysqlAPI.connect(( error ) => {
+
+			if ( error ) {
+				throw error;
+			};
+
+			console.log('Base de datos en linea!!');
+		});
+	}
 }
-
-try {
-
-	let data = file.readFile("/users-productos-app.ini");
-
- 	let arregloConexion = JSON.parse( data );
-
- 	user = arregloConexion["user_gabriel_ventas"];
-
-} catch ( error ) {
-
-	console.log( error );
-}
-
-const mysqlAPI = mysql.createConnection({
-	host: user["host"],
-	user: user["username"],
-	password: user["password"],
-	database: user["database"],
-	port: user["port"]
-});
-
-mysqlAPI.config.queryFormat = Database.sqlParse;
-
-mysqlAPI.connect(( error ) => {
-
-	if ( error ) {
-		throw error;
-	};
-
-	console.log('Base de datos en linea!!');
-});
-
 
 module.exports = {
 	Database
