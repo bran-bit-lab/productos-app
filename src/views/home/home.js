@@ -33,7 +33,7 @@ class HomeComponent {
 	}
 
 	openEstadistics() {
-		console.log('abrir estadisticas');
+		return redirectTo('../reports/reports.html');
 	}
 
 	openProducts() {

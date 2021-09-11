@@ -1,0 +1,36 @@
+@import '../global.css';
+
+body {
+	overflow-y: auto !important;
+}
+
+main {
+	width: 100%;
+	height: 100%;
+}
+
+.info {
+	margin: 0 25px 0 25px;
+}
+
+#delivery-questions,
+#product-questions,
+#from-until {
+	display: none;
+}
+
+form[name="form-estadistics"] {
+	height: 100%;
+}
+
+.button-stadistic {
+	position: sticky;
+	bottom: 25px;
+	left: calc( 94% / 2 );
+}
+
+@media screen and ( max-width: 768px ) {
+		.button-stadistic {
+			left: calc( 62% / 2 );
+		}
+}
