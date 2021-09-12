@@ -15,7 +15,7 @@ main {
 
 #delivery-questions,
 #product-questions,
-#from-until {
+#from-until, #canvas-estadistics {
 	display: none;
 }
 
@@ -25,12 +25,13 @@ form[name="form-estadistics"] {
 
 .button-stadistic {
 	position: sticky;
-	bottom: 25px;
-	left: calc( 94% / 2 );
+	bottom: 0;
+	left: 45%;
+	margin-bottom: 25px;
 }
 
 @media screen and ( max-width: 768px ) {
 		.button-stadistic {
-			left: calc( 62% / 2 );
+			left: 33%;
 		}
 }

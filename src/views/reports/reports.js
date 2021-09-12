@@ -1,9 +1,17 @@
+// chart.js
+const Chart = require('chart.js');
+
 class ReportsComponent {
   constructor() {
     this.form = document.forms['form-estadistics'];
     this.productQuestions = this.form.querySelector('#product-questions');
     this.deliveryQuestions = this.form.querySelector('#delivery-questions');
     this.period = this.form.querySelector('#from-until');
+
+    // charts
+    this.canvasRow = this.form.querySelector('#canvas-estadistics');
+    this.chart1 = null;
+    this.chart2 = null;
 
     this.handleChangeBusiness = this.handleChangeBusiness.bind( this );
     this.setEvents();
@@ -57,6 +65,10 @@ class ReportsComponent {
     hideElement( this.productQuestions );
     this.showPeriod('none');
 
+    this.canvasRow.style.display = 'none';
+    this.chart1 = null;
+    this.chart2 = null;
+
     for ( const input of this.period.querySelectorAll('input[type="date"]') ) {
       input.value = '';
     }
@@ -81,7 +93,84 @@ class ReportsComponent {
       to: ''
     };
 
-    console.log( data );
+    this.canvasRow.style.display = 'flex';
+
+    this.createBarChart('#test');
+    this.createPieChart('#test2');
+  }
+
+  createBarChart( idChart ) {
+
+    const canvas = document.querySelector( idChart );
+    canvas.parentNode.style.height = '100%';
+    canvas.parentNode.style.width = '100%';
+
+    this.chart1 = new Chart( canvas, {
+      type: 'bar',
+      data: {
+       labels: ['rojo', 'azul', 'amarillo', 'verde', 'morado', 'naranja'],
+       datasets: [{
+           label: 'numero de votos',
+           data: [12, 19, 20, 5, 2, 3],
+           backgroundColor: [
+               'rgba(255, 99, 132, 0.2)',
+               'rgba(54, 162, 235, 0.2)',
+               'rgba(255, 206, 86, 0.2)',
+               'rgba(75, 192, 192, 0.2)',
+               'rgba(153, 102, 255, 0.2)',
+               'rgba(255, 159, 64, 0.2)'
+           ],
+           borderColor: [
+               'rgba(255, 99, 132, 1)',
+               'rgba(54, 162, 235, 1)',
+               'rgba(255, 206, 86, 1)',
+               'rgba(75, 192, 192, 1)',
+               'rgba(153, 102, 255, 1)',
+               'rgba(255, 159, 64, 1)'
+           ],
+           borderWidth: 1
+       }]
+     },
+     options: {
+       scales: {
+         y: {
+           beginAtZero: true
+         }
+       },
+       responsive: true
+     }
+    });
+  }
+
+  createPieChart( idChart ) {
+
+    const canvas = document.querySelector( idChart );
+
+    this.chart2 = new Chart( canvas, {
+      type: 'pie',
+      data: {
+        labels: ['rojo', 'azul', 'amarillo'],
+        datasets: [{
+          data: [30, 20, 50],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+       responsive: true
+      }
+    });
+
+    console.log( this.chart2 );
   }
 }
 

@@ -43,62 +43,84 @@
                 </select>
               </div>
 
-            </div>
-            <div class="col-md-6 col-12 ps-3">
+              </div>
+              <div class="col-md-6 col-12 ps-3">
 
-              <!-- nota de entrega -->
-              <div class="form-group" id="delivery-questions">
-                <label for="del-questions" class="form-label">Consultar:</label>
-                <select
+                <!-- nota de entrega -->
+                <div class="form-group" id="delivery-questions">
+                  <label for="del-questions" class="form-label">Consultar:</label>
+                  <select
+                    class="form-control"
+                    onchange="reportsComponent.handleChangeQuestions( event )"
+                    id="del-questions"
+                    name="delivery-questions"
+                  >
+                    <option value="">Seleccione</option>
+                    <option value="total-delivery">Totalidad de entregas</option>
+                    <option value="state-delivery">Estados de las entregas hasta hoy</option>
+                    <option value="delivery-period">Estados de las entregas por periodo</option>
+                  </select>
+                </div>
+
+                <!-- productos -->
+                <div class="form-group" id="product-questions">
+                  <label for="prod-questions" class="form-label">Consultar:</label>
+                  <select
                   class="form-control"
+                  id="prod-questions"
+                  name="product-questions"
                   onchange="reportsComponent.handleChangeQuestions( event )"
-                  id="del-questions"
-                  name="delivery-questions"
-                >
-                  <option value="">Seleccione</option>
-                  <option value="total-delivery">Totalidad de entregas</option>
-                  <option value="state-delivery">Estados de las entregas hasta hoy</option>
-                  <option value="delivery-period">Estados de las entregas por periodo</option>
-              </select>
-            </div>
+                  >
+                    <option value="">Seleccione</option>
+                    <option value="total-product-category">Totalidad de productos por categoria</option>
+                    <option value="product-sold">Cantidad de productos vendidos hasta hoy</option>
+                    <option value="product-period">Cantidad de productos vendidos por periodo</option>
+                  </select>
+                </div>
 
-            <!-- productos -->
-            <div class="form-group" id="product-questions">
-              <label for="prod-questions" class="form-label">Consultar:</label>
-              <select
-              class="form-control"
-              id="prod-questions"
-              name="product-questions"
-              onchange="reportsComponent.handleChangeQuestions( event )"
-              >
-                <option value="">Seleccione</option>
-                <option value="total-product-category">Totalidad de productos por categoria</option>
-                <option value="product-sold">Cantidad de productos vendidos hasta hoy</option>
-                <option value="product-period">Cantidad de productos vendidos por periodo</option>
-            </select>
-          </div>
-
-          </div>
-        </div>
-
-          <div class="row mt-3" id="from-until">
-            <div class="col-md-6 col-12 pe-3">
-              <div class="form-group">
-                <label for="" class="form-label">Desde:</label>
-                <input type="date" name="from" value="" class="form-control" />
               </div>
             </div>
-            <div class="col-md-6 col-12 ps-3">
-              <div class="form-group">
-                <label for="" class="form-label">Hasta:</label>
-                <input type="date" name="to" value="" class="form-control" />
+
+            <div class="row mt-3" id="from-until">
+              <div class="col-md-6 col-12 pe-3">
+                <div class="form-group">
+                  <label for="" class="form-label">Desde:</label>
+                  <input type="date" name="from" value="" class="form-control" />
+                </div>
+              </div>
+              <div class="col-md-6 col-12 ps-3">
+                <div class="form-group">
+                  <label for="" class="form-label">Hasta:</label>
+                  <input type="date" name="to" value="" class="form-control" />
+                </div>
               </div>
             </div>
-          </div>
+
+            <!-- test -->
+            <div class="row mt-5" id="canvas-estadistics">
+              <div class="col-md-6 col-12">
+                <div>
+                  <canvas id="test"></canvas>
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <div class="d-flex flex-row justify-content-center">
+                  <div>
+                    <canvas id="test2"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </main>
-      <button type="submit" class="btn btn-primary button-stadistic">Mostrar estadistica</button>
+      <div class="fixed-bottom">
+        <div class="d-flex justify-content-center justify-content-center m-3">
+          <button type="submit" class="btn btn-primary">Mostrar Graficas</button>
+          <button type="button" class="btn btn-primary ms-3">Generar reporte</button>
+        </div>
+      </div>
     </form>
     <script src="../global.js"></script>
     <script src="./reports.js"></script>
