@@ -1,5 +1,4 @@
 const CRUD = Object.freeze({
-
 	// users ...
 	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (:nombre, :apellido, :correo, :area, :password);",
 	listarUsuarios : "SELECT * FROM usuarios LIMIT :start, :limit;",
@@ -59,6 +58,15 @@ const CRUD = Object.freeze({
 	listarNotasProductos: "SELECT * FROM notas_productos  WHERE id_nota = :id_nota;",
 	actualizarNotaProducto: "UPDATE notas_productos SET cantidad_seleccionada = :cantidad_seleccionada WHERE id_NP = :id_NP",
 
+	// NO BORRAR
+	// consultas de agrupacion estadisticas
+	// ObtenerTotalProductosPorCategoria: "SELECT c.nombre AS categoria, SUM( p.cantidad ) AS cantidad_productos FROM productos p INNER JOIN categorias c ON  c.categoriaid = p.categoriaid GROUP BY categoria;",
+	// ObtenerCantidadMaximaVendidaGeneral: "SELECT p.nombre AS nombre, MAX( np.cantidad_seleccionada ) AS cantidad_max_vendida FROM notas_productos np INNER JOIN productos p ON np.id_producto = p.productoid INNER JOIN notas n ON n.id_nota = np.id_nota WHERE n.status = 'ENTREGADA'  GROUP by nombre ORDER BY cantidad_seleccionada DESC;",
+	// ObtenerCantidadMaximaVendidaPeriodo: "SELECT p.nombre AS nombre, MAX( np.cantidad_seleccionada ) AS cantidad_max_vendida FROM notas_productos np INNER JOIN productos p ON np.id_producto = p.productoid INNER JOIN notas n ON n.id_nota = np.id_nota WHERE n.status = 'ENTREGADA' AND  n.fecha_entrega BETWEEN :fecha_inicio AND :fecha_fin GROUP by nombre ORDER BY cantidad_seleccionada DESC;",
+	// ObtenerNotasPorVendedorGeneral: "SELECT CONCAT( u.nombre, ' ', u.apellido ) as nombre_vendedor, COUNT( n.id_nota ) as cantidad_notas FROM usuarios u INNER JOIN notas n ON n.userid = u.userid  WHERE n.status = 'ENTREGADA' GROUP BY nombre_vendedor  ORDER BY cantidad_notas DESC;",
+	// ObtenerNotasPorVendedorPeriodo: "SELECT CONCAT( u.nombre, ' ', u.apellido ) as nombre_vendedor, COUNT( n.id_nota ) as cantidad_notas FROM usuarios u INNER JOIN notas n ON n.userid = u.userid  WHERE n.status = 'ENTREGADA' AND  n.fecha_entrega BETWEEN :fecha_inicio AND :fecha_fin GROUP BY nombre_vendedor  ORDER BY cantidad_notas DESC;",
+	// ObtenerTotalNotasPorCategoriaGeneral: "SELECT status, COUNT( id_nota ) AS total FROM notas GROUP BY status ORDER BY total DESC",
+	// ObtenerTotalNotasPorCategoriaPeriodo: "SELECT status, COUNT( id_nota ) AS total FROM notas WHERE fecha_entrega BETWEEN :fecha_inicio AND :fecha_fin GROUP BY status ORDER BY total DESC",
 });
 
 module.exports = CRUD;

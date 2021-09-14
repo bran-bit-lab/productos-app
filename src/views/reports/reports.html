@@ -41,6 +41,7 @@
                   <option value="delivery">Notas de entrega</option>
                   <option value="product">Productos</option>
                 </select>
+                <div class="invalid-feedback text-center" id="error-area-business"></div>
               </div>
 
               </div>
@@ -56,10 +57,12 @@
                     name="delivery-questions"
                   >
                     <option value="">Seleccione</option>
-                    <option value="total-delivery">Totalidad de entregas</option>
-                    <option value="state-delivery">Estados de las entregas hasta hoy</option>
-                    <option value="delivery-period">Estados de las entregas por periodo</option>
+                    <option value="quantity-general">Cantidad de notas entregadas por vendedor ( General )</option>
+                    <option value="quantity-period">Cantidad de notas entregadas por vendedor ( Periodo )</option>
+                    <option value="delivery-general">Cantidad de notas por categoria ( General )</option>
+                    <option value="delivery-period">Cantidad de notas por categoria ( Periodo )</option>
                   </select>
+                  <div class="invalid-feedback text-center error-questions"></div>
                 </div>
 
                 <!-- productos -->
@@ -73,9 +76,12 @@
                   >
                     <option value="">Seleccione</option>
                     <option value="total-product-category">Totalidad de productos por categoria</option>
-                    <option value="product-sold">Cantidad de productos vendidos hasta hoy</option>
-                    <option value="product-period">Cantidad de productos vendidos por periodo</option>
+                    <option value="product-sold-general">Cantidad de productos vendidos hasta hoy</option>
+                    <option value="product-sold-period">Cantidad de productos vendidos por periodo</option>
+                    <option value="product-max-sold-general">Cantidad maxima vendida ( General )</option>
+                    <option value="product-max-sold-periodo">Cantidad maxima vendida ( Periodo )</option>
                   </select>
+                  <div class="invalid-feedback text-center error-questions"></div>
                 </div>
 
               </div>
@@ -86,12 +92,14 @@
                 <div class="form-group">
                   <label for="" class="form-label">Desde:</label>
                   <input type="date" name="from" value="" class="form-control" />
+                  <div class="invalid-feedback text-center" id="error-from"></div>
                 </div>
               </div>
               <div class="col-md-6 col-12 ps-3">
                 <div class="form-group">
                   <label for="" class="form-label">Hasta:</label>
                   <input type="date" name="to" value="" class="form-control" />
+                  <div class="invalid-feedback text-center" id="error-to"></div>
                 </div>
               </div>
             </div>
