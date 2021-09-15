@@ -3,7 +3,10 @@ const Chart = require('chart.js');
 
 class ReportsComponent {
   constructor() {
+
+    // element html
     this.form = document.forms['form-estadistics'];
+
     this.productQuestions = this.form.querySelector('#product-questions');
     this.deliveryQuestions = this.form.querySelector('#delivery-questions');
     this.period = this.form.querySelector('#from-until');
@@ -21,7 +24,6 @@ class ReportsComponent {
     this.chart2 = null;
 
     // formState
-    this.formState = false;
     this.range = false;
 
     this.handleChangeBusiness = this.handleChangeBusiness.bind( this );
@@ -75,7 +77,9 @@ class ReportsComponent {
       this.range = true;
 
     } else {
+
       this.showPeriod('none');
+      this.range = false;
 
     }
 
@@ -131,6 +135,8 @@ class ReportsComponent {
 
       this.createBarChart('#test');
       this.createPieChart('#test2');
+
+      console.log( data );
     });
   }
 
@@ -230,8 +236,6 @@ class ReportsComponent {
 
     this.resetForm();
 
-    console.log( data );
-
     let errors = 0;
 
     if ( !data.delivery_note && !data.products ) {
@@ -260,7 +264,7 @@ class ReportsComponent {
 
         if ( date1 >= date2 ) {
 
-          renderErrors( this.errorFrom, 'La fecha de desde no debe ser mayor o igual a la fecha hasta' )
+          renderErrors( this.errorFrom, 'La fecha de desde no debe ser mayor o igual a la fecha hasta' );
           errors++;
         }
 
