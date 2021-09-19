@@ -91,7 +91,7 @@ class Database {
 			let data = file.readFile("/users-productos-app.ini");
 
 			let arregloConexion = JSON.parse( data );
-			let key = "user_gabriel_ventas";
+			let key = "root_brandon";
 
 			if ( !arregloConexion.hasOwnProperty( key ) ) {
 				throw { title: 'Error !!', message: 'Error al conectar en Base de Datos' };
