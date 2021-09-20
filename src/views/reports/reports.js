@@ -46,7 +46,7 @@ class ReportsComponent {
         hideElement( this.productQuestions );
 
         this.showPeriod('none');
-        this.range = false;
+        this._range = false;
 
         break;
 
@@ -56,7 +56,7 @@ class ReportsComponent {
         hideElement( this.deliveryQuestions );
 
         this.showPeriod('none');
-        this.range = false;
+        this._range = false;
 
         break;
 
@@ -74,12 +74,12 @@ class ReportsComponent {
     if ( regex.test( value ) ) {
 
       this.showPeriod();
-      this.range = true;
+      this._range = true;
 
     } else {
 
       this.showPeriod('none');
-      this.range = false;
+      this._range = false;
 
     }
 
@@ -92,7 +92,7 @@ class ReportsComponent {
     hideElement( this.productQuestions );
 
     this.showPeriod('none');
-    this.range = false;
+    this._range = false;
 
     this.deleteCharts();
   }
@@ -255,7 +255,7 @@ class ReportsComponent {
     }
 
     // valida si el rango de fechas esta activo
-    if ( this.range ) {
+    if ( this._range ) {
 
       if ( data.from && data.to ) {
 
@@ -297,6 +297,14 @@ class ReportsComponent {
     for ( const element of this.errorsQuestions ) {
       hideElement( element );
     }
+  }
+
+  set _range( range ) {
+    this.range = range;
+  }
+
+  get _range() {
+    return this.range;
   }
 }
 

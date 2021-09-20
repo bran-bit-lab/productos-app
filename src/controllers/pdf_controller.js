@@ -13,7 +13,9 @@ class PdfController {
 		const page = pdfDoc.addPage();
 		const { width, height } = page.getSize();
 
-		const fontSize = 20
+		const fontSize = 20;
+
+		console.log( 'paginas ' + pdfDoc.getPageCount() );
 
 		// datos hoja carta
 		// altura = 841.89 y ancho = 595.28
@@ -83,16 +85,19 @@ class PdfController {
 
 		if ( nota.productos.length > 0 ) {
 
-			let posicion = 20; //posicion donde se comienza a agregar el producto
-			let posicionCell = ( width / 8 );
+			/*
+				console.log ({
+					page: width,
+					width_cell: width / 4,
+					cell_center: width / 8
+				});
+			*/
 
+			// posicion donde se comienza a agregar el producto
+			let posicion = 20;
+			let arrayHeader = ['id:', 'nombre:', 'cantidad:', 'precio unitario:'];
 
-			let arrayHeader = [
-				`Id:`,
-			    `Nombre:`,
-			    `Cantidad:`,
-			    `Precio unitario:`,
-			];
+			let posicionCell = ( width / ( arrayHeader.length * 2 ) );
 
 			arrayHeader.forEach(( title ) => {
 
@@ -100,36 +105,31 @@ class PdfController {
 					x: posicionCell,
 				  	y: height - posicion * fontSize,
 				  	size: 12,
-				  	font: helveticaFont,
+				  	font: helveticaBoldFont,
 				  	color: rgb( 0, 0, 0 ),
 				});
-				
-				posicionCell = posicionCell + ( width / 6 );				 
-			}); 
-			
+
+				posicionCell = posicionCell + ( width / 5 );
+			});
+
 			posicion++;
 
 			/*  dibujar linea  */
-			
+
 			page.drawLine({
-			  start: { x: 75, y: height - posicion * fontSize },
-			  end: { x: width - (4 * fontSize) , y: height - posicion * fontSize },
+			  start: { x: 50, y: height - posicion * fontSize },
+			  end: { x: width - ( 3 * fontSize ) , y: height - posicion * fontSize },
 			  thickness: 1,
 			  color: rgb(0, 0, 0),
 			  opacity: 0.8,
 			});
 
 			posicion++;
-			/*
-			console.log ({ 
-				page: width,
-				width_cell: width / 4,
-				cell_center: width / 8
-			});*/
-			nota.productos.forEach( ( producto, index ) => {
-				
-				posicionCell = ( width / 8 );
-				
+
+			nota.productos.forEach(( producto ) => {
+
+				posicionCell = ( width / ( arrayHeader.length * 2 ) );
+
 				page.drawText( producto.productoid.toString(), {
 					x: posicionCell,
 				  	y: height - posicion * fontSize,
@@ -138,10 +138,10 @@ class PdfController {
 				  	color: rgb( 0, 0, 0 ),
 				});
 
-				posicionCell = posicionCell + ( width / 6 );
+				posicionCell = posicionCell + ( width / 5 );
 
-				page.drawText( 
-					producto.nombre.length > 15 ? producto.nombre.slice(0, 14) + '... ' : producto.nombre, 
+				page.drawText(
+					producto.nombre.length > 10 ? producto.nombre.slice( 0, 9 ) + '... ' : producto.nombre,
 					{
 						x: posicionCell,
 				  		y: height - posicion * fontSize,
@@ -150,10 +150,10 @@ class PdfController {
 				  		color: rgb( 0, 0, 0 ),
 					});
 
-				posicionCell = posicionCell + ( width / 6 );
+				posicionCell = posicionCell + ( width / 5 );
 
-				page.drawText( 
-					producto.cantidad_seleccionada.toString(), 
+				page.drawText(
+					producto.cantidad_seleccionada.toString(),
 					{
 						x: posicionCell,
 				  		y: height - posicion * fontSize,
@@ -162,54 +162,47 @@ class PdfController {
 				  		color: rgb( 0, 0, 0 ),
 					});
 
-				posicionCell = posicionCell + ( width / 6 );
+				posicionCell = posicionCell + ( width / 5 );
 
-				page.drawText( 
-					producto.precio.toString() + "$",
-					{
+				page.drawText( producto.precio.toString() + "$", {
 						x: posicionCell,
-				  		y: height - posicion * fontSize,
-				  		size: 12,
-				  		font: helveticaFont,
-				  		color: rgb( 0, 0, 0 ),
-					});
-
-				posicionCell = posicionCell + ( width / 6 );
-				
-				// posicionCell = posicionCell + ( width / 6 );
-				posicion++;
-			});
-
-			page.drawLine({
-			  start: { x: 75, y: height - posicion * fontSize },
-			  end: { x: width - (4 * fontSize) , y: height - posicion * fontSize },
-			  thickness: 1,
-			  color: rgb(0, 0, 0),
-			  opacity: 0.8,
-			});
-			
-			posicion++;
-						
-			page.drawText( 
-				"Total de la orden: "+ nota.total_order.toString() + "$",
-				{
-					x: width - 12 * fontSize,
 			  		y: height - posicion * fontSize,
 			  		size: 12,
 			  		font: helveticaFont,
 			  		color: rgb( 0, 0, 0 ),
 				});
-				
+
+				posicionCell = posicionCell + ( width / 5 );
+
+				posicion++;
+			});
+
+			page.drawLine({
+			  start: { x: 50, y: height - posicion * fontSize },
+			  end: { x: width - ( 3 * fontSize ) , y: height - posicion * fontSize },
+			  thickness: 1,
+			  color: rgb(0, 0, 0),
+			  opacity: 0.8,
+			});
+
+			posicion++;
+
+			page.drawText("Total de la orden: " + nota.total_order.toString() + "$", {
+				x: width - 10 * fontSize,
+		  	y: height - posicion * fontSize,
+		  	size: 12,
+		  	font: helveticaBoldFont,
+		  	color: rgb( 0, 0, 0 ),
+			});
+
 			if ( nota.status === "ENTREGADA" ) {
 
-				page.drawText( 
-					"Gracias por su compra!!",
-					{
-						x: (width / 3),
-				  		y: height - 35 * fontSize,
-				  		size: 20,
-				  		font: helveticaBoldFont,
-				  		color: rgb( 0, 0, 0 ),
+				page.drawText("Gracias por su compra!!", {
+					x: ( width / 2.9 ),
+			  	y: height - ( 5 + posicion ) * fontSize,
+			  	size: 20,
+			  	font: helveticaBoldFont,
+			  	color: rgb( 0, 0, 0 ),
 				});
 			}
 
@@ -224,13 +217,17 @@ class PdfController {
 			});
 		}
 
-		page.drawText('Pagina 1 de 1', {
+		// indice de pagina parte inferior
+		page.drawText('Pagina ' + ( pdfDoc.getPageIndices()[0] + 1 ) + ' de ' + pdfDoc.getPageCount(),
+			{
 			  x: width - 6 * fontSize,
 			  y: 2 * fontSize,
 			  size: 11,
 			  font: helveticaFont,
 			  color: rgb( 0, 0, 0 ),
 		});
+
+		// fin pagina uno
 
 		const pdfBytes = await pdfDoc.save();
 
