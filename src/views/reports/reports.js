@@ -42,21 +42,18 @@ class ReportsComponent {
     switch ( value ) {
       case 'delivery':
 
+        this.clearFilter();
         showElement( this.deliveryQuestions );
-        hideElement( this.productQuestions );
-
         this.showPeriod('none');
-        this._range = false;
 
         break;
 
       case 'product':
 
+        this.clearFilter();
         showElement( this.productQuestions );
-        hideElement( this.deliveryQuestions );
-
         this.showPeriod('none');
-        this._range = false;
+
 
         break;
 
