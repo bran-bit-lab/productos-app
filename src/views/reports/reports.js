@@ -1,5 +1,6 @@
-// chart.js
+const { remote } = require('electron');
 const Chart = require('chart.js');
+const { ReporteController } = remote.require('./controllers/reporte_controller');
 
 class ReportsComponent {
   constructor() {
@@ -126,46 +127,59 @@ class ReportsComponent {
       to: formData.get('to') || null
     };
 
-    this.validate( data, () => {
+    this.validate( data, async () => {
+
+      const keys = [];
+      const values = [];
 
       this.canvasRow.style.display = 'flex';
 
-      this.createBarChart('#test');
-      this.createPieChart('#test2');
+      if ( data.products ) {
 
-      console.log( data );
+        // total de productos x categoria
+        if ( data.question_products === 'total-product-category' ) {
+
+          const response = await ReporteController.getTotalProductByCategory();
+          this.createPieChart('#chart-model', response );
+        }
+
+      } else {  // delivery_note
+
+        if ( data.question_delivery === 'quantity-general' ) {
+
+          const response = await ReporteController.getTotalNotesBySeller();
+          this.createBarChart('#chart-model', response );
+        }
+      }
     });
   }
 
-  createBarChart( idChart ) {
+  createBarChart( idChart, objectModel ) {
 
     const canvas = document.querySelector( idChart );
-    canvas.parentNode.style.height = '100%';
-    canvas.parentNode.style.width = '100%';
+    const { keys, values } = objectModel;
+
+    this.reziseElement( canvas );
+
+    // se generan los colores aleatorios
+    let backgroundColor = values.map(() => {
+      return this.createRandomColor( 0.2 );
+    });
+
+    // reemplaza la opacidad del borde de la linea
+    let borderColor = backgroundColor.map(( color ) => {
+      return color.replace(/0.2/, '1');
+    });
 
     this.chart1 = new Chart( canvas, {
       type: 'bar',
       data: {
-       labels: ['rojo', 'azul', 'amarillo', 'verde', 'morado', 'naranja'],
+       labels: keys,
        datasets: [{
-           label: 'numero de votos',
-           data: [12, 19, 20, 5, 2, 3],
-           backgroundColor: [
-               'rgba(255, 99, 132, 0.2)',
-               'rgba(54, 162, 235, 0.2)',
-               'rgba(255, 206, 86, 0.2)',
-               'rgba(75, 192, 192, 0.2)',
-               'rgba(153, 102, 255, 0.2)',
-               'rgba(255, 159, 64, 0.2)'
-           ],
-           borderColor: [
-               'rgba(255, 99, 132, 1)',
-               'rgba(54, 162, 235, 1)',
-               'rgba(255, 206, 86, 1)',
-               'rgba(75, 192, 192, 1)',
-               'rgba(153, 102, 255, 1)',
-               'rgba(255, 159, 64, 1)'
-           ],
+           label: '# de entregas realizadas',
+           data: values,
+           backgroundColor,
+           borderColor,
            borderWidth: 1
        }]
      },
@@ -180,26 +194,32 @@ class ReportsComponent {
     });
   }
 
-  createPieChart( idChart ) {
+  createPieChart( idChart, objectModel ) {
 
+    // console.log( objectModel );
     const canvas = document.querySelector( idChart );
+    const { keys, values } = objectModel;
+
+    this.reziseElement( canvas );
+
+    // se generan los colores aleatorios
+    let backgroundColor = values.map(() => {
+      return this.createRandomColor( 0.2 );
+    });
+
+    // reemplaza la opacidad del borde de la linea
+    let borderColor = backgroundColor.map(( color ) => {
+      return color.replace(/0.2/, '1');
+    });
 
     this.chart2 = new Chart( canvas, {
       type: 'pie',
       data: {
-        labels: ['rojo', 'azul', 'amarillo'],
+        labels: keys,
         datasets: [{
-          data: [30, 20, 50],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-          ],
+          data: values,
+          backgroundColor,
+          borderColor,
           borderWidth: 1
         }]
       },
@@ -302,6 +322,33 @@ class ReportsComponent {
 
   get _range() {
     return this.range;
+  }
+
+  reziseElement( canvas ) {
+
+    if ( window.matchMedia('(min-width: 768px)').matches ) {
+      canvas.parentNode.style.height = '30%';
+      canvas.parentNode.style.width = '30%';
+
+    } else {
+      canvas.parentNode.style.height = '95%';
+      canvas.parentNode.style.width = '95%';
+
+    }
+  }
+
+  createRandomColor( opacity = 1 ) {
+
+    const min = 0;
+    const max = 255;
+    let color = `rgba(
+      ${ Math.floor( Math.random() * ( max - min ) ) + min },
+      ${ Math.floor( Math.random() * ( max - min ) ) + min },
+      ${ Math.floor( Math.random() * ( max - min ) ) + min },
+      ${opacity}
+    )`;
+
+    return color;
   }
 }
 
