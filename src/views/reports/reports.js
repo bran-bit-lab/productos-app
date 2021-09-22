@@ -33,6 +33,14 @@ class ReportsComponent {
     this.setEvents();
   }
 
+  set _range( range ) {
+    this.range = range;
+  }
+
+  get _range() {
+    return this.range;
+  }
+
   setEvents() {
     this.form.addEventListener('submit', this.generateStadistics.bind( this ) );
   }
@@ -167,6 +175,8 @@ class ReportsComponent {
             console.error( e );
 
           }
+        } else if ( data.question_delivery === 'quantity-period' ) {
+           console.log( data );
 
         } else if ( data.question_delivery === 'delivery-general' ) {
 
@@ -322,13 +332,7 @@ class ReportsComponent {
     }
   }
 
-  set _range( range ) {
-    this.range = range;
-  }
 
-  get _range() {
-    return this.range;
-  }
 
   reziseElement( canvas ) {
 
