@@ -21,8 +21,10 @@ class ReportsComponent {
 
     // charts
     this.canvasRow = this.form.querySelector('#canvas-estadistics');
-    this.chart1 = null;
-    this.chart2 = null;
+    this.chart = null;
+
+    // table
+    this.table = this.canvasRow.querySelector('#table-data')
 
     // formState
     this.range = false;
@@ -91,6 +93,7 @@ class ReportsComponent {
 
     this.showPeriod('none');
     this._range = false;
+    this.table.innerHTML = '';
 
     this.deleteCharts();
   }
@@ -139,16 +142,44 @@ class ReportsComponent {
         // total de productos x categoria
         if ( data.question_products === 'total-product-category' ) {
 
-          const response = await ReporteController.getTotalProductByCategory();
-          this.createPieChart('#chart-model', response );
+          try {
+            const response = await ReporteController.getTotalProductByCategory();
+            this.renderTableCategories( response );
+            this.createPieChart('#chart-model', response );
+
+          } catch ( e ) {
+              console.error( e );
+
+          }
         }
 
       } else {  // delivery_note
 
         if ( data.question_delivery === 'quantity-general' ) {
 
-          const response = await ReporteController.getTotalNotesBySeller();
-          this.createBarChart('#chart-model', response );
+          try {
+
+            const response = await ReporteController.getTotalNotesBySeller();
+            this.renderTableSellers( response );
+            this.createBarChart('#chart-model', response );
+
+          } catch (e) {
+            console.error( e );
+
+          }
+
+        } else if ( data.question_delivery === 'delivery-general' ) {
+
+          try {
+            const response = await ReporteController.getTotalNotesByState();
+            this.renderTableDeliveryState( response );
+            this.createPieChart('#chart-model', response);
+
+          } catch (e) {
+            console.error( e );
+
+          }
+
         }
       }
     });
@@ -158,20 +189,11 @@ class ReportsComponent {
 
     const canvas = document.querySelector( idChart );
     const { keys, values } = objectModel;
+    const { backgroundColor, borderColor } = this.createRandomColor( values, 0.2 );
 
-    this.reziseElement( canvas );
+    // this.reziseElement( canvas );
 
-    // se generan los colores aleatorios
-    let backgroundColor = values.map(() => {
-      return this.createRandomColor( 0.2 );
-    });
-
-    // reemplaza la opacidad del borde de la linea
-    let borderColor = backgroundColor.map(( color ) => {
-      return color.replace(/0.2/, '1');
-    });
-
-    this.chart1 = new Chart( canvas, {
+    this.chart = new Chart( canvas, {
       type: 'bar',
       data: {
        labels: keys,
@@ -197,22 +219,14 @@ class ReportsComponent {
   createPieChart( idChart, objectModel ) {
 
     // console.log( objectModel );
+
     const canvas = document.querySelector( idChart );
     const { keys, values } = objectModel;
 
-    this.reziseElement( canvas );
-
     // se generan los colores aleatorios
-    let backgroundColor = values.map(() => {
-      return this.createRandomColor( 0.2 );
-    });
+    const { backgroundColor, borderColor } = this.createRandomColor( values, 0.2 );
 
-    // reemplaza la opacidad del borde de la linea
-    let borderColor = backgroundColor.map(( color ) => {
-      return color.replace(/0.2/, '1');
-    });
-
-    this.chart2 = new Chart( canvas, {
+    this.chart = new Chart( canvas, {
       type: 'pie',
       data: {
         labels: keys,
@@ -233,20 +247,12 @@ class ReportsComponent {
 
     this.canvasRow.style.display = 'none';
 
-    if ( ( this.chart1 && this.chart2 )  ) {
-      this.chart1.destroy();
-      this.chart2.destroy();
-
-    } else if ( !this.chart1 && this.chart2 ) {
-      this.chart2.destroy();
-
-    } else if ( this.chart1 && !this.chart2 ) {
-      this.chart1.destroy();
-
+    if ( this.chart  ) {
+      this.chart.destroy();
     }
 
-    this.chart1 = null;
-    this.chart2 = null;
+    this.table.innerHTML = '';
+    this.chart = null;
   }
 
   validate( data, callback ) {
@@ -337,18 +343,106 @@ class ReportsComponent {
     }
   }
 
-  createRandomColor( opacity = 1 ) {
+  createRandomColor( values,  opacity = 1 ) {
+
+    // return { backgroundColor: string[], borderColor: string[] }
 
     const min = 0;
     const max = 255;
-    let color = `rgba(
-      ${ Math.floor( Math.random() * ( max - min ) ) + min },
-      ${ Math.floor( Math.random() * ( max - min ) ) + min },
-      ${ Math.floor( Math.random() * ( max - min ) ) + min },
-      ${opacity}
-    )`;
+    let backgroundColor = [];
+    let borderColor = [];
 
-    return color;
+    values.forEach(() => {
+
+      let color = `rgba(
+        ${ Math.floor( Math.random() * ( max - min ) ) + min },
+        ${ Math.floor( Math.random() * ( max - min ) ) + min },
+        ${ Math.floor( Math.random() * ( max - min ) ) + min },
+        ${opacity}
+      )`;
+
+      // insertamos en el array
+      backgroundColor.push( color );
+
+      color = color.replace(/0.2/, 1);
+
+      borderColor.push( color );
+    });
+
+    return { backgroundColor, borderColor };
+  }
+
+  // render tables
+  renderTableCategories( response ) {
+
+    this.table.innerHTML = (`
+      <table class="table table-responsive table-striped">
+        <thead>
+          <tr class="text-center">
+            <th>Nombre: </th>
+            <th>Cantidad:</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${
+            response.results.map(( category ) => (`
+              <tr class="text-center">
+                <td>${ category.categoria }</td>
+                <td>${ category.cantidad_productos }</td>
+              </tr>
+            `)).join('')
+          }
+        </tbody>
+      </table>
+    `);
+  }
+
+  renderTableSellers( response ) {
+
+    this.table.innerHTML = (`
+      <table class="table table-responsive table-striped">
+        <thead>
+          <tr class="text-center">
+            <th>Nombre del vendedor: </th>
+            <th>Cantidad vendida:</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${
+            response.results.map(( seller ) => (`
+              <tr class="text-center">
+                <td>${ seller.nombre_vendedor }</td>
+                <td>${ seller.cantidad_notas }</td>
+              </tr>
+            `)).join('')
+          }
+        </tbody>
+      </table>
+    `);
+  }
+
+  renderTableDeliveryState( response ) {
+
+    this.table.innerHTML = (`
+      <table class="table table-responsive table-striped">
+        <thead>
+          <tr class="text-center">
+            <th>Estado: </th>
+            <th>Cantidad:</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${
+            response.results.map(( state ) => (`
+              <tr class="text-center">
+                <td>${ state.status }</td>
+                <td>${ state.total }</td>
+              </tr>
+            `)).join('')
+          }
+        </tbody>
+      </table>
+    `);
   }
 }
 

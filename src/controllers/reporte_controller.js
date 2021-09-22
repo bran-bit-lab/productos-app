@@ -65,6 +65,36 @@ class ReporteController {
       });
     });
   }
+
+  static getTotalNotesByState( period = null ) {
+    return new Promise(( resolve, reject ) => {
+
+      const sql = period ? CRUD.ObtenerTotalNotasPorCategoriaPeriodo : CRUD.ObtenerTotalNotasPorCategoriaGeneral;
+
+      this.database.consult( sql, period, ( error, results ) => {
+
+        if ( error ) {
+
+          console.log( error );
+
+          reject( error );
+
+          return;
+        }
+
+        // console.log( result );
+        let keys = [];
+        let values = [];
+
+        results.forEach(( item ) => {
+          keys.push( item.status );
+          values.push( item.total );
+        });
+
+        resolve({ keys, values, results });
+      })
+    });
+  }
 }
 
 module.exports = { ReporteController };
