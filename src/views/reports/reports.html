@@ -76,10 +76,10 @@
                   >
                     <option value="">Seleccione</option>
                     <option value="total-product-category">Totalidad de productos por categoria</option>
-                    <option value="product-sold-general">Cantidad de productos vendidos hasta hoy</option>
-                    <option value="product-sold-period">Cantidad de productos vendidos por periodo</option>
-                    <option value="product-max-sold-general">Cantidad maxima vendida ( General )</option>
-                    <option value="product-max-sold-periodo">Cantidad maxima vendida ( Periodo )</option>
+                    <option value="product-sold-general">Cantidad de productos vendidos anio anual</option>
+                    <!-- <option value="product-sold-period">Cantidad de productos vendidos por periodo</option> -->
+                    <option value="product-max-sold-general">Cantidad maxima vendida por producto ( General )</option>
+                    <option value="product-max-sold-period">Cantidad maxima vendida por producto ( Periodo )</option>
                   </select>
                   <div class="invalid-feedback text-center error-questions"></div>
                 </div>
@@ -105,12 +105,12 @@
             </div>
 
             <!-- modelo -->
-            <div class="row mt-5" id="canvas-estadistics">
+            <div class="row mt-5 pb-3" id="canvas-estadistics">
               <!-- tabla de datos -->
               <div class="col-12 col-md-6" id="table-data"></div>
               <!-- estadisticas -->
               <div class="col-12 col-md-6">
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center align-items-center h-100">
                   <div>
                     <canvas id="chart-model"></canvas>
                   </div>

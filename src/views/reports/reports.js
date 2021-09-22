@@ -1,6 +1,7 @@
 const { remote } = require('electron');
 const Chart = require('chart.js');
 const { ReporteController } = remote.require('./controllers/reporte_controller');
+const render = require('./render-table');
 
 class ReportsComponent {
   constructor() {
@@ -30,6 +31,12 @@ class ReportsComponent {
     this.range = false;
 
     this.handleChangeBusiness = this.handleChangeBusiness.bind( this );
+    render.renderTableCategories = render.renderTableCategories.bind({ table: this.table });
+    render.renderTableProductQuantity = render.renderTableProductQuantity.bind({ table: this.table });
+    render.renderTablePeriodSeller = render.renderTablePeriodSeller.bind({ table: this.table });
+    render.renderTableSellers = render.renderTableSellers.bind({ table: this.table });
+    render.renderTableDeliveryState = render.renderTableDeliveryState.bind({ table: this.table });
+
     this.setEvents();
   }
 
@@ -140,9 +147,6 @@ class ReportsComponent {
 
     this.validate( data, async () => {
 
-      const keys = [];
-      const values = [];
-
       this.canvasRow.style.display = 'flex';
 
       if ( data.products ) {
@@ -151,13 +155,80 @@ class ReportsComponent {
         if ( data.question_products === 'total-product-category' ) {
 
           try {
-            const response = await ReporteController.getTotalProductByCategory();
-            this.renderTableCategories( response );
+            let response = await ReporteController.getTotalProductByCategory();
+
+            if ( !response ) {
+              render.renderTableCategories({ results: [] });
+              return;
+            }
+
+            render.renderTableCategories( response );
+
             this.createPieChart('#chart-model', response );
 
           } catch ( e ) {
               console.error( e );
 
+          }
+
+        } else if ( data.question_products === 'product-max-sold-general' ) {
+
+          try {
+            let response = await ReporteController.getQuantityMaxSeller();
+
+            if ( !response ) {
+              render.renderTableProductQuantity({ results: [] });
+              return;
+            }
+
+            render.renderTableProductQuantity( response );
+            this.createBarChart('#chart-model', response );
+
+          } catch (e) {
+            console.error( e );
+          }
+
+        } else if ( data.question_products === 'product-max-sold-period' ) {
+
+          try {
+            let response = await ReporteController.getQuantityMaxSeller({
+              fecha_inicio: data.from,
+              fecha_fin: data.to
+           });
+
+            if ( !response ) {
+              render.renderTableProductQuantity({ results: [] });
+              return;
+            }
+
+            render.renderTableProductQuantity( response );
+            this.createBarChart('#chart-model', response );
+
+          } catch (e) {
+            console.error( e );
+          }
+
+        // periodo de ventas anual
+        } else if ( data.question_products === 'product-sold-general' ) {
+
+          try {
+
+            let response = await ReporteController.getPeriodSell({
+              year: new Date().getFullYear()
+            });
+
+            console.log( response );
+
+            if ( !response ) {
+              render.renderTablePeriodSeller({ results: [] });
+              return;
+            }
+
+            render.renderTablePeriodSeller( response );
+            this.createLineChart('#chart-model', response );
+
+          } catch (e) {
+            console.error( e );
           }
         }
 
@@ -167,22 +238,53 @@ class ReportsComponent {
 
           try {
 
-            const response = await ReporteController.getTotalNotesBySeller();
-            this.renderTableSellers( response );
+            let response = await ReporteController.getTotalNotesBySeller();
+
+            if ( !response ) {
+              render.renderTableSellers({ results: [] });
+              return;
+            }
+
+            render.renderTableSellers( response );
             this.createBarChart('#chart-model', response );
 
           } catch (e) {
             console.error( e );
 
           }
+
         } else if ( data.question_delivery === 'quantity-period' ) {
-           console.log( data );
+
+           try {
+             let response = await ReporteController.getTotalNotesBySeller({
+               fecha_inicio: data.from,
+               fecha_fin: data.to
+            });
+
+            if ( !response ) {
+              render.renderTableSellers({ results: [] });
+              return;
+            }
+
+            render.renderTableSellers( response );
+            this.createBarChart('#chart-model', response );
+
+           } catch (e) {
+             console.error( e );
+           }
 
         } else if ( data.question_delivery === 'delivery-general' ) {
 
           try {
-            const response = await ReporteController.getTotalNotesByState();
-            this.renderTableDeliveryState( response );
+
+            let response = await ReporteController.getTotalNotesByState();
+
+            if ( !response ) {
+              render.renderTableDeliveryState({ results: [] });
+              return;
+            }
+
+            render.renderTableDeliveryState( response );
             this.createPieChart('#chart-model', response);
 
           } catch (e) {
@@ -190,6 +292,27 @@ class ReportsComponent {
 
           }
 
+        } else {
+
+          try {
+
+            let response = await ReporteController.getTotalNotesByState({
+              fecha_inicio: data.from,
+              fecha_fin: data.to
+            });
+
+            if ( !response ) {
+              render.renderTableDeliveryState({ results: [] });
+              return;
+            }
+
+            render.renderTableDeliveryState( response );
+            this.createPieChart('#chart-model', response);
+
+          } catch (e) {
+            console.error( e );
+
+          }
         }
       }
     });
@@ -203,12 +326,14 @@ class ReportsComponent {
 
     // this.reziseElement( canvas );
 
+    canvas.parentNode.style.width = '90%';
+
     this.chart = new Chart( canvas, {
       type: 'bar',
       data: {
        labels: keys,
        datasets: [{
-           label: '# de entregas realizadas',
+           label: 'cantidad',
            data: values,
            backgroundColor,
            borderColor,
@@ -233,6 +358,8 @@ class ReportsComponent {
     const canvas = document.querySelector( idChart );
     const { keys, values } = objectModel;
 
+    canvas.parentNode.style.width = 'initial';
+
     // se generan los colores aleatorios
     const { backgroundColor, borderColor } = this.createRandomColor( values, 0.2 );
 
@@ -244,6 +371,32 @@ class ReportsComponent {
           data: values,
           backgroundColor,
           borderColor,
+          borderWidth: 1
+        }]
+      },
+      options: {
+       responsive: true
+      }
+    });
+  }
+
+  createLineChart( idChart, objectModel ) {
+
+    const canvas = document.querySelector( idChart );
+    const { keys, values } = objectModel;
+    const { backgroundColor, borderColor } = this.createRandomColor( values, 0.2 );
+
+    canvas.parentNode.style.width = '100%';
+
+    this.chart = new Chart( canvas, {
+      type: 'line',
+      data: {
+        labels: keys,
+        datasets: [{
+          label: 'cantidad de productos',
+          data: values,
+          backgroundColor: backgroundColor[0],
+          borderColor: borderColor[0],
           borderWidth: 1
         }]
       },
@@ -332,21 +485,6 @@ class ReportsComponent {
     }
   }
 
-
-
-  reziseElement( canvas ) {
-
-    if ( window.matchMedia('(min-width: 768px)').matches ) {
-      canvas.parentNode.style.height = '30%';
-      canvas.parentNode.style.width = '30%';
-
-    } else {
-      canvas.parentNode.style.height = '95%';
-      canvas.parentNode.style.width = '95%';
-
-    }
-  }
-
   createRandomColor( values,  opacity = 1 ) {
 
     // return { backgroundColor: string[], borderColor: string[] }
@@ -374,79 +512,6 @@ class ReportsComponent {
     });
 
     return { backgroundColor, borderColor };
-  }
-
-  // render tables
-  renderTableCategories( response ) {
-
-    this.table.innerHTML = (`
-      <table class="table table-responsive table-striped">
-        <thead>
-          <tr class="text-center">
-            <th>Nombre: </th>
-            <th>Cantidad:</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${
-            response.results.map(( category ) => (`
-              <tr class="text-center">
-                <td>${ category.categoria }</td>
-                <td>${ category.cantidad_productos }</td>
-              </tr>
-            `)).join('')
-          }
-        </tbody>
-      </table>
-    `);
-  }
-
-  renderTableSellers( response ) {
-
-    this.table.innerHTML = (`
-      <table class="table table-responsive table-striped">
-        <thead>
-          <tr class="text-center">
-            <th>Nombre del vendedor: </th>
-            <th>Cantidad vendida:</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${
-            response.results.map(( seller ) => (`
-              <tr class="text-center">
-                <td>${ seller.nombre_vendedor }</td>
-                <td>${ seller.cantidad_notas }</td>
-              </tr>
-            `)).join('')
-          }
-        </tbody>
-      </table>
-    `);
-  }
-
-  renderTableDeliveryState( response ) {
-
-    this.table.innerHTML = (`
-      <table class="table table-responsive table-striped">
-        <thead>
-          <tr class="text-center">
-            <th>Estado: </th>
-            <th>Cantidad:</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${
-            response.results.map(( state ) => (`
-              <tr class="text-center">
-                <td>${ state.status }</td>
-                <td>${ state.total }</td>
-              </tr>
-            `)).join('')
-          }
-        </tbody>
-      </table>
-    `);
   }
 }
 

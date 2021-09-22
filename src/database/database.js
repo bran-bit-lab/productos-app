@@ -113,7 +113,8 @@ class Database {
 			user: user["username"],
 			password: user["password"],
 			database: user["database"],
-			port: user["port"]
+			port: user["port"],
+			multipleStatements: true  // permite la ejecucion de multiples query en una sola instruccion
 		});
 
 		mysqlAPI.config.queryFormat = Database.sqlParse;
