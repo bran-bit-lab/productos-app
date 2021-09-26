@@ -60,15 +60,15 @@ const CRUD = Object.freeze({
 
 	// NO BORRAR
 	// consultas de agrupacion estadisticas
-	ObtenerTotalProductosPorCategoria: "SELECT c.nombre AS categoria, SUM( p.cantidad ) AS cantidad_productos FROM productos p INNER JOIN categorias c ON  c.categoriaid = p.categoriaid GROUP BY categoria;",
-	ObtenerCantidadMaximaVendidaGeneral: "SELECT p.nombre AS nombre, MAX( np.cantidad_seleccionada ) AS cantidad_max_vendida FROM notas_productos np INNER JOIN productos p ON np.id_producto = p.productoid INNER JOIN notas n ON n.id_nota = np.id_nota WHERE n.status = 'ENTREGADA'  GROUP by nombre ORDER BY cantidad_seleccionada DESC;",
-	ObtenerCantidadMaximaVendidaPeriodo: "SELECT p.nombre AS nombre, MAX( np.cantidad_seleccionada ) AS cantidad_max_vendida FROM notas_productos np INNER JOIN productos p ON np.id_producto = p.productoid INNER JOIN notas n ON n.id_nota = np.id_nota WHERE n.status = 'ENTREGADA' AND  n.fecha_entrega BETWEEN :fecha_inicio AND :fecha_fin GROUP by nombre ORDER BY cantidad_seleccionada DESC LIMIT 6;",
-	ObtenerNotasPorVendedorGeneral: "SELECT CONCAT( u.nombre, ' ', u.apellido ) as nombre_vendedor, COUNT( n.id_nota ) as cantidad_notas FROM usuarios u INNER JOIN notas n ON n.userid = u.userid  WHERE n.status = 'ENTREGADA' GROUP BY nombre_vendedor  ORDER BY cantidad_notas DESC LIMIT 6;",
-	ObtenerNotasPorVendedorPeriodo: "SELECT CONCAT( u.nombre, ' ', u.apellido ) as nombre_vendedor, COUNT( n.id_nota ) as cantidad_notas FROM usuarios u INNER JOIN notas n ON n.userid = u.userid  WHERE n.status = 'ENTREGADA' AND  n.fecha_entrega BETWEEN :fecha_inicio AND :fecha_fin GROUP BY nombre_vendedor  ORDER BY cantidad_notas DESC;",
-	ObtenerTotalNotasPorCategoriaGeneral: "SELECT status, COUNT( id_nota ) AS total FROM notas GROUP BY status ORDER BY total DESC",
-	ObtenerTotalNotasPorCategoriaPeriodo: "SELECT status, COUNT( id_nota ) AS total FROM notas WHERE fecha_entrega BETWEEN :fecha_inicio AND :fecha_fin GROUP BY status ORDER BY total DESC",
+	ObtenerTotalProductosPorCategoria: "SELECT categorias.nombre AS nombre_categoria, SUM(productos.cantidad) AS cantidad FROM productos INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid GROUP BY nombre_categoria;",
+	ObtenerCantidadMaximaVendidaGeneral: "SELECT productos.nombre, MAX(notas_productos.cantidad_seleccionada) AS cantidad FROM notas_productos INNER JOIN notas ON notas.id_nota = notas_productos.id_nota INNER JOIN productos ON productos.productoid = notas_productos.id_producto WHERE notas.status = 'ENTREGADA'  GROUP BY productos.nombre LIMIT 10;",
+	ObtenerCantidadMaximaVendidaPeriodo: "SELECT productos.nombre, MAX(notas_productos.cantidad_seleccionada) AS cantidad FROM notas_productos INNER JOIN notas ON notas.id_nota = notas_productos.id_nota INNER JOIN productos ON productos.productoid = notas_productos.id_producto WHERE notas.status = 'ENTREGADA' AND notas.fecha_entrega BETWEEN :start AND :limit GROUP BY productos.nombre LIMIT 10;",
+	ObtenerNotasPorVendedorGeneral: "SELECT CONCAT(usuarios.nombre,' ', usuarios.apellido) AS vendedor, MAX(notas_productos.cantidad_seleccionada) AS cantidad FROM notas_productos INNER JOIN notas ON notas.id_nota = notas_productos.id_nota INNER JOIN usuarios ON usuarios.userid = notas.userid WHERE notas.status = 'ENTREGADA' GROUP BY usuarios.userid;",
+	ObtenerNotasPorVendedorPeriodo: "SELECT CONCAT(usuarios.nombre,' ', usuarios.apellido) AS vendedor, MAX(notas_productos.cantidad_seleccionada) AS cantidad FROM notas_productos INNER JOIN notas ON notas.id_nota = notas_productos.id_nota INNER JOIN usuarios ON usuarios.userid = notas.userid WHERE notas.status = 'ENTREGADA' AND notas.fecha_entrega BETWEEN :start AND :limit GROUP BY usuarios.userid;",
+	ObtenerTotalNotasPorCategoriaGeneral: "SELECT notas.status, COUNT(notas.id_nota) AS cantidad FROM notas GROUP BY notas.status;",
+	ObtenerTotalNotasPorCategoriaPeriodo: "SELECT notas.status, COUNT(notas.id_nota) AS cantidad FROM notas WHERE notas.fecha_entrega BETWEEN :start AND :limit GROUP BY notas.status;",
+	ObtenerTotalProductosPorAño: "SET lc_time_names = 'es_VE'; SELECT MONTHNAME(notas.creacion) AS fecha, SUM(notas_productos.cantidad_seleccionada) AS cantidad FROM notas INNER JOIN notas_productos ON notas_productos.id_nota = notas.id_nota WHERE YEAR(notas.creacion) = YEAR(NOW()) GROUP BY fecha ORDER BY fecha DESC;"
 });
-
 module.exports = CRUD;
 
 //Ventas
