@@ -1,6 +1,6 @@
 const { remote } = require('electron');
 const Chart = require('chart.js');
-const { ReporteController } = remote.require('./controllers/reporte_controller');
+// const { ReporteController } = remote.require('./controllers/reporte_controller');
 const render = require('./render-table-chart');
 
 class ReportsComponent {
@@ -166,6 +166,7 @@ class ReportsComponent {
 
           }
 
+        // productos maximo vendidos
         } else if ( data.question_products === 'product-max-sold-general' ) {
 
           try {
@@ -183,6 +184,7 @@ class ReportsComponent {
             console.error( e );
           }
 
+        // productos maximo vendidos periodo
         } else if ( data.question_products === 'product-max-sold-period' ) {
 
           try {
@@ -229,6 +231,7 @@ class ReportsComponent {
 
       } else {  // delivery_note
 
+        // cantidad notas x vendedor
         if ( data.question_delivery === 'quantity-general' ) {
 
           try {
@@ -248,6 +251,7 @@ class ReportsComponent {
 
           }
 
+        // cantidad notas x vendedor periodo
         } else if ( data.question_delivery === 'quantity-period' ) {
 
            try {
@@ -268,6 +272,7 @@ class ReportsComponent {
              console.error( e );
            }
 
+        // cantidad notas x estado
         } else if ( data.question_delivery === 'delivery-general' ) {
 
           try {

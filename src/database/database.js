@@ -91,7 +91,7 @@ class Database {
 			let data = file.readFile("/users-productos-app.ini");
 
 			let arregloConexion = JSON.parse( data );
-			let key = "user_gabriel_ventas";
+			let key = "root_brandon";
 
 			if ( !arregloConexion.hasOwnProperty( key ) ) {
 				throw { title: 'Error !!', message: 'Error al conectar en Base de Datos' };
@@ -114,7 +114,7 @@ class Database {
 			password: user["password"],
 			database: user["database"],
 			port: user["port"],
-			multipleStatements: true  // permite la ejecucion de multiples query en una sola instruccion
+			multipleStatements: true  // permite la ejecucion de multiples query en una sola instruccion SQL
 		});
 
 		mysqlAPI.config.queryFormat = Database.sqlParse;
