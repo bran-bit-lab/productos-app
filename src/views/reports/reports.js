@@ -1,7 +1,7 @@
 const { remote } = require('electron');
 const Chart = require('chart.js');
 const { ReporteController } = remote.require('./controllers/reporte_controller');
-const render = require('./render-table');
+const render = require('./render-table-chart');
 
 class ReportsComponent {
   constructor() {
@@ -25,17 +25,12 @@ class ReportsComponent {
     this.chart = null;
 
     // table
-    this.table = this.canvasRow.querySelector('#table-data')
+    this.table = this.canvasRow.querySelector('#table-data');
 
     // formState
     this.range = false;
 
     this.handleChangeBusiness = this.handleChangeBusiness.bind( this );
-    render.renderTableCategories = render.renderTableCategories.bind({ table: this.table });
-    render.renderTableProductQuantity = render.renderTableProductQuantity.bind({ table: this.table });
-    render.renderTablePeriodSeller = render.renderTablePeriodSeller.bind({ table: this.table });
-    render.renderTableSellers = render.renderTableSellers.bind({ table: this.table });
-    render.renderTableDeliveryState = render.renderTableDeliveryState.bind({ table: this.table });
 
     this.setEvents();
   }
@@ -158,11 +153,11 @@ class ReportsComponent {
             let response = await ReporteController.getTotalProductByCategory();
 
             if ( !response ) {
-              render.renderTableCategories({ results: [] });
+              render.renderTableCategories({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableCategories( response );
+            render.renderTableCategories( response, this.table );
 
             this.createPieChart('#chart-model', response );
 
@@ -177,11 +172,11 @@ class ReportsComponent {
             let response = await ReporteController.getQuantityMaxSeller();
 
             if ( !response ) {
-              render.renderTableProductQuantity({ results: [] });
+              render.renderTableProductQuantity({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableProductQuantity( response );
+            render.renderTableProductQuantity( response, this.table );
             this.createBarChart('#chart-model', response );
 
           } catch (e) {
@@ -197,11 +192,11 @@ class ReportsComponent {
            });
 
             if ( !response ) {
-              render.renderTableProductQuantity({ results: [] });
+              render.renderTableProductQuantity({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableProductQuantity( response );
+            render.renderTableProductQuantity( response, this.table );
             this.createBarChart('#chart-model', response );
 
           } catch (e) {
@@ -220,11 +215,11 @@ class ReportsComponent {
             console.log( response );
 
             if ( !response ) {
-              render.renderTablePeriodSeller({ results: [] });
+              render.renderTablePeriodSeller({ results: [] }, this.table );
               return;
             }
 
-            render.renderTablePeriodSeller( response );
+            render.renderTablePeriodSeller( response, this.table );
             this.createLineChart('#chart-model', response );
 
           } catch (e) {
@@ -241,11 +236,11 @@ class ReportsComponent {
             let response = await ReporteController.getTotalNotesBySeller();
 
             if ( !response ) {
-              render.renderTableSellers({ results: [] });
+              render.renderTableSellers({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableSellers( response );
+            render.renderTableSellers( response, this.table );
             this.createBarChart('#chart-model', response );
 
           } catch (e) {
@@ -262,11 +257,11 @@ class ReportsComponent {
             });
 
             if ( !response ) {
-              render.renderTableSellers({ results: [] });
+              render.renderTableSellers({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableSellers( response );
+            render.renderTableSellers( response, this.table );
             this.createBarChart('#chart-model', response );
 
            } catch (e) {
@@ -280,11 +275,11 @@ class ReportsComponent {
             let response = await ReporteController.getTotalNotesByState();
 
             if ( !response ) {
-              render.renderTableDeliveryState({ results: [] });
+              render.renderTableDeliveryState({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableDeliveryState( response );
+            render.renderTableDeliveryState( response, this.table );
             this.createPieChart('#chart-model', response);
 
           } catch (e) {
@@ -302,11 +297,11 @@ class ReportsComponent {
             });
 
             if ( !response ) {
-              render.renderTableDeliveryState({ results: [] });
+              render.renderTableDeliveryState({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableDeliveryState( response );
+            render.renderTableDeliveryState( response, this.table );
             this.createPieChart('#chart-model', response);
 
           } catch (e) {
@@ -491,6 +486,7 @@ class ReportsComponent {
 
     const min = 0;
     const max = 255;
+
     let backgroundColor = [];
     let borderColor = [];
 

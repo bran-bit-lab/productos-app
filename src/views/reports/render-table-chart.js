@@ -1,9 +1,9 @@
 // render tables
-function renderTableCategories( response ) {
+function renderTableCategories( response, table ) {
 
   if ( response.results.length === 0 ) {
 
-    this.table.innerHTML = (`
+    table.innerHTML = (`
       <table class="table table-responsive table-striped">
         <thead>
           <tr class="text-center">
@@ -24,7 +24,7 @@ function renderTableCategories( response ) {
     return;
   }
 
-  this.table.innerHTML = (`
+  table.innerHTML = (`
     <table class="table table-responsive table-striped">
       <thead>
         <tr class="text-center">
@@ -46,11 +46,11 @@ function renderTableCategories( response ) {
   `);
 }
 
-function renderTableSellers( response ) {
+function renderTableSellers( response, table ) {
 
   if ( response.results.length === 0 ) {
 
-    this.table.innerHTML = (`
+    table.innerHTML = (`
       <table class="table table-responsive table-striped">
         <thead>
           <tr class="text-center">
@@ -71,7 +71,7 @@ function renderTableSellers( response ) {
     return;
   }
 
-  this.table.innerHTML = (`
+  table.innerHTML = (`
     <table class="table table-responsive table-striped">
       <thead>
         <tr class="text-center">
@@ -93,11 +93,11 @@ function renderTableSellers( response ) {
   `);
 }
 
-function renderTableDeliveryState( response ) {
+function renderTableDeliveryState( response, table ) {
 
   if ( response.results.length === 0 ) {
 
-    this.table.innerHTML = (`
+    table.innerHTML = (`
       <table class="table table-responsive table-striped">
         <thead>
           <tr class="text-center">
@@ -118,7 +118,7 @@ function renderTableDeliveryState( response ) {
     return;
   }
 
-  this.table.innerHTML = (`
+  table.innerHTML = (`
     <table class="table table-responsive table-striped">
       <thead>
         <tr class="text-center">
@@ -140,11 +140,11 @@ function renderTableDeliveryState( response ) {
   `);
 }
 
-function renderTableProductQuantity( response ) {
+function renderTableProductQuantity( response, table ) {
 
   if ( response.results.length === 0 ) {
 
-    this.table.innerHTML = (`
+    table.innerHTML = (`
       <table class="table table-responsive table-striped">
         <thead>
           <tr class="text-center">
@@ -165,7 +165,7 @@ function renderTableProductQuantity( response ) {
     return;
   }
 
-  this.table.innerHTML = (`
+  table.innerHTML = (`
     <table class="table table-responsive table-striped">
       <thead>
         <tr class="text-center">
@@ -187,11 +187,11 @@ function renderTableProductQuantity( response ) {
   `);
 }
 
-function renderTablePeriodSeller( response ) {
+function renderTablePeriodSeller( response, table ) {
 
   if ( response.results.length === 0 ) {
 
-    this.table.innerHTML = (`
+    table.innerHTML = (`
       <table class="table table-responsive table-striped">
         <thead>
           <tr class="text-center">
@@ -212,7 +212,7 @@ function renderTablePeriodSeller( response ) {
     return;
   }
 
-  this.table.innerHTML = (`
+  table.innerHTML = (`
     <table class="table table-responsive table-striped">
       <thead>
         <tr class="text-center">
