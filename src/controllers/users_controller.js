@@ -3,14 +3,20 @@ const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const { Notification } = require('electron');
 
+/** Clase estatica usuarios */
 class UsersController {
 
 	databaseInstance = null;
 
+	/** Obtiene una instancia Database */
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
 
+	/**
+	* Crea un registro de usuario en la base de datos
+	* @returns {void}
+	*/
 	static crearUsuario( usuario ) {
 
 		const saltRounds = 10;

@@ -2,31 +2,62 @@ const { dialog } = require('electron');
 const mysql = require('mysql');
 const file = require('../util_functions/file');
 
+/**
+* API de mysql
+*@type {*}
+*/
 let mysqlAPI = null;
 
+/** Clase de conexion a la base de datos */
 class Database {
 
+	/**
+	* @callback callbackInsert
+	* @param {string|Error} [error] error al insertar en la BD.
+	*/
+	/**
+	* Inserta elemento en la base de datos
+	* @param {string} sql string SQL.
+	* @param {Object} data Objeto de consulta
+	* @param {callbackInsert} callback respuesta al insertar en la bd
+	*/
 	insert( sql, data, callback ) {
-
-		// @params sql: string es una variable de consulta a la BD.
-		// @params data: object es el arreglo del formulario
-		// @params callback: function se ejecuta cuando la respuesta sea exitosas
-
 		mysqlAPI.query( sql, data, callback );
 	}
 
+	/**
+	* Obtiene el total de registros en la BD.
+	* @param {string} sql string SQL.
+	* @param {Object} data Objeto de consulta
+	* @param {callbackConsult} callback respuesta al consultar en la bd
+	*/
 	getTotalRecords( sql, callback ) {
 		mysqlAPI.query( sql, callback );
 	}
 
-
+	/**
+	* @callback callbackConsult
+	* @param {string|Error|null} error error al insertar en la BD.
+	* @param {Array<Object>} results arreglo de objetos producto de la consulta
+	*/
+	/**
+	* Inserta elemento en la base de datos
+	* @param {string} sql string SQL.
+	* @param {Object|null} pagination paginacion de la tabla
+	* @param {number} pagination.start inicio de la paginacion
+	* @param {number} pagination.limit final de la paginacion
+	* @param {callbackConsult} callback respuesta al insertar en la bd
+	*/
 	consult( sql, paginacion, callback ) {
-
-		// @params paginacion: number[] es la paginacion de la tabla
-
 		mysqlAPI.query( sql, paginacion, callback );
 	}
 
+	/**
+	* Busca registros en la BD.
+	* @param {string} sql string SQL.
+	* @param {Object} data Objeto de consulta
+	* @param {callbackConsult} callback respuesta al consultar en la bd
+	*/
 	find( sql, data, callback ) {
 		mysqlAPI.query( sql, data, callback );
 	}
@@ -39,7 +70,7 @@ class Database {
 		mysqlAPI.query( sql, data, callback );
 	}
 
-	// metodo de cierre de conexion
+	/** * Cierra la conexion a la BD */
 	static closeConnection() {
 
 		if ( !mysqlAPI ) {
@@ -56,7 +87,12 @@ class Database {
 		});
 	}
 
-	// sql parser
+	/**
+	* Pasea el formato string a un SQL valido para la base de datos
+	* @param {string} query consulta SQL
+	* @param {Object} values objeto de consulta
+	* @returns {string}  retorna la consulta valida.
+	*/
 	static sqlParse( query, values ) {
 
 		if ( !values ) {
@@ -82,12 +118,12 @@ class Database {
 		}).bind( this ));
 	}
 
+	/** Se conecta a la base de datos */
 	static connect() {
 
 		let user = null
 
 		try {
-
 			let data = file.readFile("/users-productos-app.ini");
 
 			let arregloConexion = JSON.parse( data );
