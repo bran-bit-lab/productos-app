@@ -8,13 +8,17 @@ class UsersController {
 
 	databaseInstance = null;
 
-	/** Obtiene una instancia Database */
+	/**
+	* Obtiene una instancia Database
+	* @returns {Database}
+	*/
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
 
 	/**
 	* Crea un registro de usuario en la base de datos
+	* @param {User} usuario
 	* @returns {void}
 	*/
 	static crearUsuario( usuario ) {
@@ -54,7 +58,10 @@ class UsersController {
   		});
 	}
 
-
+	/**
+	* Obtiene el total de los usuarios
+	* @returns {Promise<{ totalPaginas: number, totalRegistros: number }>}
+	*/
 	static obtenerTotalUsuarios() {
 
 		return new Promise( ( resolve, reject ) => {
@@ -89,7 +96,11 @@ class UsersController {
 		});
 	}
 
-
+	/**
+	* Obtiene el total de los usuarios
+	* @param {Array<number>} pagination listado de paginacion
+	* @returns {Promise<Array<User>>}
+	*/
 	static listarUsuarios( pagination ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -316,6 +327,17 @@ class UsersController {
 	}
 }
 
+
+/**
+*  User
+* @typedef {Object} User
+*	@property {number} [id] identificador del usuario
+* @property {string} nombre nombre del usuario
+* @property {string} apellido apellido del usuario
+* @property {string} correo correo del usuario
+* @property {string} password contrasena del usuario
+* @property {string} password_confirmation confirmacion de contrasena
+*/
 
 module.exports = {
 	UsersController

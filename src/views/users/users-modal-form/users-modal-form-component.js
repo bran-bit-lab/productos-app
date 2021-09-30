@@ -1,6 +1,14 @@
-// ============================
-// ModalUserFormComponent
-// ============================
+
+
+/**
+* Modulo formulario de creacion de usuarios
+* @module ModalUserFormComponent
+*/
+
+/**
+* Setea los campos del formulario del usuario
+* @param {Object} data	Objeto del usuario
+*/
 function setForm( data = {} ) {
 
 	// busca todos los nodos del formularios y les asigna el valor
@@ -11,12 +19,19 @@ function setForm( data = {} ) {
 	nodesSelect.forEach(( node ) => node.value = data[ node.name ] || '' );
 }
 
+/**
+* Obtiene los datos del formulario
+*/
 function getForm( $event, userComponent = this ) {
 
 	$event.preventDefault();
 
 	let formData = new FormData( userForm );
 
+	/**
+	* @type {User}
+	* @const
+	*/
 	const data = {
 		nombre: formData.get('nombre').trim() || '',
 		apellido: formData.get('apellido').trim() || '',

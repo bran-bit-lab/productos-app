@@ -13,7 +13,7 @@ class Database {
 
 	/**
 	* @callback callbackInsert
-	* @param {string|Error} [error] error al insertar en la BD.
+	* @param {string|Error|null} error error al insertar en la BD.
 	*/
 	/**
 	* Inserta elemento en la base de datos
@@ -62,10 +62,30 @@ class Database {
 		mysqlAPI.query( sql, data, callback );
 	}
 
+	/**
+	* @callback callbackUpdate
+	* @param {string|Error|null} error error al insertar en la BD.
+	*/
+	/**
+	* Busca registros en la BD.
+	* @param {string} sql string SQL.
+	* @param {Object} data Objeto de consulta
+	* @param {callbackUpdate} callback respuesta al momento de actualizar
+	*/
 	update( sql, data, callback ) {
 		mysqlAPI.query( sql, data, callback );
 	}
 
+	/**
+	* @callback callbackDelete
+	* @param {string|Error|null} error error al insertar en la BD.
+	*/
+	/**
+	* Busca registros en la BD.
+	* @param {string} sql string SQL.
+	* @param {Object} data Objeto de consulta
+	* @param {callbackDelete} callback respuesta al momento de eliminar registro
+	*/
 	delete( sql, data, callback ) {
 		mysqlAPI.query( sql, data, callback );
 	}
