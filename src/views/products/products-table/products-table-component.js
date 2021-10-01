@@ -1,3 +1,4 @@
+/** clase tabla de productos */
 class ProductsTableComponent {
 
 	constructor() {
@@ -10,12 +11,20 @@ class ProductsTableComponent {
 		this.openModalConfirm = this.openModalConfirm.bind( this );
 		this.activeProduct = this.activeProduct.bind( this );
 
-		// primera pagina
+		/** @type {number} */
 		this.page = 1;
 
+		/** @type {Array<Product>} */
 		this.products = [];
 	}
 
+	/**
+	 * Obtiene el listado de productos
+	 *
+	 * @param  {*|null} $event  evento de carga de la vista
+	 * @param  {Array<number>} pagination  array de paginación
+	 * @param  {number} page numero de pagina
+	 */
 	async getAll( $event = null, pagination = [0,10], page = this.page ) {
 
 		try {
@@ -38,6 +47,11 @@ class ProductsTableComponent {
 		}
 	}
 
+
+	/**
+	 * añade un producto
+	 * @param  {Product} data instancia del producto
+	 */
 	createProduct( data ) {
 
 		ProductosController.crearProducto( data, getUserLogged() );
@@ -45,6 +59,11 @@ class ProductsTableComponent {
 		this.getAll( null, getPaginationStorage('productsTable') );
 	}
 
+
+	/**
+	 * selecciona un producto
+	 * @param  {number} idProduct identificador de producto
+	 */
 	selectProduct( idProduct ) {
 
 		let found = this.products.find( product => product.productoid === idProduct );
@@ -52,6 +71,11 @@ class ProductsTableComponent {
 		openModalEditProduct( found );
 	}
 
+	/**
+	 * añade un producto
+	 * @param  {Product} data instancia del producto
+	 * @param {number} idProduct identificador de producto
+	 */
 	editProduct( data, idProduct ) {
 
 		// busque el registro
@@ -69,6 +93,12 @@ class ProductsTableComponent {
 		this.getAll( null, getPaginationStorage('productsTable') );
 	}
 
+	/**
+	 * activa la categoria
+	 * @param {Object} data
+	 * @param  {number} data.id  identificador del producto
+	 * @param  {boolean} data.confirm confirma la actualizacion
+	 */
 	activeProduct({ id, confirm }) {
 
 		if ( !confirm ) {
@@ -87,6 +117,10 @@ class ProductsTableComponent {
 		this.getAll( null, getPaginationStorage('productsTable') );
 	}
 
+	/**
+	 * busca productos en la BD.
+	 * @param  {string} $event cadena de busqueda
+	 */
 	async searchProducts( $event = '' ) {
 
 		if ( $event.length === 0 ) {
@@ -103,6 +137,11 @@ class ProductsTableComponent {
 		this.render( null, true );
 	}
 
+
+	/**
+	 * abre el modal de confirmacion
+	 * @param  {number} idProduct identificador del modal
+	 */
 	openModalConfirm( idProduct ) {
 
 		let found = this.products.find(( product ) => product.productoid === idProduct );
@@ -117,9 +156,15 @@ class ProductsTableComponent {
 		// reasigna el bind de la funcion
 		closeModalConfirm = ModalConfirmComponent.closeModalConfirm.bind( this.activeProduct );
 
-		return ModalConfirmComponent.openModalConfirm( title, element, idProduct );
+		ModalConfirmComponent.openModalConfirm( title, element, idProduct );
 	}
 
+	/**
+	 * obtiene las filas en string html
+	 *
+	 * @param  {Product} product instancia del producto
+	 * @returns {string}  devuelve el string html
+	 */
 	setRows( product ) {
 		return (`
 			<tr class="text-center">
@@ -150,6 +195,13 @@ class ProductsTableComponent {
 		`);
 	}
 
+	/**
+	 * obtiene el nombre del usuario
+	 *
+	 * @param  {string} name   nombre del usuario
+	 * @param  {string} surname apellido del usuario
+	 * @returns {string} obtiene el nombre concatenado
+	 */
 	setName( name = '', surname = '' ) {
 
 		if ( name.length > 0 && surname.length > 0 ) {
@@ -159,6 +211,12 @@ class ProductsTableComponent {
 		return 'No disponible';
 	}
 
+
+	/**
+	 * renderiza la tabla de productos
+	 * @param  {number} totalProducts  total de productos
+	 * @param  {boolean} search flag de actualizacion de la paginacion
+	 */
 	render( totalProducts, search = false ) {
 
 		// console.log( totalProducts );

@@ -46,6 +46,13 @@ class CategoryTableComponent {
 
 	}
 
+
+	/**
+	 * selecciona una categoria
+	 *
+	 * @param  {number} idCategory  identificador de categoria
+	 * @param  {string} method metodo de ejecucion del controlador
+	 */
 	selectCategory( idCategory = 1, method = 'edit' ) {
 
 		let found = this.categories.find( category => category.categoriaid === idCategory );
@@ -53,6 +60,13 @@ class CategoryTableComponent {
 		openModalEditCategory( found );
 	}
 
+
+	/**
+	 * activa la categoria
+	 * @param {Object} data
+	 * @param  {number} data.id  identificador de categoria
+	 * @param  {boolean} data.confirm confirma la actualizacion
+	 */
 	activeCategory({ id, confirm }) {
 
 		if ( !confirm ) {
@@ -71,6 +85,11 @@ class CategoryTableComponent {
 		this.getAll( null,   getPaginationStorage('categoriesTable') );
 	}
 
+
+	/**
+	 * abre el modal de categoria
+	 * @param  {number} idCategory identificador de categoria
+	 */
 	openModalConfirm( idCategory = null ) {
 
 		let found = this.categories.find(( category ) => category.categoriaid === idCategory );
@@ -86,18 +105,23 @@ class CategoryTableComponent {
 			this.activeCategory
 		);
 
-		return ModalConfirmComponent.openModalConfirm( title, element, idCategory );
+		ModalConfirmComponent.openModalConfirm( title, element, idCategory );
 	}
 
+
+	/**
+	 * busca categorias en la BD.
+	 * @param  {string} $event cadena de busqueda
+	 */
 	async searchCategories( $event = '' ) {
 
 		if ( $event.length === 0 ) {
 			let { pagination } = getPaginationStorage('categoriesTable');
 
-			return this.getAll( null, pagination );
+			this.getAll( null, pagination );
+
+			return;
 		}
-
-
 
 		this.categories = await CategoriasController.buscarCategoria({ search: '%' + $event + '%' });
 
@@ -106,6 +130,14 @@ class CategoryTableComponent {
 		this.render( this.categories, null, true );
 	}
 
+
+	/**
+	 * Obtiene el listado de categorias
+	 *
+	 * @param  {*|null} $event  evento de carga de la vista
+	 * @param  {Array<number>} pagination  array de paginación
+	 * @param  {number} page numero de pagina
+	 */
 	async getAll( $event, pagination = [0, 10], page = this.page ) {
 
 		try {
@@ -125,7 +157,6 @@ class CategoryTableComponent {
 		}
 	}
 
-
 	/**
 	 * obtiene el nombre del usuario
 	 *
@@ -142,7 +173,6 @@ class CategoryTableComponent {
 
 		return name + ' ' + surname;
 	}
-
 
 	/**
 	 * obtiene las filas en string html

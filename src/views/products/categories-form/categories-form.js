@@ -1,6 +1,16 @@
-// ============================
-// CategoriesFormComponent
-// ============================
+
+/**
+ * Formulario de categorias
+ * @module ModalCategoryFormComponent
+ */
+
+
+/**
+ * abre el modal nuevo de categorias
+ *
+ * @param  {string} title titulo del modal
+ * @param  {boolean} edit flag que indica si esta editando una categoria
+ */
 function openModalNewCategory( title = 'Nueva categoría', edit = false ) {
 
 	newCategory = true;
@@ -10,45 +20,14 @@ function openModalNewCategory( title = 'Nueva categoría', edit = false ) {
 	modalFormCategory.toggle();
 }
 
+/**
+ * abre el modal nuevo de categorias
+ * @param  {Category} category instancia de la categoria
+ */
 function openModalEditCategory( category ) {
 
 	newCategory = false;
 	categorySelected = category;
-
-	/*
-		DOCUMENTACION (retirar si se solicita de procesamiento de imagenes):
-		si existe una imagen en el registro realiza la lectura retirar si incluye el
-		modulo para el cliente
-
-		if ( categorySelected.imagen && categorySelected.imagen.length > 0 ) {
-
-			readFileImageAsync( categorySelected.imagen, ({ base64, path, typeFile }) =>  {
-
-				// console.log( typeFile );
-
-				const imgElement = (`<img src="data:image/${ typeFile };base64,${ base64 }"
-					alt="imagen" class="image-foto" />`);
-
-				imageContainer.innerHTML = imgElement;
-				footer.querySelector('#category-image').value = path;
-
-				hideElement( imageDefault );
-				showElement( imageContainer );
-
-				footer.querySelector('.modal-title').textContent = 'Editar categoría';
-				setForm( categorySelected );
-
-				modalFormCategory.toggle();
-			});
-
-		} else {
-
-			footer.querySelector('.modal-title').textContent = 'Editar categoría';
-			setForm( categorySelected );
-
-			modalFormCategory.toggle();
-		}
-	*/
 
 	footer.querySelector('.modal-title').textContent = 'Editar categoría';
 
@@ -57,33 +36,6 @@ function openModalEditCategory( category ) {
 	modalFormCategory.toggle();
 }
 
-function openImageDialog() {
-
-	CategoriasController.openImageDialog( remote.getCurrentWindow(), ({ base64, size, path, typeFile }) => {
-
-		const maxSize = 1000000;  // 1MB de archivos
-
-		// console.log( typeFile );
-
-		hideElement( errorFile );
-
-		if ( size > maxSize ) {
-
-			errorFile.textContent = 'Máximo 1MB';
-
-			return showElement( errorFile );
-		}
-
-		// se crea una nueva instancia de image
-		const imgElement = (`<img src="data:image/${ typeFile };base64,${ base64 }" alt="imagen" class="image-foto" />`);
-
-		imageContainer.innerHTML = imgElement;
-		footer.querySelector('#category-image').value = path;
-
-		hideElement( imageDefault );
-		showElement( imageContainer );
-	});
-}
 
 function handleSubmit( $event ) {
 
@@ -98,17 +50,17 @@ function handleSubmit( $event ) {
 		categoriaid: categorySelected ? categorySelected.categoriaid : null
 	};
 
-	validateData( categoryData, ( error, data ) => {
+	validateData( categoryData, ( error ) => {
 
 		if ( error ) {
 			return;
 		}
 
 		if ( newCategory ) {
-			categoryTableComponent.createCategory( data );
+			categoryTableComponent.createCategory( categoryData );
 
 		} else {
-			categoryTableComponent.editCategory( data );
+			categoryTableComponent.editCategory( categoryData );
 
 		}
 
@@ -116,6 +68,16 @@ function handleSubmit( $event ) {
 	});
 }
 
+/**
+* @callback callbackValidateForm
+* @param {boolean} error indica si existe un error en el formulario
+*/
+/**
+ * Funcion de validacion de datos
+ *
+ * @param  {User} data     instancia del usuario
+ * @param  {callbackValidateForm} callback  llamada de respuesta al realizar la validacion
+ */
 function validateData( categoryData, callback ) {
 
 	resetForm();
@@ -187,12 +149,18 @@ function validateData( categoryData, callback ) {
 	}
 
 	if ( errors > 0 ) {
-		return callback( true );
+		callback( true );
+
+		return;
 	}
 
-	callback( false, categoryData );
+	callback( false );
 }
 
+/**
+ * establece el formulario de clientes
+ * @param  {Category} category instancia de categoría
+ */
 function setForm( category ) {
 
 	const keys = ['nombre', 'descripcion'];
@@ -205,7 +173,8 @@ function setForm( category ) {
 	});
 }
 
-function cleanFormOnClose( $event ) {
+/** evento de cierre de modal */
+function cleanFormOnClose() {
 
 	/*
 		Documentacion de procesamiento de imagen:
@@ -219,6 +188,10 @@ function cleanFormOnClose( $event ) {
 	resetForm( true );
 }
 
+/**
+ * Limpia los campos del formulario
+ * @param  {boolean} button indica si la funcion es llamado desde el boton del formulario
+ */
 function resetForm( button = false ) {
 
 	hideElement( errorCategoryName );
@@ -229,6 +202,7 @@ function resetForm( button = false ) {
 	}
 }
 
+/** @type {Modal} */
 const modalFormCategory = new Modal( footer.querySelector('#category-form'), {
 	backdrop: 'static'
 });
@@ -242,7 +216,10 @@ const errorFile = footer.querySelector('#error-file');
 const errorCategoryName = categoryForm.querySelector('#error-category-name');
 const errorCategoryDescription = categoryForm.querySelector('#error-category-description');
 
+/** @type {boolean} */
 let newCategory = true; // new | edit
+
+/** @type {null|Category} */
 let categorySelected = null;
 
 /*
