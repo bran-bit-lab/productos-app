@@ -1,7 +1,13 @@
+/** Clase tabla de clientes */
 class ClientsTableComponent {
   constructor() {
+
+    /** @type {Array<Client>} */
     this.clients = [];
+
+    /** @type {number} */
     this.page = 1;
+
     this.pagination = document.querySelector('#pagination-clients');
     this.searchBar = document.querySelector('search-bar-component[from="clients"]');
     this.tbody = document.querySelector('#tbody-client');
@@ -10,6 +16,12 @@ class ClientsTableComponent {
     this.setEvents();
   }
 
+  /**
+   * Obtiene la lista de clientes paginadas
+   *
+   * @param  {*|null} $event  evento de carga de sito
+   * @param  {Array<number>} pagination paginacion de los usuarios
+   */
   async getAll( $event = null, pagination = [0, 10] ) {
 
     try {
@@ -30,6 +42,7 @@ class ClientsTableComponent {
     }
   }
 
+  /** Establece los eventos de la tabla */
   setEvents() {
 
     this.pagination.addEventListener( 'pagination', ( $event ) => {
@@ -40,18 +53,31 @@ class ClientsTableComponent {
     this.searchBar.addEventListener('search', ( $event ) => this.searchClient( $event.detail.value ));
   }
 
+
+  /**
+   * Añade un nuevo cliente
+   * @param  {Client} client instancia del cliente
+   */
   addClient( client ) {
     ClientesController.crearCliente( client );
 
     this.getAll( null, getPaginationStorage('clientsTable'));
   }
 
+  /**
+   * Edita un cliente
+   * @param  {Client} client instancia del cliente
+   */
   editClient( client ) {
     ClientesController.editarCliente( client );
 
     this.getAll( null, getPaginationStorage('clientsTable'));
   }
 
+  /**
+	 * Realiza una búsqueda de clientes
+	 * @param  {string} search cadena de busqueda
+	 */
   async searchClient( search ) {
 
     const rexp = /^[\w-\d\s]+$/;
@@ -75,6 +101,12 @@ class ClientsTableComponent {
 		this.renderClients( null, null, true );
   }
 
+  /**
+	 * Obtiene una fila en formato html
+	 *
+	 * @param  {Client} client instancia del cliente
+	 * @return {string}  retorna una fila de la tabla en string html
+	 */
   setRows( client ) {
     return (`
       <tr class="text-center">
@@ -102,6 +134,13 @@ class ClientsTableComponent {
     `);
   }
 
+  /**
+	 * Rendiza la tabla de clientes
+	 *
+	 * @param  {number|null} totalPages paginas totales
+	 * @param  {number|null} totalRegisters numeros de registros
+	 * @param  {boolean} search flag de busqueda le indica si actualiza la paginacion
+	 */
   renderClients( totalPages = null , totalRegisters = null, search = false ) {
 
     if ( !search ) {

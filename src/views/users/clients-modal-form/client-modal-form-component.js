@@ -1,6 +1,13 @@
-// ============================
-// ModalClientFormComponent
-// ============================
+/**
+ * formulario de clientes
+ * @module ModalClientFormComponent
+ */
+/**
+ * despliuega el modal de clientes
+ *
+ * @param  {string} method metodo para utilizar en el controller
+ * @param  {number|null} id  identificador de cliente
+ */
 function openModal( method = 'new', id = null  ) {
 
   const modalTitle = modalClientForm._element.querySelector('.modal-title');
@@ -23,10 +30,16 @@ function openModal( method = 'new', id = null  ) {
   }
 }
 
+/** Cierra el modal */
 function closeModal() {
 	modalClientForm.toggle();
 }
 
+
+/**
+ * Establece el formulario de clientes
+ * @param  {Client} client instancia del cliente
+ */
 function setForm( client ) {
 
   if ( client ) {
@@ -60,6 +73,22 @@ function setForm( client ) {
   modalClientForm.toggle();
 }
 
+/**
+* @callback callbackValidateForm
+* @param {boolean} error indica si existe un error en el formulario
+*/
+/**
+ * Funcion de validacion de datos
+ *
+ * @param  {Client} data     instancia del cliente
+ * @param  {callbackValidateForm} callback  llamada de respuesta al realizar la validacion
+ *
+ * @example
+ * validate( data, ( error ) => {
+ *    if ( error ) return;
+ *    // rest of code
+ * });
+ */
 function validate( data, callback ) {
 
   resetFields();
@@ -191,9 +220,14 @@ function validate( data, callback ) {
 		return callback( true );
 	}
 
-  callback();
+  callback( false );
 }
 
+
+/**
+ * Envia los datos del formulario
+ * @param  {*} $event evento de envio
+ */
 function handleSubmit( $event ) {
 
   $event.preventDefault();
@@ -225,6 +259,11 @@ function handleSubmit( $event ) {
   });
 }
 
+
+/**
+ * Limpia los campos del formulario
+ * @param  {boolean} button flag para indicar que se limpia desde el boton
+ */
 function resetFields( button = false ) {
 
 	// se limpia los errores de validación
@@ -240,12 +279,17 @@ function resetFields( button = false ) {
 	return footer.querySelector('#name-client').focus();
 }
 
+/** @type {null|number} */
 let idClient = null;
 
 const clientForm = document.forms['formClients'];
 
 clientForm.addEventListener( 'submit',  handleSubmit );
 
+/**
+* instancia del modal 
+* @type {Modal}
+*/
 const modalClientForm = new Modal( footer.querySelector('.modal-clients'), {
   backdrop: 'static'
 });

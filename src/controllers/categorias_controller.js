@@ -3,28 +3,29 @@ const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const { readFileImageAsync, copyFile, deleteImageSync } = require('../util_functions/file');
 
+/** clase que gestiona las categorias */
 class CategoriasController {
 
+	/** @type {Database|null} */
 	databaseInstance = null;
 
+	/** Propiedad get database retorna una nueva instancia de la clase Database */
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
 
-	static get urlImage() {
-		return this.setUrlImage || ( this.setUrlImage = new CategoriasController().setUrlImage );
-	}
-
+	/**
+	 * Añade una nueva categoria
+	 *
+	 * @param  {Category} categoria instancia de categoria
+	 * @param  {User} usuario  instancia de usuario
+	 */
 	static crearCategoria( categoria, usuario ) {
 
 		let nuevaCategoria = {
 			...categoria,
 			userid: usuario['userid']
 		};
-
-		if ( nuevaCategoria['imagen'] && nuevaCategoria['imagen'].length > 0 ) {
-			nuevaCategoria['imagen'] = this.urlImage( nuevaCategoria['imagen'] );
-		}
 
 		this.database.insert( CRUD.crearCategoria, nuevaCategoria, ( error ) => {
 
@@ -51,6 +52,14 @@ class CategoriasController {
 		});
 	}
 
+
+	/**
+	 * activar categoria
+	 *
+	 * @param  {Object} categoria
+	 * @param {number} categoriaid identificador de categoria
+	 * @param {boolean} activo flag de disponibilidad de categoria
+	 */
 	static activarCategoria( categoria ) {
 
 		this.database.update( CRUD.activarCategoria, categoria, ( error ) => {
@@ -79,42 +88,10 @@ class CategoriasController {
 		});
 	}
 
-	static openImageDialog( win, callback ) {
-
-		// se le pasa un objeto de configuracion
-
-		const config = Object.freeze({
-			properties: ['openFile'],
-			title: 'Abrir imagen',
-			buttonLabel: 'Seleccionar',
-			filters: [
-				{ name: 'Imágenes .jpg .png', extensions: [ 'jpg', 'png', 'jpeg' ] }
-			]
-		});
-
-		dialog.showOpenDialog( win, config )
-			.then( result => {
-
-				if ( result.canceled ) {
-					return;
-				}
-
-				// lee el archivo de imagen y lo devuelve al renderizado
-				readFileImageAsync( result.filePaths[0], ( imgObject ) => callback( imgObject ) );
-			})
-			.catch( error => {
-
-				console.log( error );
-
-				const notificacion = new Notification({
-					title: 'Error',
-					body: 'Error al cargar archivo'
-				});
-
-				notificacion.show();
-			});
-	}
-
+	/**
+	* Obtiene el total de los categorias
+	* @returns {Promise<{ totalPaginas: number, totalRegistros: number }>}
+	*/
 	static obtenerTotalCategorias() {
 
 		return new Promise( ( resolve, reject ) => {
@@ -149,7 +126,13 @@ class CategoriasController {
 		});
 	}
 
-	static listarCategorias( pagination, usuario ) {
+	/**
+	 * Listar categorias
+	 *
+	 * @param  {Array<number>} pagination array de paginacion
+	 * @return {Promise<Array<Category>>}  devuelve una promesa con los categorias paginados
+	 */
+	static listarCategorias( pagination ) {
 
 		return new Promise(( resolve, reject ) => {
 
@@ -171,21 +154,14 @@ class CategoriasController {
 		});
 	}
 
+	/**
+	 * edita una categoria
+	 *
+	 * @param  {Category} categoria instancia de la categoria
+	 * @param  {User} usuario usuario logeado
+	 * @param {string| null} [imagenRegistrada] imagen registrada por el usuario
+	 */
 	static editarCategoria( categoria, usuario, imagenRegistrada ) {
-
-		/* let change = categoria['imagen'].length > 0 && imagenRegistrada !== categoria['imagen'];
-
-		if ( change == true && (imagenRegistrada.length > 0) ){
-
-			deleteImageSync ( imagenRegistrada );
-
-			categoria['imagen'] = this.urlImage( categoria['imagen'] );
-			// console.log(categoria['imagen']);
-
-		} else {
-			categoria['imagen'] = this.urlImage( categoria['imagen'] );
-
-		};*/
 
 		this.database.update( CRUD.editarCategoria, categoria, ( error ) => {
 
@@ -216,25 +192,12 @@ class CategoriasController {
   		});
 	}
 
-	setUrlImage( urlImagen ) {
-
-		try {
-
-			// aqui se cambia el nombre se le pasa un timestamp
-			let nuevoNombreImagen = `categorias/${ Date.now() }.${ urlImagen.split('.')[1] }`;
-
-			let resultadoUrl = copyFile( urlImagen, nuevoNombreImagen );
-
-			// se devuelve el string preformateado del copyFile
-			return resultadoUrl;
-
-		} catch ( error ) {
-			console.log( error );
-
-			throw error;
-		}
-	}
-
+	/**
+	 * Permite buscar categorias en la BD
+	 * @param  {Object} search producto a buscar
+	 * @param {string} search.search cadena de busqueda del producto
+	 * @return {Promise<Array<Category>>}  devuelve una promesa con los resultados encontrados
+	*/
 	static buscarCategoria( search ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -267,6 +230,16 @@ class CategoriasController {
 	}
 
 }
+
+/**
+ * Category
+ * @typedef {Object} Category
+ * @property {number} [categoriaid] identificador de categoria
+ * @property {number} userid identificador de usuario
+ * @property {string} nombre nombre de la categoria
+ * @property {boolean} activo flag si indica que la categoria esta disponible
+ * @property {string} [imagen] string base64 de la imagen
+ */
 
 module.exports = {
 	CategoriasController

@@ -2,14 +2,21 @@ const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const { Notification } = require('electron');
 
+/** Controlador de clientes */
 class ClientesController {
 
-	databaseInstance = null;
+		/** @type {Database|null} */
+		databaseInstance = null;
 
+		/** Propiedad get database retorna una nueva instancia de la clase Database */
 		static get database() {
 			return this.databaseInstance || ( this.databaseInstance = new Database() );
 		}
 
+		/**
+		 * crea un nuevo cliente
+		 * @param  {Client} cliente instancia del cliente
+		 */
 		static crearCliente( cliente ) {
 
 			this.database.insert( CRUD.crearCliente, cliente, ( error ) => {
@@ -40,6 +47,10 @@ class ClientesController {
 	  		});
 		}
 
+	/**
+	* Obtiene el total de los clientes
+	* @returns {Promise<{ totalPaginas: number, totalRegistros: number }>}
+	*/
 	static obtenerTotalClientes() {
 
 		return new Promise( ( resolve, reject ) => {
@@ -73,7 +84,11 @@ class ClientesController {
 		});
 	}
 
-
+	/**
+	 * Lista los clientes en forma paginada
+	 * @param  {Array<number>} pagination array de numeros de la paginacion
+	 * @returns {Promise<Array<Client>>} Retorna una promesa con el arreglo de clientes
+	 */
 	static listarClientes( pagination ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -94,6 +109,14 @@ class ClientesController {
 		});
 	}
 
+	/**
+	 * Permite buscar usuarios en la BD
+	 * @param  {Object} cliente cliente a buscar
+	 * @param {string} cliente.search cadena de busqueda del cliente
+	 * @return {Promise<Array<Client>>}  devuelve una promesa con los resultados encontrados
+	 * @example
+	 * this.clients = await ClientesController.buscarCliente({ search: '%' + search + '%' });
+	 */
 	static buscarCliente( cliente ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -122,6 +145,11 @@ class ClientesController {
 		});
 	}
 
+
+	/**
+	 * Edita los datos del cliente
+	 * @param  {Client} cliente instancia del cliente
+	 */
 	static editarCliente( cliente ) {
 
 			this.database.update( CRUD.editarCliente, cliente, ( error ) => {
@@ -153,6 +181,16 @@ class ClientesController {
 	  	});
 	}
 }
+
+/**
+ * Client
+ * @typedef {Object} Client
+ * @property {number} [id_cliente] identificador de cliente
+ * @property {string} nombre_cliente nombre del cliente
+ * @property {string} direccion_entrega direccion de entrega
+ * @property {string} rif identificador de registro fiscal de cliente
+ * @property {string} telefono_contacto telefono contacto del cliente
+ */
 
 module.exports = {
 	ClientesController

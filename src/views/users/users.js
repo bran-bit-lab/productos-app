@@ -21,7 +21,6 @@ footer.innerHTML += readFileAssets( '/users/users-modal-role/users-modal-role-co
 footer.innerHTML += readFileAssets( '/users/clients-modal-form/client-modal-form-component.html' );
 
 const UsersTableComponent = require('./users-table/users-table-component');
-
 const ModalUserComponent = require('./users-modal-form/users-modal-form-component');
 const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 const ModalChangeRole = require('./users-modal-role/users-modal-role-component');
@@ -42,6 +41,7 @@ class UsersComponent {
 		this.setHtml = this.setHtml.bind( this );
 	}
 
+	/** carga el html de los modales y los eventos */
 	setHtml() {
 
 		const tabList = Array.from( document.querySelectorAll('#users-list button') );
@@ -51,6 +51,11 @@ class UsersComponent {
 		this.changeView();
 	}
 
+
+	/**
+	 * Setea las opciones de las pestañas
+	 * @param  {HTMLElement} elementTab elemento html de botones de las pestañas
+	 */
 	setOptionsTabs( elementTab ) {
 
 		let tabTrigger = new Tab( elementTab );
@@ -67,6 +72,11 @@ class UsersComponent {
 		});
 	}
 
+
+	/**
+	 * cambia la vista entre usuarios y clientes
+	 * @param  {type} tabName Nombre de la pestaña
+	 */
 	changeView( tabName = 'users' ) {
 
 		const usersElements = Array.from( document.querySelectorAll('.users') );

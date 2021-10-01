@@ -1,6 +1,11 @@
-// ==============================
-// ModalChangeRoleUserComponent
-// ==============================
+/**
+ * modulo de componente del modal de rol
+ * @module UsersModalRole
+ */
+/**
+ * Abre el modal de usuarios del rol de usuario
+ * @param  {number|null} idUser identificador del usuario
+ */
 function openModalRole( idUser = null ) {
 
 	if ( !idUser ) {
@@ -15,9 +20,14 @@ function openModalRole( idUser = null ) {
 
 	setForm( usersTableComponent.users.find(( user ) => user.userid === idUser )  );
 
-	return modalRole.toggle();
+	modalRole.toggle();
 }
 
+
+/**
+ * establece el formulario de rol
+ * @param  {User} user instancia del usuario
+ */
 function setForm( user ) {
 
 	const inputNodes = changeRoleForm.querySelectorAll('input');
@@ -25,6 +35,12 @@ function setForm( user ) {
 	inputNodes.forEach(( inputNode ) => inputNode.checked = user.area === inputNode.value );
 }
 
+
+/**
+ * Obtiene los datos del formulario del rol
+ * @param  {*} $event  Evento de envio del formulario del rol
+ * @param  {UsersComponent} userComponent instancia del padre
+ */
 function getForm( $event, userComponent = this ) {
 
 	$event.preventDefault();
@@ -38,16 +54,19 @@ function getForm( $event, userComponent = this ) {
 
 	usersTableComponent.changeRole({ id, role: selected });
 
-	return closeModalRole();
+	closeModalRole();
 }
 
+/** Cierra el modal del rol */
 function closeModalRole() {
-
-	return modalRole.toggle();
+	modalRole.toggle();
 }
 
+
+/** @type {null|number} */
 let id = null;
 
+/** @type {Modal} */
 const modalRole = new Modal( footer.querySelector('.modal-role'), { backdrop: 'static' });
 
 module.exports = {

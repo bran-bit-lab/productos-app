@@ -3,18 +3,23 @@ const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const { readFileImageAsync, copyFile, deleteImageSync } = require('../util_functions/file');
 
+/** clase que gestiona los productos */
 class ProductosController {
 
+	/** @type {Database|null} */
 	databaseInstance = null;
 
+	/** Propiedad get database retorna una nueva instancia de la clase Database */
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
 
-	static get urlImage() {
-		return this.setUrlImage || ( this.setUrlImage = new CategoriasController().setUrlImage );
-	}
-
+	/**
+	 * Añade un nuevo producto
+	 *
+	 * @param  {Product} producto instancia del producto
+	 * @param  {User} usuario usuario logeado
+	 */
 	static crearProducto( producto, usuario ) {
 
 		let nuevoProducto = {
@@ -49,6 +54,10 @@ class ProductosController {
 		});
 	}
 
+	/**
+	* Obtiene el total de los productos
+	* @returns {Promise<{ totalPaginas: number, totalRegistros: number }>}
+	*/
 	static obtenerTotalProductos() {
 
 		return new Promise( ( resolve, reject ) => {
@@ -85,6 +94,10 @@ class ProductosController {
 		});
 	}
 
+	/**
+	* Obtiene el total de los productos disponibles
+	* @returns {Promise<{ totalPaginas: number, totalRegistros: number }>}
+	*/
 	static obtenerTotalProductosActivos() {
 
 		return new Promise(( resolve, reject ) => {
@@ -119,6 +132,13 @@ class ProductosController {
 		});
 	}
 
+
+	/**
+	 * Listar productos
+	 *
+	 * @param  {Array<number>} pagination array de paginacion
+	 * @return {Promise<Array<Product>>}  devuelve una promesa con los productos paginados
+	 */
 	static listarProductos( pagination ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -143,6 +163,12 @@ class ProductosController {
 		});
 	}
 
+	/**
+	 * Listar productos activos
+	 *
+	 * @param  {Array<number>} pagination array de paginacion
+	 * @return {Promise<Array<Product>>}  devuelve una promesa con los productos disponibles paginados
+	 */
 	static listarProductosActivos( pagination ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -167,7 +193,12 @@ class ProductosController {
 		});
 	}
 
-	static listarCategorias() { // este es el metodo que no estaba incluido lo que fue agregarlo
+
+	/**
+	 * Lista las categorias
+	 * @return {Promise<Array<Category>>}  devuelve una promesa devolviendo el listado de categorias
+	 */
+	static listarCategorias() {
 
 		return new Promise(( resolve, reject ) => {
 
@@ -184,6 +215,12 @@ class ProductosController {
 		})
 	}
 
+	/**
+	 * edita un producto
+	 *
+	 * @param  {Product} producto instancia del producto
+	 * @param  {User} usuario usuario logeado
+	 */
 	static editarProducto( producto, usuario ) {
 
 		// console.log (producto, "<-- log del producto");
@@ -248,6 +285,14 @@ class ProductosController {
   	});
 	}
 
+
+	/**
+	 * activa o desactiva la disponibilidad del producto
+	 *
+	 * @param  {Object} producto
+	 * @param {number} producto.productoid  identificador de producto
+	 * @param {boolean} producto.disponibilidad disponibilidad de producto
+	 */
 	static activarProducto( producto ) {
 
 		//console.log (producto, "<-- log del producto");
@@ -280,6 +325,13 @@ class ProductosController {
   		});
 	}
 
+
+	/**
+	 * Permite buscar clientes en la BD
+	 * @param  {Object} search producto a buscar
+	 * @param {string} search.search cadena de busqueda del producto
+	 * @return {Promise<Array<Product>>}  devuelve una promesa con los resultados encontrados
+	*/
 	static buscarProducto( search ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -313,5 +365,18 @@ class ProductosController {
 	}
 
 }
+
+/**
+ * Product
+ * @typedef {Object} Product
+ * @property {number} [productoid] identificador de producto
+ * @property {number} userid identificador de usuario
+ * @property {number} categoriaid identificador de categoria
+ * @property {string} nombre_cliente nombre del producto
+ * @property {string} descripcion descripcion de producto
+ * @property {number} precio precio del producto
+ * @property {number} cantidad cantidad de productos
+ * @property {boolean} disponibilidad disponibilidad de producto
+ */
 
 module.exports = { ProductosController };

@@ -90,6 +90,14 @@ class UsersTableComponent {
 		this.renderUsers( null, null, true );
 	}
 
+
+	/**
+	 * actualiza el estado del usuario
+	 *
+	 * @param  {Object} data  objeto de la respuesta
+	 * @param  {number} data.id identificador del usuario
+   * @param {boolean} data.confirm  confirmacion del cambio   
+	 */
 	deleteUser({ id, confirm }) {
 
 		if ( !confirm ) {

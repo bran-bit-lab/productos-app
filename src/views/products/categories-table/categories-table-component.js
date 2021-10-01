@@ -1,3 +1,4 @@
+/** clase tabla de categorias */
 class CategoryTableComponent {
 
 	constructor() {
@@ -10,12 +11,17 @@ class CategoryTableComponent {
 		this.activeCategory = this.activeCategory.bind( this );
 		this.openModalConfirm = this.openModalConfirm.bind( this );
 
-		// nav-table
+		/** @type {number} */
 		this.page = 1;
 
+		/** @type {Array<Category>} */
 		this.categories = [];
 	}
 
+	/**
+	 * crea una categoria
+	 * @param  {Category} data instancia de categoria
+	 */
 	createCategory( data ) {
 
 		// se elimina el campo categoriaid antes de mandar al controlador
@@ -26,6 +32,10 @@ class CategoryTableComponent {
 		this.getAll( null,  getPaginationStorage('categoriesTable') );
 	}
 
+	/**
+	 * edita una categoria
+	 * @param  {Category} data instancia de categoria
+	 */
 	editCategory( data ) {
 
 		let found = this.categories.find( category => category.categoriaid === data.categoriaid );
@@ -87,7 +97,7 @@ class CategoryTableComponent {
 			return this.getAll( null, pagination );
 		}
 
-		
+
 
 		this.categories = await CategoriasController.buscarCategoria({ search: '%' + $event + '%' });
 
@@ -115,6 +125,14 @@ class CategoryTableComponent {
 		}
 	}
 
+
+	/**
+	 * obtiene el nombre del usuario
+	 *
+	 * @param  {string} name   nombre del usuario
+	 * @param  {string} surname apellido del usuario
+	 * @returns {string} obtiene el nombre concatenado
+	 */
 	getName( name, surname ) {
 
 		if ( ( !name || name.length === 0 ) &&
@@ -125,6 +143,13 @@ class CategoryTableComponent {
 		return name + ' ' + surname;
 	}
 
+
+	/**
+	 * obtiene las filas en string html
+	 *
+	 * @param  {Category} category instancia de categoria
+	 * @returns {string}  devuelve el string html
+	 */
 	setRows( category ) {
 
 		return (`
@@ -163,6 +188,14 @@ class CategoryTableComponent {
 		`);
 	}
 
+
+	/**
+	 * renderiza la tabla categorias
+	 *
+	 * @param  {Array<Category>} categorias
+	 * @param  {number} totalCategories total de categorias
+	 * @param  {boolean} search  flag que indica si debe setear el paginador
+	 */
 	render( categorias = [], totalCategories, search = false ) {
 
 		if ( !search ) {
