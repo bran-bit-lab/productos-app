@@ -1,4 +1,6 @@
+/** Clase tabla de usuarios */
 class UsersTableComponent {
+
   constructor() {
     this.pagination = document.querySelector('#pagination-users');
 		this.tbody = document.querySelector('#tbody-user');
@@ -10,13 +12,16 @@ class UsersTableComponent {
 		this.changeRole = this.changeRole.bind( this );
 		this.getAll = this.getAll.bind( this );
 
+    /** @type {number} */
     this.page = 1;
 
+    /** @type {Array<User>} */
     this.users = [];
 
     this.setEvents();
   }
 
+  /** Crea los escuchadores de eventos */
   setEvents() {
     this.pagination.addEventListener( 'pagination',
     	( $event ) => this.getAll( null,  $event.detail.value, $event.detail.page )
@@ -25,6 +30,13 @@ class UsersTableComponent {
     this.searchBar.addEventListener('search', ( $event ) => this.searchUser( $event.detail.value ));
   }
 
+  /**
+   * Obtiene la lista de usuarios paginadas
+   *
+   * @param  {*|null} $event  evento de carga de sito
+   * @param  {Array<number>} pagination paginacion de los usuarios
+   * @param  {number} page número actual de la paginacion
+   */
   async getAll( $event, pagination = [ 0, 10 ], page = this.page ) {
 
 		try {
@@ -46,6 +58,10 @@ class UsersTableComponent {
 
 	}
 
+	/**
+	 * Realiza una búsqueda de usuarios
+	 * @param  {string} search cadena de busqueda
+	 */
 	async searchUser( search ) {
 
 		const rexp = /^[\w\d\s]+$/;
@@ -87,16 +103,25 @@ class UsersTableComponent {
 			userid: id
 		});
 
-		return this.getAll( null, getPaginationStorage('usersTable') );
+		this.getAll( null, getPaginationStorage('usersTable') );
 	}
 
+
+	/**
+	 * Crea el nuevo usuario
+	 * @param  {User} form instancia del usuario
+	 */
 	newUser( form ) {
 
 		UsersController.crearUsuario( form );
 
-		return this.getAll( null, getPaginationStorage('usersTable') );
+		this.getAll( null, getPaginationStorage('usersTable') );
 	}
 
+  /**
+	 * Cambia el rol del usuario
+	 * @param  {User} user instancia del usuario
+	 */
 	changeRole( user ) {
 
 		UsersController.cambiarRolUsuarios({  // aqui ya se envia el objeto como tal
@@ -104,9 +129,13 @@ class UsersTableComponent {
 			userid: user.id
 		});
 
-		return this.getAll( null, getPaginationStorage('usersTable') );
+		this.getAll( null, getPaginationStorage('usersTable') );
 	}
 
+	/**
+	 * Abre el modal de confirmacion
+	 * @param  {number | null} idUser identificador del usuario
+	 */
 	openModalConfirm( idUser = null ) {
 
 		let found = this.users.find(( user ) => user.userid === idUser );
@@ -122,9 +151,16 @@ class UsersTableComponent {
 
     closeModalConfirm = ModalConfirmComponent.closeModalConfirm.bind( this.deleteUser );
 
-    return ModalConfirmComponent.openModalConfirm( title, element, idUser );
+    ModalConfirmComponent.openModalConfirm( title, element, idUser );
 	}
 
+
+	/**
+	 * Obtiene una fila en formato html
+	 *
+	 * @param  {User} user instancia del usuario
+	 * @return {string}  retorna una fila de la tabla en string html
+	 */
 	getRowTable( user ) {
 		return (`
 			<tr class="text-center">
@@ -160,6 +196,14 @@ class UsersTableComponent {
 		`);
 	}
 
+
+	/**
+	 * Rendiza la tabla de usuarios
+	 *
+	 * @param  {number|null} totalPages paginas totales
+	 * @param  {number|null} totalRegisters numeros de registros
+	 * @param  {boolean} search flag de busqueda le indica si actualiza la paginacion
+	 */
 	renderUsers( totalPages = null , totalRegisters = null, search = false ) {
 
 		if ( !search ) {

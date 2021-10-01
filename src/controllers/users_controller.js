@@ -3,15 +3,16 @@ const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const { Notification } = require('electron');
 
-/** Clase estatica usuarios */
+/** Clase estatica controlador de usuarios */
 class UsersController {
 
+	/**
+	 * Instancia de Database
+	 * @type {Database | null}
+	 */
 	databaseInstance = null;
 
-	/**
-	* Obtiene una instancia Database
-	* @returns {Database}
-	*/
+	/** Propiedad get database retorna una nueva instancia de la clase Database */
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
@@ -19,7 +20,15 @@ class UsersController {
 	/**
 	* Crea un registro de usuario en la base de datos
 	* @param {User} usuario
-	* @returns {void}
+	* @example
+	* await Database.crearUsuario({
+	* 	nombre: 'ryan',
+	* 	apellido: 'dohl',
+	* 	correo: 'ryandohl@test.com'
+	* 	password: '1234678'
+	* 	passwordConfirmation: '12345678'
+	* });
+	*
 	*/
 	static crearUsuario( usuario ) {
 
@@ -96,11 +105,12 @@ class UsersController {
 		});
 	}
 
+
 	/**
-	* Obtiene el total de los usuarios
-	* @param {Array<number>} pagination listado de paginacion
-	* @returns {Promise<Array<User>>}
-	*/
+	 * Lista los usuarios en forma paginada
+	 * @param  {Array<number>} pagination array de numeros de la paginacion
+	 * @returns {Promise<Array<User>>} Retorna una promesa con el arreglo de usuarios
+	 */
 	static listarUsuarios( pagination ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -122,6 +132,13 @@ class UsersController {
 		});
 	}
 
+	/**
+	 * Cambia el rol del usuario
+	 *
+	 * @param {Object} usuario  usuario a cambiar
+	 * @param {number} usuario.userid identificador del usuario
+	 * @param {string} usuario.rol rol del usuario
+	 */
 	static cambiarRolUsuarios( usuario ) {
 
 		this.database.update( CRUD.editarRolUsuario, usuario, ( error ) => {
@@ -145,9 +162,17 @@ class UsersController {
 				return;
 			}
 
-  		});
+  	});
 	}
 
+
+	/**
+	 * Permite cambiar el estado del usuario en la aplicación
+	 *
+	 * @param  {Object} usuario objeto de consulta
+	 * @param {number} usuario.userid identificador del usuario
+	 * @param {boolean} usuario.estado nuevo estado del usuario para acceder a la aplicación
+	 */
 	static cambiarEstadoUsuarios( usuario ) {
 
 		this.database.update( CRUD.editarEstadoUsuario, usuario, ( error ) => {
@@ -174,6 +199,14 @@ class UsersController {
   		});
 	}
 
+	/**
+	 * Permite buscar usuarios en la BD
+	 * @param  {Object} usuario Usuario a buscar
+	 * @param {string} usuario.search cadena de busqueda del usuario
+	 * @return {Promise<Array<User>>}  devuelve una promesa con los resultados encontrados
+	 * @example
+	 * this.users = await UsersController.buscarUsuarios({ search: '%' + search + '%' });
+	 */
 	static buscarUsuarios( usuario ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -203,6 +236,19 @@ class UsersController {
 		});
 	}
 
+	/**
+	 * Login de la aplicación
+	 *
+	 * @promise login
+	 * @reject {Error|string}
+	 * @fulfill {User}
+	 *
+	 * @param  {Object} usuario Objeto de inicio de sesion
+	 * @param {string} usuario.correo correo del usuario
+	 * @param {string} usuario.password contraseña del usuario
+	 *
+	 * @returns {Promise<User>}  retorna una promesa con el usuario logeado
+	 */
 	static login( usuario ) {
 
 		// 1.- si el usuario existe dentro de la bd
@@ -283,7 +329,12 @@ class UsersController {
 
 	}
 
-	// metodo para actualizar el perfil
+	/**
+	 * Actualiza el perfil del usuario logeado
+	 *
+	 * @param  {User} perfil perfil del usuario logeado
+	 * @return {Promise<User>}        Una promesa con los datos del perfil actualizados
+	 */
 	static actualizarPerfil( perfil ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -331,7 +382,7 @@ class UsersController {
 /**
 *  User
 * @typedef {Object} User
-*	@property {number} [id] identificador del usuario
+*	@property {number} [userid] identificador del usuario
 * @property {string} nombre nombre del usuario
 * @property {string} apellido apellido del usuario
 * @property {string} correo correo del usuario

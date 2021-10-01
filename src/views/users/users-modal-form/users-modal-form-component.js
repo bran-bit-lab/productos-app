@@ -1,5 +1,3 @@
-
-
 /**
 * Modulo formulario de creacion de usuarios
 * @module ModalUserFormComponent
@@ -7,11 +5,10 @@
 
 /**
 * Setea los campos del formulario del usuario
-* @param {Object} data	Objeto del usuario
+* @param {User} [data] instancia del usuario
 */
 function setForm( data = {} ) {
 
-	// busca todos los nodos del formularios y les asigna el valor
 	const nodesInput = userForm.querySelectorAll('input');
 	const nodesSelect = userForm.querySelectorAll('select');
 
@@ -20,18 +17,17 @@ function setForm( data = {} ) {
 }
 
 /**
-* Obtiene los datos del formulario
-*/
+ * Obtiene los datos del formulario
+ *
+ * @param  {SubmitEvent} $event evento de envio
+ * @param  {UsersComponent} userComponent instancia de UserComponent
+ */
 function getForm( $event, userComponent = this ) {
 
 	$event.preventDefault();
 
 	let formData = new FormData( userForm );
 
-	/**
-	* @type {User}
-	* @const
-	*/
 	const data = {
 		nombre: formData.get('nombre').trim() || '',
 		apellido: formData.get('apellido').trim() || '',
@@ -41,9 +37,7 @@ function getForm( $event, userComponent = this ) {
 		passwordConfirmation: formData.get('password-confirmation').trim() || ''
 	}
 
-	validateForm( data, ( error, data ) => {
-
-		console.log( data );
+	validateForm( data, ( error ) => {
 
 		if ( error ) {
 			return footer.querySelector('#name-user').focus();
@@ -57,10 +51,17 @@ function getForm( $event, userComponent = this ) {
 
 		}
 
-		return closeModal();
+		closeModal();
 	});
 }
 
+
+/**
+ * Abre el modal de usuarios
+ *
+ * @param  {string} method metodo a solicitar en el controlador
+ * @param  {null|number} id  identificador del usuario
+ */
 function openModal( method = 'new', id = null ) {
 
 	resetFields(); // limpia los campos cuando entra al modal
@@ -85,14 +86,26 @@ function openModal( method = 'new', id = null ) {
 		setForm();
 	}
 
-	return modalUsersForm.toggle();
+	modalUsersForm.toggle();
 }
 
+/** Cierra el modal */
 function closeModal() {
 	return modalUsersForm.toggle();
 }
 
+/**
+* @callback callbackValidateForm
+* @param {boolean} error indica si existe un error en el formulario
+*/
+/**
+ * Funcion de validacion de datos
+ *
+ * @param  {User} data     instancia del usuario
+ * @param  {callbackValidateForm} callback  llamada de respuesta al realizar la validacion
+ */
 function validateForm( data, callback ) {
+
 	resetFields();
 
 	const { nombre, apellido, correo, area, password, passwordConfirmation } = data;
@@ -230,12 +243,19 @@ function validateForm( data, callback ) {
 	}
 
 	if ( errors > 0 ) {
-		return callback( true );
+		callback( true );
+
+		return;
 	}
 
-	return callback( false, data );
+	callback( false );
 }
 
+
+/**
+ * Limpia los campos del formulario
+ * @param  {boolean} button indica si la funcion es llamado desde el boton del formulario
+ */
 function resetFields( button = false ) {
 
 	// se limpia los errores de validación
@@ -253,9 +273,13 @@ function resetFields( button = false ) {
 	return footer.querySelector('#name-user').focus();
 }
 
+/** Instancia del modal de usuarios
+* @type {Modal}
+*/
 const modalUsersForm = new Modal( footer.querySelector('.modal-users'), {
 	backdrop: 'static'
 });
+
 
 const emailErrorsNode = footer.querySelector('#error-email');
 const nameErrorsNode = footer.querySelector('#error-name');
@@ -264,6 +288,7 @@ const areaErrorsNode = footer.querySelector('#error-area');
 const passwordErrorsNode = footer.querySelector('#error-password');
 const passwordConfirmationNode = footer.querySelector('#error-password-confirmation');
 
+/** @type {null|number} */
 let idUser = null;
 
 module.exports = {

@@ -29,9 +29,8 @@ const ModalChangeRole = require('./users-modal-role/users-modal-role-component')
 const ClientsTableComponent = require('./clients-table/clients-table-component');
 
 const ModalClientComponent = require('./clients-modal-form/client-modal-form-component');
-// ==========================================
-// Users component
-// ==========================================
+
+/** componente de la vista de Usuarios */
 class UsersComponent {
 
 	constructor() {
