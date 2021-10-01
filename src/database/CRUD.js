@@ -1,4 +1,7 @@
-/** @type {Object<string, string>} */
+/**
+* Objeto de consultas SQL 
+* @type {Object<string, string>}
+*/
 const CRUD = Object.freeze({
 	// users ...
 	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (:nombre, :apellido, :correo, :area, :password);",
