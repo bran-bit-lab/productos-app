@@ -252,7 +252,7 @@ class ProductosController {
 				notificacion.show();
   		});
 	}
-	 
+
 	static editarCantidadProducto( productoActualizado, callback = null ) {
 
 		this.database.update( CRUD.actualizarCantidadProducto, productoActualizado, ( error ) => {
@@ -372,7 +372,7 @@ class ProductosController {
  * @property {number} [productoid] identificador de producto
  * @property {number} userid identificador de usuario
  * @property {number} categoriaid identificador de categoria
- * @property {string} nombre_cliente nombre del producto
+ * @property {string} nombre nombre del producto
  * @property {string} descripcion descripcion de producto
  * @property {number} precio precio del producto
  * @property {number} cantidad cantidad de productos

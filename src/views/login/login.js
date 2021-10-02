@@ -4,14 +4,21 @@ require('@fortawesome/fontawesome-free/js/all');
 const { remote } = require('electron');
 const { UsersController } = remote.require('./controllers/users_controller');
 
+/** clase que authentica al usuario */
 class LoginComponent {
 
 	constructor() {
-
 		this.validateForm = this.validateForm.bind( this );
 		this.handleSubmit = this.handleSubmit.bind( this );
 	}
 
+
+	/**
+	 * muestra los errores al usuario
+	 *
+	 * @param  {HTMLElement} element elemento HTML
+	 * @param  {string} message mensaje descriptivo
+	 */
 	renderErrors( element, message ) {
 
 		let html = (`<small class="text-danger">${ message }</small>`);
@@ -21,6 +28,18 @@ class LoginComponent {
 		showElement( element );
 	}
 
+	/**
+	 * @callback callbackValidateForm
+	 * @param {boolean} error flag que indica si existe un error en el formulario
+ 	*/
+	/**
+	 * valida los datos del formulario
+	 *
+	 * @param  {Object} data  objeto de incio de sesion
+	 * @param {string} data.correo correo del usuario
+	 * @param {string} data.password contrasena del usuario
+	 * @param  {callbackValidateForm} callback respuesta de la validacion del formulario
+	 */
 	validateForm( data, callback ) {
 
 		const { correo, password } = data;
@@ -81,9 +100,13 @@ class LoginComponent {
 			return callback( true );
 		}
 
-		return callback( false, data );
+		return callback( false );
 	}
 
+	/**
+	 * limpia el formulario de acceso
+	 * @param  {boolean} cancelButton flag que indica que limpio el formualrio desde el boton
+	 */
 	resetLoginForm( cancelButton = false ) {
 
 		hideElement( errorCorreo );
@@ -91,10 +114,22 @@ class LoginComponent {
 
 		if ( cancelButton )  {
 			form.reset();
-			return document.querySelector('#correo-login').focus();
+			document.querySelector('#correo-login').focus();
 		}
 	}
 
+	/**
+	 * evento de carga
+	 *
+	 * @example
+	 * // loading for 2 seconds
+	 * this.loading();
+	 *
+	 * setTimeout(() => {
+	 *	// rest of code ...
+	 *	hideLoading();
+	 * }, 2000);
+	 */
 	loading() {
 
 		let buttons = form.querySelectorAll('button');
@@ -103,6 +138,7 @@ class LoginComponent {
 		showElement( buttons[1] );
 	}
 
+	/** Oculta el evento de carga */
 	hideLoading() {
 
 		let buttons = form.querySelectorAll('button');
@@ -111,6 +147,11 @@ class LoginComponent {
 		showElement( buttons[0] );
 	}
 
+
+	/**
+	 * maneja el envio del formulario
+	 * @param  {*} $event evento de envio
+	 */
 	handleSubmit( $event ) {
 
 		$event.preventDefault();
@@ -125,7 +166,7 @@ class LoginComponent {
 		};
 
 
-		this.validateForm( data, ( error, data ) => {
+		this.validateForm( data, ( error ) => {
 
 		 	if ( error ) {
 				return document.querySelector('#correo-login').focus();
@@ -137,6 +178,14 @@ class LoginComponent {
 		});
 	}
 
+
+	/**
+	 * Inicio de sesion de la aplicacion
+	 *
+	 * @param  {Object} data objeto de inicio de sesion
+	 * @param {string} data.correo correo del usuario
+	 * @param {string} data.password contrasena del usuario
+	 */
 	async login( data ) {
 
 		try {
@@ -157,7 +206,6 @@ class LoginComponent {
 	 	}
 	}
 }
-
 
 const form = document.forms['login-form'];
 const errorCorreo = form.querySelector('#error-correo');

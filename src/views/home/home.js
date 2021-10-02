@@ -14,6 +14,7 @@ const { ProfileModalComponent } = require('./profile-modal/profile-modal-compone
 const Tooltip = require('bootstrap/js/dist/tooltip');
 const Modal = require('bootstrap/js/dist/modal');
 
+/** clase home */
 class HomeComponent {
 
 	constructor() {
@@ -24,22 +25,27 @@ class HomeComponent {
 		this.initCards();
 	}
 
+	/** redirecciona a usuarios */
 	openUsers() {
 		return redirectTo('../users/users.html');
 	}
 
+	/** redirecciona a ordenes de entrega */
 	openOrders() {
 		return redirectTo('../orders/orders.html');
 	}
 
+	/** redirecciona a estadisticas */
 	openEstadistics() {
 		return redirectTo('../reports/reports.html');
 	}
 
+	/** redirecciona a productos */
 	openProducts() {
 		return redirectTo('../products/products.html');
 	}
 
+	/** cierra la sesion */
 	logOut() {
 
 		sessionStorage.removeItem('userLogged');
@@ -47,6 +53,7 @@ class HomeComponent {
 		return redirectTo('../login/login.html');
 	}
 
+	/** muestra las opciones segun el perfil del usuario logueado */
 	showOptions() {
 
 		// se consulta el area que pertenece el usuario
@@ -60,10 +67,19 @@ class HomeComponent {
 		}
 	}
 
+
+	/**
+	 * reducer de los valores totales para obtener el valor total por seccion
+	 *
+	 * @param  {number} accum valor acumulado
+	 * @param  {number} total total
+	 * @return {number}
+	 */
 	reduceValues( accum, total ) {
 		return accum += total.totalRegistros;
 	}
 
+	/** inicializa las tarjetas principales con los valores totales de cada seccion */
 	initCards() {
 
 		Promise.all([
@@ -113,5 +129,8 @@ class HomeComponent {
 	}
 }
 
+/** @type {HomeComponent} */
 const homeComponent = new HomeComponent();
+
+/** @type {ProfileModalComponent} */
 const profileModalComponent = new ProfileModalComponent();

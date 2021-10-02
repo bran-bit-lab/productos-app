@@ -1,3 +1,4 @@
+/** Componente de paginacion */
 class PaginationComponentElement extends HTMLElement {
 
   constructor() {
@@ -14,7 +15,9 @@ class PaginationComponentElement extends HTMLElement {
       this.render = this.render.bind( this );
   }
 
-  // atributos que se estaran observando
+  /** atributos del componente registrados en el componente
+   * @returns {Array<string>} registra las propiadades del componente
+  */
   static get observedAttributes() {
     return ['limit', 'page', 'registers'];
   }
@@ -22,14 +25,17 @@ class PaginationComponentElement extends HTMLElement {
   // es obligatorio los set y get ya que invocan el attributeChangedCallback
   // cuando cambian de valor
 
+  /** prop limite de paginacion */
   set _limit( val = '' ) {
     return this.setAttribute('limit', val );
   }
 
+  /** prop pagina actual */
   set _page( val = '' ) {
     return this.setAttribute('page', val || '1' );
   }
 
+  /** prop total registrados  */
   set _registers( val = '' ) {
     return this.setAttribute('registers', val );
   }
@@ -48,6 +54,11 @@ class PaginationComponentElement extends HTMLElement {
     return this.getAttribute('registers');
   }
 
+
+  /**
+   * funcion que avanza la paginacion
+   * @param  {number} index indice de busqueda
+   */
   prev( index = 1 ) {
 
     if ( index < 1 ) {
@@ -59,6 +70,10 @@ class PaginationComponentElement extends HTMLElement {
     this.sendPagination( index );
   }
 
+  /**
+   * funcion que retrocede la paginacion
+   * @param  {number} index indice de busqueda
+   */
   next( index = this.limit ) {
 
     if ( index > +this.limit ) {
@@ -71,6 +86,11 @@ class PaginationComponentElement extends HTMLElement {
   }
 
 
+  /**
+   * dispara el evento de paginacion
+   * @param  {number} page pagina actual
+   * @param  {number} pagination cantidad de registros a tomar
+   */
   sendPagination( page, pagination = 10 ) {
     let indexPagination = ( +page - 1 ) * pagination;
 
@@ -91,6 +111,14 @@ class PaginationComponentElement extends HTMLElement {
     this.dispatchEvent( event );
   }
 
+
+  /**
+   * funcion que se dispara cuando hay cambio en las props registradas
+   *
+   * @param  {string} name  nombre de la propiedad
+   * @param  {string} oldValue valor anterior
+   * @param  {string} newValue nuevo valor
+   */
   attributeChangedCallback( name, oldValue, newValue ) {
 
     // console.log({ name, oldValue, newValue });
@@ -101,7 +129,7 @@ class PaginationComponentElement extends HTMLElement {
     }
   }
 
-
+  /** renderiza el elemento de paginacion con los nuevos valores */
   render() {
 
     this.innerHTML = (`

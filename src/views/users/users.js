@@ -106,8 +106,13 @@ class UsersComponent {
 	}
 }
 
+/** @type {UsersComponent} */
 const usersComponent = new UsersComponent();
+
+/** @type {UsersTableComponent} */
 const usersTableComponent = new UsersTableComponent();
+
+/** @type {ClientsTableComponent} */
 const clientsTableComponent = new ClientsTableComponent();
 
 const userForm = document.forms['formUsers'];

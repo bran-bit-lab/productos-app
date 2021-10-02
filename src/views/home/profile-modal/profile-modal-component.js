@@ -1,3 +1,4 @@
+/** Clase componente de perfil */
 class ProfileModalComponent {
   constructor() {
     this.footer = document.querySelector('footer');
@@ -22,10 +23,12 @@ class ProfileModalComponent {
     });
   }
 
+  /** abre el modal de perfil */
   openModalProfile() {
     this.modalInstance.show();
   }
 
+  /** establece el formulario del perfil */
   setForm() {
 
     const userLogged = getUserLogged();
@@ -60,6 +63,13 @@ class ProfileModalComponent {
     }
   }
 
+
+  /** @callback setEvent */
+
+  /**
+   * establece el html y eventos de la pagina
+   * @param  {setEvent} callback establece los eventos
+   */
   setHtml( callback ) {
 
     try {
@@ -71,6 +81,11 @@ class ProfileModalComponent {
     }
   }
 
+
+  /**
+   * obtiene los valores del formulario
+   * @param  {*} $event evento de formulario
+   */
   handleSubmit( $event ) {
     $event.preventDefault();
 
@@ -106,6 +121,12 @@ class ProfileModalComponent {
     });
   }
 
+
+  /**
+   * valida el formulario
+   * @param  {User} data instancia del usuario
+   * @param  {callbackValidateForm} callback respuesta de la validacion
+   */
   validate( data, callback ) {
     const { nombre, apellido, correo, password, passwordConfirmation } = data;
 

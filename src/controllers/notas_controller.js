@@ -281,7 +281,6 @@ class NotasController {
 		});
 	}
 
-
 	/**
 	 * Buscar notas en la BD
 	 *
@@ -322,7 +321,6 @@ class NotasController {
 				});
 		});
 	}
-
 
 	/**
 	 * muestra una alerta al usuario desde el proceso principal

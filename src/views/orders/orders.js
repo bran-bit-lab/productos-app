@@ -8,6 +8,7 @@ const { showLog } = remote.require('./util_functions/time');
 const { NotasController } = remote.require('./controllers/notas_controller');
 const deliveryNotes = document.querySelector('#delivery-note');
 
+/** Clase de tabla notas de entrega */
 class OrdersTableComponent {
 
 	constructor() {
@@ -23,6 +24,7 @@ class OrdersTableComponent {
 		this.getAll();
 	}
 
+	/** establece los eventos */
 	setEvents() {
 		this.searchComponent.addEventListener('search', this.searchDeliveryNote.bind( this ) );
 
@@ -32,6 +34,11 @@ class OrdersTableComponent {
 		});
 	}
 
+
+	/**
+	 * obtiene todas las notas
+	 * @param  {Array<number>} pagination paginacion
+	 */
 	async getAll( pagination = [0,10] ) {
 
 		try {
@@ -53,14 +60,24 @@ class OrdersTableComponent {
 
 	}
 
+	/** redirecciona al formulario de notas al crear una nota */
 	createDeliveryNote() {
 		redirectTo('./orders-form/orders-form.html');
 	}
 
+
+	/**
+	 * redirecciona al formulario de notas pasandole el id de la nota
+	 * @param  {number} idDelivery identificador de la nota
+	 */
 	editDeiliveryNote( idDelivery ) {
 		redirectTo('./orders-form/orders-form.html?idDelivery=' + idDelivery )
 	}
 
+	/**
+	 * Busca las notas en la BD.
+	 * @param {*} $event evento de formulario
+	*/
 	async searchDeliveryNote( $event ) {
 
 		const search = $event.detail.value;
@@ -89,6 +106,11 @@ class OrdersTableComponent {
 		this.render( null, null, true );
 	}
 
+
+	/**
+	 * Genera el archivo pdf de la nota de entrega
+	 * @param  {number} idDeliveryNote identificador de la nota
+	 */
 	showPDF( idDeliveryNote ) {
 		NotasController.generarPDFNota( idDeliveryNote );
 	}

@@ -1,4 +1,4 @@
-// web components ( componente de busqueda )
+/** Componente de busqueda (Web compoent) */
 class SearchBarComponent extends HTMLElement {
 
   constructor() {
@@ -7,6 +7,9 @@ class SearchBarComponent extends HTMLElement {
     this.handleChangeInput = this.handleChangeInput.bind( this );
   }
 
+  /**
+   * Evento de cambio despacha el evento al padre
+   */
   handleChangeInput( $event ) {
 
     let event = new CustomEvent('search', {
@@ -21,6 +24,7 @@ class SearchBarComponent extends HTMLElement {
     this.dispatchEvent( event );
   }
 
+  /** callback que se ejecuta cuando el componente se conecta en el DOM */
   connectedCallback() {
 
     this.from = this.getAttribute('from') || '';
@@ -30,10 +34,17 @@ class SearchBarComponent extends HTMLElement {
     this.querySelector('input').addEventListener('input', this.handleChangeInput );
   }
 
+  /** callback que se ejecuta cuando se desconecta del DOM */
   disconnectedCallback() {
     this.querySelector('input').removeEventListener('input', this.handleChangeInput );
   }
 
+
+  /**
+   * Obtiene el html del componente
+   * @returns {string}
+   *
+  */
   getHtml() {
 
    return (`
