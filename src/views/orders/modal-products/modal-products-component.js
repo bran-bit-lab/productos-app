@@ -1,3 +1,4 @@
+/** clase modal de productos */
 class ModalProductsComponent {
 
 	constructor() {
@@ -6,13 +7,29 @@ class ModalProductsComponent {
     this.pagination = this.modalProducts.querySelector('#pagination-products');
     this.submitButton = this.modalProducts.querySelector('#submit-button');
     this.searchBar = this.modalProducts.querySelector('search-bar-component');
-    this.products = [];
-    this.productsSelected = []; // productos seleccionados
+
+		/**
+		 * Listado de productos
+		 * @type {Array<Product>}
+		*/
+		this.products = [];
+
+
+		/**
+		 * Listado de productos seleccionados
+		 * @type {Array<Porduct>}
+		 */
+		this.productsSelected = [];
+
+		/** @type {number} */
     this.page = 1;
-    this.modalProductsInstance = new Modal( this.modalProducts, { backdrop: 'static' });
-    this.setEvents();
+
+		this.modalProductsInstance = new Modal( this.modalProducts, { backdrop: 'static' });
+
+		this.setEvents();
   }
 
+	/** establece el html y eventos del modal */
   setEvents() {
 
     this.modalProducts.addEventListener('shown.bs.modal', () => {
@@ -33,6 +50,10 @@ class ModalProductsComponent {
     });
   }
 
+  /**
+   * despliuega el modal de productos
+   * @param  {Array<number>} pagination paginacion de la tabla
+   */
   async openModalProducts( pagination = [0, 10] ) {
 
     try {
@@ -59,6 +80,13 @@ class ModalProductsComponent {
     }
   }
 
+  /**
+   * renderiza la tabla de productos dentro del modal
+   *
+   * @param  {number} totalPages numero de paginas
+   * @param  {type} totalRegisters numero de registros
+   * @param  {type} search flag que indica si actualizar el paginador
+   */
   renderProducts( totalPages = 0, totalRegisters = 0, search = false ) {
 
     if ( !search ) {
@@ -108,6 +136,10 @@ class ModalProductsComponent {
     }
   }
 
+	/**
+	 * Funcion que maneja la seleccion del producto
+	 * @param {*} $event evento change
+	*/
   handleChange( $event ) {
 
     const rowElement = $event.target.parentNode.parentNode;
@@ -146,6 +178,10 @@ class ModalProductsComponent {
     }
   }
 
+  /**
+   * buscar productos en la BD.
+   * @param  {string} search cadena de busqueda
+   */
   async searchProduct( search ) {
 
     const rexp = /^[\w-\d\s]+$/;
@@ -169,7 +205,7 @@ class ModalProductsComponent {
     this.renderProducts( null, null, true );
   }
 
-
+	/** cierra el modal de productos */
   closeModalProducts() {
 
     ordersForm.productsSelected = this.productsSelected;
@@ -183,6 +219,13 @@ class ModalProductsComponent {
     ordersForm.setProductsTable();
   }
 
+  /**
+   * chequea si el producto esta marcado en la orden
+   *
+   * @param  {Porduct} product instancia del producto
+   * @return {boolean} resultado de la verificacion de la existencia del producto.
+	 * Devuelve true si lo encuentra
+   */
   checkProduct( product ) {
 
   	// retorna cuales son los elementos seleccionados y los marca en la lista

@@ -115,6 +115,12 @@ class OrdersTableComponent {
 		NotasController.generarPDFNota( idDeliveryNote );
 	}
 
+
+	/**
+	 * establece las filas de la tabla de notas
+	 * @param  {Note} deliveryNote instancia de la nota
+	 * @param  {number} index indice de la tabla
+	 */
 	setRows( deliveryNote, index ) {
 
 		return (`
@@ -144,6 +150,13 @@ class OrdersTableComponent {
 		`);
 	}
 
+	/**
+	 * obtiene el nombre del usuario
+	 *
+	 * @param  {string} name   nombre del usuario
+	 * @param  {string} surname apellido del usuario
+	 * @returns {string} obtiene el nombre concatenado
+	 */
 	getName( name = '', surname = '' ) {
 
 		if ( name.length > 0 && surname.length > 0 ) {
@@ -153,6 +166,14 @@ class OrdersTableComponent {
 		return 'No disponible'
 	}
 
+
+	/**
+	 * renderiza la tabla notas de entrega
+	 *
+	 * @param  {?number} totalPages  total de paginas
+	 * @param  {?number} totalRegisters total de registros
+	 * @param  {boolean} search flag de actualizacion de paginacion
+	 */
 	render( totalPages = 0, totalRegisters = 0, search = false ) {
 
 		if ( !search ) {
@@ -182,4 +203,5 @@ class OrdersTableComponent {
 	}
 }
 
+/** @type {OrdersTableComponent} */
 const ordersTableComponent = new OrdersTableComponent();

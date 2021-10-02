@@ -1,6 +1,4 @@
-// =============================
-//  Modal client component
-// =============================
+/** clase de modal de clientes */
 class ModalClientComponent {
 
   constructor() {
@@ -9,13 +7,24 @@ class ModalClientComponent {
     this.pagination = this.modalClients.querySelector('#pagination-clients');
     this.submitButton = this.modalClients.querySelector('#submit-button');
     this.searchBar = this.modalClients.querySelector('search-bar-component');
+
+    /** @type {Array<Client>} */
     this.clients = [];
-    this.clientSelected = []; // clientes seleccionados
+
+    /**
+     * Array de clientes seleccionados
+     * @type {Array<Client>}
+    */
+    this.clientSelected = [];
+
+    /** @type {number} */
     this.page = 1;
+
     this.modalClientsInstance = new Modal( this.modalClients, { backdrop: 'static' });
     this.setEvents();
   }
 
+  /** establece los escuchadores de eventos */
   setEvents() {
 
     // abrir modal
@@ -38,6 +47,11 @@ class ModalClientComponent {
     });
   }
 
+
+  /**
+   * despluiega el modal de clientes
+   * @param  {Array<Client>} pagination listado de clientes
+   */
   async openModalClients( pagination = [0, 10] ) {
 
     try {
@@ -49,7 +63,7 @@ class ModalClientComponent {
       let totalClients = await ClientesController.obtenerTotalClientes();
 
       setPaginationStorage('clientsModalTable', { pagination });
-      
+
       this.renderClients( totalClients.totalPaginas, totalClients.totalRegistros );
 
 
@@ -64,8 +78,15 @@ class ModalClientComponent {
     }
   }
 
+  /**
+   * renderiza la tabla de clientes
+   *
+   * @param  {?number} totalPages total de paginas
+   * @param  {?number} totalRegisters total de registros
+   * @param  {boolean} search flag de actualizacion del paginador
+   */
   renderClients( totalPages = 0, totalRegisters = 0, search = false ) {
-     
+
     if ( !search ) {
 
       this.tbody.innerHTML = '';
@@ -98,7 +119,7 @@ class ModalClientComponent {
         input.addEventListener( 'change', this.handleChange.bind( this ) );
       }
 
-   } else {      
+   } else {
       hideElement( this.pagination );
 
       this.tbody.innerHTML = (`
@@ -110,6 +131,10 @@ class ModalClientComponent {
     }
   }
 
+  /**
+   * funcion que controla la seleccion del cliente
+   * @param {*} $event evento check
+  */
   handleChange( $event ) {
 
     // obtenemos el padre tr en 2 niveles
@@ -126,6 +151,10 @@ class ModalClientComponent {
     }
   }
 
+  /**
+   * busca el cliente en la BD
+   * @param  {string} search cadena de busqueda
+   */
   async searchClient( search ) {
 
     const rexp = /^[\w-\d\s]+$/;
@@ -149,7 +178,7 @@ class ModalClientComponent {
     this.renderClients( null, null, true );
   }
 
-
+  /** cierra el modal de seleccion */
   closeModalClients() {
 
     ordersForm.clientsSelected = this.clientSelected;
@@ -159,9 +188,15 @@ class ModalClientComponent {
     ordersForm.setClientsTable();
   }
 
+  /**
+   * chequea la seleccion del cliente
+   *
+   * @param  {Client} client instancia del cliente
+   * @return {boolean}  retorna un booleano indicando si el cliente fue seleccionado anteriormente   
+   */
   checkClient( client ) {
-    return this.clientSelected.findIndex( 
-        clientSelec => clientSelec.id_cliente === client.id_cliente 
+    return this.clientSelected.findIndex(
+        clientSelec => clientSelec.id_cliente === client.id_cliente
       ) !== -1;
   }
 }

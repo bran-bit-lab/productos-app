@@ -253,6 +253,15 @@ class ProductosController {
   		});
 	}
 
+
+	/**
+	 * edita la cantidad del producto
+	 *
+	 * @param  {Object} productoActualizado objecto del producto actualizado
+	 * @param {number} productoActualizado.productoid identificador del producto
+	 * @param {number} productoActualizado.sumaAlgebraica resultado de la suma algebraica
+	 * @param  {callback} callback  callback de respuesta al finalizar la actualizacion del producto
+	 */
 	static editarCantidadProducto( productoActualizado, callback = null ) {
 
 		this.database.update( CRUD.actualizarCantidadProducto, productoActualizado, ( error ) => {

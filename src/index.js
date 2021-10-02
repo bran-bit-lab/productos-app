@@ -2,11 +2,15 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { Database } = require('./database/database');
+const { ENV } = require('env');
 
 const urlAssets = __dirname + '/views';
 
-require('electron-reload')( __dirname );
+if ( ENV.DEV ) {
+  require('electron-reload')( __dirname );
+}
 
+/** funcion principal para crear la ventana principal de electronJS */
 function createWindow() {
 
     const win = new BrowserWindow({

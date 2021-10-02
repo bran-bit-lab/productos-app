@@ -1,11 +1,18 @@
 const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
 const TIME = require('../util_functions/time');
 
+/** clase que permite generar los documentos de salida */
 class PdfController {
 
+	/**
+	 * genera el pdf de una nota de entrega
+	 *
+	 * @param  {Nota} nota instancia de la nota
+	 * @return {ArrayBuffer}  retorna el buffer de datos del archivo PDF
+	 */
 	async createPdf( nota ) {
 
-		console.log( 'nota --> ', nota );
+		// console.log( 'nota --> ', nota );
 
 		const pdfDoc = await PDFDocument.create();
 		const helveticaFont = await pdfDoc.embedFont( StandardFonts.Helvetica );

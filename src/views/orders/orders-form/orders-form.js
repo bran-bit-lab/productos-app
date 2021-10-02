@@ -10,17 +10,34 @@ const Modal = require('bootstrap/js/dist/modal');
 const { ModalClientComponent } = require('../modal-clients/modal-client-component');
 const { ModalProductsComponent } = require('../modal-products/modal-products-component');
 
+/** clase formulario notas de entrega */
 class OrdersForm {
 
   constructor() {
 
     this.footer = document.querySelector('footer');
     this.noteForm = document.forms['note-form'];
+
+    /** @type {?number} */
     this.deliveryId = null;
+
+    /**
+     * listado de productos seleccionados por el usuario
+     * @type {Array<Product>} */
     this.productsSelected = [];
+
+    /**
+     * listado del cliente seleccionado por el usuario
+     * @type {Array<Client>} */
     this.clientsSelected = [];
+
+    /** @type {number} */
     this.totalOrder = 0;
 
+    /**
+     * Instancia de la nota
+     * @type {?Nota}
+     * */
     this.note = null;
 
     // errors
@@ -37,6 +54,11 @@ class OrdersForm {
     });
   }
 
+
+  /**
+   * establece el html del sitio y sus eventos
+   * @param  {callback} callback devolucion de llamada cuando el html se cargue al sitio
+   */
   setHtml( callback ) {
 
     try {
@@ -53,6 +75,11 @@ class OrdersForm {
     }
   }
 
+
+  /**
+   * establece el formulario de la nota
+   * @param  {Nota} delivery instancia de la nota
+   */
   setForm( delivery = null ) {
 
     // set form
@@ -63,6 +90,7 @@ class OrdersForm {
     inputDate.value = delivery ? delivery.today : today
   }
 
+  /** Obtiene el id de la nota pasada por la url */
   getParamsUrl() {
 
     /*
@@ -101,6 +129,11 @@ class OrdersForm {
     }
   }
 
+
+  /**
+   * obtiene la informacion de la nota seleccionada
+   * @param  {number} idNote identificador de la nota
+   */
   async getDeliveryNote( idNote ) {
 
    this.note = await NotasController.obtenerNota( idNote );
@@ -131,6 +164,7 @@ class OrdersForm {
    this.setProductsTable();
   }
 
+  /** Funcion que activa la seleccion de productos */
   selectProducts() {
 
     // se asignan el valor al hijo
@@ -141,6 +175,7 @@ class OrdersForm {
     modalProductsComponent.openModalProducts( getPaginationStorage('productsModalTable') );
   }
 
+  /** Funcion que activa la seleccion del cliente */
   selectClients() {
 
     if ( this.deliveryId ) {
@@ -150,6 +185,7 @@ class OrdersForm {
     modalClientComponent.openModalClients( getPaginationStorage('clientsModalTable') );
   }
 
+  /** establece las filas en formato html del card de clientes */
   setClientsTable()  {
     const tableClients = document.querySelector('#table-clients-selected');
 
@@ -178,7 +214,7 @@ class OrdersForm {
     }
   }
 
-
+  /** establece las filas en formato html del card de productos */
   setProductsTable() {
 
     const tableProducts = document.querySelector('#table-products-selected');
@@ -225,6 +261,11 @@ class OrdersForm {
     }
   }
 
+
+  /**
+   * evento que captura el envio del formulario
+   * @param  {*} event description
+   */
   handleSubmit( event ) {
 
     event.preventDefault();
@@ -264,6 +305,11 @@ class OrdersForm {
     }
   }
 
+
+  /**
+   * envia la informacion al controlador
+   * @param  {Nota} data instancia de la nota
+   */
   sendData( data ) {
 
     try {
@@ -296,6 +342,12 @@ class OrdersForm {
     }
   }
 
+
+  /**
+   * valida el formulario
+   * @param  {Nota} data   instancia de la nota
+   * @param  {callbackValidateForm} callback llamada de respuesta
+   */
   validateForm( data, callback ) {
 
     this.resetForm();
@@ -365,10 +417,18 @@ class OrdersForm {
       return;
     }
 
-    callback( null, data );
+    callback( false );
 
   }
 
+
+  /**
+   * funcion que maneja el cambio de la cantidad seleccionada
+   *
+   * @param  {HTMLElement} element elemento html
+   * @param  {number} idDelivery identificador de la nota
+   * @param  {number|string} quantityTotal cantidad total
+   */
   handleChangeQuantity( element, idDelivery, quantityTotal ) {
 
     // console.log({ value, idDelivery });
@@ -400,6 +460,11 @@ class OrdersForm {
     this.calculateTotal();
   }
 
+
+  /**
+   * eliminar un producto de la orden
+   * @param  {number} idProduct identificador del producto
+   */
   deleteProduct( idProduct ) {
 
     if ( this.deliveryId ) {
@@ -421,6 +486,13 @@ class OrdersForm {
     }
   }
 
+  /**
+   * confirmacion de elminacion de producto
+   *
+   * @param {Object} data objeto de confirmacion
+   * @param {number} data.id identificador de producto
+   * @param {boolean} data.confirm confirmacion
+   */
   confirmDeleteProduct( data ) {
     const { confirm, id } = data;
 
@@ -439,6 +511,10 @@ class OrdersForm {
     }
   }
 
+  /**
+   * eliminar un cliente de la orden
+   * @param  {number} idClient identificador del cliente
+   */
   deleteClient( idClient ) {
 
     if ( this.deliveryId ) {
@@ -457,6 +533,13 @@ class OrdersForm {
     }
   }
 
+  /**
+   * confirmacion de elminacion de producto
+   *
+   * @param {Object} data objeto de confirmacion
+   * @param {number} data.id identificador de producto
+   * @param {boolean} data.confirm confirmacion
+   */
   confirmDeleteClient( data ) {
     const { confirm, id } = data;
 
@@ -466,6 +549,7 @@ class OrdersForm {
     }
   }
 
+  /** calcula el total de la orden */
   calculateTotal() {
 
     this.totalOrder = this.productsSelected.reduce(( accum, product, index ) => {
@@ -476,6 +560,10 @@ class OrdersForm {
     document.querySelector('#totalOrder').innerText = (`Total: ${ this.totalOrder.toFixed(2) }$`);
   }
 
+  /**
+   * Limpia los campos del formulario
+   * @param  {boolean} button indica si la funcion es llamado desde el boton del formulario
+  */
   resetForm( button = false ) {
 
     hideElement( this.errorDescription );
@@ -492,8 +580,14 @@ let ModalConfirmComponent = null;
 let closeModalConfirm = null;
 
 const form = document.forms[0];
+
+/** @type {OrdersForm} */
 const ordersForm = new OrdersForm();
+
+/** @type {ModalClientComponent} */
 const modalClientComponent = new ModalClientComponent();
+
+/** @type {ModalProductsComponent} */
 const modalProductsComponent = new ModalProductsComponent();
 
 document.addEventListener('DOMContentLoaded', ordersForm.getParamsUrl.bind( ordersForm ) );
