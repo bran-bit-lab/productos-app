@@ -5,7 +5,7 @@ const { Notification } = require('electron');
 /** Controlador de clientes */
 class ClientesController {
 
-		/** @type {Database|null} */
+		/** @type {?Database} */
 		databaseInstance = null;
 
 		/** Propiedad get database retorna una nueva instancia de la clase Database */

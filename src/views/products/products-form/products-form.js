@@ -1,6 +1,10 @@
-// ============================
-// ProductsFormComponent
-// ============================
+/**
+ * Formulario de productos
+ * @module ModalProductsForm
+ */
+
+
+/** Abre modal de productos */
 async function openModalNewProduct() {
 
   try {
@@ -25,6 +29,11 @@ async function openModalNewProduct() {
 
 }
 
+
+/**
+ * abre el modal de edicion de productos
+ * @param  {Product} product instancia de producto
+ */
 async function openModalEditProduct( product ) {
 
   try {
@@ -53,6 +62,13 @@ async function openModalEditProduct( product ) {
 
 }
 
+
+/**
+ * Establece el Formulario de productos
+ *
+ * @param  {Product} product    instancia de producto
+ * @param  {Array<Category>} categorias array de categorias
+ */
 function setForm( product, categories ) {
 
   const inputs = Array.from( productForm.querySelectorAll('input') );
@@ -113,6 +129,12 @@ function setForm( product, categories ) {
   });
 }
 
+
+/**
+ * Obtiene los datos del formulario
+ *
+ * @param  {*} $event evento sumbit del formulario
+ */
 function handleSubmit( $event ) {
 
   $event.preventDefault();
@@ -130,7 +152,7 @@ function handleSubmit( $event ) {
 
   // console.log( formData.get('product-available') );
 
-  validateData( data, ( error, data ) => {
+  validateData( data, ( error ) => {
 
     if ( error ) {
       return;
@@ -148,6 +170,12 @@ function handleSubmit( $event ) {
   });
 }
 
+
+/**
+ * Funcion que maneja el cambio de las cantidades
+ *
+ * @param  {HTMLElement} element elemento html de donde se dispara el evento
+ */
 function handleChangeQuantity( element ) {
 
   let number = Number.parseFloat( element.value );
@@ -164,6 +192,16 @@ function handleChangeQuantity( element ) {
     number.toFixed(2);
 }
 
+/**
+* @callback callbackValidateForm
+* @param {boolean} error indica si existe un error en el formulario
+*/
+/**
+ * validacion de formualrio
+ *
+ * @param  {Product} productData description
+ * @param  {callbackValidateForm} callback llamada de retorno al momento de la validacion
+ */
 function validateData( productData, callback ) {
 
   const {
@@ -245,16 +283,22 @@ function validateData( productData, callback ) {
 
   // se chequean los errores
   if ( errors > 0 ) {
-    return callback( true, null );
+    callback( true );
+
+    return;
   }
 
   // se parsea los datos de las cantidades a numeros
   productData.cantidad = Number.parseFloat( productData.cantidad );
   productData.precio = Number.parseFloat( productData.precio );
 
-  callback( false, productData );
+  callback( false );
 }
 
+/**
+ * Limpia los campos del formulario
+ * @param  {boolean} button indica si la funcion es llamado desde el boton del formulario
+ */
 function resetFormProducts( button = false ) {
 
   hideElement( errorProductName );
@@ -268,6 +312,7 @@ function resetFormProducts( button = false ) {
 	}
 }
 
+/** @type {Modal} */
 const modalFormProducts = new Modal( footer.querySelector('#products-form'), {
   backdrop: 'static'
 });
@@ -281,7 +326,10 @@ const errorProductPrice = footer.querySelector('#error-product-price');
 const errorProductDescription = footer.querySelector('#error-product-description');
 const errorProductCategory = footer.querySelector('#error-product-category');
 
+/** @type {boolean} */
 let editProductForm = false;
+
+/** @type {?number} */
 let productId = null;
 
 productForm.addEventListener( 'submit', handleSubmit );

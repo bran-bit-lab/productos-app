@@ -36,7 +36,11 @@ function openModalEditCategory( category ) {
 	modalFormCategory.toggle();
 }
 
-
+/**
+ * Obtiene los datos del formulario
+ *
+ * @param  {*} $event evento sumbit del formulario
+ */
 function handleSubmit( $event ) {
 
 	$event.preventDefault();

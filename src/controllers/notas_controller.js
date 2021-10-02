@@ -6,15 +6,21 @@ const { NotasProductosController } = require('./notas_productos_controller');
 const { PdfController } = require('./pdf_controller');
 const FILE = require('../util_functions/file')
 
+/** Clase que gestiona las notas de entregas */
 class NotasController {
 
+	/** @type {?Database} */
 	databaseInstance = null;
 
-
+	/** Propiedad get database retorna una nueva instancia de la clase Database */
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
 
+	/**
+	 * crea un registro de una nota de entrega
+	 * @param  {Nota} nota instancia de la nota
+	 */
 	static crearNota( nota ) {
 
 		// nota tiene todas las propiedades del nota de entrega + productos, no puedes enviar todo eso
@@ -69,7 +75,7 @@ class NotasController {
 
 			try {
 				// recuerda que obtener id nota es un metodo estatico se invoca nombre_clase.metodo()
-				let ultimoRegistro = await NotasController.obtenerIdNota();
+				let ultimoRegistro = await NotasController.obtenerUltimaNota();
 
 				// aqui se filtro lo campos excluyendo la cantidad
 				//console.log ( arrayProductos );
@@ -101,7 +107,15 @@ class NotasController {
 		});
 	}
 
-	static obtenerIdNota() {
+
+	/**
+	 * Funcion que obtiene el ultimo id de nota registrado
+	 *
+	 * @return {Promise<Nota>}  retorna una promesa que devuelve la utlima nota registada
+	 * @example
+	 * let utlimoRegistro = await NotasController.obtenerIdNota();
+	 */
+	static obtenerUltimaNota() {
 
 		return new Promise( ( resolve, reject ) => {
 
@@ -131,6 +145,13 @@ class NotasController {
 
 	}
 
+
+	/**
+	 * Obtiene la nota desde la BD.
+	 *
+	 * @param  {number} idNota identificador de la nota
+	 * @return {Promise<Nota>}  retorna una promesa con la nota solicitada
+	 */
 	static obtenerNota( idNota ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -178,6 +199,13 @@ class NotasController {
 
 	}
 
+
+	/**
+	 * Calcula el total de la nota.
+	 *
+	 * @param  {Array<NotaProducto>} arrayNotaProducto array de nota producto
+	 * @return {number} retorna el calculo total de la orden
+	 */
 	static calcularTotalNotas( arrayNotaProducto ) {
 
 		const reducer = ( accumulator, currentValue ) => {
@@ -223,6 +251,13 @@ class NotasController {
 		});
 	}
 
+
+	/**
+	 * Lista las notas en forma paginada
+	 *
+	 * @param  {Array<number>} pagination description
+	 * @return {Promise<Array<Nota>>}  devuelve una promesa que contiene un arreglo de notas
+	 */
 	static listarNotas( pagination ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -246,6 +281,14 @@ class NotasController {
 		});
 	}
 
+
+	/**
+	 * Buscar notas en la BD
+	 *
+	 * @param  {Object} search objeto de busqueda
+	 * @param {string} search.search busqueda de la nota
+	 * @return {Promise<Array<Nota>>}   devuelve una promesa que contiene un arreglo de notas
+	 */
 	static buscarNota( search ) {
 
 		return new Promise(( resolve, reject ) => {
@@ -280,6 +323,14 @@ class NotasController {
 		});
 	}
 
+
+	/**
+	 * muestra una alerta al usuario desde el proceso principal
+	 * @param  {string} type tipo de alerta
+	 * @param  {string} title titulo de la alerta
+	 * @param  {string} message  mensaje al usuario
+	 *
+	 */
 	static mostrarAlerta( type = 'info', title, message ) {
 		dialog.showMessageBox( null, {
 			message,
@@ -288,6 +339,10 @@ class NotasController {
 		});
 	}
 
+	/**
+	 * actualiza la nota
+	 * @param  {Nota} nota instancia de la nota
+	 */
 	static actualizarNota( nota ) {
 
 		let notaActualizada = {
@@ -330,7 +385,7 @@ class NotasController {
 
 			let idNota = nota['id_nota'];
 
-			// consulta el array desde la BD y la compara
+			// consulta el array desde la BD y por cada elemento la compara
 			this.database.consult( CRUD.listarNotasProductos, { id_nota : idNota }, ( error, results ) => {
 
 					if ( error ) {
@@ -346,6 +401,7 @@ class NotasController {
 
 					arrayProductos.forEach(( notaProducto, idx ) => {
 
+						// verifica si el elemento esta en la BD
 						let index = notaProductoDB.findIndex(( notaProductoDB ) => {
 							return notaProducto['id_NP'] === notaProductoDB['id_NP'];
 						});
@@ -392,6 +448,11 @@ class NotasController {
 		});
 	}
 
+
+	/**
+	 * Genera el PDF de la nota de entrega
+	 * @param  {number} idNota identificador de la nota
+	 */
 	static generarPDFNota( idNota ) {
 
 		const pdfController = new PdfController(); // creas un objeto PDF controller
@@ -473,5 +534,20 @@ class NotasController {
 			});
 	}
 }
+
+
+/**
+ * Nota
+ * @typedef {Object} Nota
+ * @property {number} id_nota identificador de la nota
+ * @property {number} id_cliente identificador de cliente
+ * @property {number} userid identificador del usuario
+ * @property {(EN_PROCESO | ACEPTADO | ENTREGADA | POSPUESTO | CANCELADA)} status estado de la orden
+ * @property {string} creacion timestamp de creacion de la nota
+ * @property {string} descripcion_nota descripcion de la nota de entrega
+ * @property {string} fecha_entrega fecha de entrega del pedido se completa si el usuario pasa el pedido a ENTREGADA
+ * @property {Array<NotaProducto>} productos lista de productos seleccionados
+ * @property {number} [total_order] total de la orden
+ */
 
 module.exports = { NotasController };

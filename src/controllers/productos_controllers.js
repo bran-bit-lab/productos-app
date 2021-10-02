@@ -6,7 +6,7 @@ const { readFileImageAsync, copyFile, deleteImageSync } = require('../util_funct
 /** clase que gestiona los productos */
 class ProductosController {
 
-	/** @type {Database|null} */
+	/** @type {?Database} */
 	databaseInstance = null;
 
 	/** Propiedad get database retorna una nueva instancia de la clase Database */
@@ -252,7 +252,7 @@ class ProductosController {
 				notificacion.show();
   		});
 	}
-
+	 
 	static editarCantidadProducto( productoActualizado, callback = null ) {
 
 		this.database.update( CRUD.actualizarCantidadProducto, productoActualizado, ( error ) => {

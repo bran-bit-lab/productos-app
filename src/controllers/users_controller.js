@@ -8,7 +8,7 @@ class UsersController {
 
 	/**
 	 * Instancia de Database
-	 * @type {Database | null}
+	 * @type {?Database}
 	 */
 	databaseInstance = null;
 

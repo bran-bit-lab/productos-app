@@ -6,7 +6,7 @@ const { readFileImageAsync, copyFile, deleteImageSync } = require('../util_funct
 /** clase que gestiona las categorias */
 class CategoriasController {
 
-	/** @type {Database|null} */
+	/** @type {?Database} */
 	databaseInstance = null;
 
 	/** Propiedad get database retorna una nueva instancia de la clase Database */
@@ -159,7 +159,7 @@ class CategoriasController {
 	 *
 	 * @param  {Category} categoria instancia de la categoria
 	 * @param  {User} usuario usuario logeado
-	 * @param {string| null} [imagenRegistrada] imagen registrada por el usuario
+	 * @param {?string} [imagenRegistrada] imagen registrada por el usuario
 	 */
 	static editarCategoria( categoria, usuario, imagenRegistrada ) {
 
