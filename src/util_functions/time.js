@@ -5,8 +5,12 @@
 
 /**
 * Parsea un objeto Date a un string
-* @param {Date} date objeto de la fecha si no se espcifica toma el dia de hoy
+* @param {Date} [date] objeto de la fecha si no se espcifica toma el dia de hoy
 * @returns {string}  retorna la fecha parseada en YYYY-MM-DD
+*
+* @example
+* let date = dateToString(); // 2021-10-01
+*
 */
 function dateToString( date = new Date() ) {
   return `${ date.getFullYear() }-${ date.getMonth() > 9 ? date.getMonth() + 1 : '0' + ( date.getMonth() + 1 ) }-${ date.getDate() > 9 ? date.getDate() : '0' + ( date.getDate() ) }`;
@@ -14,8 +18,10 @@ function dateToString( date = new Date() ) {
 
 /**
 * Parsea un objeto Date a un string en español
-* @param {Date} date objeto de la fecha si no se espcifica toma el dia de hoy
+* @param {Date} [date] objeto de la fecha si no se espcifica toma el dia de hoy
 * @returns {string}  retorna la fecha parseada en DD-MM-YYYY
+* @example
+* let date = dateSpanish(); // 01-10-2021
 */
 function dateSpanish( date = new Date() ) {
 	return `${ date.getDate() > 9 ? date.getDate() : '0' + ( date.getDate() ) }-${ date.getMonth() > 9 ? date.getMonth() + 1 : '0' + ( date.getMonth() + 1 ) }-${ date.getFullYear() }`;

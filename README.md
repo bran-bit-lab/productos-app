@@ -20,3 +20,8 @@ Para mas documentacion de despliuegue consultar https://www.electronforge.io/
 
 - verificar si existe data en cache: `npm cache verify`
 - limpiar con el comando `npm cache clean -f`
+
+### Recursos para desarrolladores (documentación)
+
+Si necesitas mas información, la documentación de los modulos es generado con JSDoc utilizando el comando
+`npm run docs` creando una carpeta con los archivos puedes visualizarlo desde el navegador

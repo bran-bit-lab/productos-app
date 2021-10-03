@@ -19,7 +19,7 @@ class ClientsTableComponent {
   /**
    * Obtiene la lista de clientes paginadas
    *
-   * @param  {*|null} $event  evento de carga de sito
+   * @param  {?*} $event  evento de carga de sito
    * @param  {Array<number>} pagination paginacion de los usuarios
    */
   async getAll( $event = null, pagination = [0, 10] ) {
@@ -106,6 +106,9 @@ class ClientsTableComponent {
 	 *
 	 * @param  {Client} client instancia del cliente
 	 * @return {string}  retorna una fila de la tabla en string html
+   * @example
+   * const tbody = document.querySelector('tbody'); 
+   * tbody.innerHTML = this.clients.map( this.setRows ).join('');
 	 */
   setRows( client ) {
     return (`
@@ -137,8 +140,8 @@ class ClientsTableComponent {
   /**
 	 * Rendiza la tabla de clientes
 	 *
-	 * @param  {number|null} totalPages paginas totales
-	 * @param  {number|null} totalRegisters numeros de registros
+	 * @param  {?number} totalPages paginas totales
+	 * @param  {?number} totalRegisters numeros de registros
 	 * @param  {boolean} search flag de busqueda le indica si actualiza la paginacion
 	 */
   renderClients( totalPages = null , totalRegisters = null, search = false ) {

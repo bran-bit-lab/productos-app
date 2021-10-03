@@ -46,7 +46,7 @@ class Database {
 	* @param {Object|null} pagination paginacion de la tabla
 	* @param {number} pagination.start inicio de la paginacion
 	* @param {number} pagination.limit final de la paginacion
-	* @param {callbackConsult} callback respuesta al insertar en la bd
+	* @param {callbackConsult} callback respuesta al consultar en la bd
 	*/
 	consult( sql, paginacion, callback ) {
 		mysqlAPI.query( sql, paginacion, callback );

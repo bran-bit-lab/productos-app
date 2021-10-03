@@ -205,7 +205,7 @@ class UsersController {
 	 * @param {string} usuario.search cadena de busqueda del usuario
 	 * @return {Promise<Array<User>>}  devuelve una promesa con los resultados encontrados
 	 * @example
-	 * this.users = await UsersController.buscarUsuarios({ search: '%' + search + '%' });
+	 * let users = await UsersController.buscarUsuarios({ search: '%' + search + '%' });
 	 */
 	static buscarUsuarios( usuario ) {
 

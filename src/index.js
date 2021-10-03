@@ -2,7 +2,7 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { Database } = require('./database/database');
-const { ENV } = require('env');
+const { ENV } = require('./env');
 
 const urlAssets = __dirname + '/views';
 

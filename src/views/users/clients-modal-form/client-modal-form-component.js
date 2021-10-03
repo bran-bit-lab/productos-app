@@ -85,8 +85,12 @@ function setForm( client ) {
  *
  * @example
  * validate( data, ( error ) => {
- *    if ( error ) return;
- *    // rest of code
+ * 
+ *    if ( error ) {
+ *      return;
+ *    }
+ *
+ *    // rest of code ...
  * });
  */
 function validate( data, callback ) {
@@ -287,7 +291,7 @@ const clientForm = document.forms['formClients'];
 clientForm.addEventListener( 'submit',  handleSubmit );
 
 /**
-* instancia del modal 
+* instancia del modal
 * @type {Modal}
 */
 const modalClientForm = new Modal( footer.querySelector('.modal-clients'), {

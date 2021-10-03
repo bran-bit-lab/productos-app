@@ -20,7 +20,7 @@ function readFile( url ) {
 /**
 * Permite leer un archivo dentro de las vistas del renderizado
 * @param {string} url ruta para leer el archivo
-*	@returns {string} retorna el contenido del archivo de los archivos de view
+*	@returns {string} retorna el contenido de los archivos del direcotrio view
 */
 function readFileAssets( url ) {
 	return fs.readFileSync( path.join( ENV.PATH_VIEWS, url ), { encoding: "utf-8" });
@@ -49,9 +49,19 @@ function copyFile( url , dest ) {
 /**
 * Permite crear un archivo nuevo a un desitino especificado
 * @param {string} path la ruta donde se almacena el archivo
-*	@param {string|Buffer} data ruta donde se va almacenar el archivo
+*	@param {string|BufferArray} data ruta donde se va almacenar el archivo
 * @param {callbackCreate} callback devolucion de llamada cuando crea el archivo
 * @returns {void}
+*
+* @example
+*	writeFile('./path.txt', 'text', ( error ) => {
+*
+*   if ( error ) {
+*     throw error
+*   };
+*
+*   // rest of code ...
+* });
 */
 function writeFile( path, data, callback ) {
 	fs.writeFile( path, data, callback );
@@ -99,8 +109,12 @@ function readFileImageAsync( path, callback ) {
 /**
 * Permite verificar si el archivo existe
 * @param {string} url path del archivo
-* @param {boolean} concat flag si debe concatenar el path
+* @param {boolean} concat flag si debe concatenar el path al directorio global
 * @returns {boolean} devuelve un flag con el valor encontrado
+*
+* @example
+* let fileExists = checkAsset( './test.txt', false )  // path relativo
+* let fileExists = checkAsset( 'test.txt' )  // path global
 */
 function checkAsset( url, concat = true ) {
 
@@ -140,8 +154,15 @@ function deleteFileSync( url ) {
 /**
 *	@param {string} [fileName] nombre del directorio donde el open winodw inicia la busqueda
 *	@returns {string} retorna el path del home dependiendo del Sistema operativo
+*
+* @example
+* // se ubica en el directorio home del S.O
+* let homeDirectory = getHomePath();
+*
+* // su ubica en el directorio home y adicionalmente le agrega nombre al archivo
+* let homeDirectory = getHomePath('test.pdf');
 */
-function getHomePath( fileName ) {
+function getHomePath( fileName = '' ) {
 
 	if ( fileName.length > 0  ) {
 			return path.join( os.homedir(), '/' + fileName );
