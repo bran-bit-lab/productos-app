@@ -1,9 +1,9 @@
 
 
 
-
 /*
 SET lc_time_names = 'es_VE';
+SELECT status, COUNT( id_nota ) AS total FROM notas WHERE creacion BETWEEN "2021-10-01 00:00:00" AND "2021-10-03 23:59:59" GROUP BY status ORDER BY total DESC
 SELECT MONTHNAME(notas.creacion) AS fecha, SUM(notas_productos.cantidad_seleccionada) AS cantidad FROM notas 
 	INNER JOIN notas_productos ON notas_productos.id_nota = notas.id_nota
 	WHERE YEAR(notas.creacion) = YEAR(NOW())

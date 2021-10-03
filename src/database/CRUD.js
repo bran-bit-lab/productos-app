@@ -65,7 +65,7 @@ const CRUD = Object.freeze({
 	ObtenerNotasPorVendedorGeneral: "SELECT CONCAT( u.nombre, ' ', u.apellido ) as nombre_vendedor, COUNT( n.id_nota ) as cantidad_notas FROM usuarios u INNER JOIN notas n ON n.userid = u.userid  WHERE n.status = 'ENTREGADA' GROUP BY nombre_vendedor  ORDER BY cantidad_notas DESC LIMIT 6;",
 	ObtenerNotasPorVendedorPeriodo: "SELECT CONCAT( u.nombre, ' ', u.apellido ) as nombre_vendedor, COUNT( n.id_nota ) as cantidad_notas FROM usuarios u INNER JOIN notas n ON n.userid = u.userid  WHERE n.status = 'ENTREGADA' AND  n.fecha_entrega BETWEEN :fecha_inicio AND :fecha_fin GROUP BY nombre_vendedor  ORDER BY cantidad_notas DESC;",
 	ObtenerTotalNotasPorCategoriaGeneral: "SELECT status, COUNT( id_nota ) AS total FROM notas GROUP BY status ORDER BY total DESC",
-	ObtenerTotalNotasPorCategoriaPeriodo: "SELECT status, COUNT( id_nota ) AS total FROM notas WHERE fecha_entrega BETWEEN :fecha_inicio AND :fecha_fin GROUP BY status ORDER BY total DESC",
+	ObtenerTotalNotasPorCategoriaPeriodo: "SELECT status, COUNT( id_nota ) AS total FROM notas WHERE creacion BETWEEN :fecha_inicio AND :fecha_fin GROUP BY status ORDER BY total DESC",
 	ObtenerCantidadVendidoAnual: "SET lc_time_names = 'es_VE'; SELECT MONTHNAME( n.creacion ) AS mes, SUM( np.cantidad_seleccionada ) as total FROM notas_productos np INNER JOIN notas n ON np.id_nota = n.id_nota WHERE YEAR( n.fecha_entrega ) = YEAR( NOW() ) GROUP BY mes ORDER BY mes DESC;",
 });
 module.exports = CRUD;

@@ -138,6 +138,7 @@ class NotasController {
 			this.database.consult( CRUD.obtenerNota, { id_nota: idNota }, ( error, resultadoNota ) => {
 
 				if ( error ) {
+					
 					console.log( error );
 
 					reject( error );
@@ -151,7 +152,9 @@ class NotasController {
 				// si existe la fecha de entrega
 
 				if ( nota['fecha_entrega'] ) {
+
 					nota['fecha_entrega'] = TIME.dateToString( new Date( nota['fecha_entrega'] ) );
+
 				}
 
 				this.database.consult( CRUD.obtenerNotaProducto, 	{ id_nota: idNota }, ( error, resultadoNotaProducto ) => {

@@ -1,6 +1,6 @@
 const { remote } = require('electron');
 const Chart = require('chart.js');
-// const { ReporteController } = remote.require('./controllers/reporte_controller');
+const { ReporteController } = remote.require('./controllers/reporte_controller');
 const render = require('./render-table-chart');
 
 class ReportsComponent {
@@ -136,9 +136,11 @@ class ReportsComponent {
       products: formData.get('area-business') === 'product',
       question_delivery: formData.get('delivery-questions') || null,
       question_products: formData.get('product-questions') || null,
-      from: formData.get('from') || null,
-      to: formData.get('to') || null
+      from: formData.get('from') + " 00:00:00" || null,
+      to: formData.get('to') + " 23:59:59" || null
     };
+
+    // console.log(data );
 
     this.validate( data, async () => {
 
@@ -151,7 +153,8 @@ class ReportsComponent {
 
           try {
             let response = await ReporteController.getTotalProductByCategory();
-
+            return;
+            /**/
             if ( !response ) {
               render.renderTableCategories({ results: [] }, this.table );
               return;
@@ -277,8 +280,8 @@ class ReportsComponent {
 
           try {
 
-            let response = await ReporteController.getTotalNotesByState();
-
+            let response = await ReporteController.buscarNotasCategoria();
+             
             if ( !response ) {
               render.renderTableDeliveryState({ results: [] }, this.table );
               return;
@@ -296,10 +299,12 @@ class ReportsComponent {
 
           try {
 
-            let response = await ReporteController.getTotalNotesByState({
+            let response = await ReporteController.buscarNotasCategoria({
               fecha_inicio: data.from,
               fecha_fin: data.to
             });
+
+            // console.log( response );
 
             if ( !response ) {
               render.renderTableDeliveryState({ results: [] }, this.table );
