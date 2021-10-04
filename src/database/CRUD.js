@@ -169,4 +169,3 @@ UPDATE notas
 DELETE FROM notas WHERE nro = 1;
 
 ALTER TABLE notas AUTO_INCREMENT=1;*/
->>>>>>> origin/11_reportes_controller
