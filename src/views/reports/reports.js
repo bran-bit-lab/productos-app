@@ -136,8 +136,8 @@ class ReportsComponent {
       products: formData.get('area-business') === 'product',
       question_delivery: formData.get('delivery-questions') || null,
       question_products: formData.get('product-questions') || null,
-      from: formData.get('from') + " 00:00:00" || null,
-      to: formData.get('to') + " 23:59:59" || null
+      from: formData.get('from') || null,
+      to: formData.get('to') || null
     };
 
     // console.log(data );
@@ -281,7 +281,7 @@ class ReportsComponent {
           try {
 
             let response = await ReporteController.buscarNotasCategoria();
-             
+
             if ( !response ) {
               render.renderTableDeliveryState({ results: [] }, this.table );
               return;
@@ -300,8 +300,8 @@ class ReportsComponent {
           try {
 
             let response = await ReporteController.buscarNotasCategoria({
-              fecha_inicio: data.from,
-              fecha_fin: data.to
+              fecha_inicio: data.from + ' 00:00:00',
+              fecha_fin: data.to + ' 23:59:59'
             });
 
             // console.log( response );

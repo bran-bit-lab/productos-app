@@ -237,7 +237,6 @@ categoryForm.addEventListener( 'submit', handleSubmit );
 
 module.exports = {
 	openModalNewCategory,
-	openImageDialog,
 	resetForm,
 	openModalEditCategory
 };
