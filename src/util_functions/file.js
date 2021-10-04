@@ -137,8 +137,8 @@ function formatUrl( root = __dirname, url ) {
 }
 
 /**
+* permite borrar un archivo
 * @param {string} url path al archivo a eliminar
-* @returns {void}
 */
 function deleteFileSync( url ) {
 
