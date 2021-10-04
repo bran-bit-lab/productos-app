@@ -2,8 +2,10 @@ const { Notification } = require('electron');
 const CRUD = require('../database/CRUD');
 const { Database } = require('../database/database');
 
+/** clase que gestiona los reportes */
 class ReporteController {
 
+	/** @type {?Database} */
 	databaseInstance = null;
 
 	static get database() {
