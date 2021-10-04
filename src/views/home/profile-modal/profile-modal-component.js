@@ -254,6 +254,10 @@ class ProfileModalComponent {
     callback();
   }
 
+  /**
+   * Limpia los campos del formulario
+   * @param  {boolean} button indica si la funcion es llamado desde el boton del formulario
+  */
   resetForm( button = false ) {
 
     hideElement( this.errorEmail );
