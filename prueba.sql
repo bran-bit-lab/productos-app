@@ -1,17 +1,14 @@
-
-
-
-
 /*
 SET lc_time_names = 'es_VE';
-SELECT MONTHNAME(notas.creacion) AS fecha, SUM(notas_productos.cantidad_seleccionada) AS cantidad FROM notas 
+SELECT status, COUNT( id_nota ) AS total FROM notas WHERE creacion BETWEEN "2021-10-01 00:00:00" AND "2021-10-03 23:59:59" GROUP BY status ORDER BY total DESC
+SELECT MONTHNAME(notas.creacion) AS fecha, SUM(notas_productos.cantidad_seleccionada) AS cantidad FROM notas
 	INNER JOIN notas_productos ON notas_productos.id_nota = notas.id_nota
 	WHERE YEAR(notas.creacion) = YEAR(NOW())
 	GROUP BY fecha
 	ORDER BY fecha DESC;
-SELECT cantidad + (4) as cantidad FROM productos WHERE productoid = 1; 
+SELECT cantidad + (4) as cantidad FROM productos WHERE productoid = 1;
 SELECT DATE_FORMAT( fecha_entrega, '%d-%m-%Y') AS fecha_entrega, notas.* FROM notas WHERE id_nota = 64;
-SELECT notas_productos.id_NP notas_productos.cantidad_seleccionada, categorias.nombre AS nombre_categoria, usuarios.nombre AS nombre_usuario, usuarios.apellido, productos.* FROM notas_productos 
+SELECT notas_productos.id_NP notas_productos.cantidad_seleccionada, categorias.nombre AS nombre_categoria, usuarios.nombre AS nombre_usuario, usuarios.apellido, productos.* FROM notas_productos
 	INNER JOIN productos ON notas_productos.id_producto = productos.productoid
 	INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid
 	INNER JOIN usuarios ON usuarios.userid = productos.userid
