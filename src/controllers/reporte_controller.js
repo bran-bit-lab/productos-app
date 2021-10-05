@@ -120,7 +120,7 @@ class ReporteController {
 	}
 
 	/** Genera el PDF del reporte */
-	static generateReport() {
+	static generateReportes() {
 	}
 }
 

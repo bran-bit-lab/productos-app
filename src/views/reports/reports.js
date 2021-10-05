@@ -152,7 +152,7 @@ class ReportsComponent {
         if ( data.question_products === 'total-product-category' ) {
 
           try {
-            let response = await ReporteController.getTotalProductByCategory();
+            let response = await ReporteController.buscarTotalProductosPorCategoria();
             return;
             /**/
             if ( !response ) {
@@ -173,7 +173,7 @@ class ReportsComponent {
         } else if ( data.question_products === 'product-max-sold-general' ) {
 
           try {
-            let response = await ReporteController.getQuantityMaxSeller();
+            let response = await ReporteController.buscarCantidadMaximaVendida();
 
             if ( !response ) {
               render.renderTableProductQuantity({ results: [] }, this.table );
@@ -191,7 +191,7 @@ class ReportsComponent {
         } else if ( data.question_products === 'product-max-sold-period' ) {
 
           try {
-            let response = await ReporteController.getQuantityMaxSeller({
+            let response = await ReporteController.buscarCantidadMaximaVendida({
               fecha_inicio: data.from,
               fecha_fin: data.to
            });
@@ -213,9 +213,7 @@ class ReportsComponent {
 
           try {
 
-            let response = await ReporteController.getPeriodSell({
-              year: new Date().getFullYear()
-            });
+            let response = await ReporteController.buscarCantidadProductosVendidosAnual();
 
             console.log( response );
 
@@ -239,7 +237,7 @@ class ReportsComponent {
 
           try {
 
-            let response = await ReporteController.getTotalNotesBySeller();
+            let response = await ReporteController.buscarNotasVendidasPorVendedor();
 
             if ( !response ) {
               render.renderTableSellers({ results: [] }, this.table );
@@ -258,7 +256,7 @@ class ReportsComponent {
         } else if ( data.question_delivery === 'quantity-period' ) {
 
            try {
-             let response = await ReporteController.getTotalNotesBySeller({
+             let response = await ReporteController.buscarNotasVendidasPorVendedor({
                fecha_inicio: data.from,
                fecha_fin: data.to
             });
