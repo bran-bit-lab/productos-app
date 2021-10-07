@@ -27,7 +27,7 @@ class ReporteController {
 
 		return new Promise(( resolve, reject ) => {
 
-			let sql = periodo ? CRUD.ObtenerTotalNotasPorCategoriaPeriodo : CRUD.ObtenerTotalNotasPorCategoriaGeneral;
+			const sql = periodo ? CRUD.ObtenerTotalNotasPorCategoriaPeriodo : CRUD.ObtenerTotalNotasPorCategoriaGeneral;
 
 			this.database.consult( sql, periodo, ( error, resultados ) => {
 
@@ -79,7 +79,6 @@ class ReporteController {
 	 * Si no hay registros devuelve null.
 	*/
 	static buscarNotasVendidasPorVendedor( periodo = null ) {
-
 	}
 
 
@@ -91,7 +90,6 @@ class ReporteController {
 	 * Si no hay registros devuelve null.
 	 */
 	static buscarTotalProductosPorCategoria() {
-
 	}
 
 	/**
@@ -105,7 +103,6 @@ class ReporteController {
 	 * Si no hay registros devuelve null.
 	*/
 	static buscarCantidadMaximaVendida( periodo = null ) {
-
 	}
 
 	/**
@@ -116,11 +113,65 @@ class ReporteController {
 	 * Si no hay registros devuelve null.
 	 */
 	static buscarCantidadProductosVendidosAnual() {
-
 	}
 
 	/** Genera el PDF del reporte */
 	static generateReport() {
+	}
+
+	/**
+	 * funcion que permite ordenar los meses del anio segun el calendario
+	 *
+	 * @param  {Array<Object>} mounths recibe el array de meses del anio
+	 * @returns {Array<{ id: number, mes: string, total: number }>} devuelve el listado de los meses y el total ordenados
+	 */
+	static orderMounths( resultados ) {
+
+		const arrayMounth = [
+			{ id: 1, name: 'enero' },
+			{ id: 2, name: 'febrero' },
+			{ id: 3, name: 'marzo' },
+			{ id: 4, name: 'abril' },
+			{ id: 5, name: 'mayo' },
+			{ id: 6, name: 'junio' },
+			{ id: 7, name: 'julio' },
+			{ id: 8, name: 'agosto' },
+			{ id: 9, name: 'septiembre' },
+			{ id: 10, name: 'octubre' },
+			{ id: 11, name: 'noviembre' },
+			{ id: 12, name: 'diciembre' }
+		];
+
+		// transforma a instancias de arrayMounth
+		let order = resultados.map(( mounth ) => {
+
+			let find = arrayMounth.find(( mon ) => mon.name === mounth.mes );
+
+			return {
+				id:  find.id,
+				mes: find.name,
+				total: mounth.total
+			};
+		});
+
+		// console.log( order );
+
+		// ordena con los valores
+		order = order.sort(( value, nextValue ) => {
+
+			if ( value.id > nextValue.id ) {
+				return 1;
+
+			} else if ( value.id < nextValue.id ) {
+				return -1;
+
+			} else {
+				return 0;
+			}
+		});
+
+		// console.log( order );
+		return order;
 	}
 }
 

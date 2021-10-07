@@ -213,11 +213,7 @@ class ReportsComponent {
 
           try {
 
-            let response = await ReporteController.getPeriodSell({
-              year: new Date().getFullYear()
-            });
-
-            console.log( response );
+            let response = await ReporteController.buscarCantidadProductosVendidosAnual();
 
             if ( !response ) {
               render.renderTablePeriodSeller({ results: [] }, this.table );
@@ -239,7 +235,7 @@ class ReportsComponent {
 
           try {
 
-            let response = await ReporteController.getTotalNotesBySeller();
+            let response = await ReporteController.buscarNotasVendidasPorVendedor();
 
             if ( !response ) {
               render.renderTableSellers({ results: [] }, this.table );
@@ -258,7 +254,7 @@ class ReportsComponent {
         } else if ( data.question_delivery === 'quantity-period' ) {
 
            try {
-             let response = await ReporteController.getTotalNotesBySeller({
+             let response = await ReporteController.buscarNotasVendidasPorVendedor({
                fecha_inicio: data.from,
                fecha_fin: data.to
             });
@@ -288,7 +284,7 @@ class ReportsComponent {
             }
 
             render.renderTableDeliveryState( response, this.table );
-            this.createPieChart('#chart-model', response);
+            this.createPieChart('#chart-model', response );
 
           } catch (e) {
             console.error( e );
@@ -325,6 +321,7 @@ class ReportsComponent {
 
   createBarChart( idChart, objectModel ) {
 
+    // console.log( objectModel );
     const canvas = document.querySelector( idChart );
     const { keys, values } = objectModel;
     const { backgroundColor, borderColor } = this.createRandomColor( values, 0.2 );
