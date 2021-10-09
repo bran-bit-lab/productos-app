@@ -218,6 +218,11 @@ class NotasController {
 		return Number.parseFloat( arrayNotaProducto.reduce(reducer, 0).toFixed(2) );
 	}
 
+	/**
+	 * Obtiene el total de las notas
+	 * @returns {Promise<{ totalPaginas: number, totalRegistros: number }>} 
+	 * un objeto con las prpiedades antes mencionadas
+	 */
 	static obtenerTotalNotas() {
 
 		return new Promise( ( resolve, reject ) => {
