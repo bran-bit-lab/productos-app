@@ -122,7 +122,7 @@ class ReporteController {
 	/**
 	 * funcion que permite ordenar los meses del anio segun el calendario
 	 *
-	 * @param  {Array<Object>} mounths recibe el array de meses del anio
+	 * @param  {Array<Object>} resultados array de los resultaods de la base de datos
 	 * @returns {Array<{ id: number, mes: string, total: number }>} devuelve el listado de los meses y el total ordenados
 	 */
 	static orderMounths( resultados ) {
