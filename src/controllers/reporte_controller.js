@@ -1,6 +1,9 @@
 const { Notification, dialog } = require('electron');
 const CRUD = require('../database/CRUD');
 const { Database } = require('../database/database');
+const FILE = require('../util_functions/file');
+const TIME = require('../util_functions/time');
+const { PdfController } = require('./pdf_controller');
 
 /** clase que gestiona los reportes */
 class ReporteController {
@@ -236,7 +239,7 @@ class ReporteController {
 	static buscarCantidadProductosVendidosAnual() {
 		return new Promise(( resolve, reject ) => {
 			
-			this.database.consult( CRUD.ObtenerCantidadVendidoAnual, null, ( error, quieries ) => {
+			this.database.consult( CRUD.ObtenerCantidadVendidoAnual, null, ( error, queries ) => {
 
 				if ( error ) {
 					
@@ -252,7 +255,7 @@ class ReporteController {
 					return;
 				}
 
-				const resultados = ReporteController.ordenarMeses( quieries[1] );
+				const resultados = ReporteController.ordenarMeses( queries[1] );
 
 				if ( resultados.length > 0 ) {
 					
@@ -327,6 +330,86 @@ class ReporteController {
 
 		// console.log( order );
 		return order;
+	}
+
+	/**
+	 * Funcion que genera el reporte estadistico
+	 * @param {Array<ResponseReport>} consults consultas generadas
+	 */
+	static generarReporte( consults ) {
+
+		const pdfController = new PdfController(); // creas un objeto PDF controller
+		// genera la fecha del reporte
+		let date = TIME.dateSpanish();
+
+		const options = {
+			title : 'Guardar Archivo',
+			buttonLabel : 'Guardar' ,
+			filters : [{ name: 'pdf', extensions: ['pdf'] }],
+			defaultPath: FILE.getHomePath('reporte_' + date )
+		};
+
+		const notification = new Notification({
+			title: 'Éxito',
+			body: 'Documento generado con éxito'
+		});
+
+		dialog.showSaveDialog( null, options )
+			.then( async ( response ) => {
+				
+				/*	Documentación
+				*  response == { canceled: boolean,  filePath: string }
+				*  extensions = 'extensiones permitidas'
+				*/
+
+				const extensions = ['.pdf'];
+
+				if ( response['canceled'] ) {
+					return;
+				}
+
+				// verifica la extension del archivo que sea pdf
+				if ( !response['filePath'].includes( extensions[0] ) ) {
+
+					notification['title'] = 'Error !!';
+					notification['body'] = 'Extension del archivo no valida';
+
+					notification.show();
+
+					// console.log( response['filePath'] );
+
+					return;
+				}
+
+				// si existe el archivo lo sustituye
+				if ( FILE.checkAsset( response['filePath'], false ) ) {
+					FILE.deleteFileSync( response['filePath'] );
+				}
+
+				const data = await pdfController.crearReporte( consults );
+
+				FILE.writeFile( response['filePath'], data, ( error ) => {
+
+					if ( error ) {
+
+						console.log( error );
+
+						notification['title'] = 'Error!!';
+						notification['body'] = 'Error al guardar archivo';
+
+						notificacion.show();
+
+						// throw error;
+
+						return;
+					}
+
+					notification.show();
+				});
+			})
+			.catch(( error ) => {
+				console.log( error );
+			});
 	}
 }
 

@@ -3,6 +3,7 @@ const Chart = require('chart.js');
 const { ReporteController } = remote.require('./controllers/reporte_controller');
 const render = require('./render-table-chart');
 
+/** clase que controla las consultas estadisticas  */
 class ReportsComponent {
   constructor() {
 
@@ -12,7 +13,6 @@ class ReportsComponent {
     this.productQuestions = this.form.querySelector('#product-questions');
     this.deliveryQuestions = this.form.querySelector('#delivery-questions');
     this.period = this.form.querySelector('#from-until');
-
     this.errorFrom = this.form.querySelector('#error-from');
     this.errorAreaBusiness = this.form.querySelector('#error-area-business');
     this.errorTo = this.form.querySelector('#error-to');
@@ -22,12 +22,17 @@ class ReportsComponent {
 
     // charts
     this.canvasRow = this.form.querySelector('#canvas-estadistics');
+
+    // diagrama
     this.chart = null;
 
     // table
     this.table = this.canvasRow.querySelector('#table-data');
 
-    // formState
+    /**
+     * estado del rango de fechas
+     * @type {boolean}
+     */
     this.range = false;
 
     this.handleChangeBusiness = this.handleChangeBusiness.bind( this );
@@ -35,21 +40,28 @@ class ReportsComponent {
     this.setEvents();
   }
 
+  /** permite establecer el rango de fechas */
   set _range( range ) {
     this.range = range;
   }
 
+  /** obtiene el estado del rango de fechas  */
   get _range() {
     return this.range;
   }
 
+  /**  establece los eventos del formulario */
   setEvents() {
     this.form.addEventListener('submit', this.generateStadistics.bind( this ) );
   }
 
+  /**
+   * funcion que controla el select de la seccion a consultar
+   * @param {*} $event evento de cambio 
+   */
   handleChangeBusiness( $event ) {
 
-    const { value } = event.target;
+    const { value } = $event.target;
 
     // muestra el select dependiendo de la opcion seleccionada
     switch ( value ) {
@@ -75,9 +87,13 @@ class ReportsComponent {
     }
   }
 
+  /**
+   * funcion que controla el cambio del select de la consulta
+   * @param {*} $event evento change 
+   */
   handleChangeQuestions( $event ) {
 
-    const { value } = event.target;
+    const { value } = $event.target;
     const regex = /period/g;
 
     if ( regex.test( value ) ) {
@@ -95,6 +111,7 @@ class ReportsComponent {
     this.deleteCharts();
   }
 
+  /** Limpia el filtro de busqueda  */
   clearFilter() {
 
     hideElement( this.deliveryQuestions );
@@ -107,6 +124,7 @@ class ReportsComponent {
     this.deleteCharts();
   }
 
+  /** funcion que muestra al usuario el formulario del periodo */
   showPeriod( value = 'flex' ) {
 
     if ( value === 'none' ) {
@@ -121,6 +139,10 @@ class ReportsComponent {
     this.period.style.display = value;
   }
 
+  /**
+   * Funcion que genera las estadisticas
+   * @param {*} $event evento de envio de formulario
+   */
   generateStadistics( $event ) {
 
     $event.preventDefault();
@@ -320,6 +342,13 @@ class ReportsComponent {
     });
   }
 
+  /**
+   * Permite maquetar y modelar un diagrama de barras
+   * @param {string} idChart identificador dom del elemento
+   * @param {Object} objectModel modelo del objeto
+   * @param {Array<string>} objectModel.keys identificadores de las barras
+   * @param {Array<number>} objectModel.values valores numericos para modelar los datos 
+   */
   createBarChart( idChart, objectModel ) {
 
     const canvas = document.querySelector( idChart );
@@ -351,6 +380,13 @@ class ReportsComponent {
     });
   }
 
+  /**
+   * Permite maquetar y modelar un diagrama de torta
+   * @param {string} idChart identificador dom del elemento
+   * @param {Object} objectModel modelo del objeto
+   * @param {Array<string>} objectModel.keys identificadores de las barras
+   * @param {Array<number>} objectModel.values valores numericos para modelar los datos 
+   */
   createPieChart( idChart, objectModel ) {
 
     const canvas = document.querySelector( idChart );
@@ -378,6 +414,13 @@ class ReportsComponent {
     });
   }
 
+  /**
+   * Permite maquetar y modelar un diagrama de lineas
+   * @param {string} idChart identificador dom del elemento
+   * @param {Object} objectModel modelo del objeto
+   * @param {Array<string>} objectModel.keys identificadores de las barras
+   * @param {Array<number>} objectModel.values valores numericos para modelar los datos 
+   */
   createLineChart( idChart, objectModel ) {
 
     const canvas = document.querySelector( idChart );
@@ -404,6 +447,7 @@ class ReportsComponent {
     });
   }
 
+  /** permite retirar el modelo del dom  */
   deleteCharts() {
 
     this.canvasRow.style.display = 'none';
@@ -416,6 +460,16 @@ class ReportsComponent {
     this.chart = null;
   }
 
+  /**
+   * @param {Object} data objeto de validacion
+   * @param {boolean} data.delivery_note flag que indica la consulta es de notas de entrega
+   * @param {boolean} data.products flag que indica la consulta es de productos
+   * @param {?string} data.question_delivery consulta realizada a notas de entrega
+   * @param {?string} data.question_products consulta realizada a productos
+   * @param {?string} data.from inicio de rango de fechas
+   * @param {?string} data.to final de rango de fechas
+   * @param {CallbackValidateForm} callback llamada de retorno con los datos para ser procesados por el controlador  
+   */
   validate( data, callback ) {
 
     this.resetForm();
@@ -472,6 +526,7 @@ class ReportsComponent {
     callback();
   }
 
+  /** Limpia el fomrulario de consulta */
   resetForm() {
 
     hideElement( this.errorTo );
@@ -483,6 +538,12 @@ class ReportsComponent {
     }
   }
 
+  /**
+   * 
+   * @param {Array<number>} values valores numericos 
+   * @param {number} opacity opacidad de la linea del chart 
+   * @returns {{ backgroundColor: Array<string>, borderColor: Array<string> }}
+   */
   createRandomColor( values,  opacity = 1 ) {
 
     // return { backgroundColor: string[], borderColor: string[] }
@@ -512,6 +573,26 @@ class ReportsComponent {
 
     return { backgroundColor, borderColor };
   }
+
+  /**  genera el reporte final de la aplicacion */
+  generateReport() {
+    
+    Promise.all([ 
+      ReporteController.buscarNotasCategoria(),
+      ReporteController.buscarNotasVendidasPorVendedor(),
+      ReporteController.buscarTotalProductosPorCategoria(),
+      ReporteController.buscarCantidadMaximaVendida(),
+      ReporteController.buscarCantidadProductosVendidosAnual()
+     ])
+      .then( ( results ) => {
+        // se procede a generar los datos de guardado
+        ReporteController.generarReporte( results );
+      })
+      .catch( error =>  {
+        console.log( error );
+      });  
+  }
 }
 
+/** @type {ReportsComponent} */
 const reportsComponent = new ReportsComponent();
