@@ -67,7 +67,6 @@ class ReportsComponent {
         showElement( this.productQuestions );
         this.showPeriod('none');
 
-
         break;
 
       default:
@@ -152,9 +151,11 @@ class ReportsComponent {
         if ( data.question_products === 'total-product-category' ) {
 
           try {
+            
             let response = await ReporteController.buscarTotalProductosPorCategoria();
-            return;
-            /**/
+           
+            console.log( );
+
             if ( !response ) {
               render.renderTableCategories({ results: [] }, this.table );
               return;
@@ -321,12 +322,9 @@ class ReportsComponent {
 
   createBarChart( idChart, objectModel ) {
 
-    // console.log( objectModel );
     const canvas = document.querySelector( idChart );
     const { keys, values } = objectModel;
     const { backgroundColor, borderColor } = this.createRandomColor( values, 0.2 );
-
-    // this.reziseElement( canvas );
 
     canvas.parentNode.style.width = '90%';
 
@@ -354,8 +352,6 @@ class ReportsComponent {
   }
 
   createPieChart( idChart, objectModel ) {
-
-    // console.log( objectModel );
 
     const canvas = document.querySelector( idChart );
     const { keys, values } = objectModel;

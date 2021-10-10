@@ -79,6 +79,47 @@ class ReporteController {
 	 * Si no hay registros devuelve null.
 	*/
 	static buscarNotasVendidasPorVendedor( periodo = null ) {
+
+		return new Promise(( resolve, reject ) => {
+
+			const sql =  periodo ? CRUD.ObtenerNotasPorVendedorPeriodo : CRUD.ObtenerNotasPorVendedorGeneral;
+
+			this.database.consult( sql, periodo, ( error, resultados ) => {
+
+				if ( error ) {
+
+					const notificacion = new Notification({
+						title: 'Error',
+						body: 'Error de la consulta !!'
+					});
+
+					notificacion.show();
+
+					console.log( error );
+
+					reject( error );
+
+					return;
+				}
+
+				if ( resultados.length > 0 ) {
+
+					let values = [];
+					let data = [];
+
+					for ( let obj of resultados ) {
+						values.push( obj.cantidad_notas );
+						data.push( obj.nombre_vendedor );
+					}
+
+					resolve({ keys: data, values, results: resultados });
+
+					return;
+				}
+
+				resolve( null );
+			});
+		});
 	}
 
 
@@ -90,6 +131,45 @@ class ReporteController {
 	 * Si no hay registros devuelve null.
 	 */
 	static buscarTotalProductosPorCategoria() {
+
+		return new Promise(( resolve, reject ) => {
+
+			this.database.consult( CRUD.ObtenerTotalProductosPorCategoria, null, ( error, resultados ) => {
+
+				if ( error ) {
+
+					const notificacion = new Notification({
+						title: 'Error',
+						body: 'Error de la consulta !!'
+					});
+
+					notificacion.show();
+
+					console.log( error );
+
+					reject( error );
+
+					return;
+				}
+
+				if ( resultados.length > 0 ) {
+
+					let values = [];
+					let data = [];
+
+					for ( let obj of resultados ) {
+						data.push( obj.categoria );
+						values.push( obj.cantidad_productos );
+					}
+
+					resolve({ keys: data, values, results: resultados });
+
+					return;
+				}
+
+				resolve( null );
+			});
+		});
 	}
 
 	/**
@@ -103,6 +183,47 @@ class ReporteController {
 	 * Si no hay registros devuelve null.
 	*/
 	static buscarCantidadMaximaVendida( periodo = null ) {
+			
+		return new Promise(( resolve, reject ) => {
+			
+			const sql = periodo ? CRUD.ObtenerCantidadMaximaVendidaPeriodo : CRUD.ObtenerCantidadMaximaVendidaGeneral;
+
+			this.database.consult( sql, periodo, ( error, resultados ) => {
+				
+				if ( error ) {
+
+					const notificacion = new Notification({
+						title: 'Error',
+						body: 'Error de la consulta !!'
+					});
+
+					notificacion.show();
+
+					console.log( error );
+
+					reject( error );
+
+					return;
+				}
+
+				if ( resultados.length > 0 ) {
+
+					let values = [];
+					let data = [];
+
+					for ( let obj of resultados ) {
+						data.push( obj.nombre );
+						values.push( obj.cantidad_max_vendida );
+					}
+
+					resolve({ keys: data, values, results: resultados });
+
+					return;
+				}
+
+				resolve( null );
+			});
+		});
 	}
 
 	/**
@@ -113,10 +234,44 @@ class ReporteController {
 	 * Si no hay registros devuelve null.
 	 */
 	static buscarCantidadProductosVendidosAnual() {
-	}
+		return new Promise(( resolve, reject ) => {
+			
+			this.database.consult( CRUD.ObtenerCantidadVendidoAnual, null, ( error, quieries ) => {
 
-	/** Genera el PDF del reporte */
-	static generateReportes() {
+				if ( error ) {
+					
+					const notificacion = new Notification({
+						title: 'Error',
+						body: 'Error en el consulta en la BD!!'
+					});
+
+					notificacion.show();
+
+					console.log( error );
+
+					return;
+				}
+
+				const resultados = ReporteController.ordenarMeses( quieries[1] );
+
+				if ( resultados.length > 0 ) {
+					
+					let values = [];
+					let data = [];
+
+					for ( let obj of resultados ) {
+						data.push( obj.mes );
+						values.push( obj.total );
+					}
+
+					resolve({ keys: data, values, results: resultados });
+
+					return;
+				}
+
+				resolve( null );
+			});
+		});
 	}
 
 	/**
@@ -125,7 +280,7 @@ class ReporteController {
 	 * @param  {Array<Object>} resultados array de los resultaods de la base de datos
 	 * @returns {Array<{ id: number, mes: string, total: number }>} devuelve el listado de los meses y el total ordenados
 	 */
-	static orderMounths( resultados ) {
+	static ordenarMeses( resultados ) {
 
 		const arrayMounth = [
 			{ id: 1, name: 'enero' },
