@@ -248,35 +248,49 @@ class PdfController {
 		const helveticaFont = await pdfDoc.embedFont( StandardFonts.Helvetica );
 		const helveticaBoldFont =  await pdfDoc.embedFont( StandardFonts.HelveticaBold );
 		const page1 = pdfDoc.addPage();
+		const fontSize = 20;
 
 		// rotacion horizontal de la pagina (landscape)
-		page1.setRotation( degrees(90) );
+		// page1.setRotation( degrees(90) );
 
 		const { width, height } = page1.getSize();
 		
 		// puntos de coordenadas
 		const propertyPage = Object.freeze({
-			margin_left: 40,
-			margin_right: height - 40,
-			margin_top: 55,
-			margin_bottom: width - 50
+			margin_left: 50,
+			margin_right: width - 50,
+			margin_top: height - 50,
+			margin_bottom: 50
 		});
 
-		page1.drawText('Creating PDFs in JavaScript is awesome!', {
-			rotate: degrees(90),
-			x: propertyPage.margin_top,
-			y: propertyPage.margin_left,
-			size: 18,
+		/*
+			===========================
+			pagina 1
+			===========================
+		*/
+		page1.drawText('Products-app', {
+			// rotate: degrees(90),
+			x: propertyPage.margin_left,
+			y: propertyPage.margin_top,
+			size: fontSize,
 			font: helveticaFont
 		});
 
-		
-		page1.drawText('test de desarrollo', {
-			rotate: degrees(90),
-			x: propertyPage.margin_top + 30,
-			y: propertyPage.margin_left,
+
+		page1.drawText('Reporte estadistico', {
+			// rotate: degrees(90),
+			x: propertyPage.margin_right - 140,
+			y: propertyPage.margin_top,
 			size: 14,
 			font: helveticaBoldFont
+		});
+		
+		page1.drawText('Fecha de creacion:', {
+			// rotate: degrees(90),
+			x: propertyPage.margin_left,
+			y: propertyPage.margin_top - 40,
+			size: 14,
+			font: helveticaFont
 		});
 
 		return await pdfDoc.save();

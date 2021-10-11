@@ -576,7 +576,7 @@ class ReportsComponent {
 
   /**  genera el reporte final de la aplicacion */
   generateReport() {
-    
+
     Promise.all([ 
       ReporteController.buscarNotasCategoria(),
       ReporteController.buscarNotasVendidasPorVendedor(),
@@ -584,7 +584,7 @@ class ReportsComponent {
       ReporteController.buscarCantidadMaximaVendida(),
       ReporteController.buscarCantidadProductosVendidosAnual()
      ])
-      .then( ( results ) => {
+      .then( async ( results ) => {
         // se procede a generar los datos de guardado
         ReporteController.generarReporte( results );
       })
