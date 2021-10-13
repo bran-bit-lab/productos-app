@@ -5,20 +5,55 @@ class ReportPDF {
 
     chartElement = null;
 
+    constructor() {
+      
+      /* se crea un plugin para colorear la salida de color negro a blanco */
+      this.plugin = {
+        id: 'white-background-plugin',
+
+        // evento que se dispa
+        beforeDraw: ( chart ) => {
+          
+          // console.log( chart );
+
+          if ( chart.config.options.chartArea && chart.config.options.chartArea.backgroundColor ) {
+            
+            const ctx = chart.ctx;
+
+            // console.log( ctx.fillStyle, chart.config.options.chartArea.backgroundColor )
+            // console.log( ctx );
+
+            ctx.fillStyle = chart.config.options.chartArea.backgroundColor;
+            ctx.fillRect( 0, 0, chart.width, chart.height );
+          }
+        }
+      };
+
+      Chart.register( this.plugin );
+    }
+
     /**
      * Transforma un string codificado en base64 a datos buffer
      * @param {string} imgBase64  imagen codificada base64 
      * @returns {Uint8Array} retorna los datos en buffer 
      */
     transformBase64toArrayBuffer( imgBase64 ) {
-        
-        const bytes = new Uint8Array( imgBase64.length );
 
-        for ( let i = 0; i < imgBase64.length; i++ ) {
-          bytes[i] = imgBase64.charCodeAt(i);
+        const BASE_64_MARKER = ';base64,';
+
+        // indexOf permite obtener la posicion del puntero cuando consigue la coincidencia
+        const base64Index = imgBase64.indexOf( BASE_64_MARKER ) + BASE_64_MARKER.length;
+        imgBase64 = imgBase64.substring( base64Index );
+
+        const raw = window.atob( imgBase64 );
+        
+        const bytes = new Uint8Array( raw.length );
+
+        for ( let i = 0; i < raw.length; i++ ) {
+          bytes[i] = raw.charCodeAt(i);
         }
 
-        return bytes.buffer;
+        return bytes;
     }
 
     createBarChart( consult, idChart ) {
@@ -48,7 +83,10 @@ class ReportPDF {
              }
            },
            responsive: true,
-           animation: false
+           animation: false,
+           chartArea: {
+            backgroundColor: 'white'
+           }
          }
         });
     
@@ -83,8 +121,11 @@ class ReportPDF {
             }]
           },
           options: {
-           responsive: true,
-           animation: false
+            responsive: true,
+            animation: false,
+            chartArea: {
+              backgroundColor: 'white'
+            }
           }
         });
     
@@ -104,6 +145,9 @@ class ReportPDF {
         const { keys, values } = consult;
     
         canvas.parentNode.style.width = 'initial';
+
+        // plugin que coloca el background en blanco
+        
     
         // se generan los colores aleatorios
         const { backgroundColor, borderColor } = this.createRandomColor( values, 0.2 );
@@ -121,7 +165,10 @@ class ReportPDF {
           },
           options: {
            responsive: true,
-           animation: false
+           animation: false,
+           chartArea: {
+             backgroundColor: 'white'
+           }
           }
         });
     

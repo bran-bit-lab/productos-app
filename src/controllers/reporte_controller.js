@@ -399,9 +399,6 @@ class ReporteController {
 					return;
 				}
 
-				consults = await ReporteController.getDataBuffer( consults );
-
-
 				// verifica la extension del archivo que sea pdf
 				if ( !response['filePath'].includes( extensions[0] ) ) {
 
@@ -414,13 +411,13 @@ class ReporteController {
 
 					return;
 				}
-
-
+			
 				// si existe el archivo lo sustituye
 				if ( FILE.checkAsset( response['filePath'], false ) ) {
 					FILE.deleteFileSync( response['filePath'] );
 				}
-
+				
+				consults = await ReporteController.getImageBuffer( consults );
 				
 				const data = await pdfController.crearReporte( consults );
 
@@ -449,14 +446,14 @@ class ReporteController {
 	}
 
 	// funcion que permite obtener la data en buffer
-	static getDataBuffer( consults ) {
+	static getImageBuffer( consults ) {
 
 		return new Promise(( resolve ) => {
 
 			/**
 			 * Para obtener los datos en buffer se necesita que todas las estadisticas
-			 * esten conectadas al DOM para obtener el string base 64 y luego devolver los datos en bruto
-			 * se crea una ventana nueva para poder generar los datos en buffer
+			 * esten conectadas al DOM para obtener el string base 64 y luego codificarlas devolver 
+			 * los datos en bruto se crea una ventana nueva para poder generar los elementos
 			 */
 	
 			const window = new BrowserWindow({

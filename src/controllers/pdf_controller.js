@@ -263,12 +263,28 @@ class PdfController {
 			margin_bottom: 50
 		});
 
+		let consulta = consultas[0];
+
+		// console.log( consulta );
+
+		const jpegImage = await pdfDoc.embedJpg( consulta.buffer );
+
+		// ajusta el tamaño de la imagen
+		const jpgDims = jpegImage.scale( 0.5 );
+
+		page1.drawImage( jpegImage,  {
+			x: ( width / 2 ) - 50,
+			y: ( height / 2 ) - 50,
+			width: jpgDims.width,
+			height: jpgDims.height
+		});
+
 		/*
 			===========================
 			pagina 1
 			===========================
 		*/
-		page1.drawText('Products-app', {
+		/*page1.drawText('Products-app', {
 			// rotate: degrees(90),
 			x: propertyPage.margin_left,
 			y: propertyPage.margin_top,
@@ -291,7 +307,7 @@ class PdfController {
 			y: propertyPage.margin_top - 40,
 			size: 14,
 			font: helveticaFont
-		});
+		});*/
 
 		return await pdfDoc.save();
 	}

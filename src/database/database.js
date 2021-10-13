@@ -147,10 +147,13 @@ class Database {
 			let data = file.readFile("/users-productos-app.ini");
 
 			let arregloConexion = JSON.parse( data );
-			let key = "root_brandon";
+			let key = "user_gabriel_ventas";
 
 			if ( !arregloConexion.hasOwnProperty( key ) ) {
-				throw { title: 'Error !!', message: 'Error al conectar en Base de Datos' };
+				throw { 
+					title: 'Error !!', 
+					message: 'Verificar si el usuario de conexión existe en el servicio de Base de Datos' 
+				};
 			}
 
 			user = arregloConexion[ key ];
@@ -179,7 +182,7 @@ class Database {
 
 			if ( error ) {
 
-				dialog.showErrorBox('Error!!', 'Usuario de acceso inválido');
+				dialog.showErrorBox('Conexion Base de Datos', 'Error al conectar, verificar si los parametros de conexión son correctos');
 
 				console.log( error );
 
