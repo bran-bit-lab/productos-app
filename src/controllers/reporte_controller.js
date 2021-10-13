@@ -1,8 +1,9 @@
-const { Notification, dialog } = require('electron');
+const { Notification, dialog, BrowserWindow, ipcMain } = require('electron');
 const CRUD = require('../database/CRUD');
 const { Database } = require('../database/database');
 const FILE = require('../util_functions/file');
 const TIME = require('../util_functions/time');
+const { ENV } = require('../env');
 const { PdfController } = require('./pdf_controller');
 
 /** clase que gestiona los reportes */
@@ -60,7 +61,13 @@ class ReporteController {
 						data.push( obj.total );
 					}
 
-					resolve({ keys: labels, values: data, results: resultados });
+					resolve({ 
+						typeChart: 'pie', 
+						keys: labels, 
+						values: data, 
+						results: resultados,
+						name_consult: 'buscarNotasCategoria'
+					});
 
 					return;
 				}
@@ -115,7 +122,13 @@ class ReporteController {
 						data.push( obj.nombre_vendedor );
 					}
 
-					resolve({ keys: data, values, results: resultados });
+					resolve({ 
+						typeChart: 'bar', 
+						keys: data, 
+						values, 
+						results: resultados,
+						name_consult: 'buscarNotasVendidasPorVendedor'
+					});
 
 					return;
 				}
@@ -165,7 +178,13 @@ class ReporteController {
 						values.push( obj.cantidad_productos );
 					}
 
-					resolve({ keys: data, values, results: resultados });
+					resolve({ 
+						typeChart: 'pie', 
+						keys: data, 
+						values,
+						results: resultados,
+						name_consult: 'buscarTotalProductosPorCategoria'
+					});
 
 					return;
 				}
@@ -219,7 +238,13 @@ class ReporteController {
 						values.push( obj.cantidad_max_vendida );
 					}
 
-					resolve({ keys: data, values, results: resultados });
+					resolve({ 
+						typeChart: 'bar', 
+						keys: data, 
+						values, 
+						results: resultados, 
+						name_consult: 'buscarCantidadMaximaVendida'
+					});
 
 					return;
 				}
@@ -267,7 +292,13 @@ class ReporteController {
 						values.push( obj.total );
 					}
 
-					resolve({ keys: data, values, results: resultados });
+					resolve({ 
+						typeChart: 'line', 
+						keys: data, 
+						values, 
+						results: resultados, 
+						name_consult: 'buscarCantidadProductosVendidosAnual'
+					});
 
 					return;
 				}
@@ -368,6 +399,9 @@ class ReporteController {
 					return;
 				}
 
+				consults = await ReporteController.getDataBuffer( consults );
+
+
 				// verifica la extension del archivo que sea pdf
 				if ( !response['filePath'].includes( extensions[0] ) ) {
 
@@ -381,11 +415,13 @@ class ReporteController {
 					return;
 				}
 
+
 				// si existe el archivo lo sustituye
 				if ( FILE.checkAsset( response['filePath'], false ) ) {
 					FILE.deleteFileSync( response['filePath'] );
 				}
 
+				
 				const data = await pdfController.crearReporte( consults );
 
 				FILE.writeFile( response['filePath'], data, ( error ) => {
@@ -411,6 +447,47 @@ class ReporteController {
 				console.log( error );
 			});
 	}
+
+	// funcion que permite obtener la data en buffer
+	static getDataBuffer( consults ) {
+
+		return new Promise(( resolve ) => {
+
+			/**
+			 * Para obtener los datos en buffer se necesita que todas las estadisticas
+			 * esten conectadas al DOM para obtener el string base 64 y luego devolver los datos en bruto
+			 * se crea una ventana nueva para poder generar los datos en buffer
+			 */
+	
+			const window = new BrowserWindow({
+				width: 800,
+				height: 600,
+				show: false,
+				webPreferences: {
+					nodeIntegration: true
+				}
+			});
+	
+			window.loadFile( FILE.formatUrl( ENV.PATH_VIEWS, 'reports/reports-pdf/reports-pdf.html' ) );
+	
+			const contents = window.webContents;
+			
+			// comunicacion sockets
+			// manda la consulta al dom oculto
+			contents.on('did-finish-load', () => {
+				contents.send( 'consults', consults );
+			});
+	
+			// recibe los datos en el buffer
+			ipcMain.on('receiveBuffer', ( $event, consults ) => {
+			
+				resolve( consults );
+				
+				// cierra la ventana oculta
+				window.close();
+			});	
+		});
+	}
 }
 
 /**
@@ -419,6 +496,8 @@ class ReporteController {
  * @property {Array<string>} keys  listado de los nombres usados en el modelo estaditico
  * @property {Array<number>} values listado de valores usados en el modelo estaditico
  * @property {Array<Object>} results listado de la consulta para generar la tabla
+ * @property {string} typeChart tipo de diagrama usado para generar los reporte
+ * @property {string} name_consult nombre de la consulta
  */
 
 module.exports = {
