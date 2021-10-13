@@ -316,7 +316,7 @@ class ReporteController {
 	 */
 	static ordenarMeses( resultados ) {
 
-		const arrayMounth = [
+		const arrayMeses = [
 			{ id: 1, name: 'enero' },
 			{ id: 2, name: 'febrero' },
 			{ id: 3, name: 'marzo' },
@@ -331,10 +331,10 @@ class ReporteController {
 			{ id: 12, name: 'diciembre' }
 		];
 
-		// transforma a instancias de arrayMounth
+		// transforma a instancias de arrayMeses
 		let order = resultados.map(( mounth ) => {
 
-			let find = arrayMounth.find(( mon ) => mon.name === mounth.mes );
+			let find = arrayMeses.find(( mon ) => mon.name === mounth.mes );
 
 			return {
 				id:  find.id,
@@ -445,7 +445,12 @@ class ReporteController {
 			});
 	}
 
-	// funcion que permite obtener la data en buffer
+	/**
+	 * Obtiene los datos de las imagenes antes de ser generados en el PDF
+	 * @param {Array<ResponseReport>} consults  listado de consultas estadisticas
+	 * @returns {Promise<Array<ResponseReport>>} Devuelve el mismo listado pero con los datos de las imagenes
+	 * cargados para el diseno PDF
+	 */
 	static getImageBuffer( consults ) {
 
 		return new Promise(( resolve ) => {
@@ -495,6 +500,8 @@ class ReporteController {
  * @property {Array<Object>} results listado de la consulta para generar la tabla
  * @property {string} typeChart tipo de diagrama usado para generar los reporte
  * @property {string} name_consult nombre de la consulta
+ * @property {Uint8Array} [buffer] datos en bruto de la imagen, este campo se usa al dibujar en el PDF
+ * @property {string} [chart] imagen base64 del diagrama
  */
 
 module.exports = {

@@ -1,17 +1,19 @@
 const { ipcRenderer } = require('electron');
 const Chart = require('chart.js');
 
+/** Clase que controla la generacion de los archivos de Imagen estadisticos */
 class ReportPDF {
 
+    /** @type {?HTMLElement} */
     chartElement = null;
 
+    /** El constructor inicializa el plugin para el fondo blando  */
     constructor() {
       
       /* se crea un plugin para colorear la salida de color negro a blanco */
       this.plugin = {
         id: 'white-background-plugin',
 
-        // evento que se dispa
         beforeDraw: ( chart ) => {
           
           // console.log( chart );
@@ -56,6 +58,12 @@ class ReportPDF {
         return bytes;
     }
 
+    /**
+     * Genera el diagrama estatico de barras
+     * @param {ResponseReport} consult objeto estadistico de consulta 
+     * @param {string} idChart identificador de elemento HTML
+     * @returns {ResponseReport}  devuelve el objeto ResponseReport con las propiedades buffer y chart base64
+     */
     createBarChart( consult, idChart ) {
     
         const canvas = document.querySelector( idChart );
@@ -100,6 +108,13 @@ class ReportPDF {
         };
     }
 
+    
+    /**
+     * Genera el diagrama estatico de lineas
+     * @param {ResponseReport} consult objeto estadistico de consulta 
+     * @param {string} idChart identificador de elemento HTML
+     * @returns {ResponseReport}  devuelve el objeto ResponseReport con las propiedades buffer y chart base64
+     */
     createLineChart( consult, idChart ) {
     
         const canvas = document.querySelector( idChart );
@@ -139,6 +154,13 @@ class ReportPDF {
         };
     }
     
+    
+    /**
+     * Genera el diagrama estatico de pie
+     * @param {ResponseReport} consult objeto estadistico de consulta 
+     * @param {string} idChart identificador de elemento HTML
+     * @returns {ResponseReport}  devuelve el objeto ResponseReport con las propiedades buffer y chart base64
+     */
     createPieChart( consult, idChart ) {
     
         const canvas = document.querySelector( idChart );
@@ -182,6 +204,12 @@ class ReportPDF {
         };
     }
     
+    /**
+     * 
+     * @param {Array<number>} values valores numericos del diagrama 
+     * @param {number} opacity opacidad del color 
+     * @returns {{ backgroundColor: Array<string>, borderColor: Array<string> }}
+     */
     createRandomColor( values,  opacity = 1 ) {
     
         // return { backgroundColor: string[], borderColor: string[] }

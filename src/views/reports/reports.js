@@ -362,7 +362,7 @@ class ReportsComponent {
       data: {
        labels: keys,
        datasets: [{
-           label: 'cantidad',
+           label: 'Cantidad',
            data: values,
            backgroundColor,
            borderColor,
@@ -584,7 +584,7 @@ class ReportsComponent {
       ReporteController.buscarCantidadMaximaVendida(),
       ReporteController.buscarCantidadProductosVendidosAnual()
      ])
-      .then( async ( results ) => {
+      .then(( results ) => {
         // se procede a generar los datos de guardado
         ReporteController.generarReporte( results );
       })
