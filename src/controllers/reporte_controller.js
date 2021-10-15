@@ -448,7 +448,7 @@ class ReporteController {
 	/**
 	 * Obtiene los datos de las imagenes antes de ser generados en el PDF
 	 * @param {Array<ResponseReport>} consults  listado de consultas estadisticas
-	 * @returns {Promise<Array<ResponseReport>>} Devuelve el mismo listado pero con los datos de las imagenes
+	 * @returns {Promise<Array<ResponseReport>>} Devuelve el mismo listado pero con los datos en buffer de las imagenes
 	 * cargados para el diseno PDF
 	 */
 	static getImageBuffer( consults ) {
@@ -457,14 +457,17 @@ class ReporteController {
 
 			/**
 			 * Para obtener los datos en buffer se necesita que todas las estadisticas
-			 * esten conectadas al DOM para obtener el string base 64 y luego codificarlas devolver 
-			 * los datos en bruto se crea una ventana nueva para poder generar los elementos
+			 * esten conectadas al DOM para ello se crea una ventana modal nueva para poder generar los elementos 
+			 * y registrar las imagenes en el buffer.
 			 */
 	
+			const currentWindow = BrowserWindow.getFocusedWindow();
+
 			const window = new BrowserWindow({
-				width: 800,
-				height: 600,
+				width: 400,
+				height: 300,
 				show: false,
+				parent: currentWindow,
 				webPreferences: {
 					nodeIntegration: true
 				}
