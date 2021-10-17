@@ -487,6 +487,8 @@ class ReporteController {
 			ipcMain.on('receiveBuffer', ( $event, consults ) => {
 			
 				resolve( consults );
+
+				// console.log( consults );
 				
 				// cierra la ventana oculta
 				window.close();

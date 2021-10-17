@@ -243,27 +243,108 @@ class PdfController {
 	 * @param {Array<ResponseReport>} consultas  arreglo de consultas
 	 */
 	async crearReporte( consultas ) {
+		
+		const [ 
+			consultaBuscarNotasCategoria,  
+			buscarNotasVendidasPorVendedor,
+			buscarTotalProductosPorCategoria,
+			buscarCantidadMaximaVendida,
+			buscarCantidadProductosVendidosAnual
+		] = consultas;
 
 		const pdfDoc = await PDFDocument.create();
 		const helveticaFont = await pdfDoc.embedFont( StandardFonts.Helvetica );
 		const helveticaBoldFont =  await pdfDoc.embedFont( StandardFonts.HelveticaBold );
 		const page1 = pdfDoc.addPage();
+		page1.setRotation(degrees(-90));
 		const fontSize = 20;
 
 		// rotacion horizontal de la pagina (landscape)
 		// page1.setRotation( degrees(90) );
 
 		const { width, height } = page1.getSize();
-		
-		// puntos de coordenadas
+		// puntos de coordenadas en -90, el cero en la esquina inferior derecha
 		const propertyPage = Object.freeze({
-			margin_left: 50,
-			margin_right: width - 50,
-			margin_top: height - 50,
-			margin_bottom: 50
+			margin_left: height - 80,
+			margin_right: 80,
+			margin_top: width - 80,
+			margin_bottom: 80
 		});
 
-		let consulta = consultas[0];
+		console.log( { width, height } );
+
+		page1.drawText('Products-app', {
+			rotate: degrees(-90),
+			x: propertyPage.margin_top,
+			y: propertyPage.margin_left,
+			size: 24,
+			font: helveticaFont
+		});
+
+		page1.drawText('Reporte estadistico', {
+			rotate: degrees(-90),
+			x: propertyPage.margin_top,
+			y: propertyPage.margin_right + 100,
+			size: 14,
+			font: helveticaBoldFont
+		});
+		
+		page1.drawText('Fecha de creación: ' + TIME.dateSpanish(), {
+			rotate: degrees(-90),
+			x: propertyPage.margin_top - 40,
+			y: propertyPage.margin_left,
+			size: 14,
+			font: helveticaFont
+		});
+  
+		page1.drawText('Notas de entregas', {
+			rotate: degrees(-90),
+			x: propertyPage.margin_top - 70,
+			y: propertyPage.margin_left,
+			size: 14,
+			font: helveticaBoldFont
+		});
+
+
+		if ( consultaBuscarNotasCategoria.results.length > 0 ){
+
+
+			page1.drawText('Cantidad de notas de entrega por categoría (general):', {
+				rotate: degrees(-90),
+				x: propertyPage.margin_top - 100,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			let posicion = propertyPage.margin_top - 90 ;
+			let arrayHeader = ['Estado:', 'Cantidad:',];
+
+			let posicionCell = ( height / ( arrayHeader.length * 2 ) );
+
+			arrayHeader.forEach(( title ) => {
+
+				page1.drawText( title, {
+					rotate: degrees(-90),
+					x: posicion,
+				  	y: posicionCell,
+				  	size: 12,
+				  	font: helveticaBoldFont,
+				  	color: rgb( 0, 0, 0 ),
+				});
+
+				posicionCell = posicionCell + ( height / 5 );
+			});
+
+		}
+			
+				
+		/*let consultaBuscarNotasCategoria = consultas[0];
+		let buscarNotasVendidasPorVendedor = consulta[1];
+		let buscarTotalProductosPorCategoria = consulta[2];
+		let buscarCantidadMaximaVendida = consulta[3];
+		let buscarCantidadProductosVendidosAnual = consulta[4];*/
+		/*
 
 		// console.log( consulta );
 
@@ -276,39 +357,17 @@ class PdfController {
 			x: ( width / 2 ) - 50,
 			y: ( height / 2 ) - 50,
 			width: jpgDims.width,
-			height: jpgDims.height
+			height: jpgDims.height,
+			rotate: degrees (90)
 		});
-
+		*/
 		/*
 			===========================
 			pagina 1
 			===========================
 		*/
-		/*page1.drawText('Products-app', {
-			// rotate: degrees(90),
-			x: propertyPage.margin_left,
-			y: propertyPage.margin_top,
-			size: fontSize,
-			font: helveticaFont
-		});
 
-
-		page1.drawText('Reporte estadistico', {
-			// rotate: degrees(90),
-			x: propertyPage.margin_right - 140,
-			y: propertyPage.margin_top,
-			size: 14,
-			font: helveticaBoldFont
-		});
 		
-		page1.drawText('Fecha de creacion:', {
-			// rotate: degrees(90),
-			x: propertyPage.margin_left,
-			y: propertyPage.margin_top - 40,
-			size: 14,
-			font: helveticaFont
-		});*/
-
 		return await pdfDoc.save();
 	}
 }

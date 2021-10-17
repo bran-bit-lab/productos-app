@@ -104,7 +104,7 @@ class ReportPDF {
         return {
           ...consult,
           buffer: this.transformBase64toArrayBuffer( imgBase64 ), 
-          chart:  imgBase64  
+          // chart:  imgBase64  
         };
     }
 
@@ -150,7 +150,7 @@ class ReportPDF {
         return {
           ...consult,
           buffer: this.transformBase64toArrayBuffer( imgBase64 ), 
-          chart:  imgBase64  
+          // chart:  imgBase64  
         };
     }
     
@@ -200,7 +200,7 @@ class ReportPDF {
         return {
           ...consult,
           buffer: this.transformBase64toArrayBuffer( imgBase64 ), 
-          chart:  imgBase64  
+          // chart:  imgBase64  
         };
     }
     
