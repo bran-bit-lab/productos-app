@@ -256,25 +256,30 @@ class PdfController {
 		const helveticaFont = await pdfDoc.embedFont( StandardFonts.Helvetica );
 		const helveticaBoldFont =  await pdfDoc.embedFont( StandardFonts.HelveticaBold );
 		const page1 = pdfDoc.addPage();
-		page1.setRotation(degrees(-90));
+		
 		const fontSize = 20;
 
 		// rotacion horizontal de la pagina (landscape)
-		// page1.setRotation( degrees(90) );
+		page1.setRotation( degrees( -90 ) );
 
 		const { width, height } = page1.getSize();
+		
 		// puntos de coordenadas en -90, el cero en la esquina inferior derecha
 		const propertyPage = Object.freeze({
-			margin_left: height - 80,
-			margin_right: 80,
-			margin_top: width - 80,
-			margin_bottom: 80
+			margin_left: height - 60,
+			margin_right: 60,
+			margin_top: width - 60,
+			margin_bottom: 60
 		});
+
+		const props = {
+			rotate: degrees( -90 )
+		};
 
 		console.log( { width, height } );
 
 		page1.drawText('Products-app', {
-			rotate: degrees(-90),
+			...props,
 			x: propertyPage.margin_top,
 			y: propertyPage.margin_left,
 			size: 24,
@@ -282,15 +287,15 @@ class PdfController {
 		});
 
 		page1.drawText('Reporte estadistico', {
-			rotate: degrees(-90),
+			...props,
 			x: propertyPage.margin_top,
-			y: propertyPage.margin_right + 100,
+			y: propertyPage.margin_right + 140,
 			size: 14,
 			font: helveticaBoldFont
 		});
 		
 		page1.drawText('Fecha de creación: ' + TIME.dateSpanish(), {
-			rotate: degrees(-90),
+			...props,
 			x: propertyPage.margin_top - 40,
 			y: propertyPage.margin_left,
 			size: 14,
@@ -298,7 +303,7 @@ class PdfController {
 		});
   
 		page1.drawText('Notas de entregas', {
-			rotate: degrees(-90),
+			...props,
 			x: propertyPage.margin_top - 70,
 			y: propertyPage.margin_left,
 			size: 14,
@@ -308,34 +313,103 @@ class PdfController {
 
 		if ( consultaBuscarNotasCategoria.results.length > 0 ){
 
+			const jpegImage = await pdfDoc.embedJpg( consultaBuscarNotasCategoria.buffer );
+			
+			// ajusta el tamaño de la imagen
+			const jpgDims = jpegImage.scale( 0.5 );
+
+
+			let posicion = propertyPage.margin_top - 140 ;
+			let arrayHeader = ['Estado:', 'Cantidad:'].reverse();			
+
+			// dividimos a la mitad el grid (50%)
+			let rightGrid = propertyPage.margin_left / 2;
+
 
 			page1.drawText('Cantidad de notas de entrega por categoría (general):', {
-				rotate: degrees(-90),
+				...props,
 				x: propertyPage.margin_top - 100,
 				y: propertyPage.margin_left,
 				size: 14,
 				font: helveticaBoldFont
 			});
 
-			let posicion = propertyPage.margin_top - 90 ;
-			let arrayHeader = ['Estado:', 'Cantidad:',];
 
-			let posicionCell = ( height / ( arrayHeader.length * 2 ) );
+			// le sumamos la mitad derecha para obtener el lado izquierdo
+			let leftGrid = ( propertyPage.margin_left / 2 ) + rightGrid; 
+			
+			let posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
 
+			console.log({ rightGrid, leftGrid, posicionCell });
+
+			// ===============================
+			// Grid
+			// ===============================
+
+			// image
+			page1.drawImage( jpegImage, {
+				x: posicion - 150,
+				y: ( rightGrid / 2 ) + 100,
+				width: jpgDims.width,
+				height: jpgDims.height,
+				rotate: degrees ( -90 )
+			});
+
+			// table
 			arrayHeader.forEach(( title ) => {
 
 				page1.drawText( title, {
-					rotate: degrees(-90),
+					...props,
 					x: posicion,
-				  	y: posicionCell,
+				  	y: posicionCell - 15,
 				  	size: 12,
 				  	font: helveticaBoldFont,
-				  	color: rgb( 0, 0, 0 ),
 				});
 
-				posicionCell = posicionCell + ( height / 5 );
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
 			});
 
+			// se decrementa la posicion x
+			posicion -= 10;
+
+			page1.drawLine({ 
+				start: { x: posicion, y: leftGrid },
+				end: { x: posicion, y: ( leftGrid - rightGrid ) },
+				opacity: 0.8
+			});
+
+			posicion -= 20;
+
+			// console.log( consultaBuscarNotasCategoria.results );
+			
+			posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			consultaBuscarNotasCategoria.results.forEach(( status ) => {
+
+				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+				page1.drawText( status.total.toString(), {
+					...props,
+					x: posicion,
+					y: posicionCell - 15,
+					size: 12,
+					font: helveticaFont,
+				});
+				
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+				
+				page1.drawText( status.status, {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+
+				posicion -= 20;
+			});
 		}
 			
 				
@@ -353,13 +427,7 @@ class PdfController {
 		// ajusta el tamaño de la imagen
 		const jpgDims = jpegImage.scale( 0.5 );
 
-		page1.drawImage( jpegImage,  {
-			x: ( width / 2 ) - 50,
-			y: ( height / 2 ) - 50,
-			width: jpgDims.width,
-			height: jpgDims.height,
-			rotate: degrees (90)
-		});
+		page1.drawImage( jpegImage,  );
 		*/
 		/*
 			===========================
