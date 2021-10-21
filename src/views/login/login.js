@@ -49,6 +49,7 @@ class LoginComponent {
 			email: 'correo inválido',
 			min: ( min ) => 'minimo ' + min + ' caracteres',
 			max: ( max ) => 'máximo ' + max + ' caracteres',
+			patternPass: 'Patron de contrasena invalida'
 		});
 
 		const emailExp = new RegExp( /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/ );
@@ -83,6 +84,8 @@ class LoginComponent {
 		// password validaciones
 		// ===========================================
 
+		
+
 		if ( password.trim().length === 0 ) {
 			this.renderErrors( errorPassword, ERROR_MESSAGES.required );
 			errors = errors + 1;
@@ -92,6 +95,7 @@ class LoginComponent {
 			this.renderErrors( errorPassword,  ERROR_MESSAGES.max( 30 ) );
 			errors = errors + 1;
 		}
+		
 
 		// =============================================
 		// comprobacion final

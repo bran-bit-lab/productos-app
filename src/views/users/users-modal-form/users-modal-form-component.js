@@ -116,15 +116,19 @@ function validateForm( data, callback ) {
 		min: ( min ) => 'minimo ' + min + ' caracteres',
 		max: ( max ) => 'máximo ' + max + ' caracteres',
 		pattern: 'Patrón de datos inválido',
-		notMatch: 'La contraseña no coincide'
+		notMatch: 'La contraseña no coincide',
+		patternPass: 'La contrasena debe incluir mayuscula, minusculas y numeros'
 	});
 
 	const PATTERNS = Object.freeze({
 		email: new RegExp( /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/ ),
 		onlyLetters: new RegExp( /^[a-zA-Z\s]+$/ ),
-		area: new RegExp( /^Ventas|Almacen|Administracion$/ )
+		area: new RegExp( /^Ventas|Almacen|Administracion$/ ),
+		password:  new RegExp( /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/ )
 	});
 
+
+	
 	// contador de errores
 	let errors = 0;
 
@@ -220,6 +224,11 @@ function validateForm( data, callback ) {
 		// ===================================================
 		// contraseña validaciones
 		// ===================================================
+
+		/*if ( !PATTERNS.password.test( password.trim() ) ) {
+			renderErrors( passwordErrorsNode, ERROR_MESSAGES.patternPass );
+			errors++;
+		}*/
 
 		if ( password.length === 0 ) {
 			errors = errors + 1;
