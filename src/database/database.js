@@ -4,7 +4,7 @@ const file = require('../util_functions/file');
 
 /**
 * API de mysql
-*@type {*}
+*@type {mysql.Connection|null}
 */
 let mysqlAPI = null;
 
