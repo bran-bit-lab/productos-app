@@ -46,6 +46,8 @@ class ReporteController {
 
 					console.log( error );
 
+					reject( error );
+
 					return;
 				}
 
@@ -276,6 +278,8 @@ class ReporteController {
 					notificacion.show();
 
 					console.log( error );
+
+					reject( error );
 
 					return;
 				}
