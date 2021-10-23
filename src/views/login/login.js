@@ -1,15 +1,15 @@
 // remote actua como un objeto de conexion con el proceso principal
-require('@fortawesome/fontawesome-free/js/all');
 
 const { remote } = require('electron');
 const { UsersController } = remote.require('./controllers/users_controller');
 
 /** clase que authentica al usuario */
-class LoginComponent {
+class LoginView {
 
 	constructor() {
 		this.validateForm = this.validateForm.bind( this );
 		this.handleSubmit = this.handleSubmit.bind( this );
+		this.loadingComponent = document.querySelector('loading-component');
 	}
 
 
@@ -159,26 +159,26 @@ class LoginComponent {
 	handleSubmit( $event ) {
 
 		$event.preventDefault();
-
+		
 		this.resetLoginForm();
-
+		
 		const formData = new FormData( form );
-
+		
 		let data = {
 			correo: formData.get('correo').toLowerCase(),
 			password: formData.get('password')
 		};
-
-
+		
 		this.validateForm( data, ( error ) => {
-
-		 	if ( error ) {
+			
+			if ( error ) {
+					
 				return document.querySelector('#correo-login').focus();
-		 	}
-
-		 	this.loading();
-
-		 	setTimeout( () => this.login( data ), 2000 );
+			}
+			
+			this.loadingComponent._show = 'true';
+		 	
+			setTimeout( () => this.login( data ), 2000 );
 		});
 	}
 
@@ -206,7 +206,7 @@ class LoginComponent {
 
 	 	} finally {
 
-	 		this.hideLoading();
+	 		this.loadingComponent._show = 'false';
 	 	}
 	}
 }
@@ -215,6 +215,6 @@ const form = document.forms['login-form'];
 const errorCorreo = form.querySelector('#error-correo');
 const errorPassword = form.querySelector('#error-password');
 
-const loginComponent = new LoginComponent();
+const loginComponent = new LoginView();
 
 form.addEventListener('submit', loginComponent.handleSubmit );

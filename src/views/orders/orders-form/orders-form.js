@@ -18,6 +18,8 @@ class OrdersForm {
     this.footer = document.querySelector('footer');
     this.noteForm = document.forms['note-form'];
 
+    this.loadingComponent = document.querySelector('loading-component');  
+
     /** @type {?number} */
     this.deliveryId = null;
 
@@ -54,7 +56,7 @@ class OrdersForm {
     });
   }
 
-
+ 
   /**
    * establece el html del sitio y sus eventos
    * @param  {callback} callback devolucion de llamada cuando el html se cargue al sitio
@@ -115,13 +117,15 @@ class OrdersForm {
 
     if ( match ) { // edit
 
+      this.loadingComponent._show = 'true';
+
       this.deliveryId = match['groups'].idDelivery;
 
       document.querySelector('#title').innerText = 'Editar entrega ' + this.deliveryId;
       document.querySelector('.select-state').style.display = '';
 
       // se consulta a la base de datos
-      this.getDeliveryNote( this.deliveryId );
+      setTimeout(() => this.getDeliveryNote( this.deliveryId ), 500 );
 
     } else { // new
 
@@ -162,6 +166,8 @@ class OrdersForm {
 
    this.setClientsTable();
    this.setProductsTable();
+   
+   this.loadingComponent._show = 'false';
   }
 
   /** Funcion que activa la seleccion de productos */
@@ -314,31 +320,40 @@ class OrdersForm {
 
     try {
 
-      this.submitButton.style.display = 'none';
-      this.loadButton.style.display = '';
+      // redimensiona el loading al tamano de la ventana actual
+      this.loadingComponent.setSizeLoading( this.productsSelected.length > 1 );
+      this.loadingComponent._show = 'true';
 
       if ( this.deliveryId ) {
+        
 
         setTimeout(() => {
+          
           NotasController.actualizarNota({ ...data, id_nota:  Number.parseInt( this.deliveryId ) });
+
+          this.loadingComponent._show = 'false';
+
           redirectTo('../orders.html');
-        }, 4000 );
+        }, 3000 );
 
       } else { // new
 
         // genera un loading de 3 segundos mientra registra la nota + productos
-
         setTimeout(() => {
 
           NotasController.crearNota( data );
+
+          this.loadingComponent._show = 'false';
+
           redirectTo('../orders.html');
         }, 3000 );
-
       }
 
     } catch ( error ) {
-      console.log( error );
 
+      this.loadingComponent._show = 'false';
+
+      console.log( error );
     }
   }
 

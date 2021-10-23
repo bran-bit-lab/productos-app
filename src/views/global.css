@@ -57,3 +57,19 @@ body {
 .pagination a {
 	cursor: pointer;
 }
+
+.loading {
+	position: absolute;
+	z-index: 1;
+	height: 100vh;
+	width: 100vw;
+}
+
+.loading .back {
+	background-color: black;
+	opacity: 0.2;
+}
+
+.loading .cont i {
+	color: white !important;
+}

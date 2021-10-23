@@ -21,6 +21,7 @@ class HomeComponent {
 		// inicializa los tooltips
 		this.tooltips = Array.from( document.querySelectorAll('[data-bs-toggle="tooltip"]') );
 		this.tooltips = this.tooltips.map(( element ) => new Tooltip( element ) );
+		this.loadingComponent = document.querySelector('loading-component');
 
 		this.initCards();
 	}
@@ -65,6 +66,8 @@ class HomeComponent {
 			hideElement( document.querySelector('#users') );
 			hideElement( document.querySelector('#estadistics') );
 		}
+
+		// this.loadingComponent._show = 'false';
 	}
 
 
@@ -81,6 +84,8 @@ class HomeComponent {
 
 	/** inicializa las tarjetas principales con los valores totales de cada seccion */
 	initCards() {
+
+		// this.loadingComponent._show = 'true';
 
 		Promise.all([
 			// total usuarios y clientes
