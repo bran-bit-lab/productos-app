@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="./reports.css" />
     <!-- Mitigacion de cross site scripting -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <script src="../components/loading-component.js"></script>
     <title>Products app</title>
   </head>
   <body>
+    <loading-component class="loading" show="false"></loading-component> 
     <form name="form-estadistics">
       <main class="container p-3 h-100">
         <div class="d-flex flex-row justify-content-between border-bottom">

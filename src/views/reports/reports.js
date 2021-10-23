@@ -9,7 +9,7 @@ class ReportsComponent {
 
     // element html
     this.form = document.forms['form-estadistics'];
-
+    this.loadingComponent = document.querySelector('loading-component');
     this.productQuestions = this.form.querySelector('#product-questions');
     this.deliveryQuestions = this.form.querySelector('#delivery-questions');
     this.period = this.form.querySelector('#from-until');
@@ -577,6 +577,8 @@ class ReportsComponent {
   /**  genera el reporte final de la aplicacion */
   generateReport() {
 
+    this.loadingComponent._show = 'true';
+
     Promise.all([ 
       ReporteController.buscarNotasCategoria(),
       ReporteController.buscarNotasVendidasPorVendedor(),
@@ -584,12 +586,27 @@ class ReportsComponent {
       ReporteController.buscarCantidadMaximaVendida(),
       ReporteController.buscarCantidadProductosVendidosAnual()
      ])
-      .then(( results ) => {
+      .then( async ( results ) => {
+        
         // se procede a generar los datos de guardado
-        ReporteController.generarReporte( results );
+        try {
+          
+          await ReporteController.generarReporte( results );
+
+          this.loadingComponent._show = 'false';
+        
+        } catch ( error ) {
+
+          console.log( error );
+
+          throw error;
+        }
       })
       .catch( error =>  {
+
         console.log( error );
+
+        this.loadingComponent._show = 'false';
       });  
   }
 }

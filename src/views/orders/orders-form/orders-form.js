@@ -318,20 +318,16 @@ class OrdersForm {
    */
   sendData( data ) {
 
+    hideElement( this.submitButton );
+    showElement( this.loadButton );
+    
     try {
-
-      // redimensiona el loading al tamano de la ventana actual
-      this.loadingComponent.setSizeLoading( this.productsSelected.length > 1 );
-      this.loadingComponent._show = 'true';
 
       if ( this.deliveryId ) {
         
-
         setTimeout(() => {
           
           NotasController.actualizarNota({ ...data, id_nota:  Number.parseInt( this.deliveryId ) });
-
-          this.loadingComponent._show = 'false';
 
           redirectTo('../orders.html');
         }, 3000 );
@@ -343,15 +339,14 @@ class OrdersForm {
 
           NotasController.crearNota( data );
 
-          this.loadingComponent._show = 'false';
-
           redirectTo('../orders.html');
         }, 3000 );
       }
 
     } catch ( error ) {
 
-      this.loadingComponent._show = 'false';
+      hideElement( this.loadButton );
+      showElement( this.submitButton );
 
       console.log( error );
     }

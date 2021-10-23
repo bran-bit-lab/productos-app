@@ -370,83 +370,97 @@ class ReporteController {
 	/**
 	 * Funcion que genera el reporte estadistico
 	 * @param {Array<ResponseReport>} consults consultas generadas
+	 * @returns {Promise<void>} retorna una promesa que indica que finalizo el reporte
 	 */
 	static generarReporte( consults ) {
 
-		const pdfController = new PdfController(); // creas un objeto PDF controller
-		// genera la fecha del reporte
-		let date = TIME.dateSpanish();
+		return new Promise(( resolve, reject ) => {
 
-		const options = {
-			title : 'Guardar Archivo',
-			buttonLabel : 'Guardar' ,
-			filters : [{ name: 'pdf', extensions: ['pdf'] }],
-			defaultPath: FILE.getHomePath('reporte_' + date )
-		};
-
-		const notification = new Notification({
-			title: 'Éxito',
-			body: 'Documento generado con éxito'
-		});
-
-		dialog.showSaveDialog( null, options )
-			.then( async ( response ) => {
-				
-				/*	Documentación
-				*  response == { canceled: boolean,  filePath: string }
-				*  extensions = 'extensiones permitidas'
-				*/
-
-				const extensions = ['.pdf'];
-
-				if ( response['canceled'] ) {
-					return;
-				}
-
-				// verifica la extension del archivo que sea pdf
-				if ( !response['filePath'].includes( extensions[0] ) ) {
-
-					notification['title'] = 'Error !!';
-					notification['body'] = 'Extension del archivo no valida';
-
-					notification.show();
-
-					// console.log( response['filePath'] );
-
-					return;
-				}
+			const pdfController = new PdfController(); // creas un objeto PDF controller
 			
-				// si existe el archivo lo sustituye
-				if ( FILE.checkAsset( response['filePath'], false ) ) {
-					FILE.deleteFileSync( response['filePath'] );
-				}
-				
-				consults = await ReporteController.getImageBuffer( consults );
-				
-				const data = await pdfController.crearReporte( consults );
+			// genera la fecha del reporte
+			let date = TIME.dateSpanish();
 
-				FILE.writeFile( response['filePath'], data, ( error ) => {
+			const options = {
+				title : 'Guardar Archivo',
+				buttonLabel : 'Guardar' ,
+				filters : [{ name: 'pdf', extensions: ['pdf'] }],
+				defaultPath: FILE.getHomePath('reporte_' + date )
+			};
 
-					if ( error ) {
+			const notification = new Notification({
+				title: 'Éxito',
+				body: 'Documento generado con éxito'
+			});
 
-						console.log( error );
+			dialog.showSaveDialog( null, options )
+				.then( async ( response ) => {
+					
+					/*	Documentación
+					*  response == { canceled: boolean,  filePath: string }
+					*  extensions = 'extensiones permitidas'
+					*/
 
-						notification['title'] = 'Error!!';
-						notification['body'] = 'Error al guardar archivo';
+					const extensions = ['.pdf'];
 
-						notificacion.show();
+					if ( response['canceled'] ) {
 
-						// throw error;
+						reject({ error: 'cancelled' });
 
 						return;
 					}
 
-					notification.show();
+					// verifica la extension del archivo que sea pdf
+					if ( !response['filePath'].includes( extensions[0] ) ) {
+
+						notification['title'] = 'Error !!';
+						notification['body'] = 'Extension del archivo no valida';
+
+						notification.show();
+
+						// console.log( response['filePath'] );
+
+						reject({ error: 'extension not valid' });
+
+						return;
+					}
+				
+					// si existe el archivo lo sustituye
+					if ( FILE.checkAsset( response['filePath'], false ) ) {
+						FILE.deleteFileSync( response['filePath'] );
+					}
+					
+					consults = await ReporteController.getImageBuffer( consults );
+					
+					const data = await pdfController.crearReporte( consults );
+
+					FILE.writeFile( response['filePath'], data, ( error ) => {
+
+						if ( error ) {
+
+							console.log( error );
+
+							notification['title'] = 'Error!!';
+							notification['body'] = 'Error al guardar archivo';
+
+							notificacion.show();
+
+							// throw error;
+
+							reject({ error });
+
+							return;
+						}
+
+						notification.show();
+
+						resolve();
+					});
+				})
+				.catch(( error ) => {
+					console.log( error );
 				});
-			})
-			.catch(( error ) => {
-				console.log( error );
-			});
+		});
 	}
 
 	/**
