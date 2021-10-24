@@ -271,6 +271,6 @@ ipcRenderer.on('consults', ( $event, consults ) => {
                 return consult;
         }
     });
-    
+ 
     ipcRenderer.send('receiveBuffer', consults );
 });

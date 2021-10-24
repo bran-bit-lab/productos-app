@@ -1,4 +1,4 @@
-const { PDFDocument, StandardFonts, rgb, degrees } = require('pdf-lib');
+const { PDFDocument, StandardFonts, rgb, degrees, PDFPage } = require('pdf-lib');
 const TIME = require('../util_functions/time');
 
 /** clase que permite generar los documentos de salida */
@@ -256,10 +256,49 @@ class PdfController {
 		const pdfDoc = await PDFDocument.create();
 		const helveticaFont = await pdfDoc.embedFont( StandardFonts.Helvetica );
 		const helveticaBoldFont =  await pdfDoc.embedFont( StandardFonts.HelveticaBold );
-		const page1 = pdfDoc.addPage();
 		
-		const fontSize = 20;
+		const page1 = pdfDoc.addPage();
+		const page2 = pdfDoc.addPage();
+		const page3 = pdfDoc.addPage();
 
+		/**
+		 * Establece el encabezado de la pagina PDF
+		 * @param {PDFPage} page instancia de la pagina actual pasado por parametro
+		 */
+		const setHeader = ( page ) => {
+
+			page.drawText('Products-app', {
+				...props,
+				x: propertyPage.margin_top,
+				y: propertyPage.margin_left,
+				size: 24,
+				font: helveticaFont
+			});
+
+			page.drawText('Reporte estadistico', {
+				...props,
+				x: propertyPage.margin_top,
+				y: propertyPage.margin_right + 140,
+				size: 14,
+				font: helveticaBoldFont
+			});
+		}
+
+		/**
+		 * establece el numero de pagina en el documento
+		 * @param {number} index  numero de pagina
+		 * @param {PDFPage} page pagina actual
+		 */
+		const setPagination = ( index, page ) => {
+			page.drawText('Pagina ' + index + ' de ' + pdfDoc.getPageCount(), {
+				...props,
+				x: propertyPage.margin_bottom,
+				y: propertyPage.margin_right + 60,
+				size: 11,
+				font: helveticaFont,
+			});
+		}
+		
 		// rotacion horizontal de la pagina (landscape)
 		page1.setRotation( degrees( -90 ) );
 
@@ -279,21 +318,8 @@ class PdfController {
 
 		console.log( { width, height } );
 
-		page1.drawText('Products-app', {
-			...props,
-			x: propertyPage.margin_top,
-			y: propertyPage.margin_left,
-			size: 24,
-			font: helveticaFont
-		});
-
-		page1.drawText('Reporte estadistico', {
-			...props,
-			x: propertyPage.margin_top,
-			y: propertyPage.margin_right + 140,
-			size: 14,
-			font: helveticaBoldFont
-		});
+		// establece el encabezado
+		setHeader( page1 );
 		
 		page1.drawText('Fecha de creación: ' + TIME.dateSpanish(), {
 			...props,
@@ -303,7 +329,7 @@ class PdfController {
 			font: helveticaFont
 		});
   
-		page1.drawText('Notas de entregas', {
+		page1.drawText('Notas de entregas:', {
 			...props,
 			x: propertyPage.margin_top - 70,
 			y: propertyPage.margin_left,
@@ -312,12 +338,12 @@ class PdfController {
 		});
 
 
-		if ( consultaBuscarNotasCategoria.results.length > 0 ){
+		if ( consultaBuscarNotasCategoria.results.length > 0 ) {
 
-			const jpegImage = await pdfDoc.embedJpg( consultaBuscarNotasCategoria.chart );
+			const jpegImage1 = await pdfDoc.embedJpg( consultaBuscarNotasCategoria.buffer );
 			
 			// ajusta el tamaño de la imagen
-			const jpgDims = jpegImage.scale( 0.4 );
+			const jpgDims = jpegImage1.scale( 0.4 );
 
 
 			let posicion = propertyPage.margin_top - 140 ;
@@ -346,11 +372,10 @@ class PdfController {
 			// ===============================
 			// Grid
 			// ===============================
-			//console.log({ jpegImage })
 
 			// image
-			page1.drawImage( jpegImage, {
-				x: posicion - 150,
+			page1.drawImage( jpegImage1, {
+				x: posicion - 140,
 				y: ( rightGrid / 2 ) + 100,
 				width: jpgDims.width,
 				height: jpgDims.height,
@@ -413,13 +438,34 @@ class PdfController {
 				posicion -= 20;
 			});
 
+		} else {
+
+			// en caso de que la consulta este vacia
+
+			page1.drawText('Cantidad de notas de entrega por categoría (general):', {
+				...props,
+				x: propertyPage.margin_top - 100,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			page1.drawText('No existen los datos seleccionados', {
+				...props,
+				x: propertyPage.margin_top - 130,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaFont,
+				color: rgb( 0.8, 0.12, 0.12 )
+			});
+
 		}
 
-		if (buscarNotasVendidasPorVendedor.results.length > 0) {
+		if ( buscarNotasVendidasPorVendedor.results.length > 0 ) {
 
-			const jpegImage = await pdfDoc.embedJpg( buscarNotasVendidasPorVendedor.chart );
+			const jpegImage2 = await pdfDoc.embedJpg( buscarNotasVendidasPorVendedor.buffer );
 						
-			const jpgDims = jpegImage.scale( 0.4 );
+			const jpgDims = jpegImage2.scale( 0.5 );
 
 			let posicion = propertyPage.margin_top - 330;
 
@@ -441,17 +487,15 @@ class PdfController {
 			
 			let posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
 
-			//console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
-			// console.log(buscarNotasVendidasPorVendedor);
-/*
-			page1.drawImage( jpegImage, {
-				x: posicion - 400,
-				y: ( rightGrid / 2 ) + 100,
+			// console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
+		
+			page1.drawImage( jpegImage2, {
+				x: posicion - 100,
+				y: ( rightGrid / 2 ) + 120,
 				width: jpgDims.width,
 				height: jpgDims.height,
 				rotate: degrees ( -90 )
 			});
-*/
 
 			arrayHeader.forEach(( title ) => {
 
@@ -482,8 +526,7 @@ class PdfController {
 			buscarNotasVendidasPorVendedor.results.forEach(( consult ) => {
 
 				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
-				//console.log( consult );
-
+		
 				// cambia las propiedades a las que estan dentro de consult examinalas y cambialas
 				page1.drawText( consult.cantidad_notas.toString(), {
 					...props,
@@ -505,43 +548,72 @@ class PdfController {
 				
 				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
 				
-
 				posicion -= 20;
 			});
 
+		} else {
+
+			// en caso de que la consulta este vacia
+
+			page1.drawText('Cantidad de notas de entrega por vendedor (general):', {
+				...props,
+				x: propertyPage.margin_top - 300,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			page1.drawText('No existen los datos seleccionados', {
+				...props,
+				x: propertyPage.margin_top - 350,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaFont,
+				color: rgb( 0.8, 0.12, 0.12 )
+			});
 		}
-		
 
-		/** pagina 2 */
-		const page2 =	pdfDoc.addPage();
+		setPagination( ( pdfDoc.getPageIndices()[0] + 1 ), page1 );
+
+		// ==============================
+		// pagina 2
+		// ==============================
+		
 		page2.setRotation( degrees( -90 ) );
+
+		page2.drawText('Products-app', {
+			...props,
+			x: propertyPage.margin_top,
+			y: propertyPage.margin_left,
+			size: 24,
+			font: helveticaFont
+		});
+
+		// establece el encabezado
+		setHeader( page2 );
+
+		setPagination( ( pdfDoc.getPageIndices()[1] + 1 ), page2 );
+
+		page2.drawText('Productos:', {
+			...props,
+			x: propertyPage.margin_top - 40,
+			y: propertyPage.margin_left,
+			size: 14,
+			font: helveticaBoldFont
+		});
+
 		
-		// continuas el resto 2 estaditica po page
-		// el unico que tiene uno es la de los meses 
-		// porque son 12
-				
-		/*let consultaBuscarNotasCategoria = consultas[0];
-		let buscarNotasVendidasPorVendedor = consulta[1];
-		let buscarTotalProductosPorCategoria = consulta[2];
-		let buscarCantidadMaximaVendida = consulta[3];
-		let buscarCantidadProductosVendidosAnual = consulta[4];*/
-		/*
 
-		// console.log( consulta );
+		// ==============================
+		// pagina 3
+		// ==============================
 
-		const jpegImage = await pdfDoc.embedJpg( consulta.buffer );
+		page3.setRotation( degrees( -90 ) );
 
-		// ajusta el tamaño de la imagen
-		const jpgDims = jpegImage.scale( 0.5 );
+		// establece el encabezado
+		setHeader( page3 );
 
-		page1.drawImage( jpegImage,  );
-		*/
-		/*
-			===========================
-			pagina 1
-			===========================
-		*/
-
+		setPagination( ( pdfDoc.getPageIndices()[2] + 1 ), page3 );
 		
 		return await pdfDoc.save();
 	}
