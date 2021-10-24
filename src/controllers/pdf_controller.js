@@ -431,7 +431,7 @@ class PdfController {
 				font: helveticaBoldFont
 			});
 
-			let arrayHeader = ['Cantidad:', 'Nombre:'].reverse();			
+			let arrayHeader = ['Nombre:', 'Cantidad'].reverse();			
 
 			// dividimos a la mitad el grid (50%)
 			let rightGrid = propertyPage.margin_left / 2;
@@ -483,7 +483,7 @@ class PdfController {
 
 				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
 				//console.log( consult );
-				
+
 				// cambia las propiedades a las que estan dentro de consult examinalas y cambialas
 				page1.drawText( consult.cantidad_notas.toString(), {
 					...props,
