@@ -313,7 +313,7 @@ class ReporteController {
 	}
 
 	/**
-	 * funcion que permite ordenar los meses del anio segun el calendario
+	 * Permite ordenar los meses del año, según el calendario
 	 *
 	 * @param  {Array<Object>} resultados array de los resultaods de la base de datos
 	 * @returns {Array<{ id: number, mes: string, total: number }>} devuelve el listado de los meses y el total ordenados
@@ -370,7 +370,7 @@ class ReporteController {
 	/**
 	 * Funcion que genera el reporte estadistico
 	 * @param {Array<ResponseReport>} consults consultas generadas
-	 * @returns {Promise<void>} retorna una promesa que indica que finalizo el reporte
+	 * @returns {Promise<void>} retorna una promesa que se resolvera cuando finalice el reporte
 	 */
 	static generarReporte( consults ) {
 
@@ -459,6 +459,8 @@ class ReporteController {
 				})
 				.catch(( error ) => {
 					console.log( error );
+
+					reject( error );
 				});
 		});
 	}

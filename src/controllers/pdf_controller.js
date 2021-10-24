@@ -241,6 +241,7 @@ class PdfController {
 	/**
 	 * Funcion que genera el pdf del reporte
 	 * @param {Array<ResponseReport>} consultas  arreglo de consultas
+	 * @returns {ArrayBuffer}  retorna el buffer de datos del archivo PDF
 	 */
 	async crearReporte( consultas ) {
 		

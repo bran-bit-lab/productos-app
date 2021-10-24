@@ -575,39 +575,30 @@ class ReportsComponent {
   }
 
   /**  genera el reporte final de la aplicacion */
-  generateReport() {
+  async generateReport() {
 
     this.loadingComponent._show = 'true';
+    
+    try {
 
-    Promise.all([ 
-      ReporteController.buscarNotasCategoria(),
-      ReporteController.buscarNotasVendidasPorVendedor(),
-      ReporteController.buscarTotalProductosPorCategoria(),
-      ReporteController.buscarCantidadMaximaVendida(),
-      ReporteController.buscarCantidadProductosVendidosAnual()
-     ])
-      .then( async ( results ) => {
-        
-        // se procede a generar los datos de guardado
-        try {
-          
-          await ReporteController.generarReporte( results );
+      const results = await Promise.all([ 
+        ReporteController.buscarNotasCategoria(),
+        ReporteController.buscarNotasVendidasPorVendedor(),
+        ReporteController.buscarTotalProductosPorCategoria(),
+        ReporteController.buscarCantidadMaximaVendida(),
+        ReporteController.buscarCantidadProductosVendidosAnual()
+      ]);
 
-          this.loadingComponent._show = 'false';
-        
-        } catch ( error ) {
+      await ReporteController.generarReporte( results );
 
-          console.log( error );
+    } catch ( error ) {
 
-          throw error;
-        }
-      })
-      .catch( error =>  {
+      console.log( error );
 
-        console.log( error );
+    } finally {
 
-        this.loadingComponent._show = 'false';
-      });  
+      this.loadingComponent._show = 'false';
+    } 
   }
 }
 
