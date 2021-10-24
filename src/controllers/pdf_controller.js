@@ -247,7 +247,7 @@ class PdfController {
 		
 		const [ 
 			consultaBuscarNotasCategoria,  
-			buscarNotasVendidasPorVendedor,
+			buscarNotasVendidasPorVendedor,   // segunda consulta
 			buscarTotalProductosPorCategoria,
 			buscarCantidadMaximaVendida,
 			buscarCantidadProductosVendidosAnual
@@ -314,10 +314,10 @@ class PdfController {
 
 		if ( consultaBuscarNotasCategoria.results.length > 0 ){
 
-			const jpegImage = await pdfDoc.embedJpg( consultaBuscarNotasCategoria.buffer );
+			const jpegImage = await pdfDoc.embedJpg( consultaBuscarNotasCategoria.chart );
 			
 			// ajusta el tamaño de la imagen
-			const jpgDims = jpegImage.scale( 0.5 );
+			const jpgDims = jpegImage.scale( 0.4 );
 
 
 			let posicion = propertyPage.margin_top - 140 ;
@@ -341,11 +341,12 @@ class PdfController {
 			
 			let posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
 
-			console.log({ rightGrid, leftGrid, posicionCell });
+			// console.log({ rightGrid, leftGrid, posicionCell });
 
 			// ===============================
 			// Grid
 			// ===============================
+			//console.log({ jpegImage })
 
 			// image
 			page1.drawImage( jpegImage, {
@@ -411,8 +412,113 @@ class PdfController {
 
 				posicion -= 20;
 			});
+
 		}
+
+		if (buscarNotasVendidasPorVendedor.results.length > 0) {
+
+			const jpegImage = await pdfDoc.embedJpg( buscarNotasVendidasPorVendedor.chart );
+						
+			const jpgDims = jpegImage.scale( 0.4 );
+
+			let posicion = propertyPage.margin_top - 330;
+
+			page1.drawText('Cantidad de notas de entrega por vendedor (general):', {
+				...props,
+				x: propertyPage.margin_top - 300,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			let arrayHeader = ['Cantidad:', 'Nombre:'].reverse();			
+
+			// dividimos a la mitad el grid (50%)
+			let rightGrid = propertyPage.margin_left / 2;
+
+			// le sumamos la mitad derecha para obtener el lado izquierdo
+			let leftGrid = ( propertyPage.margin_left / 2 ) + rightGrid; 
 			
+			let posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			//console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
+			// console.log(buscarNotasVendidasPorVendedor);
+/*
+			page1.drawImage( jpegImage, {
+				x: posicion - 400,
+				y: ( rightGrid / 2 ) + 100,
+				width: jpgDims.width,
+				height: jpgDims.height,
+				rotate: degrees ( -90 )
+			});
+*/
+
+			arrayHeader.forEach(( title ) => {
+
+				page1.drawText( title, {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaBoldFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+			});
+
+			// se decrementa la posicion x
+			posicion -= 10;
+
+			page1.drawLine({ 
+				start: { x: posicion, y: leftGrid },
+				end: { x: posicion, y: ( leftGrid - rightGrid ) },
+				opacity: 0.8
+			});
+
+			posicion -= 20;
+			
+			posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			buscarNotasVendidasPorVendedor.results.forEach(( consult ) => {
+
+				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+				//console.log( consult );
+				
+				// cambia las propiedades a las que estan dentro de consult examinalas y cambialas
+				page1.drawText( consult.cantidad_notas.toString(), {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+
+				page1.drawText( consult.nombre_vendedor, {
+					...props,
+					x: posicion,
+					y: posicionCell - 15,
+					size: 12,
+					font: helveticaFont,
+				});
+				
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+				
+
+				posicion -= 20;
+			});
+
+		}
+		
+
+		/** pagina 2 */
+		const page2 =	pdfDoc.addPage();
+		page2.setRotation( degrees( -90 ) );
+		
+		// continuas el resto 2 estaditica po page
+		// el unico que tiene uno es la de los meses 
+		// porque son 12
 				
 		/*let consultaBuscarNotasCategoria = consultas[0];
 		let buscarNotasVendidasPorVendedor = consulta[1];
