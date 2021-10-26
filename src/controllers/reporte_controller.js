@@ -425,16 +425,11 @@ class ReporteController {
 						return;
 					}
 				
-					// si existe el archivo lo sustituye
-					if ( FILE.checkAsset( response['filePath'], false ) ) {
-						FILE.deleteFileSync( response['filePath'] );
-					}
-					
 					consults = await ReporteController.getImageBuffer( consults );
 					
 					const data = await pdfController.crearReporte( consults );
 
-					FILE.writeFile( response['filePath'], data, ( error ) => {
+					FILE.appendFile( response['filePath'], data, ( error ) => {
 
 						if ( error ) {
 
@@ -481,13 +476,10 @@ class ReporteController {
 			 * y registrar las imagenes en el buffer.
 			 */
 	
-			const currentWindow = BrowserWindow.getFocusedWindow();
-
-			const window = new BrowserWindow({
+			let window = new BrowserWindow({
 				width: 400,
 				height: 300,
 				show: false,
-				parent: currentWindow,
 				webPreferences: {
 					nodeIntegration: true
 				}
@@ -497,21 +489,25 @@ class ReporteController {
 	
 			const contents = window.webContents;
 			
-			// comunicacion sockets
-			// manda la consulta al dom oculto
+			// entrada al dom oculto
+			
 			contents.on('did-finish-load', () => {
 				contents.send( 'consults', consults );
 			});
 	
 			// recibe los datos en el buffer
-			ipcMain.on('receiveBuffer', ( $event, consults ) => {
-			
-				resolve( consults );
-
-				// console.log( consults );
+			ipcMain.on('receiveBuffer', ( $event, consultsWindow ) => {
 				
-				// cierra la ventana oculta
-				window.close();
+				// se valida la instancia de window
+				if ( window ) {
+
+					window.close();
+
+					// se limpia la variable de la ventana una vez cerrada para evitar sobrecarga de memoria
+					window = null;
+				}
+
+				resolve( consultsWindow );
 			});	
 		});
 	}
