@@ -615,7 +615,7 @@ class PdfController {
 
 			page2.drawText('Total de productos por categorias: ', {
 				...props,
-				x: propertyPage.margin_top - 80,
+				x: propertyPage.margin_top - 70,
 				y: propertyPage.margin_left,
 				size: 14,
 				font: helveticaBoldFont
@@ -634,7 +634,7 @@ class PdfController {
 			// console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
 		
 			page2.drawImage( jpegImage2, {
-				x: posicion - 80,
+				x: posicion - 140,
 				y: ( rightGrid / 2 ) + 120,
 				width: jpgDims.width,
 				height: jpgDims.height,
@@ -725,7 +725,7 @@ class PdfController {
 
 			const jpegImage2 = await pdfDoc.embedJpg( buscarCantidadMaximaVendida.buffer );
 						
-			const jpgDims = jpegImage2.scale( 0.4 );
+			const jpgDims = jpegImage2.scale( 0.5 );
 
 			let posicion = propertyPage.margin_top - 330;
 
@@ -849,13 +849,13 @@ class PdfController {
 
 			const jpegImage2 = await pdfDoc.embedJpg( buscarCantidadProductosVendidosAnual.buffer );
 						
-			const jpgDims = jpegImage2.scale( 0.4 );
+			const jpgDims = jpegImage2.scale( 0.5 );
 
-			let posicion = propertyPage.margin_top - 100;
+			let posicion = propertyPage.margin_top - 80;
 
 			page3.drawText('Total de productos vendidos al año: ', {
 				...props,
-				x: propertyPage.margin_top - 80,
+				x: propertyPage.margin_top - 50,
 				y: propertyPage.margin_left,
 				size: 14,
 				font: helveticaBoldFont
@@ -874,7 +874,7 @@ class PdfController {
 			// console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
 		
 			page3.drawImage( jpegImage2, {
-				x: posicion - 80,
+				x: posicion - 100,
 				y: ( rightGrid / 2 ) + 120,
 				width: jpgDims.width,
 				height: jpgDims.height,
@@ -959,7 +959,6 @@ class PdfController {
 			});
 
 		}
-
 
 		setPagination( ( pdfDoc.getPageIndices()[2] + 1 ), page3 );
 		
