@@ -260,6 +260,7 @@ class PdfController {
 		const page1 = pdfDoc.addPage();
 		const page2 = pdfDoc.addPage();
 		const page3 = pdfDoc.addPage();
+		const page4 = pdfDoc.addPage();
 
 		/**
 		 * Establece el encabezado de la pagina PDF
@@ -316,7 +317,7 @@ class PdfController {
 			rotate: degrees( -90 )
 		};
 
-		console.log( { width, height } );
+		// console.log( { width, height } );
 
 		// establece el encabezado
 		setHeader( page1 );
@@ -340,10 +341,10 @@ class PdfController {
 
 		if ( consultaBuscarNotasCategoria.results.length > 0 ) {
 
-			const jpegImage1 = await pdfDoc.embedJpg( consultaBuscarNotasCategoria.buffer );
+			const jpegImage = await pdfDoc.embedJpg( consultaBuscarNotasCategoria.buffer );
 			
 			// ajusta el tamaño de la imagen
-			const jpgDims = jpegImage1.scale( 0.4 );
+			const jpgDims = jpegImage.scale( 0.4 );
 
 
 			let posicion = propertyPage.margin_top - 140 ;
@@ -374,7 +375,7 @@ class PdfController {
 			// ===============================
 
 			// image
-			page1.drawImage( jpegImage1, {
+			page1.drawImage( jpegImage, {
 				x: posicion - 140,
 				y: ( rightGrid / 2 ) + 100,
 				width: jpgDims.width,
@@ -463,9 +464,9 @@ class PdfController {
 
 		if ( buscarNotasVendidasPorVendedor.results.length > 0 ) {
 
-			const jpegImage2 = await pdfDoc.embedJpg( buscarNotasVendidasPorVendedor.buffer );
+			const jpegImage = await pdfDoc.embedJpg( buscarNotasVendidasPorVendedor.buffer );
 						
-			const jpgDims = jpegImage2.scale( 0.5 );
+			const jpgDims = jpegImage.scale( 0.5 );
 
 			let posicion = propertyPage.margin_top - 330;
 
@@ -489,7 +490,7 @@ class PdfController {
 
 			// console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
 		
-			page1.drawImage( jpegImage2, {
+			page1.drawImage( jpegImage, {
 				x: posicion - 100,
 				y: ( rightGrid / 2 ) + 120,
 				width: jpgDims.width,
@@ -607,11 +608,11 @@ class PdfController {
 
 		if ( buscarTotalProductosPorCategoria.results.length > 0 ) {
 
-			const jpegImage2 = await pdfDoc.embedJpg( buscarTotalProductosPorCategoria.buffer );
+			const jpegImage = await pdfDoc.embedJpg( buscarTotalProductosPorCategoria.buffer );
 						
-			const jpgDims = jpegImage2.scale( 0.4 );
+			const jpgDims = jpegImage.scale( 0.4 );
 
-			let posicion = propertyPage.margin_top - 100;
+			let posicion = propertyPage.margin_top - 120;
 
 			page2.drawText('Total de productos por categorias: ', {
 				...props,
@@ -633,7 +634,7 @@ class PdfController {
 
 			// console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
 		
-			page2.drawImage( jpegImage2, {
+			page2.drawImage( jpegImage, {
 				x: posicion - 140,
 				y: ( rightGrid / 2 ) + 120,
 				width: jpgDims.width,
@@ -719,19 +720,29 @@ class PdfController {
 
 		}
 
+
+		// ==============================
+		// pagina 3
+		// ==============================
+
+		page3.setRotation( degrees( -90 ) );
+
+		// establece el encabezado
+		setHeader( page3 );
+
 		// buscarCantidadMaximaVendida
 
 		if ( buscarCantidadMaximaVendida.results.length > 0 ) {
 
-			const jpegImage2 = await pdfDoc.embedJpg( buscarCantidadMaximaVendida.buffer );
+			const jpegImage = await pdfDoc.embedJpg( buscarCantidadMaximaVendida.buffer );
 						
-			const jpgDims = jpegImage2.scale( 0.5 );
+			const jpgDims = jpegImage.scale( 0.6 );
 
-			let posicion = propertyPage.margin_top - 330;
+			let posicion = propertyPage.margin_top - 90;
 
-			page2.drawText('Cantidad maxima de productos vendidos:', {
+			page3.drawText('Cantidad maxima de productos vendidos:', {
 				...props,
-				x: propertyPage.margin_top - 300,
+				x: propertyPage.margin_top - 50,
 				y: propertyPage.margin_left,
 				size: 14,
 				font: helveticaBoldFont
@@ -749,133 +760,9 @@ class PdfController {
 
 			// console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
 		
-			page2.drawImage( jpegImage2, {
+			page3.drawImage( jpegImage, {
 				x: posicion - 100,
-				y: ( rightGrid / 2 ) + 120,
-				width: jpgDims.width,
-				height: jpgDims.height,
-				rotate: degrees ( -90 )
-			});
-
-			arrayHeader.forEach(( title ) => {
-
-				page2.drawText( title, {
-					...props,
-					x: posicion,
-				  	y: posicionCell - 15,
-				  	size: 12,
-				  	font: helveticaBoldFont,
-				});
-
-				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
-			});
-
-			// se decrementa la posicion x
-			posicion -= 10;
-
-			page2.drawLine({ 
-				start: { x: posicion, y: leftGrid },
-				end: { x: posicion, y: ( leftGrid - rightGrid ) },
-				opacity: 0.8
-			});
-
-			posicion -= 20;
-			
-			posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
-
-			buscarCantidadMaximaVendida.results.forEach(( consult ) => {
-				
-				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
-		
-				// cambia las propiedades a las que estan dentro de consult examinalas y cambialas
-				page2.drawText( consult.cantidad_max_vendida.toString(), {
-					...props,
-					x: posicion,
-				  	y: posicionCell - 15,
-				  	size: 12,
-				  	font: helveticaFont,
-				});
-
-				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
-
-				page2.drawText( consult.nombre, {
-					...props,
-					x: posicion,
-					y: posicionCell - 15,
-					size: 12,
-					font: helveticaFont,
-				});
-				
-				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
-				
-				posicion -= 20;
-			});
-
-		} else {
-
-			// en caso de que la consulta este vacia
-
-			page2.drawText('Cantidad maxima de productos vendidos:', {
-				...props,
-				x: propertyPage.margin_top - 300,
-				y: propertyPage.margin_left,
-				size: 14,
-				font: helveticaBoldFont
-			});
-
-			page2.drawText('No existen los datos seleccionados', {
-				...props,
-				x: propertyPage.margin_top - 350,
-				y: propertyPage.margin_left,
-				size: 14,
-				font: helveticaFont,
-				color: rgb( 0.8, 0.12, 0.12 )
-			});
-
-		}
-
-		// ==============================
-		// pagina 3
-		// ==============================
-
-		page3.setRotation( degrees( -90 ) );
-
-		// establece el encabezado
-		setHeader( page3 );
-
-		// buscarCantidadProductosVendidosAnual
-
-		if ( buscarCantidadProductosVendidosAnual.results.length > 0 ) {
-
-			const jpegImage2 = await pdfDoc.embedJpg( buscarCantidadProductosVendidosAnual.buffer );
-						
-			const jpgDims = jpegImage2.scale( 0.5 );
-
-			let posicion = propertyPage.margin_top - 80;
-
-			page3.drawText('Total de productos vendidos al año: ', {
-				...props,
-				x: propertyPage.margin_top - 50,
-				y: propertyPage.margin_left,
-				size: 14,
-				font: helveticaBoldFont
-			});
-
-			let arrayHeader = ['Mes:', 'Total vendidos:'].reverse();			
-
-			// dividimos a la mitad el grid (50%)
-			let rightGrid = propertyPage.margin_left / 2;
-
-			// le sumamos la mitad derecha para obtener el lado izquierdo
-			let leftGrid = ( propertyPage.margin_left / 2 ) + rightGrid; 
-			
-			let posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
-
-			// console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
-		
-			page3.drawImage( jpegImage2, {
-				x: posicion - 100,
-				y: ( rightGrid / 2 ) + 120,
+				y: ( rightGrid / 2 ) + 140,
 				width: jpgDims.width,
 				height: jpgDims.height,
 				rotate: degrees ( -90 )
@@ -907,12 +794,138 @@ class PdfController {
 			
 			posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
 
+			buscarCantidadMaximaVendida.results.forEach(( consult ) => {
+				
+				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+		
+				// cambia las propiedades a las que estan dentro de consult examinalas y cambialas
+				page3.drawText( consult.cantidad_max_vendida.toString(), {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+
+				page3.drawText( consult.nombre, {
+					...props,
+					x: posicion,
+					y: posicionCell - 15,
+					size: 12,
+					font: helveticaFont,
+				});
+				
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+				
+				posicion -= 20;
+			});
+
+		} else {
+
+			// en caso de que la consulta este vacia
+
+			page3.drawText('Cantidad maxima de productos vendidos:', {
+				...props,
+				x: propertyPage.margin_top - 50,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			page3.drawText('No existen los datos seleccionados', {
+				...props,
+				x: propertyPage.margin_top - 90,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaFont,
+				color: rgb( 0.8, 0.12, 0.12 )
+			});
+
+		}
+
+		setPagination( ( pdfDoc.getPageIndices()[2] + 1 ), page3 );
+
+		// ==============================
+		// pagina 4
+		// ==============================
+
+		page4.setRotation( degrees( -90 ) );
+
+		// establece el encabezado
+		setHeader( page4 );
+
+		// buscarCantidadProductosVendidosAnual
+
+		if ( buscarCantidadProductosVendidosAnual.results.length > 0 ) {
+
+			const jpegImage = await pdfDoc.embedJpg( buscarCantidadProductosVendidosAnual.buffer );
+						
+			const jpgDims = jpegImage.scale( 0.5 );
+
+			let posicion = propertyPage.margin_top - 80;
+
+			page4.drawText('Total de productos vendidos al año: ', {
+				...props,
+				x: propertyPage.margin_top - 50,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			let arrayHeader = ['Mes:', 'Total vendidos:'].reverse();			
+
+			// dividimos a la mitad el grid (50%)
+			let rightGrid = propertyPage.margin_left / 2;
+
+			// le sumamos la mitad derecha para obtener el lado izquierdo
+			let leftGrid = ( propertyPage.margin_left / 2 ) + rightGrid; 
+			
+			let posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			// console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
+		
+			page4.drawImage( jpegImage, {
+				x: posicion - 100,
+				y: ( rightGrid / 2 ) + 140,
+				width: jpgDims.width,
+				height: jpgDims.height,
+				rotate: degrees ( -90 )
+			});
+
+			arrayHeader.forEach(( title ) => {
+
+				page4.drawText( title, {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaBoldFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+			});
+
+			// se decrementa la posicion x
+			posicion -= 10;
+
+			page4.drawLine({ 
+				start: { x: posicion, y: leftGrid },
+				end: { x: posicion, y: ( leftGrid - rightGrid ) },
+				opacity: 0.8
+			});
+
+			posicion -= 20;
+			
+			posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
 			buscarCantidadProductosVendidosAnual.results.forEach(( consult ) => {
 				
 				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
 		
 				// cambia las propiedades a las que estan dentro de consult examinalas y cambialas
-				page3.drawText( consult.total.toString(), {
+				page4.drawText( consult.total.toString(), {
 					...props,
 					x: posicion,
 					y: posicionCell - 15,
@@ -922,7 +935,7 @@ class PdfController {
 
 				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
 
-				page3.drawText( consult.mes, {
+				page4.drawText( consult.mes, {
 					...props,
 					x: posicion,
 				  	y: posicionCell - 15,
@@ -941,17 +954,17 @@ class PdfController {
 		} else {
 
 			// en caso de que la consulta este vacia
-			page3.drawText('Cantidad de productos vendidos al año:', {
+			page4.drawText('Cantidad de productos vendidos al año:', {
 				...props,
-				x: propertyPage.margin_top - 100,
+				x: propertyPage.margin_top - 50,
 				y: propertyPage.margin_left,
 				size: 14,
 				font: helveticaBoldFont
 			});
 
-			page3.drawText('No existen los datos seleccionados', {
+			page4.drawText('No existen los datos seleccionados', {
 				...props,
-				x: propertyPage.margin_top - 150,
+				x: propertyPage.margin_top - 90,
 				y: propertyPage.margin_left,
 				size: 14,
 				font: helveticaFont,
@@ -960,7 +973,7 @@ class PdfController {
 
 		}
 
-		setPagination( ( pdfDoc.getPageIndices()[2] + 1 ), page3 );
+		setPagination( ( pdfDoc.getPageIndices()[3] + 1 ), page4 );
 		
 		return await pdfDoc.save();
 

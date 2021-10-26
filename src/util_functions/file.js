@@ -68,6 +68,27 @@ function writeFile( path, data, callback ) {
 }
 
 /**
+* Permite modificar un archivo existente a un desitino especificado si existe modifica el contenido
+* @param {string} path la ruta donde se almacena el archivo
+*	@param {string|BufferArray} data ruta donde se va almacenar el archivo
+* @param {callbackCreate} callback devolucion de llamada cuando crea el archivo
+* @returns {void}
+*
+* @example
+*	appendFile('./path.txt', 'text', ( error ) => {
+*
+*   if ( error ) {
+*     throw error
+*   };
+*
+*   // rest of code ...
+* });
+*/
+function appendFile( path, data, callback ) {
+	fs.appendFile( path, data, callback );
+}
+
+/**
 *	@callback callbackReadImage
 * @param {Object} data datos de respuesta de la lectura del archivo
 * @param {string} data.path ruta del archivo
@@ -182,5 +203,6 @@ module.exports = {
 	deleteFileSync,
 	formatUrl,
 	writeFile,
-	getHomePath
+	getHomePath,
+	appendFile
 };
