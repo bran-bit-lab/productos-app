@@ -85,12 +85,12 @@ class NotasController {
 						id_nota: ultimoRegistro['id_nota'],
 						id_producto: producto['productoid'],
 						cantidad_seleccionada: producto['cantidad_seleccionada'],
-						cantidad: producto['cantidad']
+						cantidad: producto['cantidad'],
 					};
 				});
 
 				arrayProductos.forEach(( notaProducto ) => {
-						NotasProductosController.insertarNotasProductos.call( NotasProductosController.database, notaProducto );
+					NotasProductosController.insertarNotasProductos.call( NotasProductosController.database, notaProducto );
 				});
 
 				notificacion['title'] = 'Éxito';
@@ -548,7 +548,7 @@ class NotasController {
  * @property {number} id_nota identificador de la nota
  * @property {number} id_cliente identificador de cliente
  * @property {number} userid identificador del usuario
- * @property {(EN_PROCESO | ACEPTADO | ENTREGADA | POSPUESTO | CANCELADA)} status estado de la orden
+ * @property {"EN_PROCESO" | "ACEPTADO" | "ENTREGADA" | "POSPUESTO" | "CANCELADA"} status estado de la orden en ese momento
  * @property {string} creacion timestamp de creacion de la nota
  * @property {string} descripcion_nota descripcion de la nota de entrega
  * @property {string} fecha_entrega fecha de entrega del pedido se completa si el usuario pasa el pedido a ENTREGADA

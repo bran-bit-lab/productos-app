@@ -1,7 +1,6 @@
 const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
-const { readFileImageAsync, copyFile, deleteImageSync } = require('../util_functions/file');
 
 /** clase que gestiona los productos */
 class ProductosController {

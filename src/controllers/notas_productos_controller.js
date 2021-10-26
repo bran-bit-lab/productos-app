@@ -136,10 +136,8 @@ class NotasProductosController {
 				suma_algebraica: sumaAlgebraica
 			}
 
-			// importarproductosController y llamar a su metodo
-			//console.log (ProductosController);
+			
 			ProductosController.editarCantidadProducto( productoActualizado, callback );
-
 		});
 	}
 
