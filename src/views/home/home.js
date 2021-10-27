@@ -126,8 +126,8 @@ class HomeComponent {
 				ClientesController.obtenerTotalClientes(),
 			]),
 
-			// total estadisticas
-			ClientesController.obtenerTotalClientes(),
+			// se envia un string vacio
+			{ totalRegistros: '' },
 
 			// total notas
 			NotasController.obtenerTotalNotas(),
