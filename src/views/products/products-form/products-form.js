@@ -107,7 +107,7 @@ function setForm( product, categories ) {
       }
 
       case 'product-available': {
-        element.checked = product.disponibilidad === 1 || product.disponibilidad === true;
+        element.checked = product.disponibilidad == 1 || product.disponibilidad === true;
         break;
       }
 

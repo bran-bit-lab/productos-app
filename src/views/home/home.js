@@ -49,8 +49,36 @@ class HomeComponent {
 	/** cierra la sesion */
 	logOut() {
 
+		if ( sessionStorage.getItem('usersTable') ) {
+			sessionStorage.removeItem('usersTable');
+		}
+		
+		if ( sessionStorage.getItem('clientsTable') ) {
+			sessionStorage.removeItem('clientsTable');
+		}
+		
+		if ( sessionStorage.getItem('productsTable') ) {
+			sessionStorage.removeItem('productsTable');
+		}
+		
+		if ( sessionStorage.getItem('categoriesTable') ) {
+			sessionStorage.removeItem('categoriesTable');
+		}
+		
+		if ( sessionStorage.getItem('notesTable') ) {
+			sessionStorage.removeItem('notesTable');
+		}
+		
+		if ( sessionStorage.getItem('productsModalTable') ) {
+			sessionStorage.removeItem('productsModalTable');
+		}
+		
+		if ( sessionStorage.getItem('clientsModalTable') ) {
+			sessionStorage.removeItem('clientsModalTable');
+		}
+		
 		sessionStorage.removeItem('userLogged');
-
+		
 		return redirectTo('../login/login.html');
 	}
 
@@ -65,6 +93,10 @@ class HomeComponent {
 		if ( userLogged.area !== 'Administracion' ) {
 			hideElement( document.querySelector('#users') );
 			hideElement( document.querySelector('#estadistics') );
+		}
+
+		if ( userLogged.area === 'Almacen' ) {
+			hideElement( document.querySelector('#orders') );
 		}
 
 		// this.loadingComponent._show = 'false';
