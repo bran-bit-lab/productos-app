@@ -23,6 +23,7 @@ function createWindow() {
         show: false
     });
 
+    // carga los datos
     win.loadFile( path.join( urlAssets, '/login/login.html' ) );
 
     win.once('ready-to-show', () => {
