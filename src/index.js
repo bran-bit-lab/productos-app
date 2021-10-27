@@ -19,12 +19,16 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,
-        }
+        },
+        show: false
     });
 
-    win.loadFile( urlAssets + '/login/login.html' );
+    win.loadFile( path.join( urlAssets, '/login/login.html' ) );
 
-    Database.connect();
+    win.once('ready-to-show', () => {
+        win.show();
+        Database.connect();
+    });
 
     // win.webContents.openDevTools();
 }
