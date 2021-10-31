@@ -110,7 +110,7 @@ class ClientesController {
 	}
 
 	/**
-	 * Permite buscar usuarios en la BD
+	 * Permite buscar clientes en la base de datos
 	 * @param  {Object} cliente cliente a buscar
 	 * @param {string} cliente.search cadena de busqueda del cliente
 	 * @return {Promise<Array<Client>>}  devuelve una promesa con los resultados encontrados

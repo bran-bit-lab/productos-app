@@ -1,3 +1,13 @@
+/**
+ * @file index.js es el punto de entrada de la aplicacion.
+ * @author bran-bit-lab
+ * @author gabmart1995
+ * @see <a href="https://github.com/bran-bit-lab">Brandon Silva (bran-bit-lab)</a>
+ * @see <a href="https://gabmart1995.github.io">Gabriel Martinez (gabmart1995)</a>
+ */
+
+'use strict'
+
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const fs = require('fs');
