@@ -49,10 +49,8 @@ function copyFile( url , dest ) {
 /**
 * Permite crear un archivo nuevo a un desitino especificado
 * @param {string} path la ruta donde se almacena el archivo
-*	@param {string|BufferArray} data ruta donde se va almacenar el archivo
+* @param {string|Uint8Array} data ruta donde se va almacenar el archivo
 * @param {callbackCreate} callback devolucion de llamada cuando crea el archivo
-* @returns {void}
-*
 * @example
 *	writeFile('./path.txt', 'text', ( error ) => {
 *
@@ -70,9 +68,9 @@ function writeFile( path, data, callback ) {
 /**
 * Permite modificar un archivo existente a un desitino especificado si existe modifica el contenido
 * @param {string} path la ruta donde se almacena el archivo
-*	@param {string|BufferArray} data ruta donde se va almacenar el archivo
+* @param {string|Uint8Array} data ruta donde se va almacenar el archivo
 * @param {callbackCreate} callback devolucion de llamada cuando crea el archivo
-* @returns {void}
+* 
 *
 * @example
 *	appendFile('./path.txt', 'text', ( error ) => {
@@ -142,7 +140,7 @@ function checkAsset( url, concat = true ) {
 	// return bool
 
 	if ( concat ) {
-			return fs.existsSync( path.join( __dirname, url ) );
+		return fs.existsSync( path.join( __dirname, url ) );
 	}
 
 	return fs.existsSync( url );
