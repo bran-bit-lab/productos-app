@@ -8,7 +8,7 @@ class PdfController {
 	 * genera el pdf de una nota de entrega
 	 *
 	 * @param  {Nota} nota instancia de la nota
-	 * @return {ArrayBuffer}  retorna el buffer de datos del archivo PDF
+	 * @return {Uint8Array}  retorna el buffer de datos del archivo PDF
 	 */
 	async createPdf( nota ) {
 
@@ -241,7 +241,7 @@ class PdfController {
 	/**
 	 * Funcion que genera el pdf del reporte
 	 * @param {Array<ResponseReport>} consultas  arreglo de consultas
-	 * @returns {ArrayBuffer}  retorna el buffer de datos del archivo PDF
+	 * @returns {Uint8Array}  retorna el buffer de datos del archivo PDF
 	 */
 	async crearReporte( consultas ) {
 		
