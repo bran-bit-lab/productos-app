@@ -502,15 +502,10 @@ class NotasController {
 					return;
 				}
 
-				// si existe el archivo lo sustituye
-				if ( FILE.checkAsset( response['filePath'], false ) ) {
-					FILE.deleteFileSync( response['filePath'] );
-				}
-
 				const nota = await NotasController.obtenerNota( idNota );
 				const data = await pdfController.createPdf( nota );
 
-				FILE.writeFile( response['filePath'], data, ( error ) => {
+				FILE.appendFile( response['filePath'], data, ( error ) => {
 
 					if ( error ) {
 
