@@ -10,7 +10,8 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "docs": "jsdoc -c jsdoc.json"
+    "docs": "jsdoc -c jsdoc.json",
+    "deploy-package": "npm run package --arch=ia32 --platform=win32"
   },
   "keywords": [],
   "author": "virtualbox",
