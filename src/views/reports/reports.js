@@ -176,8 +176,6 @@ class ReportsComponent {
             
             let response = await ReporteController.buscarTotalProductosPorCategoria();
            
-            console.log( );
-
             if ( !response ) {
               render.renderTableCategories({ results: [] }, this.table );
               return;
@@ -196,6 +194,7 @@ class ReportsComponent {
         } else if ( data.question_products === 'product-max-sold-general' ) {
 
           try {
+
             let response = await ReporteController.buscarCantidadMaximaVendida();
 
             if ( !response ) {
@@ -214,6 +213,7 @@ class ReportsComponent {
         } else if ( data.question_products === 'product-max-sold-period' ) {
 
           try {
+
             let response = await ReporteController.buscarCantidadMaximaVendida({
               fecha_inicio: data.from,
               fecha_fin: data.to
@@ -277,6 +277,7 @@ class ReportsComponent {
         } else if ( data.question_delivery === 'quantity-period' ) {
 
            try {
+             
              let response = await ReporteController.buscarNotasVendidasPorVendedor({
                fecha_inicio: data.from,
                fecha_fin: data.to
