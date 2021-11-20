@@ -1,14 +1,21 @@
 const path = require('path');
 const { spawn } = require('child_process');
+const arch = process.argv.length === 3 ? process.argv[ process.argv.length - 1 ] : process.arch;
 
-// directions
-// const userDesktop = path.join( os.homedir(), '/Desktop' ); 
-const manifestPath = path.join( __dirname, 'manifiesto_productos-app.iss' );
+let manifestPath = "";
+let setupName = "productos_app_setup_" + arch;
+
+if ( arch === "ia32" ) {
+	manifestPath = path.join( __dirname, 'manifiesto_productos-app.iss' );
+	
+} else {
+	manifestPath = path.join( __dirname, 'manifiesto_productos-app_x64.iss' );
+}
 
 // options command
 const options = [ 
 		'/O+', 
-		'/F products_app_setup', 
+		'/F ' + setupName, 
 		'/V2', 
 		manifestPath 
 	];
