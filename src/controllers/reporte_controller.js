@@ -388,7 +388,7 @@ class ReporteController {
 				defaultPath: FILE.getHomePath('reporte_' + date )
 			};
 
-			const notification = new Notification({
+			const notificacion = new Notification({
 				title: 'Éxito',
 				body: 'Documento generado con éxito'
 			});
@@ -413,10 +413,10 @@ class ReporteController {
 					// verifica la extension del archivo que sea pdf
 					if ( !response['filePath'].includes( extensions[0] ) ) {
 
-						notification['title'] = 'Error !!';
-						notification['body'] = 'Extension del archivo no valida';
+						notificacion['title'] = 'Error !!';
+						notificacion['body'] = 'Extension del archivo no valida';
 
-						notification.show();
+						notificacion.show();
 
 						// console.log( response['filePath'] );
 
@@ -429,14 +429,18 @@ class ReporteController {
 					
 					const data = await pdfController.crearReporte( consults );
 
+					if(FILE.checkAsset( response['filePath'], false) ){
+						FILE.deleteFileSync( response['filePath'] );
+					}
+
 					FILE.appendFile( response['filePath'], data, ( error ) => {
 
 						if ( error ) {
 
 							console.log( error );
 
-							notification['title'] = 'Error!!';
-							notification['body'] = 'Error al guardar archivo';
+							notificacion['title'] = 'Error!!';
+							notificacion['body'] = 'Error al guardar archivo';
 
 							notificacion.show();
 
@@ -447,7 +451,7 @@ class ReporteController {
 							return;
 						}
 
-						notification.show();
+						notificacion.show();
 
 						resolve();
 					});
