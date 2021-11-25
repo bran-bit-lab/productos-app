@@ -7,4 +7,4 @@ DisableDirPage=no
 DisableWelcomePage=no
 
 [Files]
-Source: "C:\Users\virtualbox\Desktop\productos-app\out\productos-app-win32-ia32\*"; DestDir: "{app}"; Flags: "recursesubdirs"
+Source: "C:\cygwin64\home\Gabriel Martinez\proyectos\productos-app\out\productos-app-win32-ia32\*"; DestDir: "{app}"; Flags: "recursesubdirs"
