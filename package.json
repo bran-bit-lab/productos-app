@@ -14,7 +14,8 @@
     "deploy-package": "npx electron-forge package --arch=ia32 --platform=win32",
     "deploy-package-linux": "npx electron-forge package --arch=x64 --platform=linux",
     "deploy-package-win64": "npx electron-forge package --arch=x64 --platform=win32",
-    "deploy-make": "npm run deploy-package && node ./config/maker-iscc.js"
+    "deploy-make": "npm run deploy-package && node ./config/maker-iscc.js ia32",
+    "deploy-make-win64": "npm run deploy-package-win64 && node ./config/maker-iscc.js x64"
   },
   "keywords": [],
   "author": "virtualbox",
