@@ -100,7 +100,7 @@ INSERT INTO `clientes` VALUES (11,'cliente','direccion de prueba','j-12345678','
 INSERT INTO `clientes` VALUES (12,'cliente','direccion de prueba','j-12345678','0414-1234567');
 INSERT INTO `clientes` VALUES (13,'cliente','direccion de prueba','j-12345678','0414-1234567');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
-UNLOCK TABLES;
+UNLOCK TABLES; 
 
 --
 -- Table structure for table `notas`
@@ -129,7 +129,7 @@ CREATE TABLE `notas` (
 -- Dumping data for table `notas`
 --
 
-LOCK TABLES `notas` WRITE;
+/*LOCK TABLES `notas` WRITE;*/
 /*!40000 ALTER TABLE `notas` DISABLE KEYS */;
 INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:45','descripcion de prueba','2021-06-13',1,15);
 INSERT INTO `notas` VALUES (17,'EN_PROCESO','2021-06-13 20:38:45','descripcion de prueba','2021-06-13',1,16);
@@ -250,7 +250,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'test1','apellido1','correo1@prueba.com','prueba','Ventas',1);
+INSERT INTO `usuarios` VALUES (1,'test1','apellido1','correo@prueba.com','prueba','ventas',1);
 INSERT INTO `usuarios` VALUES (2,'test2','apellido2','correo2@prueba.com','prueba','ventas',1);
 INSERT INTO `usuarios` VALUES (3,'test3','apellido3','correo3@prueba.com','prueba','ventas',1);
 INSERT INTO `usuarios` VALUES (4,'test4','apellido4','correo4@prueba.com','prueba','ventas',1);
