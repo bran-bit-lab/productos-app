@@ -26,5 +26,5 @@ Si necesitas mas información, la documentación de los modulos es generado con 
 `npm run docs` creando una carpeta con los archivos puedes visualizarlo desde el navegador
 
 ### Modelo de Base de datos
-La base de datos de desarrollo es el archivo `bd_productosapp.sql` importalo en tu gestor y configura los 
+La base de datos de desarrollo es el archivo `bd_productosapp_dev.sql` importalo en tu gestor y configura los 
 parametros de conexion de usuarios dentro del `users-productos-app.ini` .
