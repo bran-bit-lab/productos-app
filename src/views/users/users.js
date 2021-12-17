@@ -75,7 +75,7 @@ class UsersComponent {
 
 	/**
 	 * cambia la vista entre usuarios y clientes
-	 * @param  {type} tabName Nombre de la pestaña
+	 * @param  {string} tabName Nombre de la pestaña
 	 */
 	changeView( tabName = 'users' ) {
 
