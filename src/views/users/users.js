@@ -20,7 +20,6 @@ footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-compone
 footer.innerHTML += readFileAssets( '/users/users-modal-role/users-modal-role-component.html' );
 footer.innerHTML += readFileAssets( '/users/clients-modal-form/client-modal-form-component.html' );
 
-
 const UsersTableComponent = require('./users-table/users-table-component');
 const ModalUserComponent = require('./users-modal-form/users-modal-form-component');
 const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');

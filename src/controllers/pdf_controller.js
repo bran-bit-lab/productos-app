@@ -22,7 +22,7 @@ class PdfController {
 
 		const fontSize = 20;
 
-		console.log( 'paginas ' + pdfDoc.getPageCount() );
+		// console.log( 'paginas ' + pdfDoc.getPageCount() );
 
 		// datos hoja carta
 		// altura = 841.89 y ancho = 595.28
@@ -43,7 +43,7 @@ class PdfController {
 		  color: rgb( 0, 0.8, 0.8 ),
 		});
 
-		page.drawText('Fecha de creación: ' + TIME.dateSpanish( new Date(nota.creacion)), {
+		page.drawText('Fecha de creación: ' + TIME.dateSpanish( new Date( nota.creacion ) ), {
 		  x: 50,
 		  y: height - 6 * fontSize,
 		  size: 14,
@@ -68,12 +68,12 @@ class PdfController {
 		});
 
 		page.drawText([
-    	  `Nombre del cliente: ${nota.nombre_cliente}`,
-	      `RIF: ${nota.rif}`,
-	      `Telefono: ${nota.telefono_contacto}`,
-	      `Direccion de Entrega: ${nota.direccion_entrega}`,
-	      `Descripción: ${nota.descripcion_nota}`,
-	      `Fecha de Entrega: ${nota.fecha_entrega ? nota.fecha_entrega : 'No entregado'}`,
+    	  `Nombre del cliente: ${ nota.nombre_cliente }`,
+	      `RIF: ${ nota.rif }`,
+	      `Telefono: ${ nota.telefono_contacto }`,
+	      `Direccion de Entrega: ${ nota.direccion_entrega }`,
+	      `Descripción: ${ nota.descripcion_nota }`,
+	      `Fecha de Entrega: ${ nota.fecha_entrega ? nota.fecha_entrega : 'No entregado' }`,
 		  ].join('\n'), {
 			  x: 50,
 			  y: height - 10 * fontSize,
@@ -234,7 +234,7 @@ class PdfController {
 			  color: rgb( 0, 0, 0 ),
 		});
 
-		// fin pagina uno
+		// fin pagina
 		return await pdfDoc.save();
 	}
 

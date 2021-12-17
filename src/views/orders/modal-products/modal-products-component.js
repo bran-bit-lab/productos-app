@@ -14,7 +14,6 @@ class ModalProductsComponent {
 		*/
 		this.products = [];
 
-
 		/**
 		 * Listado de productos seleccionados
 		 * @type {Array<Porduct>}
@@ -129,7 +128,7 @@ class ModalProductsComponent {
 
       this.tbody.innerHTML = (`
         <tr class="text-center">
-         <td colspan="6" class="text-danger">No existen clientes disponibles</td>
+         <td colspan="6" class="text-danger">No existen productos disponibles</td>
        </tr>
      `);
 
