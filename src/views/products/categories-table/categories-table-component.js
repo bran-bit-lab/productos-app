@@ -5,6 +5,7 @@ class CategoryTableComponent {
 
 		this.tbody = document.querySelector('#tbody-categories');
 		this.pagination = document.querySelector('#pagination-categories');
+		this.searchBar = document.querySelector('search-bar-component[from="categories"]');
 
 		// this.pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
 		this.getAll = this.getAll.bind( this );
@@ -265,6 +266,9 @@ class CategoryTableComponent {
 	setEvents() {
 		this.pagination.addEventListener('pagination', 
 			( $event ) =>  this.getAll( null, $event.detail.value, $event.detail.page ) )
+
+		this.searchBar.addEventListener('search', 
+			( $event ) => this.searchCategories( $event.detail.value ));
 	}
 }
 

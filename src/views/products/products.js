@@ -4,6 +4,8 @@ const { remote } = require('electron');
 const { CategoriasController, ProductosController } = remote.require('./controllers');
 const Tab = require('bootstrap/js/dist/tab');
 const Modal = require('bootstrap/js/dist/modal');
+const ProductsTableComponent = require('./products-table/products-table-component');
+const CategoryTableComponent = require('./categories-table/categories-table-component');
 
 class ProductsComponent {
 
@@ -15,7 +17,6 @@ class ProductsComponent {
 
 		this.setHtml(() => {
 
-			ProductsTableComponent = require('./products-table/products-table-component');
 			productsTableComponent = new ProductsTableComponent();
 			
 			openModalNewProduct = require('./products-form/products-form').openModalNewProduct;
@@ -23,7 +24,6 @@ class ProductsComponent {
 			handleChangeQuantity = require('./products-form/products-form').handleChangeQuantity;
 			resetFormProducts = require('./products-form/products-form').resetFormProducts;
 
-			CategoryTableComponent = require('./categories-table/categories-table-component');
 			categoryTableComponent = new CategoryTableComponent();
 
 			openModalNewCategory =  require('./categories-form/categories-form').openModalNewCategory;
@@ -113,16 +113,16 @@ class ProductsComponent {
 	}
 
 }
-
+/** @type {ProductsComponent}  */
 const productsComponent = new ProductsComponent();
 
 // modules dynamic load in html (no delete)
-let ProductsTableComponent;
+
+/** @type {ProductsTableComponent} */
 let productsTableComponent;
 let openModalNewProduct, openModalEditProduct, handleChangeQuantity, resetFormProducts;
 
-
-let CategoryTableComponent;
+/** @type {CategoryTableComponent} */
 let categoryTableComponent;
 let openModalNewCategory, resetForm, openModalEditCategory;
 

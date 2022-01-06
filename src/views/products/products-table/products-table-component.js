@@ -5,6 +5,7 @@ class ProductsTableComponent {
 
 		this.tbody = document.querySelector('#tbody-products');
 		this.pagination = document.querySelector('#pagination-products');
+		this.searchBar = document.querySelector('search-bar-component[from="products"]');
 
 		this.render = this.render.bind( this );
 		this.getAll = this.getAll.bind( this );
@@ -255,7 +256,10 @@ class ProductsTableComponent {
 
 	setEvents() {
 		this.pagination.addEventListener('pagination', 
-			( $event ) =>  this.getAll( null, $event.detail.value, $event.detail.page ) )
+			( $event ) =>  this.getAll( null, $event.detail.value, $event.detail.page ) );
+
+		this.searchBar.addEventListener('search', 
+			( $event ) => this.searchProducts( $event.detail.value ));
 	}
 }
 
