@@ -9,8 +9,10 @@
   <!-- se importan los web components antes de construir el body -->
   <script src="../components/searchbar-component.js"></script>
   <script src="../components/pagination-component.js"></script>
+  <script src="../components/loading-component.js"></script>
 </head>
 <body>
+  <loading-component class="loading" show="true"></loading-component>
 	<main class="container p-3 h-100">
 
 		<div class="d-flex flex-column h-100 justify-content-start">
@@ -61,7 +63,7 @@
         <ul class="nav nav-pills justify-content-center mt-3 mb-3" id="users-list">
           <li class="nav-item">
             <button
-              class="nav-link point active"
+              class="nav-link point active btn-sm"
               href="#users"
               aria-name="users"
               aria-selected="true"
@@ -70,7 +72,7 @@
           <li class="nav-item">
             <button
               type="button"
-              class="nav-link point"
+              class="nav-link point btn-sm"
               href="#clients"
               aria-name="clients"
             >Clientes</button>

@@ -3,9 +3,9 @@
 // =========================
 
 const { remote } = require('electron');
-const { readFileAssets } = remote.require('./util_functions/file');
+// const { readFileAssets } = remote.require('./util_functions/file');
 const { showLog } = remote.require('./util_functions/time');
-const { NotasController } = remote.require('./controllers/notas_controller');
+const { NotasController } = remote.require('./controllers');
 const deliveryNotes = document.querySelector('#delivery-note');
 
 /** Clase de tabla notas de entrega */

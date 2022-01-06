@@ -18,11 +18,13 @@ const info = document.querySelector('#info');
 class UsersComponent {
 
 	constructor() {
-		
 		this.setHtml = this.setHtml.bind( this );
 		
+		this.loading = document.querySelector('loading-component');
 		this.usersContent = document.querySelector('#users');
 		this.clientsContent = document.querySelector('#clients');
+
+		// this.loading._show = 'true';
 
 		this.setHtml(() => {
 
@@ -73,6 +75,11 @@ class UsersComponent {
 			this.clientsContent.innerHTML = await fetch('./clients-table/clients-table-component.html').then( resp => resp.text() )
 
 			callback();
+
+			setTimeout( () => {
+				this.loading._show = 'false';
+			}, 1000 );
+
 		}).catch( error => console.error( error ) );
 	}
 

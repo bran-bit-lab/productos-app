@@ -12,8 +12,11 @@ class ProductsComponent {
 	constructor() {
 		this.setHtml = this.setHtml.bind( this );
 
+		this.loading = document.querySelector('loading-component');
 		this.productsElement = document.querySelector('#products');
 		this.categoriesElement = document.querySelector('#category');
+
+		// this.loading._show = 'true';
 
 		this.setHtml(() => {
 
@@ -92,6 +95,9 @@ class ProductsComponent {
 			this.categoriesElement.innerHTML = await fetch('./categories-table/categories-table-component.html').then( resp => resp.text() )
 
 			callback();
+
+			setTimeout( () => this.loading._show = 'false', 1000 );
+
 		}).catch( error => console.error( error ) );
 	}
 
