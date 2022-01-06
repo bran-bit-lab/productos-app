@@ -1,18 +1,14 @@
-
-require('bootstrap/js/dist/dropdown');  // dropdown boostrap
-
 const { remote } = require('electron');
-const { UsersController } = remote.require('./controllers/users_controller');
-const { ClientesController } = remote.require('./controllers/clientes_controller');
-const { ProductosController } = remote.require('./controllers/productos_controllers');
-const { NotasController } = remote.require('./controllers/notas_controller');
-const { CategoriasController } = remote.require('./controllers/categorias_controller');
-const { readFileAssets } = remote.require('./util_functions/file');
+const { 
+	UsersController, 
+	ClientesController, 
+	ProductosController, 
+	NotasController, 
+	CategoriasController 
+} = remote.require('./controllers');
 
 const { ProfileModalComponent } = require('./profile-modal/profile-modal-component');
-
 const Tooltip = require('bootstrap/js/dist/tooltip');
-const Modal = require('bootstrap/js/dist/modal');
 
 /** clase home */
 class HomeComponent {
@@ -115,54 +111,53 @@ class HomeComponent {
 	}
 
 	/** inicializa las tarjetas principales con los valores totales de cada seccion */
-	initCards() {
+	async initCards() {
 
-		// this.loadingComponent._show = 'true';
+		try {
+			
+			const response = await Promise.all([
+				// total usuarios y clientes
+				Promise.all([
+					UsersController.obtenerTotalUsuarios(),
+					ClientesController.obtenerTotalClientes(),
+				]),
 
-		Promise.all([
-			// total usuarios y clientes
-			Promise.all([
-				UsersController.obtenerTotalUsuarios(),
-				ClientesController.obtenerTotalClientes(),
-			]),
+				// se envia un string vacio
+				{ totalRegistros: '' },
 
-			// se envia un string vacio
-			{ totalRegistros: '' },
+				// total notas
+				NotasController.obtenerTotalNotas(),
 
-			// total notas
-			NotasController.obtenerTotalNotas(),
+				// total productos y categorias
+				Promise.all([
+					ProductosController.obtenerTotalProductos(),
+					CategoriasController.obtenerTotalCategorias()
+				])
+			]);
 
-			// total productos y categorias
-			Promise.all([
-				ProductosController.obtenerTotalProductos(),
-				CategoriasController.obtenerTotalCategorias()
-			])
-		])
-			.then( response => {
+			const elementsDOM = document.querySelectorAll('span');
+			
+			let values = response.map(( value ) => {
 
-				// console.log( response );
-
-				const elementsDOM = document.querySelectorAll('span');
-				let values = response.map(( value ) => {
-
-					if ( Array.isArray( value ) ) {
-						return value.reduce( this.reduceValues, 0 );
-					}
-
-					return value.totalRegistros;
-				});
-
-				// console.log( values );
-
-				for ( let i = 0; i < elementsDOM.length; i++ ) {
-					elementsDOM[i].innerText = values[i];
+				if ( Array.isArray( value ) ) {
+					return value.reduce( this.reduceValues, 0 );
 				}
 
-				this.showOptions();
-			})
-			.catch( error => {
-				console.error( error );
+				return value.totalRegistros;
 			});
+
+			// console.log( values );
+
+			for ( let i = 0; i < elementsDOM.length; i++ ) {
+				elementsDOM[i].innerText = values[i];
+			}
+
+			this.showOptions();
+
+
+		} catch (error) {
+			console.error( error );
+		}
 	}
 }
 

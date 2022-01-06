@@ -1,3 +1,5 @@
+const Modal = require('bootstrap/js/dist/modal');
+
 /** Clase componente de perfil */
 class ProfileModalComponent {
   constructor() {
@@ -72,13 +74,14 @@ class ProfileModalComponent {
    */
   setHtml( callback ) {
 
-    try {
-      this.footer.innerHTML += readFileAssets('/home/profile-modal/profile-modal-component.html');
-      callback();
-
-    } catch ( error ) {
-      console.error( error );
-    }
+    fetch('./profile-modal/profile-modal-component.html')
+      .then( resp => resp.text() )
+      .then( html => {
+        
+        this.footer.innerHTML += html;
+        
+        callback(); 
+      });
   }
 
 

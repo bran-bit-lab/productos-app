@@ -3,8 +3,8 @@ class ProductsTableComponent {
 
 	constructor() {
 
-		this.tbody = productsElement.querySelector('#tbody-products');
-		this.pagination = productsElement.querySelector('#pagination-products');
+		this.tbody = document.querySelector('#tbody-products');
+		this.pagination = document.querySelector('#pagination-products');
 
 		this.render = this.render.bind( this );
 		this.getAll = this.getAll.bind( this );
@@ -16,6 +16,8 @@ class ProductsTableComponent {
 
 		/** @type {Array<Product>} */
 		this.products = [];
+
+		this.setEvents();
 	}
 
 	/**
@@ -249,6 +251,11 @@ class ProductsTableComponent {
 				</tr>
 			`);
 		}
+	}
+
+	setEvents() {
+		this.pagination.addEventListener('pagination', 
+			( $event ) =>  this.getAll( null, $event.detail.value, $event.detail.page ) )
 	}
 }
 

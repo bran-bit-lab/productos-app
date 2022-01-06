@@ -1,38 +1,40 @@
 // require ambito global
 
 const { remote } = require('electron');
-const { readFileAssets, readFileImageAsync } = remote.require('./util_functions/file');
-const { CategoriasController } = remote.require('./controllers/categorias_controller');
-const { ProductosController } = remote.require('./controllers/productos_controllers');
-
-const productsElement = document.querySelector('#products');
-const categoriesElement = document.querySelector('#category');
-const footer = document.querySelector('#footer');
-
-// load tables
-productsElement.innerHTML = readFileAssets( '/products/products-table/products-table-component.html' );
-categoriesElement.innerHTML = readFileAssets( '/products/categories-table/categories-table-component.html' );
-
-// load modals
-footer.innerHTML = readFileAssets('/products/categories-form/categories-form.html');
-footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-component.html' );
-footer.innerHTML += readFileAssets('/products/products-form/products-form.html');
-
+const { CategoriasController, ProductosController } = remote.require('./controllers');
 const Tab = require('bootstrap/js/dist/tab');
 const Modal = require('bootstrap/js/dist/modal');
-
-const ProductsTableComponent = require('./products-table/products-table-component');
-const { openModalNewProduct, openModalEditProduct, handleChangeQuantity, resetFormProducts } = require('./products-form/products-form');
-
-const CategoryTableComponent = require('./categories-table/categories-table-component');
-const { openModalNewCategory, openImageDialog, resetForm, openModalEditCategory } = require('./categories-form/categories-form');
-
-const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 
 class ProductsComponent {
 
 	constructor() {
 		this.setHtml = this.setHtml.bind( this );
+
+		this.productsElement = document.querySelector('#products');
+		this.categoriesElement = document.querySelector('#category');
+
+		this.setHtml(() => {
+
+			ProductsTableComponent = require('./products-table/products-table-component');
+			productsTableComponent = new ProductsTableComponent();
+			
+			openModalNewProduct = require('./products-form/products-form').openModalNewProduct;
+			openModalEditProduct = require('./products-form/products-form').openModalEditProduct;
+			handleChangeQuantity = require('./products-form/products-form').handleChangeQuantity;
+			resetFormProducts = require('./products-form/products-form').resetFormProducts;
+
+			CategoryTableComponent = require('./categories-table/categories-table-component');
+			categoryTableComponent = new CategoryTableComponent();
+
+			openModalNewCategory =  require('./categories-form/categories-form').openModalNewCategory;
+			resetForm = require('./categories-form/categories-form').resetForm;
+			openModalEditCategory = require('./categories-form/categories-form').openModalEditCategory;
+
+			ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
+
+			this.setTabs();
+		});
+
 	}
 
 	changeView( view = 'products' ) {
@@ -66,13 +68,31 @@ class ProductsComponent {
 		}
 	}
 
-	setHtml( path ) {
+	setTabs() {
 
+		// inicializamos los tabs
 		const tabList = Array.from( document.querySelectorAll('#products_list button') );
 
 		tabList.forEach( this.setOptionsTabs.bind( this ) );
 
 		this.changeView();
+	}
+
+	setHtml( callback ) {
+
+		Promise.all([
+			fetch('./categories-form/categories-form.html').then( resp => resp.text() ),
+			fetch('../shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() ),
+			fetch('./products-form/products-form.html').then( resp => resp.text() ),
+		]).then( async htmlArray => {
+
+			footer.innerHTML = htmlArray.join('');
+
+			this.productsElement.innerHTML = await fetch('./products-table/products-table-component.html').then( resp => resp.text() );
+			this.categoriesElement.innerHTML = await fetch('./categories-table/categories-table-component.html').then( resp => resp.text() )
+
+			callback();
+		}).catch( error => console.error( error ) );
 	}
 
 
@@ -95,41 +115,18 @@ class ProductsComponent {
 }
 
 const productsComponent = new ProductsComponent();
-const productsTableComponent = new ProductsTableComponent();
-const categoryTableComponent = new CategoryTableComponent();
+
+// modules dynamic load in html (no delete)
+let ProductsTableComponent;
+let productsTableComponent;
+let openModalNewProduct, openModalEditProduct, handleChangeQuantity, resetFormProducts;
+
+
+let CategoryTableComponent;
+let categoryTableComponent;
+let openModalNewCategory, resetForm, openModalEditCategory;
+
+let ModalConfirmComponent;
 
 // binding active function
-let closeModalConfirm = null;
-
-// custom Events
-document.addEventListener('DOMContentLoaded', productsComponent.setHtml );
-
-// search-bar
-for ( let element of document.querySelectorAll('search-bar-component') ) {
-
-	element.addEventListener('search', ( $event ) => {
-
-		if ( $event.detail.from  === 'categories' ) {
-			categoryTableComponent.searchCategories.call( categoryTableComponent, $event.detail.value )
-
-		} else {
-			productsTableComponent.searchProducts.call( productsTableComponent, $event.detail.value )
-
-		}
-	});
-}
-
-// pagination
-for ( let element of document.querySelectorAll('pagination-component') ) {
-
-	element.addEventListener('pagination', ( $event ) => {
-
-		if ( $event.detail.from === 'categories' ) {
-			categoryTableComponent.getAll( null, $event.detail.value, $event.detail.page );
-
-		} else {
-			productsTableComponent.getAll( null, $event.detail.value, $event.detail.page );
-
-		}
-	});
-}
+let closeModalConfirm;

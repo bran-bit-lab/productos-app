@@ -69,6 +69,10 @@ let id = null;
 /** @type {Modal} */
 const modalRole = new Modal( footer.querySelector('.modal-role'), { backdrop: 'static' });
 
+/** @type {HTMLFormElement} */
+const changeRoleForm = document.forms['user-change-role-form'];
+changeRoleForm.addEventListener('submit', getForm.bind( usersComponent ));
+
 module.exports = {
 	openModalRole,
 	getForm,

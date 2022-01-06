@@ -4,12 +4,26 @@ const { remote } = require('electron');
 const { UsersController } = remote.require('./controllers/users_controller');
 
 /** clase que authentica al usuario */
-class LoginView {
+class LoginPage {
 
 	constructor() {
+
+		/** @type {HTMLFormElement} */
+		this.form = document.forms['login-form'];
+
+		/** @type {HTMLDivElement} */
+		this.errorCorreo = this.form.querySelector('#error-correo');
+
+		/** @type {HTMLDivElement} */
+		this.errorPassword = this.form.querySelector('#error-password');
+
+		/** @type {HTMLElement} */
+		this.loadingComponent = document.querySelector('loading-component');
+
 		this.validateForm = this.validateForm.bind( this );
 		this.handleSubmit = this.handleSubmit.bind( this );
-		this.loadingComponent = document.querySelector('loading-component');
+
+		this.form.addEventListener('submit', this.handleSubmit );
 	}
 
 
@@ -61,22 +75,22 @@ class LoginView {
 		// ========================================
 
 		if ( !emailExp.test( correo ) ) {
-			this.renderErrors( errorCorreo, ERROR_MESSAGES.email );
+			this.renderErrors( this.errorCorreo, ERROR_MESSAGES.email );
 			errors = errors + 1;
 		}
 
 		if ( correo.trim().length === 0 ) {
-			this.renderErrors( errorCorreo,  ERROR_MESSAGES.required );
+			this.renderErrors( this.errorCorreo,  ERROR_MESSAGES.required );
 			errors = errors + 1;
 		}
 
 		if ( correo.trim().length > 0 && correo.trim().length < 8 ) {
-			this.renderErrors( errorCorreo,  ERROR_MESSAGES.min( 8 ) );
+			this.renderErrors( this.errorCorreo,  ERROR_MESSAGES.min( 8 ) );
 			errors = errors + 1;
 		}
 
 		if ( correo.trim().length > 30 ) {
-			this.renderErrors( errorCorreo,  ERROR_MESSAGES.max( 30 ) );
+			this.renderErrors( this.errorCorreo,  ERROR_MESSAGES.max( 30 ) );
 			errors = errors + 1;
 		}
 
@@ -87,12 +101,12 @@ class LoginView {
 		
 
 		if ( password.trim().length === 0 ) {
-			this.renderErrors( errorPassword, ERROR_MESSAGES.required );
+			this.renderErrors( this.errorPassword, ERROR_MESSAGES.required );
 			errors = errors + 1;
 		}
 
 		if ( password.trim().length > 30 ) {
-			this.renderErrors( errorPassword,  ERROR_MESSAGES.max( 30 ) );
+			this.renderErrors( this.errorPassword,  ERROR_MESSAGES.max( 30 ) );
 			errors = errors + 1;
 		}
 		
@@ -113,48 +127,18 @@ class LoginView {
 	 */
 	resetLoginForm( cancelButton = false ) {
 
-		hideElement( errorCorreo );
-		hideElement( errorPassword );
+		hideElement( this.errorCorreo );
+		hideElement( this.errorPassword );
 
 		if ( cancelButton )  {
-			form.reset();
+			this.form.reset();
 			document.querySelector('#correo-login').focus();
 		}
 	}
 
 	/**
-	 * evento de carga
-	 *
-	 * @example
-	 * // loading for 2 seconds
-	 * this.loading();
-	 *
-	 * setTimeout(() => {
-	 *	// rest of code ...
-	 *	hideLoading();
-	 * }, 2000);
-	 */
-	loading() {
-
-		let buttons = form.querySelectorAll('button');
-
-		hideElement( buttons[0] );
-		showElement( buttons[1] );
-	}
-
-	/** Oculta el evento de carga */
-	hideLoading() {
-
-		let buttons = form.querySelectorAll('button');
-
-		hideElement( buttons[1] );
-		showElement( buttons[0] );
-	}
-
-
-	/**
 	 * maneja el envio del formulario
-	 * @param  {*} $event evento de envio
+	 * @param  {Event} $event evento de envio
 	 */
 	handleSubmit( $event ) {
 
@@ -162,7 +146,7 @@ class LoginView {
 		
 		this.resetLoginForm();
 		
-		const formData = new FormData( form );
+		const formData = new FormData( this.form );
 		
 		let data = {
 			correo: formData.get('correo').toLowerCase(),
@@ -211,10 +195,4 @@ class LoginView {
 	}
 }
 
-const form = document.forms['login-form'];
-const errorCorreo = form.querySelector('#error-correo');
-const errorPassword = form.querySelector('#error-password');
-
-const loginComponent = new LoginView();
-
-form.addEventListener('submit', loginComponent.handleSubmit );
+const loginComponent = new LoginPage();

@@ -127,8 +127,6 @@ function validateForm( data, callback ) {
 		password:  new RegExp( /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/ )
 	});
 
-
-	
 	// contador de errores
 	let errors = 0;
 
@@ -289,7 +287,6 @@ const modalUsersForm = new Modal( footer.querySelector('.modal-users'), {
 	backdrop: 'static'
 });
 
-
 const emailErrorsNode = footer.querySelector('#error-email');
 const nameErrorsNode = footer.querySelector('#error-name');
 const surnameErrorsNode = footer.querySelector('#error-surname');
@@ -299,6 +296,9 @@ const passwordConfirmationNode = footer.querySelector('#error-password-confirmat
 
 /** @type {null|number} */
 let idUser = null;
+
+const userForm = document.forms['formUsers'];
+userForm.addEventListener('submit', getForm.bind( usersComponent ));
 
 module.exports = {
 	openModal,

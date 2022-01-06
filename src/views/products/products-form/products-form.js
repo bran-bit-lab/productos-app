@@ -146,7 +146,7 @@ function handleSubmit( $event ) {
     categoriaid: formData.get('product-category'),
     cantidad: formData.get('product-quantity'),
     precio: formData.get('product-price'),
-    disponibilidad: formData.get('product-available') === 'on',
+    disponibilidad: formData.get('product-available') !== null,
     descripcion: formData.get('product-description') || ''
   };
 

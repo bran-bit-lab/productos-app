@@ -3,52 +3,77 @@
 // =========================
 
 const { remote } = require('electron');
-const { UsersController } = remote.require('./controllers/users_controller');
-const { ClientesController } = remote.require('./controllers/clientes_controller');
+const { UsersController, ClientesController } = remote.require('./controllers');
 const { readFileAssets } = remote.require('./util_functions/file');
 const { sliceString } = remote.require('./util_functions/string');
 const Modal = require('bootstrap/js/dist/modal');
 const Tab = require('bootstrap/js/dist/tab');
 
-// users
+const UsersTableComponent = require('./users-table/users-table-component');
+
 const footer = document.querySelector('#modals');
 const info = document.querySelector('#info');
-
-// components html
-footer.innerHTML += readFileAssets( '/users/users-modal-form/users-modal-form-component.html' );
-footer.innerHTML += readFileAssets( '/shared/modal-confirm/modal-confirm-component.html' );
-footer.innerHTML += readFileAssets( '/users/users-modal-role/users-modal-role-component.html' );
-footer.innerHTML += readFileAssets( '/users/clients-modal-form/client-modal-form-component.html' );
-
-const UsersTableComponent = require('./users-table/users-table-component');
-const ModalUserComponent = require('./users-modal-form/users-modal-form-component');
-const ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
-const ModalChangeRole = require('./users-modal-role/users-modal-role-component');
-
-const ClientsTableComponent = require('./clients-table/clients-table-component');
-
-const ModalClientComponent = require('./clients-modal-form/client-modal-form-component');
 
 /** componente de la vista de Usuarios */
 class UsersComponent {
 
 	constructor() {
+		
+		this.setHtml = this.setHtml.bind( this );
+		
 		this.usersContent = document.querySelector('#users');
 		this.clientsContent = document.querySelector('#clients');
 
-		this.usersContent.innerHTML = readFileAssets( '/users/users-table/users-table-component.html' );
-		this.clientsContent.innerHTML = readFileAssets( '/users/clients-table/clients-table-component.html' );
-		this.setHtml = this.setHtml.bind( this );
+		this.setHtml(() => {
+
+			// requerimos e instanciamos los nuevos componentes js una vez cargado el html
+			const UsersTableComponent = require('./users-table/users-table-component')
+			
+			ModalUserComponent = require('./users-modal-form/users-modal-form-component');
+			ModalChangeRole = require('./users-modal-role/users-modal-role-component');
+			ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
+			ModalChangeRole = require('./users-modal-role/users-modal-role-component');
+			
+			usersTableComponent = new UsersTableComponent();
+			
+			const ClientsTableComponent = require('./clients-table/clients-table-component');
+			
+			ModalClientComponent = require('./clients-modal-form/client-modal-form-component');
+			
+			clientsTableComponent = new ClientsTableComponent();
+
+			this.setTabs();
+		});
 	}
 
-	/** carga el html de los modales y los eventos */
-	setHtml() {
+	setTabs() {
 
+		// inicializamos los tabs
 		const tabList = Array.from( document.querySelectorAll('#users-list button') );
 
 		tabList.forEach( this.setOptionsTabs.bind( this ) );
 
 		this.changeView();
+	}
+
+
+	/** carga el html de los modales y los eventos */
+	setHtml( callback ) {
+
+		Promise.all([
+			fetch('./users-modal-form/users-modal-form-component.html').then( resp => resp.text() ),
+			fetch('../shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() ),
+			fetch('./users-modal-role/users-modal-role-component.html').then( resp => resp.text() ),
+			fetch('./clients-modal-form/client-modal-form-component.html').then( resp => resp.text() )
+		]).then( async htmlArray => {
+
+			footer.innerHTML = htmlArray.join('');
+
+			this.usersContent.innerHTML = await fetch('./users-table/users-table-component.html').then( resp => resp.text() );
+			this.clientsContent.innerHTML = await fetch('./clients-table/clients-table-component.html').then( resp => resp.text() )
+
+			callback();
+		}).catch( error => console.error( error ) );
 	}
 
 
@@ -110,29 +135,18 @@ class UsersComponent {
 const usersComponent = new UsersComponent();
 
 /** @type {UsersTableComponent} */
-const usersTableComponent = new UsersTableComponent();
+let usersTableComponent;
+
+let ModalUserComponent;
+let ModalChangeRole;
+let ModalConfirmComponent;
 
 /** @type {ClientsTableComponent} */
-const clientsTableComponent = new ClientsTableComponent();
-
-const userForm = document.forms['formUsers'];
-const changeRoleForm = document.forms['user-change-role-form'];
+let clientsTableComponent;
+let ModalClientComponent;
 
 // ============================
 // Binding
 // ============================
-let closeModalConfirm =  null;
-
-// =============================
-// Events
-// =============================
-
-userForm.addEventListener('submit', ModalUserComponent.getForm.bind(
-	usersComponent
-));
-
-changeRoleForm.addEventListener('submit', ModalChangeRole.getForm.bind(
-	usersComponent
-));
-
-document.addEventListener('DOMContentLoaded', usersComponent.setHtml );
+/* es usado en la tabla de usuarios para actualizar el valor this ( no borrar ) */
+let closeModalConfirm;

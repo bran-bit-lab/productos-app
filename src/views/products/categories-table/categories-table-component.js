@@ -3,19 +3,22 @@ class CategoryTableComponent {
 
 	constructor() {
 
-		this.tbody = categoriesElement.querySelector('#tbody-categories');
-		this.pagination = categoriesElement.querySelector('#pagination-categories');
+		this.tbody = document.querySelector('#tbody-categories');
+		this.pagination = document.querySelector('#pagination-categories');
 
-		this.pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
+		// this.pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
 		this.getAll = this.getAll.bind( this );
 		this.activeCategory = this.activeCategory.bind( this );
 		this.openModalConfirm = this.openModalConfirm.bind( this );
 
+		
 		/** @type {number} */
 		this.page = 1;
-
+		
 		/** @type {Array<Category>} */
 		this.categories = [];
+		
+		this.setEvents()
 	}
 
 	/**
@@ -257,6 +260,11 @@ class CategoryTableComponent {
 			`);
 		}
 
+	}
+
+	setEvents() {
+		this.pagination.addEventListener('pagination', 
+			( $event ) =>  this.getAll( null, $event.detail.value, $event.detail.page ) )
 	}
 }
 
