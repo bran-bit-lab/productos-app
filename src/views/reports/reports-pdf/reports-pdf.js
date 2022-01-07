@@ -248,6 +248,8 @@ ipcRenderer.on('consults', ( $event, consults ) => {
 
     consults = consults.map(( consult ) => {
         
+      // console.log( consults );
+        
         switch ( consult.typeChart ) {
             case 'pie':
                 

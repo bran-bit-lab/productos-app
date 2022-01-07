@@ -339,7 +339,7 @@ class PdfController {
 		});
 
 
-		if ( consultaBuscarNotasCategoria.results.length > 0 ) {
+		if ( consultaBuscarNotasCategoria && consultaBuscarNotasCategoria.results.length > 0 ) {
 
 			const jpegImage = await pdfDoc.embedJpg( consultaBuscarNotasCategoria.buffer );
 			
@@ -462,7 +462,7 @@ class PdfController {
 
 		}
 
-		if ( buscarNotasVendidasPorVendedor.results.length > 0 ) {
+		if ( buscarNotasVendidasPorVendedor && buscarNotasVendidasPorVendedor.results.length > 0 ) {
 
 			const jpegImage = await pdfDoc.embedJpg( buscarNotasVendidasPorVendedor.buffer );
 						
@@ -606,7 +606,7 @@ class PdfController {
 
 		// aqui arrancamos valida la condicion de results
 
-		if ( buscarTotalProductosPorCategoria.results.length > 0 ) {
+		if ( buscarTotalProductosPorCategoria && buscarTotalProductosPorCategoria.results.length > 0 ) {
 
 			const jpegImage = await pdfDoc.embedJpg( buscarTotalProductosPorCategoria.buffer );
 						
@@ -732,7 +732,7 @@ class PdfController {
 
 		// buscarCantidadMaximaVendida
 
-		if ( buscarCantidadMaximaVendida.results.length > 0 ) {
+		if ( buscarCantidadMaximaVendida && buscarCantidadMaximaVendida.results.length > 0 ) {
 
 			const jpegImage = await pdfDoc.embedJpg( buscarCantidadMaximaVendida.buffer );
 						
@@ -858,7 +858,7 @@ class PdfController {
 
 		// buscarCantidadProductosVendidosAnual
 
-		if ( buscarCantidadProductosVendidosAnual.results.length > 0 ) {
+		if ( buscarCantidadProductosVendidosAnual && buscarCantidadProductosVendidosAnual.results.length > 0 ) {
 
 			const jpegImage = await pdfDoc.embedJpg( buscarCantidadProductosVendidosAnual.buffer );
 						

@@ -427,9 +427,11 @@ class ReporteController {
 				
 					consults = await ReporteController.getImageBuffer( consults );
 					
+					// console.log( consults );
+
 					const data = await pdfController.crearReporte( consults );
 
-					if(FILE.checkAsset( response['filePath'], false) ){
+					if( FILE.checkAsset( response['filePath'], false ) ){
 						FILE.deleteFileSync( response['filePath'] );
 					}
 
@@ -483,7 +485,7 @@ class ReporteController {
 			let window = new BrowserWindow({
 				width: 400,
 				height: 300,
-				show: false,
+				show: true,
 				webPreferences: {
 					nodeIntegration: true
 				}
@@ -510,6 +512,8 @@ class ReporteController {
 					// se limpia la variable de la ventana una vez cerrada para evitar sobrecarga de memoria
 					window = null;
 				}
+
+				console.log( consultsWindow );
 
 				resolve( consultsWindow );
 			});	

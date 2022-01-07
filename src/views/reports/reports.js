@@ -1,6 +1,6 @@
 const { remote } = require('electron');
+const { ReporteController } = remote.require('./controllers');
 const Chart = require('chart.js');
-const { ReporteController } = remote.require('./controllers/reporte_controller');
 const render = require('./render-table-chart');
 
 /** clase que controla las consultas estadisticas  */
@@ -582,7 +582,7 @@ class ReportsComponent {
     
     try {
 
-      const results = await Promise.all([ 
+      let results = await Promise.all([ 
         ReporteController.buscarNotasCategoria(),
         ReporteController.buscarNotasVendidasPorVendedor(),
         ReporteController.buscarTotalProductosPorCategoria(),
@@ -590,7 +590,11 @@ class ReportsComponent {
         ReporteController.buscarCantidadProductosVendidosAnual()
       ]);
 
-      await ReporteController.generarReporte( results );
+      // se asegura que las consultas existan antes 
+      // de generar el reporte
+      resultsFilter = results.filter(( data ) => data );
+      
+      await ReporteController.generarReporte( resultsFilter );
 
     } catch ( error ) {
 
