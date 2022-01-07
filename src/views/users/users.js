@@ -75,12 +75,9 @@ class UsersComponent {
 			this.clientsContent.innerHTML = await fetch('./clients-table/clients-table-component.html').then( resp => resp.text() )
 
 			callback();
-
-			setTimeout( () => {
-				this.loading._show = 'false';
-			}, 1000 );
-
-		}).catch( error => console.error( error ) );
+		})
+		.catch( error => console.error( error ) )
+		.finally(() =>  setTimeout( () => this.loading._show = 'false', 1000 ) );
 	}
 
 

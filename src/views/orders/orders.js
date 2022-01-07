@@ -3,7 +3,6 @@
 // =========================
 
 const { remote } = require('electron');
-// const { readFileAssets } = remote.require('./util_functions/file');
 const { showLog } = remote.require('./util_functions/time');
 const { NotasController } = remote.require('./controllers');
 const deliveryNotes = document.querySelector('#delivery-note');
@@ -14,6 +13,7 @@ class OrdersTableComponent {
 	constructor() {
 
 		this.deliveryNotes = [];
+		this.loading = document.querySelector('loading-component');
 		this.deliveryTable = document.querySelector('#tbody-delivery-notes');
 		this.searchComponent = document.querySelector('search-bar-component');
 		this.pagination = document.querySelector('#pagination-delivery');
@@ -22,6 +22,8 @@ class OrdersTableComponent {
 		// events
 		this.setEvents();
 		this.getAll();
+
+		setTimeout( () => this.loading._show = 'false', 1000 );
 	}
 
 	/** establece los eventos */
@@ -51,6 +53,8 @@ class OrdersTableComponent {
 
 			console.log( totalOrders );
 			this.render( totalOrders.totalPaginas, totalOrders.totalRegistros );
+
+			
 		}
 
 		catch ( error ) {

@@ -87,18 +87,18 @@ class ProductsComponent {
 			fetch('./categories-form/categories-form.html').then( resp => resp.text() ),
 			fetch('../shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() ),
 			fetch('./products-form/products-form.html').then( resp => resp.text() ),
-		]).then( async htmlArray => {
+		])
+		.then( async htmlArray => {
 
 			footer.innerHTML = htmlArray.join('');
 
 			this.productsElement.innerHTML = await fetch('./products-table/products-table-component.html').then( resp => resp.text() );
 			this.categoriesElement.innerHTML = await fetch('./categories-table/categories-table-component.html').then( resp => resp.text() )
 
-			callback();
-
-			setTimeout( () => this.loading._show = 'false', 1000 );
-
-		}).catch( error => console.error( error ) );
+			callback();	
+		})
+		.catch( error => console.error( error ) )
+		.finally(() => setTimeout( () => this.loading._show = 'false', 1000 ) );
 	}
 
 

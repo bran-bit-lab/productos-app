@@ -1,14 +1,10 @@
 const { remote } = require('electron');
 const { dateToString } = remote.require('./util_functions/time');
 const { readFileAssets } = remote.require('./util_functions/file');
-const { ClientesController } = remote.require('./controllers/clientes_controller');
-const { ProductosController } = remote.require('./controllers/productos_controllers');
-const { NotasController } = remote.require('./controllers/notas_controller');
-const { NotasProductosController } = remote.require('./controllers/notas_productos_controller');
-
+const { ClientesController, ProductosController, NotasController, NotasProductosController } = remote.require('./controllers');
 const Modal = require('bootstrap/js/dist/modal');
-const { ModalClientComponent } = require('../modal-clients/modal-client-component');
-const { ModalProductsComponent } = require('../modal-products/modal-products-component');
+// const { ModalClientComponent } = require('../modal-clients/modal-client-component');
+// const { ModalProductsComponent } = require('../modal-products/modal-products-component');
 
 /** clase formulario notas de entrega */
 class OrdersForm {
@@ -47,9 +43,17 @@ class OrdersForm {
     this.errorDeliveryDate = document.querySelector('#error-delivery-date');
     this.loadButton = document.querySelector('#load-button');
     this.submitButton = document.querySelector('#submit-button');
+    
 
     this.setHtml(() => {
+
       ModalConfirmComponent = require('../../shared/modal-confirm/modal-confirm-component');
+      ModalClientComponent = require('../modal-clients/modal-client-component').ModalClientComponent;
+      ModalProductsComponent = require('../modal-products/modal-products-component').ModalProductsComponent;
+
+      modalClientComponent = new ModalClientComponent();
+      modalProductsComponent = new ModalProductsComponent();
+
       this.setForm();
       this.setProductsTable();
       this.setClientsTable();
@@ -63,18 +67,19 @@ class OrdersForm {
    */
   setHtml( callback ) {
 
-    try {
-
-      this.footer.innerHTML += readFileAssets('/orders/modal-clients/modal-client-component.html');
-      this.footer.innerHTML += readFileAssets('/orders/modal-products/modal-products-component.html');
-      this.footer.innerHTML += readFileAssets('/shared/modal-confirm/modal-confirm-component.html');
-
+    Promise.all([
+      fetch('../modal-clients/modal-client-component.html').then( resp => resp.text() ),
+      fetch('../modal-products/modal-products-component.html').then( resp => resp.text() ),
+      fetch('../../shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() )
+    ]).then( htmlArray => {
+      
+      this.footer.innerHTML = htmlArray.join('');
+      
       callback();
 
-    } catch ( error ) {
-      console.error( error );
-
-    }
+    })
+    .catch( error => console.error( error ) )
+    .finally( () => { setTimeout(() => this.loadingComponent._show = 'false', 1000 ) });
   }
 
 
@@ -117,7 +122,7 @@ class OrdersForm {
 
     if ( match ) { // edit
 
-      this.loadingComponent._show = 'true';
+      // this.loadingComponent._show = 'true';
 
       this.deliveryId = match['groups'].idDelivery;
 
@@ -512,7 +517,11 @@ class OrdersForm {
 
       try {
         NotasProductosController.retirarProductoNota( noteProduct );
-        ordersForm.productsSelected = ordersForm.productsSelected.filter(( product ) => product.productoid !== id );
+        
+        ordersForm.productsSelected = ordersForm.productsSelected.filter(
+          ( product ) => product.productoid !== id 
+        );
+        
         ordersForm.setProductsTable();
 
       } catch ( error ) {
@@ -554,7 +563,11 @@ class OrdersForm {
     const { confirm, id } = data;
 
     if ( confirm ) {
-      ordersForm.clientsSelected = ordersForm.clientsSelected.filter(( client ) => client.id_cliente !== id );
+      
+      ordersForm.clientsSelected = ordersForm.clientsSelected.filter(
+        ( client ) => client.id_cliente !== id 
+      );
+      
       ordersForm.setClientsTable();
     }
   }
@@ -586,20 +599,24 @@ class OrdersForm {
   }
 }
 
-let ModalConfirmComponent = null;
-let closeModalConfirm = null;
+// class and components
+let ModalClientComponent;
+let ModalProductsComponent;
+
+let ModalConfirmComponent;
+let closeModalConfirm;
+
+/** @type {ModalClientComponent} */
+let modalClientComponent;
+
+/** @type {ModalProductsComponent} */
+let modalProductsComponent;
 
 const form = document.forms[0];
 
 /** @type {OrdersForm} */
 const ordersForm = new OrdersForm();
 
-/** @type {ModalClientComponent} */
-const modalClientComponent = new ModalClientComponent();
-
-/** @type {ModalProductsComponent} */
-const modalProductsComponent = new ModalProductsComponent();
+form.addEventListener('submit', ordersForm.handleSubmit.bind( ordersForm ) );
 
 document.addEventListener('DOMContentLoaded', ordersForm.getParamsUrl.bind( ordersForm ) );
-
-form.addEventListener('submit', ordersForm.handleSubmit.bind( ordersForm ) );
