@@ -582,7 +582,7 @@ class ReportsComponent {
     
     try {
 
-      let results = await Promise.all([ 
+      const results = await Promise.all([ 
         ReporteController.buscarNotasCategoria(),
         ReporteController.buscarNotasVendidasPorVendedor(),
         ReporteController.buscarTotalProductosPorCategoria(),
@@ -592,7 +592,7 @@ class ReportsComponent {
 
       // se asegura que las consultas existan antes 
       // de generar el reporte
-      resultsFilter = results.filter(( data ) => data );
+      const resultsFilter = results.filter(( data ) => data );
       
       await ReporteController.generarReporte( resultsFilter );
 

@@ -485,7 +485,7 @@ class ReporteController {
 			let window = new BrowserWindow({
 				width: 400,
 				height: 300,
-				show: true,
+				show: false,
 				webPreferences: {
 					nodeIntegration: true
 				}
@@ -513,7 +513,7 @@ class ReporteController {
 					window = null;
 				}
 
-				console.log( consultsWindow );
+				// console.log( consultsWindow );
 
 				resolve( consultsWindow );
 			});	
