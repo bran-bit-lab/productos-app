@@ -13,7 +13,8 @@
     "docs": "jsdoc -c jsdoc.json",
     "deploy-package": "electron-forge package --arch=ia32 --platform=win32",
     "deploy-package-linux": "electron-forge package --arch=x64 --platform=linux",
-    "deploy-package-win64": "electron-forge package --arch=x64 --platform=win32"
+    "deploy-package-win64": "electron-forge package --arch=x64 --platform=win32",
+    "script_deploy": ""
   },
   "keywords": [],
   "author": "virtualbox",
