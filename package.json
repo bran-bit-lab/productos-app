@@ -13,9 +13,7 @@
     "docs": "jsdoc -c jsdoc.json",
     "deploy-package": "electron-forge package --arch=ia32 --platform=win32",
     "deploy-package-linux": "electron-forge package --arch=x64 --platform=linux",
-    "deploy-package-win64": "electron-forge package --arch=x64 --platform=win32",
-    "deploy-make": "npm run deploy-package && node ./config/maker-iscc.js ia32",
-    "deploy-make-win64": "npm run deploy-package-win64 && node ./config/maker-iscc.js x64"
+    "deploy-package-win64": "electron-forge package --arch=x64 --platform=win32"
   },
   "keywords": [],
   "author": "virtualbox",
