@@ -1,22 +1,4 @@
-function loadComponents( routes = [], element, callback ) {
-  
-  routes.forEach( async ( route, index ) => {
-
-    fetch( route )
-      .then( response => response.text() )
-      .then( html => {
-
-        element.innerHTML += html;
-
-        if ( routes.length === (index + 1) ) {
-          callback();
-        }
-      });
-  })
-  
-} 
-
-/**
+ /**
  * permite ocultar elementos del DOM
  * @param  {HTMLElement} element elemento html a ocultar
  */

@@ -1,68 +1,64 @@
+/* Maker Script Author: bran-bit-lab && gabmart1995 */
 'use strict' 
+
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
-const { spawn, exec } = require('child_process');
-
-// console.log (os.arch(), os.platform());
-
-let archivoFuente = path.join(__dirname , 'manifiesto_productos-app.iss');
-
-//console.log(archivoFuente);
+const { spawn } = require('child_process');
 
 const parametros = Object.freeze({
-	arch : os.arch(),
-	platform : os.platform(),
-	pathFuente : archivoFuente
+	arch: process.argv.length === 3 ? process.argv[2] : os.arch(),
+	platform: os.platform(),
+	pathFuente: path.join( __dirname , 'manifiesto_productos-app.iss')
 });
-//console.log(parametros);
 
-function ejecutarComando( comando, flags ){
 
-	console.log( comando );
-	const child = spawn(comando, flags);
+function ejecutarComando( comando, flags ) {
 
-	child.stdout.on('data', (data) => {
-		console.log(data.toString());
+	const child = spawn( comando, flags );
+
+	child.stdout.on('data', ( data ) => {
+		console.log( data.toString() );
 	});
 
-	child.stderr.on('data', (data) => {
-	  console.error(data.toString());
+	child.stderr.on('data', ( data ) => {
+	  console.error( data.toString() );
 	});
 
-	child.on('exit', (code) => {
+	child.on('exit', ( code ) => {
 		console.log(`Child exited with code ${code}`);
 	});
 }
 
-
 try {
 
-	if( parametros.platform.includes('linux') ){
-		throw new Error('no se puede compilar para la plataforma linux')
+	if ( parametros.platform.includes('linux') ) {
+		throw new Error('no se puede compilar la aplicacion para la plataforma linux')
 	}
 
-	const archivo = fs.readFileSync(archivoFuente, { encoding: 'utf8' });
-	
 	// Esto genera el path de la fuente 
-	let directorioFuente = path.join( 
+	const directorioFuente = path.join( 
 		__dirname, 
 		'../out', 
 		( 'productos-app-' + parametros.platform + '-' + parametros.arch ), 
 		'*' 
 	);
 
-	let archivoModificado = archivo.replace(/:path/g, directorioFuente );
+	// lee el archivo modelo y cambia los datos
+	const archivo = fs.readFileSync( 
+		path.join( __dirname, 'manifiesto_model_productos-app.iss' ), 
+		{ encoding: 'utf8' }
+	);	
+	const archivoModificado = archivo.replace( /:path/g, directorioFuente );
 
-	fs.writeFileSync( archivoFuente, archivoModificado );
+	fs.writeFileSync( parametros.pathFuente, archivoModificado );
 
-	// console.log( command )
-	ejecutarComando('iscc', [ archivoFuente, "/Fproducts-app" ]);
-
-	// console.log('Replaced!');
+	ejecutarComando('iscc', [ 
+		parametros.pathFuente,
+		( '/Fproducts-app-' + parametros.platform + '-' + parametros.arch ) 
+	]);
 
 } catch ( err ) {
-
 	console.error( err );
 }
 

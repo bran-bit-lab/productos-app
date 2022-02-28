@@ -14,7 +14,8 @@
     "deploy-package": "electron-forge package --arch=ia32 --platform=win32",
     "deploy-package-linux": "electron-forge package --arch=x64 --platform=linux",
     "deploy-package-win64": "electron-forge package --arch=x64 --platform=win32",
-    "script_deploy": ""
+    "deploy-make": "npm run deploy-package && node config/maker_script ia32",
+    "deploy-make-64": "npm run deploy-package-win64 && node config/maker_script x64"
   },
   "keywords": [],
   "author": "virtualbox",

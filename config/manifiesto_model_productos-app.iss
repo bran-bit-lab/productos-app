@@ -7,4 +7,4 @@ DisableDirPage=no
 DisableWelcomePage=no
 
 [Files]
-Source: "C:\Users\Brian\Documents\Archivos\XAMPP\htdocs\productos-app\out\productos-app-win32-ia32\*"; DestDir: "{app}"; Flags: "recursesubdirs"
+Source: ":path"; DestDir: "{app}"; Flags: "recursesubdirs"

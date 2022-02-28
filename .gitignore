@@ -95,3 +95,6 @@ src/imagenes/*
 documents/
 consults/
 
+# ejecutables
+*.exe
+config/manifiesto_productos-app.iss
