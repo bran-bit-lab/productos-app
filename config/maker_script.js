@@ -26,15 +26,20 @@ function ejecutarComando( comando, flags ) {
 	});
 
 	child.on('exit', ( code ) => {
-		console.log(`Child exited with code ${code}`);
+		console.log(`Process executed with code ${ code }`);
 	});
 }
 
 try {
 
-	if ( parametros.platform.includes('linux') ) {
-		throw new Error('no se puede compilar la aplicacion para la plataforma linux')
+	if ( !(/^(arm64|ia32|x64)$/).test( parametros.arch ) ) {
+		throw new Error('arquitectura no soportada: ' + parametros.arch );
 	}
+
+	if ( !(/^win32$/).test( parametros.platform ) ) {
+		throw new Error('no se puede compilar la plataforma seleccionada: ' + parametros.platform );
+	}
+
 
 	// Esto genera el path de la fuente 
 	const directorioFuente = path.join( 
@@ -59,6 +64,7 @@ try {
 	]);
 
 } catch ( err ) {
+	
 	console.error( err );
 }
 
