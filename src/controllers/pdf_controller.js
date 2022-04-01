@@ -13,238 +13,239 @@ class PdfController {
 	async createPdf( nota ) {
 
 		// console.log( 'nota --> ', nota );
-		const getPages = ( limit = 20 ) => {
+		function getPages( limit = 20 ) {
 
+			let arrayPages = [];
 
+			// console.log( nota.productos )
 
-			let arrayPages = []
-			
 			if ( nota.productos.length === 0 ) {
-				
+
 				arrayPages.push({
 					page: pdfDoc.addPage(),
 					products: [],
 					number: 0
-				}) 
-				
+				});
+
 			} else {
-				
-				let totalPages = Math.round( nota.productos.length / limit );
-				let start = 0
-	
-				for ( let i = 0; i < totalPages; i++ ) {
-					
+
+				let totalPages = Math.ceil( nota.productos.length / limit );
+				let start = 0;
+
+				console.log( totalPages )
+
+				for (let i = 0; i < totalPages; i++) {
+
 					arrayPages.push({
 						page: pdfDoc.addPage(),
-						products: nota.productos.slice( start, start + (limit - 1) ),
+						products: nota.productos.slice( start, start + ( limit - 1 )),
 						number: i
-					})
-	
-					start += ( limit - 1 )
+					});
+
+					start += (limit - 1);
 				}
 			}
-			
-			console.log( arrayPages )
+
+			// console.log(arrayPages);
 
 			return arrayPages;
 		}
 
-		const header = ( page, height, width, fontSize ) => {
+		function header(page, height, width, fontSize) {
 			
 			// datos hoja carta
 			// altura = 841.89 y ancho = 595.28
-	
+
 			page.drawText('Nota de entrega', {
-			  x: 50,
-			  y: height - 4 * fontSize,
-			  size: 24,
-			  font: helveticaFont,
-			  color: rgb(0, 0, 0),
+				x: 50,
+				y: height - 4 * fontSize,
+				size: 24,
+				font: helveticaFont,
+				color: rgb(0, 0, 0),
 			});
-	
+
 			page.drawText('# ' + nota.id_nota, {
-			  x: width - 4 * fontSize,
-			  y: height - 4 * fontSize,
-			  size: 14,
-			  font: helveticaBoldFont,
-			  color: rgb( 0, 0.8, 0.8 ),
+				x: width - 4 * fontSize,
+				y: height - 4 * fontSize,
+				size: 14,
+				font: helveticaBoldFont,
+				color: rgb(0, 0.8, 0.8),
 			});
-	
-			page.drawText('Fecha de creación: ' + TIME.dateSpanish( new Date( nota.creacion ) ), {
-			  x: 50,
-			  y: height - 6 * fontSize,
-			  size: 14,
-			  font: helveticaBoldFont,
-			  color: rgb( 0, 0, 0 ),
+
+			page.drawText('Fecha de creación: ' + TIME.dateSpanish(new Date(nota.creacion)), {
+				x: 50,
+				y: height - 6 * fontSize,
+				size: 14,
+				font: helveticaBoldFont,
+				color: rgb(0, 0, 0),
 			});
-	
+
 			page.drawText('Estado: ' + nota.status, {
-			  x: width - 10 * fontSize,
-			  y: height - 6 * fontSize,
-			  size: 14,
-			  font: helveticaFont,
-			  color: rgb( 0, 0, 0 ),
+				x: width - 10 * fontSize,
+				y: height - 6 * fontSize,
+				size: 14,
+				font: helveticaFont,
+				color: rgb(0, 0, 0),
 			});
 			// ===================================
 			// datos cliente
 			// ===================================
 			page.drawText('Datos del Cliente: ', {
-			  x: 50,
-			  y: height - 8 * fontSize,
-			  size: 12,
-			  font: helveticaBoldFont,
-			  color: rgb( 0, 0, 0 ),
+				x: 50,
+				y: height - 8 * fontSize,
+				size: 12,
+				font: helveticaBoldFont,
+				color: rgb(0, 0, 0),
 			});
-	
+
 			page.drawText([
-			  `Nombre del cliente: ${ nota.nombre_cliente }\t\t\tRIF: ${ nota.rif }\t\t\tTelefono: ${ nota.telefono_contacto }`,
-			  `Direccion de entrega: ${ nota.direccion_entrega }`,
-			  `Fecha de entrega: ${ nota.fecha_entrega ? nota.fecha_entrega : 'No entregado' }`,
-			  `Descripción: ${ nota.descripcion_nota }`,
-			  ].join('\n'), {
-				  x: 50,
-				  y: height - 9.5 * fontSize,
-				  size: 10,
-				  font: helveticaFont,
-				  color: rgb( 0, 0, 0 ),
-			});
-	
-			page.drawText('Lista de productos: ', {
-			  x: 50,
-			  y: height - 14.5 * fontSize,
-			  size: 12,
-			  font: helveticaBoldFont,
-			  color: rgb( 0, 0, 0 ),
-			});
-		}
-
-		const footer = ( page, width, fontSize, number = 0 ) => {
-			
-			// indice de pagina parte inferior
-			page.drawText('Pagina ' + ( pdfDoc.getPageIndices()[number] + 1 ) + ' de ' + pdfDoc.getPageCount(),
-				{
-				x: width - 6 * fontSize,
-				y: 2 * fontSize,
-				size: 11,
+				`Nombre del cliente: ${nota.nombre_cliente}\t\t\tRIF: ${nota.rif}\t\t\tTelefono: ${nota.telefono_contacto}`,
+				`Direccion de entrega: ${nota.direccion_entrega}`,
+				`Fecha de entrega: ${nota.fecha_entrega ? nota.fecha_entrega : 'No entregado'}`,
+				`Descripción: ${nota.descripcion_nota}`,
+			].join('\n'), {
+				x: 50,
+				y: height - 9.5 * fontSize,
+				size: 10,
 				font: helveticaFont,
-				color: rgb( 0, 0, 0 ),
+				color: rgb(0, 0, 0),
+			});
+
+			page.drawText('Lista de productos: ', {
+				x: 50,
+				y: height - 14.5 * fontSize,
+				size: 12,
+				font: helveticaBoldFont,
+				color: rgb(0, 0, 0),
 			});
 		}
 
-		const renderTable = ( page, width, height, fontSize, products, totalPage = false ) => {
-			
+		function footer(page, width, fontSize, number = 0) {
+
+			// indice de pagina parte inferior
+			page.drawText('Pagina ' + (pdfDoc.getPageIndices()[number] + 1) + ' de ' + pdfDoc.getPageCount(),
+				{
+					x: width - 6 * fontSize,
+					y: 2 * fontSize,
+					size: 11,
+					font: helveticaFont,
+					color: rgb(0, 0, 0),
+				});
+		}
+
+		function renderTable(page, width, height, fontSize, products, totalPage = false) {
+
 			// posicion donde se comienza a agregar el producto
+			const arrayHeader = ['id:', 'nombre:', 'cantidad:', 'precio unitario:'];
+
 			let posicion = 16;
-			let arrayHeader = ['id:', 'nombre:', 'cantidad:', 'precio unitario:'];
+			let posicionCell = (width / (arrayHeader.length * 2));
 
-			let posicionCell = ( width / ( arrayHeader.length * 2 ) );
+			arrayHeader.forEach((title) => {
 
-			arrayHeader.forEach(( title ) => {
-
-				page.drawText( title, {
+				page.drawText(title, {
 					x: posicionCell,
-				  	y: height - posicion * fontSize,
-				  	size: 12,
-				  	font: helveticaBoldFont,
-				  	color: rgb( 0, 0, 0 ),
+					y: height - posicion * fontSize,
+					size: 12,
+					font: helveticaBoldFont,
+					color: rgb(0, 0, 0),
 				});
 
-				posicionCell = posicionCell + ( width / 5 );
+				posicionCell = posicionCell + (width / 5);
 			});
 
 			posicion++;
 
 			/*  dibujar linea  */
-
 			page.drawLine({
-			  start: { x: 50, y: height - posicion * fontSize },
-			  end: { x: width - ( 3 * fontSize ) , y: height - posicion * fontSize },
-			  thickness: 1,
-			  color: rgb(0, 0, 0),
-			  opacity: 0.8,
+				start: { x: 50, y: height - posicion * fontSize },
+				end: { x: width - (3 * fontSize), y: height - posicion * fontSize },
+				thickness: 1,
+				color: rgb(0, 0, 0),
+				opacity: 0.8,
 			});
 
 			posicion++;
 
-			products.forEach(( producto ) => {
+			products.forEach((producto) => {
 
-				posicionCell = ( width / ( arrayHeader.length * 2 ) );
-	
-				page.drawText( producto.productoid.toString(), {
+				posicionCell = (width / (arrayHeader.length * 2));
+
+				page.drawText(producto.productoid.toString(), {
 					x: posicionCell,
-					y: ( height - posicion * fontSize ),
+					y: (height - posicion * fontSize),
 					size: 10,
 					font: helveticaFont,
-					color: rgb( 0, 0, 0 ),
+					color: rgb(0, 0, 0),
 				});
 
-				posicionCell = posicionCell + ( width / 5 );
+				posicionCell = posicionCell + (width / 5);
 
 				page.drawText(
-					producto.nombre.length > 10 ? producto.nombre.slice( 0, 9 ) + '... ' : producto.nombre,
+					producto.nombre.length > 10 ? producto.nombre.slice(0, 9) + '... ' : producto.nombre,
 					{
 						x: posicionCell,
-							y: height - posicion * fontSize,
-							size: 10,
-							font: helveticaFont,
-							color: rgb( 0, 0, 0 ),
+						y: height - posicion * fontSize,
+						size: 10,
+						font: helveticaFont,
+						color: rgb(0, 0, 0),
 					});
 
-				posicionCell = posicionCell + ( width / 5 );
+				posicionCell = posicionCell + (width / 5);
 
 				page.drawText(
 					producto.cantidad_seleccionada.toString(),
 					{
 						x: posicionCell,
-							y: height - posicion * fontSize,
-							size: 10,
-							font: helveticaFont,
-							color: rgb( 0, 0, 0 ),
-					});
-
-				posicionCell = posicionCell + ( width / 5 );
-
-				page.drawText( producto.precio.toString() + "$", {
-						x: posicionCell,
 						y: height - posicion * fontSize,
 						size: 10,
 						font: helveticaFont,
-						color: rgb( 0, 0, 0 ),
+						color: rgb(0, 0, 0),
+					});
+
+				posicionCell = posicionCell + (width / 5);
+
+				page.drawText(producto.precio.toString() + "$", {
+					x: posicionCell,
+					y: height - posicion * fontSize,
+					size: 10,
+					font: helveticaFont,
+					color: rgb(0, 0, 0),
 				});
 
-				posicionCell = posicionCell + ( width / 5 );
+				posicionCell = posicionCell + (width / 5);
 
 				posicion++;
-			})
+			});
 
 			page.drawLine({
 				start: { x: 50, y: height - posicion * fontSize },
-				end: { x: width - ( 3 * fontSize ) , y: height - posicion * fontSize },
+				end: { x: width - (3 * fontSize), y: height - posicion * fontSize },
 				thickness: 1,
 				color: rgb(0, 0, 0),
 				opacity: 0.8,
-			  });
-				
+			});
+
 			posicion++;
 
-			if ( totalPage ) {
+			if (totalPage) {
 
 				page.drawText("Total de la orden: " + nota.total_order.toString() + "$", {
 					x: width - 10 * fontSize,
 					y: height - posicion * fontSize,
 					size: 12,
 					font: helveticaBoldFont,
-					color: rgb( 0, 0, 0 ),
+					color: rgb(0, 0, 0),
 				});
 
-				if ( nota.status === "ENTREGADA" ) {
-		
+				if (nota.status === "ENTREGADA") {
+
 					page.drawText("!! Gracias por su compra !!", {
-						x: ( width / 3.5 ),
-						  y: height - ( 2 + posicion ) * fontSize,
-						  size: 20,
-						  font: helveticaBoldFont,
-						  color: rgb( 0, 0, 0 ),
+						x: (width / 3.5),
+						y: height - (2 + posicion) * fontSize,
+						size: 20,
+						font: helveticaBoldFont,
+						color: rgb(0, 0, 0),
 					});
 				}
 			}
@@ -253,14 +254,6 @@ class PdfController {
 		const pdfDoc = await PDFDocument.create();
 		const helveticaFont = await pdfDoc.embedFont( StandardFonts.Helvetica );
 		const helveticaBoldFont =  await pdfDoc.embedFont( StandardFonts.HelveticaBold );
-		
-		nota.productos = new Array(50).fill({
-			productoid: 1,
-			nombre: 'test',
-			cantidad_seleccionada: 5,
-			precio: 100
-		})
-
 		const pages = getPages( nota.status === "ENTREGADA" ? 18 : 20 );
 		
 		pages.forEach(({ page, products, number }, index, array ) => {
@@ -285,7 +278,7 @@ class PdfController {
 
 				page.drawText('No hay productos seleccionados ', {
 					x: 50,
-					y: height - 20 * fontSize,
+					y: height - 17 * fontSize,
 					size: 14,
 					font: helveticaBoldFont,
 					color: rgb( 1, 0, 0 ),
