@@ -382,7 +382,7 @@ class OrdersForm {
 
     const PATTERNS = Object.freeze({
       email: new RegExp( /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/ ),
-      onlyLetters: new RegExp( /^[a-zA-Z\s]+$/ ),
+      onlyLetters: new RegExp( /^[a-zA-Z\u00f1\u00d1\u00E0-\u00FC\u00C0-\u017F\s]+$/ ),
       area: new RegExp( /^Ventas|Almacen|Administracion$/ ),
       rif: new RegExp( /^(J|j)-[0-9]{1,8}-[0-9]{1}|(V|v)-[0-9]{1,8}-[0-9]{1}|(G|g)-[0-9]{1,8}-[0-9]{1}$/ ),
       phone: new RegExp( /^[0-9]{4}-[0-9]{7}$/ )

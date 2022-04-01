@@ -95,9 +95,13 @@ function validateData( categoryData, callback ) {
 		notMatch: 'La contraseña no coincide'
 	});
 
+
+	// values: \u00f1: ñ  \u00d1: Ñ
+	// \u00E0-\u00FC: los dos puntos en la u
+	// \u00C0-\u017F: acentos
 	const PATTERNS = Object.freeze({
 		email: new RegExp( /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/ ),
-		onlyLetters: new RegExp( /^[a-zA-Z\s]+$/ ),
+		onlyLetters: new RegExp( /^[a-zA-Z\u00f1\u00d1\u00E0-\u00FC\u00C0-\u017F\s]+$/ ),
 	});
 
 	const { nombre, descripcion } = categoryData;

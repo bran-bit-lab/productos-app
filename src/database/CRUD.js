@@ -43,7 +43,7 @@ const CRUD = Object.freeze({
 
 	// notas ...
 	crearNota: "INSERT INTO notas( userid, status, descripcion_nota, id_cliente, fecha_entrega ) VALUES (:userid, :status, :descripcion_nota, :id_cliente, :fecha_entrega);",
-	listarNotas : "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, usuarios.nombre AS nombre_usuario, usuarios.apellido AS apellido_usuario, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente LIMIT :start, :limit;",
+	listarNotas : "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, usuarios.nombre AS nombre_usuario, usuarios.apellido AS apellido_usuario, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente ORDER BY notas.id_nota DESC LIMIT :start, :limit;",
 	ultimoRegistro: "SELECT * FROM notas ORDER BY id_nota DESC LIMIT 0, 1;",
 	obtenerTotalNotas : "SELECT COUNT(*) FROM notas;",
 	editarNotas : "UPDATE notas SET status = :status, descripcion_nota = :descripcion_nota, fecha_entrega = :fecha_entrega, id_cliente = :id_cliente WHERE id_nota = :id_nota;",

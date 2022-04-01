@@ -7,7 +7,7 @@ class ReportPDF {
     /** @type {?HTMLElement} */
     chartElement = null;
 
-    /** El constructor inicializa el plugin para el fondo blando  */
+    /** El constructor inicializa el plugin para el fondo blanco  */
     constructor() {
       
       /* se crea un plugin para colorear la salida de color negro a blanco */

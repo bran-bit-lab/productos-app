@@ -51,7 +51,7 @@ class OrdersTableComponent {
 
 			setPaginationStorage('notesTable', { pagination });
 
-			console.log( totalOrders );
+			console.log( this.deliveryNotes );
 			this.render( totalOrders.totalPaginas, totalOrders.totalRegistros );
 
 			
