@@ -362,7 +362,12 @@ class NotasController {
 
 		let arrayProductos = nota['productos'];
 
-		const validarCantidad = arrayProductos.every(( producto ) => producto['cantidad_seleccionada'] <= producto['cantidad']);
+		const validarCantidad = arrayProductos.every(( producto ) => { 
+			
+			let total = producto['cantidad_seleccionada'] + producto['cantidad'];
+
+			return producto['cantidad_seleccionada'] <= total; 
+		});
 
 		if ( validarCantidad === false ) {
 

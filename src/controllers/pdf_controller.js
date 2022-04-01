@@ -62,7 +62,7 @@ class PdfController {
 		page.drawText('Datos del Cliente: ', {
 		  x: 50,
 		  y: height - 8 * fontSize,
-		  size: 14,
+		  size: 12,
 		  font: helveticaBoldFont,
 		  color: rgb( 0, 0, 0 ),
 		});
@@ -77,7 +77,7 @@ class PdfController {
 		  ].join('\n'), {
 			  x: 50,
 			  y: height - 10 * fontSize,
-			  size: 14,
+			  size: 12,
 			  font: helveticaFont,
 			  color: rgb( 0, 0, 0 ),
 		});
@@ -85,7 +85,7 @@ class PdfController {
 		page.drawText('Lista de productos: ', {
 		  x: 50,
 		  y: height - 18 * fontSize,
-		  size: 14,
+		  size: 12,
 		  font: helveticaBoldFont,
 		  color: rgb( 0, 0, 0 ),
 		});

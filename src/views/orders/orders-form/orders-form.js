@@ -145,34 +145,11 @@ class OrdersForm {
    */
   async getDeliveryNote( idNote ) {
 
-   this.note = await NotasController.obtenerNota( idNote );
+    this.note = await NotasController.obtenerNota( idNote );
 
-   if ( this.note.fecha_entrega ) {
-     document.querySelector('.date-state').style.display = '';
-   }
-
-   // se añaden al formulario
-   const inputs = this.noteForm.querySelectorAll('input');
-   const select = this.noteForm.querySelector('select');
-
-   inputs[0].value = this.note.descripcion_nota;
-   inputs[1].value = this.note.fecha_entrega;
-
-   select.value = this.note.status;
-
-   this.productsSelected = this.note.productos;
-   this.clientsSelected = this.clientsSelected.concat([{
-     direccion_entrega: this.note.direccion_entrega,
-     id_cliente: this.note.id_cliente,
-     nombre_cliente: this.note.nombre_cliente,
-     rif: this.note.rif,
-     telefono_contacto: this.note.telefono_contacto
-   }]);
-
-   this.setClientsTable();
-   this.setProductsTable();
+    this.setFields()
    
-   this.loadingComponent._show = 'false';
+    this.loadingComponent._show = 'false';
   }
 
   /** Funcion que activa la seleccion de productos */
@@ -229,8 +206,8 @@ class OrdersForm {
   setProductsTable() {
 
     const tableProducts = document.querySelector('#table-products-selected');
-    const tableFooter = document.querySelector('tfoot');
-
+    
+  
     this.calculateTotal();
 
     if ( this.productsSelected.length > 0 ) {
@@ -245,9 +222,9 @@ class OrdersForm {
                 value="${ product.cantidad_seleccionada }"
                 class="form-control text-center"
                 min="1"
-                max="${ product.cantidad }"
+                max="${ this.deliveryId ? ( product.cantidad + product.cantidad_seleccionada ) : product.cantidad }"
                 onchange="ordersForm.handleChangeQuantity(
-                  this, ${ product.productoid }, ${ product.cantidad }
+                  this, ${ product.productoid }, ${ this.deliveryId ? ( product.cantidad + product.cantidad_seleccionada ) : product.cantidad }
                 )"
               />
           </td>
@@ -593,9 +570,53 @@ class OrdersForm {
     hideElement( this.errorDeliveryDate );
 
     if ( button ) {
-      form.reset();
+
+      if ( !this.deliveryId ) {
+        form.reset();
+        
+      } else {
+        this.setFields()
+        
+      }
+      
       document.querySelector('#delivery-description').focus();
     }
+  }
+
+  setFields() {
+    
+    if ( this.note.fecha_entrega ) {
+      document.querySelector('.date-state').style.display = '';
+    }
+ 
+    // se añaden al formulario
+    const inputs = this.noteForm.querySelectorAll('input');
+    const select = this.noteForm.querySelector('select');
+ 
+    inputs[0].value = this.note.descripcion_nota;
+    inputs[1].value = this.note.fecha_entrega;
+ 
+    select.value = this.note.status;
+    
+    console.log({ inputs, select, note: this.note })
+
+    this.productsSelected = this.note.productos;
+
+    // 
+    if ( this.clientsSelected.length === 0 ) {
+
+      this.clientsSelected = this.clientsSelected.concat([{
+        direccion_entrega: this.note.direccion_entrega,
+        id_cliente: this.note.id_cliente,
+        nombre_cliente: this.note.nombre_cliente,
+        rif: this.note.rif,
+        telefono_contacto: this.note.telefono_contacto
+      }]);
+
+    }
+
+    this.setClientsTable();
+    this.setProductsTable();
   }
 }
 
