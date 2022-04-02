@@ -51,7 +51,7 @@ class PdfController {
 			return arrayPages;
 		}
 
-		function header(page, height, width, fontSize) {
+		const header = ( page, height, width, fontSize ) => {
 			
 			// datos hoja carta
 			// altura = 841.89 y ancho = 595.28
@@ -87,6 +87,7 @@ class PdfController {
 				font: helveticaFont,
 				color: rgb(0, 0, 0),
 			});
+
 			// ===================================
 			// datos cliente
 			// ===================================
@@ -120,7 +121,7 @@ class PdfController {
 			});
 		}
 
-		function footer(page, width, fontSize, number = 0) {
+		const footer = ( page, width, fontSize, number = 0 ) => {
 
 			// indice de pagina parte inferior
 			page.drawText('Pagina ' + (pdfDoc.getPageIndices()[number] + 1) + ' de ' + pdfDoc.getPageCount(),
@@ -133,7 +134,7 @@ class PdfController {
 				});
 		}
 
-		function renderTable(page, width, height, fontSize, products, totalPage = false) {
+		const renderTable = ( page, width, height, fontSize, products, totalPage = false ) => {
 
 			// posicion donde se comienza a agregar el producto
 			const arrayHeader = ['id:', 'nombre:', 'cantidad:', 'precio unitario:'];
@@ -228,7 +229,7 @@ class PdfController {
 
 			posicion++;
 
-			if (totalPage) {
+			if ( totalPage ) {
 
 				page.drawText("Total de la orden: " + nota.total_order.toString() + "$", {
 					x: width - 10 * fontSize,
@@ -238,7 +239,7 @@ class PdfController {
 					color: rgb(0, 0, 0),
 				});
 
-				if (nota.status === "ENTREGADA") {
+				if ( nota.status === "ENTREGADA" ) {
 
 					page.drawText("!! Gracias por su compra !!", {
 						x: (width / 3.5),
