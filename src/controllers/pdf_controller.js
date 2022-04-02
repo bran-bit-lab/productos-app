@@ -13,7 +13,7 @@ class PdfController {
 	async createPdf( nota ) {
 
 		// console.log( 'nota --> ', nota );
-		function getPages( limit = 20 ) {
+		const getPages = ( limit = 20 ) => {
 
 			let arrayPages = [];
 
