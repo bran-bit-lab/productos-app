@@ -114,6 +114,8 @@ class ReporteController {
 					return;
 				}
 
+				// console.log( resultados );
+
 				if ( resultados.length > 0 ) {
 
 					let values = [];
@@ -424,11 +426,8 @@ class ReporteController {
 
 						return;
 					}
-				
-					consults = await ReporteController.getImageBuffer( consults );
 					
-					// console.log( consults );
-
+					consults = await ReporteController.getImageBuffer( consults );
 					const data = await pdfController.crearReporte( consults );
 
 					if( FILE.checkAsset( response['filePath'], false ) ){

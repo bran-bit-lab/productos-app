@@ -59,7 +59,7 @@ class ModalProductsComponent {
 
       this.products = await ProductosController.listarProductosActivos( pagination );
 
-      console.log( this.products );
+      // console.log( this.products );
 
       let totalProducts = await ProductosController.obtenerTotalProductosActivos();
 
@@ -83,8 +83,8 @@ class ModalProductsComponent {
    * renderiza la tabla de productos dentro del modal
    *
    * @param  {number} totalPages numero de paginas
-   * @param  {type} totalRegisters numero de registros
-   * @param  {type} search flag que indica si actualizar el paginador
+   * @param  {number} totalRegisters numero de registros
+   * @param  {boolean} search flag que indica si actualizar el paginador
    */
   renderProducts( totalPages = 0, totalRegisters = 0, search = false ) {
 
@@ -221,7 +221,7 @@ class ModalProductsComponent {
   /**
    * chequea si el producto esta marcado en la orden
    *
-   * @param  {Porduct} product instancia del producto
+   * @param  {Product} product instancia del producto
    * @return {boolean} resultado de la verificacion de la existencia del producto.
 	 * Devuelve true si lo encuentra
    */

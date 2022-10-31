@@ -168,9 +168,6 @@ class ReportPDF {
     
         canvas.parentNode.style.width = 'initial';
 
-        // plugin que coloca el background en blanco
-        
-    
         // se generan los colores aleatorios
         const { backgroundColor, borderColor } = this.createRandomColor( values, 0.2 );
     
@@ -188,8 +185,9 @@ class ReportPDF {
           options: {
            responsive: true,
            animation: false,
-           chartArea: {
-             backgroundColor: 'white'
+           chartArea: { 
+            // coloca el background en blanco
+             backgroundColor: 'white',
            }
           }
         });
@@ -241,37 +239,40 @@ class ReportPDF {
     }
 }
 
-
+// capturamos los datos del socket
 ipcRenderer.on('consults', ( $event, consults ) => {
    
     const reportPDF = new ReportPDF();
 
     consults = consults.map(( consult ) => {
-        
-      // console.log( consults );
-        
-        switch ( consult.typeChart ) {
-            case 'pie':
-                
-                consult = reportPDF.createPieChart( consult, '#canvas1' );
-                reportPDF.chartElement.destroy();
 
-                return consult;
+      // en caso de no venir consulta retornamos null
+      if ( !consult ) {
+        return null;
+      }
+
+      switch ( consult.typeChart ) {
+        case 'pie':
             
-            case 'bar': 
+            consult = reportPDF.createPieChart( consult, '#canvas1' );
+            reportPDF.chartElement.destroy();
 
-                consult = reportPDF.createBarChart( consult, '#canvas1' );
-                reportPDF.chartElement.destroy();
+            return consult;
+        
+        case 'bar': 
 
-                return consult;
+            consult = reportPDF.createBarChart( consult, '#canvas1' );
+            reportPDF.chartElement.destroy();
 
-            default:
+            return consult;
 
-                consult = reportPDF.createLineChart( consult, '#canvas1' );
-                reportPDF.chartElement.destroy();
+        default:
 
-                return consult;
-        }
+            consult = reportPDF.createLineChart( consult, '#canvas1' );
+            reportPDF.chartElement.destroy();
+
+            return consult;
+      }
     });
  
     ipcRenderer.send('receiveBuffer', consults );

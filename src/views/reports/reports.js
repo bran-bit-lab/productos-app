@@ -589,20 +589,15 @@ class ReportsComponent {
         ReporteController.buscarCantidadMaximaVendida(),
         ReporteController.buscarCantidadProductosVendidosAnual()
       ]);
-
-      // se asegura que las consultas existan antes 
-      // de generar el reporte
-      const resultsFilter = results.filter(( data ) => data );
       
-      await ReporteController.generarReporte( resultsFilter );
+      await ReporteController.generarReporte( results );
 
     } catch ( error ) {
-
       console.log( error );
 
     } finally {
-
       this.loadingComponent._show = 'false';
+    
     } 
   }
 }

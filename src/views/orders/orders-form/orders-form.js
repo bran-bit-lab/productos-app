@@ -1,10 +1,7 @@
 const { remote } = require('electron');
 const { dateToString } = remote.require('./util_functions/time');
-const { readFileAssets } = remote.require('./util_functions/file');
 const { ClientesController, ProductosController, NotasController, NotasProductosController } = remote.require('./controllers');
 const Modal = require('bootstrap/js/dist/modal');
-// const { ModalClientComponent } = require('../modal-clients/modal-client-component');
-// const { ModalProductsComponent } = require('../modal-products/modal-products-component');
 
 /** clase formulario notas de entrega */
 class OrdersForm {
@@ -130,7 +127,7 @@ class OrdersForm {
       document.querySelector('.select-state').style.display = '';
 
       // se consulta a la base de datos
-      setTimeout(() => this.getDeliveryNote( this.deliveryId ), 500 );
+      this.getDeliveryNote( this.deliveryId );
 
     } else { // new
 
@@ -151,28 +148,28 @@ class OrdersForm {
      document.querySelector('.date-state').style.display = '';
    }
 
-   // se añaden al formulario
-   const inputs = this.noteForm.querySelectorAll('input');
-   const select = this.noteForm.querySelector('select');
+   // console.log( this.note );
 
-   inputs[0].value = this.note.descripcion_nota;
-   inputs[1].value = this.note.fecha_entrega;
+    // se añaden al formulario
+    const inputs = this.noteForm.querySelectorAll('input');
+    const select = this.noteForm.querySelector('select');
 
-   select.value = this.note.status;
+    inputs[0].value = this.note.descripcion_nota;
+    inputs[1].value = this.note.fecha_entrega;
 
-   this.productsSelected = this.note.productos;
-   this.clientsSelected = this.clientsSelected.concat([{
-     direccion_entrega: this.note.direccion_entrega,
-     id_cliente: this.note.id_cliente,
-     nombre_cliente: this.note.nombre_cliente,
-     rif: this.note.rif,
-     telefono_contacto: this.note.telefono_contacto
-   }]);
+    select.value = this.note.status;
 
-   this.setClientsTable();
-   this.setProductsTable();
-   
-   this.loadingComponent._show = 'false';
+    this.productsSelected = this.note.productos;
+    this.clientsSelected = this.clientsSelected.concat([{
+      direccion_entrega: this.note.direccion_entrega,
+      id_cliente: this.note.id_cliente,
+      nombre_cliente: this.note.nombre_cliente,
+      rif: this.note.rif,
+      telefono_contacto: this.note.telefono_contacto
+    }]);
+
+    this.setClientsTable();
+    this.setProductsTable();
   }
 
   /** Funcion que activa la seleccion de productos */
@@ -272,7 +269,6 @@ class OrdersForm {
     }
   }
 
-
   /**
    * evento que captura el envio del formulario
    * @param  {*} event description
@@ -328,25 +324,24 @@ class OrdersForm {
     
     try {
 
-      if ( this.deliveryId ) {
+      // genera un loading de 3 segundos mientra registra la nota + productos
+      setTimeout(() => {
         
-        setTimeout(() => {
+        if ( this.deliveryId ) {
           
           NotasController.actualizarNota({ ...data, id_nota:  Number.parseInt( this.deliveryId ) });
-
+  
           redirectTo('../orders.html');
-        }, 3000 );
 
-      } else { // new
+          return;
+        }
 
-        // genera un loading de 3 segundos mientra registra la nota + productos
-        setTimeout(() => {
+        
+        NotasController.crearNota( data );
 
-          NotasController.crearNota( data );
+        redirectTo('../orders.html');
 
-          redirectTo('../orders.html');
-        }, 3000 );
-      }
+      }, 3000 );
 
     } catch ( error ) {
 

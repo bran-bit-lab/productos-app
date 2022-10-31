@@ -31,7 +31,7 @@ function createWindow() {
     });
 
     // carga los datos
-    win.loadFile( path.join( __dirname, 'views', 'login', 'login.html' ) );
+    win.loadFile( path.join( ENV.PATH_VIEWS, 'login', 'login.html' ) );
 
     win.once('ready-to-show', () => {
         win.show();

@@ -4,7 +4,6 @@ class LoadingComponent extends HTMLElement {
         super();
 
         this.show = this._show;
-
         this.render = this.render.bind( this );
     }
 
@@ -71,28 +70,6 @@ class LoadingComponent extends HTMLElement {
     render() {
         this._show === 'true' ? this.style.display = '' : this.style.display = 'none';
     }
-
-
-    /**
-    * Reajusta el tamano del loading para que ocupe todo el ancho de la body
-    */
-    setSizeLoading( resize = false ) {
-
-        if ( resize ) {
-
-            const body = document.querySelector('body');
-            
-            body.style.height = '100%';
-    
-            const size = {
-              height: body.offsetHeight.toString() + 'px',
-              width: body.offsetWidth.toString() + 'px'
-            };
-            
-            this.style.height = size.height;
-            this.style.width = size.width;
-        }
-      }
 }
 
 customElements.define('loading-component', LoadingComponent );
