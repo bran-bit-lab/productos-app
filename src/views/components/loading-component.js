@@ -59,7 +59,7 @@ class LoadingComponent extends HTMLElement {
         // console.log('conectado');
 
         this.innerHTML = (`
-            <div class="back h-100 w-100 d-flex justify-content-center align-items-center">
+            <div class="back h-100 w-100 d-flex justify-content-center align-items-center position-fixed">
                 <div class="cont">
                     <i class="fas fa-spinner fa-3x fa-pulse"></i>
                 </div>
