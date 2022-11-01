@@ -13,7 +13,7 @@ class OrdersTableComponent {
 	constructor() {
 
 		this.deliveryNotes = [];
-		this.loading = document.querySelector('loading-component');
+		this.loading = document.querySelector('app-loading');
 		this.deliveryTable = document.querySelector('#tbody-delivery-notes');
 		this.searchComponent = document.querySelector('search-bar-component');
 		this.pagination = document.querySelector('#pagination-delivery');

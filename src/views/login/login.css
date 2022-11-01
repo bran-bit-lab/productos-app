@@ -1,7 +1,14 @@
 @import '../global.css';
 
 main {
-	height: 93%;
+	height: 100%;
+	background-image: url(../assets/img/cofee.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+main h1 {
+	font-weight: lighter;
 }
 
 label {
@@ -9,7 +16,7 @@ label {
 }
 
 form {
-	margin: 20px;
+	margin:  0 20px;
 }
 
 form .row {
@@ -27,4 +34,36 @@ form .row {
 button {
 	width: 40% !important;
 	border-radius: 5px !important;
+}
+
+
+div.login-container {
+	width: 45%;
+	background-color: rgba(0, 0, 0, 0.8);
+	border-radius: 25px;
+	padding: 30px;
+}
+
+@media screen and (max-width: 920px) {
+	div.login-container {
+		width: 65%;
+	}
+}
+
+div.login-container .btn-secondary, 
+div.login-container .btn-primary {
+	background: transparent;
+	border: none;
+}
+
+div.login-container .btn-secondary:hover {
+	color: var(--bs-secondary);
+}
+
+div.login-container .btn-primary:hover {
+	color: var(--bs-primary);
+}
+
+footer p {
+	font-weight: bold;
 }

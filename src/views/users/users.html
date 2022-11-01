@@ -9,10 +9,10 @@
   <!-- se importan los web components antes de construir el body -->
   <script src="../components/searchbar-component.js"></script>
   <script src="../components/pagination-component.js"></script>
-  <script src="../components/loading-component.js"></script>
 </head>
 <body>
-  <loading-component class="loading" show="true"></loading-component>
+  <script src="../components/loading/loading-component.js" defer></script>
+  <app-loading class="loading" show="true"></app-loading>
 	<main class="container p-3 h-100">
 
 		<div class="d-flex flex-column h-100 justify-content-start">

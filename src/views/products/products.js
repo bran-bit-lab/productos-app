@@ -12,7 +12,7 @@ class ProductsComponent {
 	constructor() {
 		this.setHtml = this.setHtml.bind( this );
 
-		this.loading = document.querySelector('loading-component');
+		this.loading = document.querySelector('app-loading');
 		this.productsElement = document.querySelector('#products');
 		this.categoriesElement = document.querySelector('#category');
 

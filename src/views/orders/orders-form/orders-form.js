@@ -11,7 +11,7 @@ class OrdersForm {
     this.footer = document.querySelector('footer');
     this.noteForm = document.forms['note-form'];
 
-    this.loadingComponent = document.querySelector('loading-component');  
+    this.loadingComponent = document.querySelector('app-loading');  
 
     /** @type {?number} */
     this.deliveryId = null;

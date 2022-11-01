@@ -6,6 +6,7 @@
 	--success-color: seagreen;
 	--main-color: #e8e8e8;
 	--inverse-main: #171a1c;
+	--primary-button: #1b4ec1;
 }
 
 body {
@@ -66,10 +67,9 @@ body {
 }
 
 .loading .back {
-	background-color: black;
-	opacity: 0.2;
+	background-color: rgba(0, 0, 0, 0.8)
 }
 
-.loading .cont i {
+.loading  i {
 	color: white !important;
 }

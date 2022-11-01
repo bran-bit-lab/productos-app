@@ -20,7 +20,7 @@ class UsersComponent {
 	constructor() {
 		this.setHtml = this.setHtml.bind( this );
 		
-		this.loading = document.querySelector('loading-component');
+		this.loading = document.querySelector('app-loading');
 		this.usersContent = document.querySelector('#users');
 		this.clientsContent = document.querySelector('#clients');
 

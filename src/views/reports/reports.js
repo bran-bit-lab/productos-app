@@ -9,7 +9,7 @@ class ReportsComponent {
 
     // element html
     this.form = document.forms['form-estadistics'];
-    this.loadingComponent = document.querySelector('loading-component');
+    this.loadingComponent = document.querySelector('app-loading');
     this.productQuestions = this.form.querySelector('#product-questions');
     this.deliveryQuestions = this.form.querySelector('#delivery-questions');
     this.period = this.form.querySelector('#from-until');

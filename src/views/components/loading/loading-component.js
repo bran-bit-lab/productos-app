@@ -2,8 +2,6 @@
 class LoadingComponent extends HTMLElement {
     constructor() {
         super();
-
-        this.show = this._show;
         this.render = this.render.bind( this );
     }
 
@@ -48,20 +46,17 @@ class LoadingComponent extends HTMLElement {
     
         if ( oldValue !== newValue ) {
           this[name] = newValue;
+          
           this.render();
         }
     }
 
     /** Callback que conecta al DOM */
     connectedCallback() {
-        
-        // console.log('conectado');
-
         this.innerHTML = (`
-            <div class="back h-100 w-100 d-flex justify-content-center align-items-center position-fixed">
-                <div class="cont">
-                    <i class="fas fa-spinner fa-3x fa-pulse"></i>
-                </div>
+            <div class="back h-100 w-100 d-flex justify-content-center flex-column align-items-center position-fixed">
+                <i class="fas fa-spinner fa-4x fa-pulse"></i>
+                <p class="text-white m-0 pt-3">Cargando ...</p>   
             </div>
         `);
     }
@@ -72,4 +67,4 @@ class LoadingComponent extends HTMLElement {
     }
 }
 
-customElements.define('loading-component', LoadingComponent );
+customElements.define('app-loading', LoadingComponent );
