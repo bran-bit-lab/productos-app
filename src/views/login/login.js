@@ -185,7 +185,7 @@ class LoginPage {
 
 	 		sessionStorage.setItem('userLogged', JSON.stringify( userLogged ));
 
-	 		redirectTo('../home/home.html');
+	 		redirectTo('home/home.html');
 
 	 	} catch ( error ) {
 

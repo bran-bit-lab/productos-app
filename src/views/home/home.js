@@ -19,27 +19,27 @@ class HomeComponent {
 		this.tooltips = this.tooltips.map(( element ) => new Tooltip( element ) );
 		this.loadingComponent = document.querySelector('loading-component');
 
-		this.initCards();
+		// this.initCards();
 	}
 
 	/** redirecciona a usuarios */
 	openUsers() {
-		return redirectTo('../users/users.html');
+		return redirectTo('users/users.html');
 	}
 
 	/** redirecciona a ordenes de entrega */
 	openOrders() {
-		return redirectTo('../orders/orders.html');
+		return redirectTo('orders/orders.html');
 	}
 
 	/** redirecciona a estadisticas */
 	openEstadistics() {
-		return redirectTo('../reports/reports.html');
+		return redirectTo('reports/reports.html');
 	}
 
 	/** redirecciona a productos */
 	openProducts() {
-		return redirectTo('../products/products.html');
+		return redirectTo('products/products.html');
 	}
 
 	/** cierra la sesion */
@@ -75,7 +75,7 @@ class HomeComponent {
 		
 		sessionStorage.removeItem('userLogged');
 		
-		return redirectTo('../login/login.html');
+		return redirectTo('login/login.html');
 	}
 
 	/** muestra las opciones segun el perfil del usuario logueado */

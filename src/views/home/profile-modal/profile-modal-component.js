@@ -74,7 +74,7 @@ class ProfileModalComponent {
    */
   setHtml( callback ) {
 
-    fetch('./profile-modal/profile-modal-component.html')
+    fetch('home/profile-modal/profile-modal-component.html')
       .then( resp => resp.text() )
       .then( html => {
         
