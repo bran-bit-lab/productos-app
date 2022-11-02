@@ -53,12 +53,14 @@ class LoadingComponent extends HTMLElement {
 
     /** Callback que conecta al DOM */
     connectedCallback() {
-        this.innerHTML = (`
-            <div class="back h-100 w-100 d-flex justify-content-center flex-column align-items-center position-fixed">
-                <i class="fas fa-spinner fa-4x fa-pulse"></i>
-                <p class="text-white m-0 pt-3">Cargando ...</p>   
-            </div>
-        `);
+        fetch('components/loading/loading-component.html')
+            .then( response => response.text() )
+            .then( html => {
+                this.innerHTML = html;
+            })
+            .catch( error => {
+                console.log( error );
+            });
     }
 
     /** Muestra el loading en la vista */

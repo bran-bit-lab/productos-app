@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <base href="../" />
   <meta charset="UTF-8">
-  <!-- Mitigacion de cross site scripting -->
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-  <link rel="stylesheet" href="users.css">
+  <link rel="stylesheet" href="users/users.css">
   <title>Products app</title>
-  <!-- se importan los web components antes de construir el body -->
-  <script src="../components/searchbar-component.js"></script>
-  <script src="../components/pagination-component.js"></script>
 </head>
 <body>
-  <script src="../components/loading/loading-component.js" defer></script>
+  <script src="components/searchbar-component.js" defer></script>
+  <script src="components/pagination-component.js" defer></script>
+  <script src="components/loading/loading-component.js" defer></script>
   <app-loading class="loading" show="true"></app-loading>
 	<main class="container p-3 h-100">
 
@@ -20,7 +19,7 @@
       <div class="w-100 d-flex border-bottom flex-row pb-1 justify-content-between align-items-center">
 
         <h2>
-          <i class="fas fa-arrow-circle-left point" onclick="redirectTo('../home/home.html')"></i>
+          <i class="fas fa-arrow-circle-left point" onclick="redirectTo('home/home.html')"></i>
           <span class="ms-3 users">Gestión de usuarios</span>
           <span class="ms-3 clients">Gestión de clientes</span>
         </h2>
@@ -94,7 +93,7 @@
   <footer id="modals"></footer>
 
   <!-- JS -->
-  <script src="../global.js"></script> <!-- script global -->
-	<script src="users.js"></script>
+  <script src="global.js"></script> <!-- script global -->
+	<script src="users/users.js"></script>
 </body>
 </html>

@@ -63,16 +63,16 @@ class UsersComponent {
 	setHtml( callback ) {
 
 		Promise.all([
-			fetch('./users-modal-form/users-modal-form-component.html').then( resp => resp.text() ),
-			fetch('../shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() ),
-			fetch('./users-modal-role/users-modal-role-component.html').then( resp => resp.text() ),
-			fetch('./clients-modal-form/client-modal-form-component.html').then( resp => resp.text() )
+			fetch('users/users-modal-form/users-modal-form-component.html').then( resp => resp.text() ),
+			fetch('shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() ),
+			fetch('users/users-modal-role/users-modal-role-component.html').then( resp => resp.text() ),
+			fetch('users/clients-modal-form/client-modal-form-component.html').then( resp => resp.text() )
 		]).then( async htmlArray => {
 
 			footer.innerHTML = htmlArray.join('');
 
-			this.usersContent.innerHTML = await fetch('./users-table/users-table-component.html').then( resp => resp.text() );
-			this.clientsContent.innerHTML = await fetch('./clients-table/clients-table-component.html').then( resp => resp.text() )
+			this.usersContent.innerHTML = await fetch('users/users-table/users-table-component.html').then( resp => resp.text() );
+			this.clientsContent.innerHTML = await fetch('users/clients-table/clients-table-component.html').then( resp => resp.text() )
 
 			callback();
 		})
