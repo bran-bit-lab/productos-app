@@ -39,6 +39,7 @@ class CardComponent extends HTMLElement {
 	}
 
 	render() {
+
 		const template = this.shadowDom.querySelector('#card');
 		const templateFragment = template.content;
 

@@ -5,6 +5,10 @@ body {
 	height: initial;
 }
 
+/*body main {
+	height: 100vh;
+}*/
+
 .column {
 	height: inherit;
 }
@@ -79,4 +83,26 @@ app-card .grid-card {
 	grid-template-columns: repeat(2, 1fr);
 	grid-template-rows: repeat(2, auto);
 	gap: 30px;
+}
+
+/* menu */
+.menu {
+	background: var(--background-menu-home);
+}
+
+.menu .container {
+	margin-top: 3rem;
+	margin-bottom: 3rem;
+}
+
+.intro {
+	margin-top: 1rem;
+	margin-bottom: 3rem;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.intro .preview {
+	max-height: 250px;
+	height: auto;
 }

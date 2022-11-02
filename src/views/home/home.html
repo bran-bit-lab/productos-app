@@ -2,111 +2,126 @@
 <html>
 <head>
 	<base href="../">
-  <meta charset="UTF-8">
-  <title>Products app</title>
-  <!-- Mitigacion de cross site scripting -->
-  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-  <link rel="stylesheet" href="home/home.css">
+	<meta charset="UTF-8">
+	<title>Products app</title>
+	<!-- Mitigacion de cross site scripting -->
+	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+	<link rel="stylesheet" href="home/home.css">
 </head>
 <body>
 	<script src="components/card/card-component.js" defer></script>
-	<main class="container p-3 h-100">
-		<div>
-			<div class="border-bottom d-flex justify-content-between align-items-center">
-				<h2>Products-app</h2>
-        <div class="">
-          <i
-            class="fas fa-user point me-4 p-0"
-            style="font-size: 24px"
-            data-bs-toggle="tooltip"
-            data-bs-placement="bottom"
-            title="Editar mi perfil"
-            onclick="profileModalComponent.openModalProfile()"
-            >
-          </i>
-          <i
-            class="fas fa-sign-out-alt point p-0"
-            onclick="homeComponent.logOut()"
-            style="font-size: 24px"
-            data-bs-toggle="tooltip"
-            data-bs-placement="bottom"
-            title="Salir"
-            >
-          </i>
-        </div>
+	<main class="d-flex flex-column justify-content-between">
+		<div class="container">
+			<div>
+				<div class="border-bottom d-flex justify-content-between align-items-center">
+					<h2>Products-app</h2>
+					<div class="">
+					<i
+						class="fas fa-user point me-4 p-0"
+						style="font-size: 24px"
+						data-bs-toggle="tooltip"
+						data-bs-placement="bottom"
+						title="Editar mi perfil"
+						onclick="profileModalComponent.openModalProfile()"
+						>
+					</i>
+					<i
+						class="fas fa-sign-out-alt point p-0"
+						onclick="homeComponent.logOut()"
+						style="font-size: 24px"
+						data-bs-toggle="tooltip"
+						data-bs-placement="bottom"
+						title="Salir"
+						>
+					</i>
+					</div>
+				</div>
+				<div class="row intro">
+					<div class="col-6 align-self-center">
+						<article class="fst-italic fw-lighter text-center text-center pt-4">
+							"Bienvenido a Products App, tu herramienta de Gestión, puedes consultar las
+							diferentes opciones de tu aplicación seleccionando una de las tarjetas. las cifras representan
+							la cantidad actual de registros en las diferentes áreas de tu negocio."
+						</article>
+					</div>
+					<div class="col-6 d-flex justify-content-end">
+						<img src="assets/img/home-preview.png" alt="logo" class="preview" />
+					</div>
+				</div>
 			</div>
-			<article class="fst-italic fw-lighter text-center text-center pt-4">
-				"Bienvenido a products app, tu herramienta de Gestión, puedes consultar las
-				diferentes opciones de tu aplicación seleccionando una de las tarjetas. las cifras representan
-				la cantidad actual de registros en las diferentes áreas de tu negocio."
-			</article>
 		</div>
 
-		<div class="grid-card mt-5">
-			<app-card 
-				color="var(--gradient-rosa)"
-				class="point"
-				onclick="homeComponent.openUsers()"
-			>
-				<div class="content text-center text-white" slot="card-body">
-					<div class="grid-card">
-						<div class="align-self-center">
-							<h4>Usuarios clientes y <br /> proveedores</h4>
-							<p class="m-0">prueba de contenido</p>
-						</div>
-						<i class="fas fa-user-circle text-white"></i>
-					</div>
-				</div>
-			</app-card>
-	
-			<app-card 
-				class="point"
-				color="var(--gradient-azul)"
-				onclick="homeComponent.openEstadistics()"
-			>
-				<div class="content text-center text-white" slot="card-body">
-					<div class="grid-card">
-						<div class="align-self-center">
-							<h4>Estadisticas y reportes</h4>
-							<p class="m-0">prueba de contenido</p>
-						</div>
-						<i class="fas fa-chart-line text-white"></i>
-					</div>
-				</div>
-			</app-card>
+		<div class="container-fliud menu">
+			<div class="container">
+				<div class="grid-card">
 
-			<app-card 
-				class="point"
-				color="var(--gradient-turquesa)"
-				onclick="homeComponent.openOrders()"
-			>
-				<div class="content text-center text-white" slot="card-body">
-					<div class="grid-card">
-						<div class="align-self-center">
-							<h4>Notas de entrega</h4>
-							<p class="m-0">prueba de contenido</p>
-						</div>
-						<i class="fas fa-file text-white"></i>
-					</div>
-				</div>
-			</app-card>
 
-			<app-card 
-				class="point"
-				color="var(--gradient-morado)"
-				onclick="homeComponent.openProducts()"
-			>
-				<div class="content text-center text-white" slot="card-body">
-					<div class="grid-card">
-						<div class="align-self-center">
-							<h4>Productos y categorías</h4>
-							<p class="m-0">prueba de contenido</p>
+					<app-card 
+						class="point"
+						color="var(--gradient-turquesa)"
+						onclick="homeComponent.openOrders()"
+					>
+						<div class="content text-center text-white" slot="card-body">
+							<div class="grid-card">
+								<div class="align-self-center">
+									<h4>Notas de entrega</h4>
+									<p class="m-0 quantity"></p>
+								</div>
+								<i class="fas fa-file text-white"></i>
+							</div>
 						</div>
-						<i class="fas fa-boxes text-white"></i>
-					</div>
+					</app-card>
+		
+					<app-card 
+						class="point"
+						color="var(--gradient-morado)"
+						onclick="homeComponent.openProducts()"
+					>
+						<div class="content text-center text-white" slot="card-body">
+							<div class="grid-card">
+								<div class="align-self-center">
+									<h4>Productos y categorías</h4>
+									<p class="m-0 quantity"></p>
+								</div>
+								<i class="fas fa-boxes text-white"></i>
+							</div>
+						</div>
+					</app-card>
+
+					<app-card 
+						class="point"
+						color="var(--gradient-azul)"
+						onclick="homeComponent.openEstadistics()"
+					>
+						<div class="content text-center text-white" slot="card-body">
+							<div class="grid-card">
+								<div class="align-self-center">
+									<h4>Estadísticas y reportes</h4>
+									<p class="m-0 quantity"></p>
+								</div>
+								<i class="fas fa-chart-line text-white"></i>
+							</div>
+						</div>
+					</app-card>
+
+					<app-card 
+						color="var(--gradient-rosa)"
+						class="point"
+						onclick="homeComponent.openUsers()"
+					>
+						<div class="content text-center text-white" slot="card-body">
+							<div class="grid-card">
+								<div class="align-self-center">
+									<h4>Usuarios clientes y <br /> proveedores</h4>
+									<p class="m-0 quantity"></p>
+								</div>
+								<i class="fas fa-user-circle text-white"></i>
+							</div>
+						</div>
+					</app-card>
+			
 				</div>
-			</app-card>
-	
+			</div>
 		</div>
 	</main>
   <footer></footer>

@@ -3,10 +3,14 @@
 <link rel="stylesheet" href="components/card/card-component.css" />
 <template id="card">
 	<div class="card">
-		<slot name="card-header"></slot>
+		<div class="card-header">
+			<slot name="card-header"></slot>
+		</div>
 		<div class="card-body">
 			<slot name="card-body"></slot>
 		</div>
-		<slot name="card-footer"></slot>
+		<div class="card-footer">
+			<slot name="card-footer"></slot>
+		</div>
 	</div>
 </template>	

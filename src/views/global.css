@@ -10,6 +10,7 @@
 	--gradient-rosa: linear-gradient(120deg, rgba(245,137,121,1) 26%, rgba(195,132,238,1) 100%);
 	--gradient-turquesa: linear-gradient(120deg, rgba(24,192,200,1) 20%, rgba(7,131,180,1) 100%);
 	--gradient-morado: linear-gradient(120deg, rgba(220,131,236,1) 8%, rgba(130,61,238,1) 100%);
+	--background-menu-home: #181844;
 }
 
 body {
