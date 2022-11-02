@@ -8,7 +8,6 @@ const {
 } = remote.require('./controllers');
 
 const { ProfileModalComponent } = require('./profile-modal/profile-modal-component');
-const Tooltip = require('bootstrap/js/dist/tooltip');
 
 /** clase home */
 class HomeComponent {

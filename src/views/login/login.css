@@ -39,7 +39,7 @@ button {
 
 div.login-container {
 	width: 45%;
-	background-color: rgba(0, 0, 0, 0.8);
+	background-color: rgba(0, 0, 0, 0.9);
 	border-radius: 25px;
 	padding: 30px;
 }
@@ -54,6 +54,15 @@ div.login-container .btn-secondary,
 div.login-container .btn-primary {
 	background: transparent;
 	border: none;
+}
+
+
+div.login-container .btn-secondary:active, 
+div.login-container .btn-primary:active,
+div.login-container .btn-secondary:focus, 
+div.login-container .btn-primary:focus {
+	border: none;
+	box-shadow: none;
 }
 
 div.login-container .btn-secondary:hover {

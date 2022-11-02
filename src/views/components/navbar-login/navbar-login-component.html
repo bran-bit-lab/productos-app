@@ -1,0 +1,31 @@
+
+<!-- /* web-component create-app-cli */ -->
+<link rel="stylesheet" href="" />
+<!-- As a link -->
+<nav class="navbar navbar-dark bg-dark">
+	<div class="container d-flex justify-content-between">
+		<h2>
+			<a class="navbar-brand" href="#">Products App</a>
+		</h2>
+		<div>
+			<i
+				class="fas fa-user point me-4 p-0 text-white"
+				style="font-size: 24px"
+				data-bs-toggle="tooltip"
+				data-bs-placement="bottom"
+				title="Editar mi perfil"
+				onclick="profileModalComponent.openModalProfile()"
+				>
+			</i>
+			<i
+				class="fas fa-sign-out-alt point p-0 text-white"
+				onclick="homeComponent.logOut()"
+				style="font-size: 24px"
+				data-bs-toggle="tooltip"
+				data-bs-placement="bottom"
+				title="Salir"
+				>
+			</i>
+		</div>
+	</div>
+</nav>

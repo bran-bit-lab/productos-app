@@ -10,43 +10,21 @@
 </head>
 <body>
 	<script src="components/card/card-component.js" defer></script>
+	<script src="components/navbar-login/navbar-login-component.js" defer></script>
+
+	<app-navbar></app-navbar>
 	<main class="d-flex flex-column justify-content-between">
 		<div class="container">
-			<div>
-				<div class="border-bottom d-flex justify-content-between align-items-center">
-					<h2>Products-app</h2>
-					<div class="">
-					<i
-						class="fas fa-user point me-4 p-0"
-						style="font-size: 24px"
-						data-bs-toggle="tooltip"
-						data-bs-placement="bottom"
-						title="Editar mi perfil"
-						onclick="profileModalComponent.openModalProfile()"
-						>
-					</i>
-					<i
-						class="fas fa-sign-out-alt point p-0"
-						onclick="homeComponent.logOut()"
-						style="font-size: 24px"
-						data-bs-toggle="tooltip"
-						data-bs-placement="bottom"
-						title="Salir"
-						>
-					</i>
-					</div>
+			<div class="row intro">
+				<div class="col-6 align-self-center">
+					<article class="fw-lighter text-center text-center pt-4">
+						"Bienvenido a Products App, tu herramienta de Gestión, puedes consultar las
+						diferentes opciones de tu aplicación seleccionando una de las tarjetas. las cifras representan
+						la cantidad actual de registros en las diferentes áreas de tu negocio."
+					</article>
 				</div>
-				<div class="row intro">
-					<div class="col-6 align-self-center">
-						<article class="fst-italic fw-lighter text-center text-center pt-4">
-							"Bienvenido a Products App, tu herramienta de Gestión, puedes consultar las
-							diferentes opciones de tu aplicación seleccionando una de las tarjetas. las cifras representan
-							la cantidad actual de registros en las diferentes áreas de tu negocio."
-						</article>
-					</div>
-					<div class="col-6 d-flex justify-content-end">
-						<img src="assets/img/home-preview.png" alt="logo" class="preview" />
-					</div>
+				<div class="col-6 d-flex justify-content-end">
+					<img src="assets/img/home-preview.png" alt="logo" class="preview" />
 				</div>
 			</div>
 		</div>
@@ -67,7 +45,9 @@
 									<h4>Notas de entrega</h4>
 									<p class="m-0 quantity"></p>
 								</div>
-								<i class="fas fa-file text-white"></i>
+								<div class="d-flex flex-column justify-content-center align-items-center">
+									<i class="fas fa-file text-white"></i>
+								</div>
 							</div>
 						</div>
 					</app-card>
@@ -83,7 +63,9 @@
 									<h4>Productos y categorías</h4>
 									<p class="m-0 quantity"></p>
 								</div>
-								<i class="fas fa-boxes text-white"></i>
+								<div class="d-flex flex-column justify-content-center align-items-center">
+									<i class="fas fa-boxes text-white"></i>
+								</div>
 							</div>
 						</div>
 					</app-card>
@@ -99,7 +81,9 @@
 									<h4>Estadísticas y reportes</h4>
 									<p class="m-0 quantity"></p>
 								</div>
-								<i class="fas fa-chart-line text-white"></i>
+								<div class="d-flex flex-column justify-content-center align-items-center">
+									<i class="fas fa-chart-line text-white"></i>
+								</div>
 							</div>
 						</div>
 					</app-card>
@@ -115,7 +99,9 @@
 									<h4>Usuarios clientes y <br /> proveedores</h4>
 									<p class="m-0 quantity"></p>
 								</div>
-								<i class="fas fa-user-circle text-white"></i>
+								<div class="d-flex flex-column justify-content-center align-items-center">
+									<i class="fas fa-user-circle text-white"></i>
+								</div>
 							</div>
 						</div>
 					</app-card>

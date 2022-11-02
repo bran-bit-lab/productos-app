@@ -5,10 +5,6 @@ body {
 	height: initial;
 }
 
-/*body main {
-	height: 100vh;
-}*/
-
 .column {
 	height: inherit;
 }
@@ -26,10 +22,6 @@ body {
 	font-weight: lighter;
 	color: black;
 }
-
-/*.card-body {
-	background: white;
-}*/
 
 i {
 	color: #171a1c;
@@ -69,6 +61,12 @@ app-card i {
 	font-size: 100px;
 	padding: 0;
 	opacity: 0.5;
+}
+
+@media screen and (max-width: 920px) {
+	app-card i {
+		font-size: 50px;
+	}
 }
 
 
