@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="es-VE">
   <head>
+    <base href="../">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="stylesheet" href="./reports.css" />
-    <!-- Mitigacion de cross site scripting -->
+    <link rel="stylesheet" href="reports/reports.css" />
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <title>Products app</title>
   </head>
   <body>
-    <script src="../components/loading/loading-component.js" defer></script>
+    <script src="components/loading/loading-component.js" defer></script>
     <app-loading class="loading" show="false"></app-loading> 
     <form name="form-estadistics">
       <main class="container p-3 h-100">
         <div class="d-flex flex-row justify-content-between border-bottom">
           <h2>
-            <i class="fas fa-arrow-circle-left point" onclick="redirectTo('../home/home.html')"></i>
+            <i class="fas fa-arrow-circle-left point" onclick="redirectTo('home/home.html')"></i>
             <span class="ms-3">Estadísticas y reportes</span>
           </h2>
         </div>
@@ -132,7 +132,7 @@
         </div>
       </div>
     </form>
-    <script src="../global.js"></script>
-    <script src="./reports.js"></script>
+    <script src="global.js"></script>
+    <script src="reports/reports.js"></script>
   </body>
 </html>

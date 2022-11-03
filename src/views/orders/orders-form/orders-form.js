@@ -65,9 +65,9 @@ class OrdersForm {
   setHtml( callback ) {
 
     Promise.all([
-      fetch('../modal-clients/modal-client-component.html').then( resp => resp.text() ),
-      fetch('../modal-products/modal-products-component.html').then( resp => resp.text() ),
-      fetch('../../shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() )
+      fetch('orders/modal-clients/modal-client-component.html').then( resp => resp.text() ),
+      fetch('orders/modal-products/modal-products-component.html').then( resp => resp.text() ),
+      fetch('shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() )
     ]).then( htmlArray => {
       
       this.footer.innerHTML = htmlArray.join('');
@@ -331,7 +331,7 @@ class OrdersForm {
           
           NotasController.actualizarNota({ ...data, id_nota:  Number.parseInt( this.deliveryId ) });
   
-          redirectTo('../orders.html');
+          redirectTo('orders/orders.html');
 
           return;
         }
@@ -339,7 +339,7 @@ class OrdersForm {
         
         NotasController.crearNota( data );
 
-        redirectTo('../orders.html');
+        redirectTo('orders/orders.html');
 
       }, 3000 );
 

@@ -1,4 +1,4 @@
-/** Componente de busqueda (Web compoent) */
+/** Componente de busqueda (Web component) */
 class SearchBarComponent extends HTMLElement {
 
   constructor() {

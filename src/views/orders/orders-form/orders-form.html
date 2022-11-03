@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="es-VE">
   <head>
+    <base href="../../" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <title>Products app</title>
     <!-- Mitigacion de cross site scripting -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="../orders.css" />
-    <link rel="stylesheet" href="./orders-form.css" />
-    <script src="../../components/searchbar-component.js"></script>
-    <script src="../../components/pagination-component.js"></script>
+    <link rel="stylesheet" href="orders/orders.css" />
+    <link rel="stylesheet" href="orders/orders-form/orders-form.css" />
   </head>
   <body>
-    <script src="../../components/loading/loading-component.js" defer></script>
+    <script src="components/loading/loading-component.js" defer></script>
+    <script src="components/search-bar/search-bar-component.js" defer></script>
+    <script src="components/pagination/pagination-component.js" defer></script>
+    
     <app-loading class="loading" show="true"></app-loading>
     <main class="container p-3 h-100">
       <div class="d-flex flex-row justify-content-between border-bottom">
         <h2>
-          <i class="fas fa-arrow-circle-left point" onclick="redirectTo('../orders.html');"></i>
+          <i class="fas fa-arrow-circle-left point" onclick="redirectTo('orders/orders.html');"></i>
           <span class="ms-3" id="title"></span>
         </h2>
       </div>
@@ -128,7 +130,7 @@
 
     </main>
     <footer id="footer"></footer>
-    <script src="../../global.js"></script>
-    <script src="./orders-form.js"></script>
+    <script src="global.js"></script>
+    <script src="orders/orders-form/orders-form.js"></script>
   </body>
 </html>

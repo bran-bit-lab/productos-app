@@ -66,7 +66,7 @@ class OrdersTableComponent {
 
 	/** redirecciona al formulario de notas al crear una nota */
 	createDeliveryNote() {
-		redirectTo('./orders-form/orders-form.html');
+		redirectTo('orders/orders-form/orders-form.html');
 	}
 
 
@@ -75,7 +75,7 @@ class OrdersTableComponent {
 	 * @param  {number} idDelivery identificador de la nota
 	 */
 	editDeiliveryNote( idDelivery ) {
-		redirectTo('./orders-form/orders-form.html?idDelivery=' + idDelivery )
+		redirectTo('orders/orders-form/orders-form.html?idDelivery=' + idDelivery )
 	}
 
 	/**

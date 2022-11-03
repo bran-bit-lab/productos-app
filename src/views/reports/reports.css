@@ -35,3 +35,7 @@ form[name="form-estadistics"] {
 			left: 33%;
 		}
 }
+
+.fixed-bottom {
+	z-index: initial !important;
+}
