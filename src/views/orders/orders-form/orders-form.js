@@ -1,6 +1,12 @@
 const { remote } = require('electron');
 const { dateToString } = remote.require('./util_functions/time');
-const { ClientesController, ProductosController, NotasController, NotasProductosController } = remote.require('./controllers');
+const { 
+  ClientesController, 
+  ProductosController, 
+  NotasController, 
+  NotasProductosController 
+} = remote.require('./controllers');
+
 const Modal = require('bootstrap/js/dist/modal');
 
 /** clase formulario notas de entrega */

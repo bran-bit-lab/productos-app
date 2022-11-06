@@ -153,7 +153,11 @@ class ModalProductsComponent {
     	if ( index === -1 ) {
 
     		let product = this.products.find(( product ) => product.productoid === id_product );
-        product = {...product, precio: product.precio || 0, cantidad_seleccionada: 1 };
+        product = { 
+          ...product, 
+          precio: product.precio || 0, 
+          cantidad_seleccionada: 1 
+        };
 
     		this.productsSelected.push( product );
     	}
