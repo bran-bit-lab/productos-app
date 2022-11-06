@@ -42,7 +42,7 @@ class CardComponent extends HTMLElement {
 
 		const template = this.shadowDom.querySelector('#card');
 		const templateFragment = template.content;
-
+		
 		this.shadowDom.appendChild( templateFragment.cloneNode( true ) );
 
 		if ( this.hasAttribute('color') ) {

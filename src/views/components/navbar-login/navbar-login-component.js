@@ -29,8 +29,8 @@ class NavbarLoginComponent extends HTMLElement {
 		// inicializa los tooltips
 		this.tooltips = Array.from( this.querySelectorAll('[data-bs-toggle="tooltip"]') );
 		this.tooltips = this.tooltips.map(( element ) => new Tooltip( element ) );
-
-		console.log( getUserLogged() );
+		
+		// console.log( getUserLogged() );
 	}
 
 	disconnectedCallback() {

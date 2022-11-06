@@ -11,8 +11,12 @@
 <body>
 	<script src="components/card/card-component.js" defer></script>
 	<script src="components/navbar-login/navbar-login-component.js" defer></script>
-
+	<script src="components/modal/modal-component.js" defer></script>
 	<app-navbar></app-navbar>
+	<app-modal>
+		<h2 slot="modal-title">Hola</h2>
+		<p slot="modal-body">text</p>
+	</app-modal>
 	<main class="d-flex flex-column justify-content-between">
 		<div class="container">
 			<div class="row intro">
@@ -110,7 +114,7 @@
 			</div>
 		</div>
 	</main>
-  <footer></footer>
+  	<footer></footer>
 	<script src="global.js"></script>
 	<script src="home/home.js"></script>
 </body>
