@@ -78,3 +78,40 @@ body {
 .loading  i {
 	color: white !important;
 }
+
+/**
+ * Modals
+ * */
+ .modal-footer,
+ .modal-body,
+ .modal-header {
+ 	padding: 20px 30px;
+ }
+
+.modal-content {
+	border-radius: 20px;
+}
+
+/**
+ * Buttons
+ * */
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:disabled {
+	background: var(--background-menu-home);
+	border:  1px solid var(--background-menu-home);
+	box-shadow: none !important;
+}
+
+
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-secondary:disabled {
+	background: var(--bs-dark);
+	border:  1px solid var(--bs-dark);
+	box-shadow: none !important;
+}

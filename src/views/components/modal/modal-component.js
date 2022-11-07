@@ -1,10 +1,5 @@
-const Modal = require('bootstrap/js/dist/modal');
-
 class ModalComponent extends HTMLElement {
 	
-	modalInstance = null;
-	shadowDom = null;
-
 	constructor() {
 		super();
 		this.shadowDom = this.attachShadow({ mode: 'open' });
@@ -38,13 +33,41 @@ class ModalComponent extends HTMLElement {
 			return;
 		}
 
+		this[name] = newValue;
+
+		// console.log({ name, oldValue, newValue });
+		console.log( this._open );
+
 		// controla la apertura y cierre del modal
 		if ( this._open ) {
-			this.modalInstance.show();
+			const modalContainer = this.shadowDom.querySelector('.modal-container');
+
+			console.log(modalContainer);			
+
+
+            if ( modalContainer.classList.contains('fade-animation-in') ) {
+                modalContainer.classList.replace('fade-animation-out', 'fade-animation-in');
+                
+            } else {
+                modalContainer.classList.add('fade-animation-in');
+                
+            }
+            
+            modalContainer.style.display = 'flex';
 
 		} else {
-			this.modalInstance.hide();
+			
 
+            if ( modalContainer.classList.contains('fade-animation-out') ) {
+                modalContainer.classList.replace('fade-animation-in', 'fade-animation-out');
+            
+            } else {
+                modalContainer.classList.add('fade-animation-out');
+            }
+            
+            setTimeout(() => {
+                modalContainer.style.display = 'none';
+            }, 150 );
 		}
 	}
 
@@ -53,28 +76,12 @@ class ModalComponent extends HTMLElement {
 		const template = this.shadowDom.querySelector('#modal');
 		const templateFragment = template.content;
 
-
 		this.shadowDom.appendChild( templateFragment.cloneNode( true ) );
 
-		// modal instance
-		this.modalInstance = new Modal( this.shadowDom.querySelector('.modal') );
-		console.log( this.modalInstance );
-
-
-		// buttons
-		const buttons = this.querySelectorAll('.close');
-		
-		for ( const button of buttons ) {
-			button.addEventListener('click', () => {
-				this._open = false;
-			});
-		}
-
-		this._open = false;
+		this._open = true;
 	}
 
 	disconnectedCallback() { 
-		this.modalInstance.dispose();
 	}
 }
 
