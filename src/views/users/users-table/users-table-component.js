@@ -194,7 +194,7 @@ class UsersTableComponent {
 					<button
 						type="button"
 						onclick="usersTableComponent.openModalConfirm( ${ user.userid } )"
-						class="btn btn-danger btn-sm"
+						class="btn btn-secondary btn-sm"
 						${ getUserLogged().userid === user.userid ? 'disabled' : '' }
 					>
 						<i class="fas fa-trash"></i>

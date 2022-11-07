@@ -11,6 +11,7 @@
 	--gradient-turquesa: linear-gradient(120deg, rgba(24,192,200,1) 20%, rgba(7,131,180,1) 100%);
 	--gradient-morado: linear-gradient(120deg, rgba(220,131,236,1) 8%, rgba(130,61,238,1) 100%);
 	--background-menu-home: #181844;
+	--background-secondary-color: var(--bs-dark);
 	--background-menu-rgba: rgba(24, 24, 68, 0.9);
 }
 
@@ -111,7 +112,32 @@ body {
 .btn-secondary:focus,
 .btn-secondary:active,
 .btn-secondary:disabled {
-	background: var(--bs-dark);
-	border:  1px solid var(--bs-dark);
+	background: var(--background-secondary-color);
+	border:  1px solid var(--background-secondary-color);
 	box-shadow: none !important;
+}
+
+/*
+	switch's
+*/
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+	background: var(--background-secondary-color);
+}
+
+.nav-link,
+.nav-link:hover {
+	color: var(--background-secondary-color);
+}
+
+/*
+	pagination's
+*/
+.page-link,
+.page-link:hover {
+	color: var(--background-menu-home);
+}
+
+.page-item.active .page-link {
+	background-color: var(--background-menu-home);
+	border-color: var(--background-menu-home);	
 }

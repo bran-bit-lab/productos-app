@@ -40,13 +40,9 @@ body {
 }
 
 .form-group, label {
-	font-weight: bold;
+	/*font-weight: bold;*/
 	font-size: 14px;
 	margin-bottom: 5px;
-}
-
-.invalid-feedback > small {
-	font-weight: lighter;
 }
 
 .ml-3 {
