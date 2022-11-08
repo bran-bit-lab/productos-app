@@ -36,6 +36,21 @@ body {
 .table-responsive {
 	background: #fff;
 	border-radius: 5px;
+	padding: 0;
+}
+
+.table-responsive table {
+	margin-bottom: 0;
+}
+
+.table-responsive table th {
+	padding: 10px;
+}
+
+.table-responsive thead {
+	background-color: var(--bs-dark);
+	color: #fff;
+	border: none;
 }
 
 
