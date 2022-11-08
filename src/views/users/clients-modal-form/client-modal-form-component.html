@@ -27,7 +27,16 @@
 
             <div class="mb-3 row">
               <!-- rif -->
-              <label for="rif-client" class="col-form-label col-4">Registro de Identificación Fiscal (RIF):</label>
+              <label for="rif-client" class="col-form-label col-4">
+                Registro de Identificación Fiscal (RIF):
+                <i 
+                  class="fas fa-question-circle text-secondary info-question"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="bottom" 
+                  title="El número de indentificación debe colocarse de la siguiente forma: J-12345678-9 o G-12345678-8 o V-12345678-2"
+                  id="info-rif"  
+                ></i>
+              </label>
               <div class="col-8">
                 <input type="text" id="rif-client" name="rif" class="form-control" />
                 <div class="invalid-feedback text-center" id="error-rif"></div>

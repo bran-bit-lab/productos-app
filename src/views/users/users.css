@@ -48,3 +48,13 @@ body {
 .ml-3 {
 	margin-left: 20px;
 }
+
+label[for="rif-client"] {
+	position: relative;
+}
+
+.info-question {
+	position: absolute;
+	font-size: 11px;
+	left: 48%;
+}

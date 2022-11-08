@@ -8,6 +8,7 @@ const { readFileAssets } = remote.require('./util_functions/file');
 const { sliceString } = remote.require('./util_functions/string');
 const Modal = require('bootstrap/js/dist/modal');
 const Tab = require('bootstrap/js/dist/tab');
+const Tooltip = require('bootstrap/js/dist/tooltip');
 
 const UsersTableComponent = require('./users-table/users-table-component');
 
