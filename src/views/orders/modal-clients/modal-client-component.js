@@ -99,7 +99,7 @@ class ModalClientComponent {
       showElement( this.pagination );
 
       this.tbody.innerHTML = this.clients.map(( client ) => (`
-       <tr class="text-center">
+       <tr class="text-center point" onclick="client_${ client.id_cliente }.click();">
          <td name="id_cliente">${ client.id_cliente }</td>
          <td name="nombre_cliente">${ client.nombre_cliente }</td>
          <td name="rif">${ client.rif }</td>

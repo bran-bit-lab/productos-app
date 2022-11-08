@@ -39,3 +39,8 @@ form[name="form-estadistics"] {
 .fixed-bottom {
 	z-index: initial !important;
 }
+
+.report-preview {
+	max-height: 150px;
+	max-width: 150px;
+}

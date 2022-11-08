@@ -101,7 +101,7 @@ class ModalProductsComponent {
       showElement( this.pagination );
 
       this.tbody.innerHTML = this.products.map(( product ) => (`
-       <tr class="text-center">
+       <tr class="text-center point" onclick="product_${ product.productoid }.click();">
          <td name="productoid">${ product.productoid }</td>
          <td name="nombre_producto">${ product.nombre }</td>
          <td name="nombre_categoria">${ product.nombre_categoria }</td>
