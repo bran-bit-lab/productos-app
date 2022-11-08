@@ -24,22 +24,55 @@
         </h2>
       </div>
       <form name="note-form">
+
+        <!-- descripcion entrega -->
+        <div class="row mb-3">
+          <label for="delivery-description" class="col-form-label col-4">Descripción de la entrega:</label>
+          <div class="col-8">
+            <input name="delivery-description" id="delivery-description" class="form-control" />
+            <div class="invalid-feedback text-center" id="error-delivery-description"></div>
+          </div>
+        </div>
+
+        <!-- fecha de entrega -->
+        <div class="row mb-3 date-state" style="display: none;">
+          <label for="delivery-date" class="col-form-label col-4">Fecha de entrega:</label>
+          <div class="col-8" >
+            <input readonly type="date" id="delivery-date" name="delivery-date" class="form-control" />
+            <div class="invalid-feedback text-center" id="error-delivery-date"></div>
+          </div>
+        </div>
+
+        <!-- estado -->
+        <div class="row mb-3 select-state" style="display: none;">
+          <label for="delivery-state" class="col-form-label col-4">Estado de la entrega</label>
+          <div class="col-8">
+            <select name="delivery-state" id="delivery-state" class="form-control">
+              <option value="EN_PROCESO" selected>En proceso</option>
+              <option value="ACEPTADO">Aceptado</option>
+              <option value="ENTREGADA">Entregada</option>
+              <option value="CANCELADA">Cancelada</option>
+              <option value="POSPUESTO">Pospuesto</option>
+            </select>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-12">
 
-            <div class="form-group">
+            <!--<div class="form-group">
               <label for="delivery-description" class="form-label">Descripcion de la entrega:</label>
               <input name="delivery-description" id="delivery-description" class="form-control" />
               <div class="invalid-feedback text-center" id="error-delivery-description"></div>
-            </div>
+            </div>-->
 
-            <div class="form-group date-state" style="display: none;">
+            <!--<div class="form-group date-state" style="display: none;">
               <label for="delivery-date" class="form-label">Fecha de entrega</label>
               <input readonly type="date" id="delivery-date" name="delivery-date" class="form-control" />
               <div class="invalid-feedback text-center" id="error-delivery-date"></div>
-            </div>
+            </div>-->
 
-            <div class="form-group select-state" style="display: none;">
+            <!--<div class="form-group select-state" style="display: none;">
               <label for="delivery-state" class="form-label">Estado de la entrega</label>
               <select name="delivery-state" id="delivery-state" class="form-control">
                 <option value="EN_PROCESO" selected>En proceso</option>
@@ -48,7 +81,7 @@
                 <option value="CANCELADA">Cancelada</option>
                 <option value="POSPUESTO">Pospuesto</option>
               </select>
-            </div>
+            </div>-->
 
           </div>
         </div>
