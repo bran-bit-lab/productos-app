@@ -189,7 +189,7 @@ class ProductsTableComponent {
 					<button
 						type="button"
 						onclick="productsTableComponent.openModalConfirm( ${ product.productoid } )"
-						class="btn btn-danger btn-sm"
+						class="btn btn-secondary btn-sm"
 					>
 						<i class="fas fa-trash"></i>
 					</button>

@@ -141,3 +141,9 @@ body {
 	background-color: var(--background-menu-home);
 	border-color: var(--background-menu-home);	
 }
+
+/* input radio and checkbox */
+.form-check-input:checked {
+    background-color: var(--background-menu-home);
+    border-color: var(--background-menu-home);
+}
