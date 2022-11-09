@@ -40,7 +40,6 @@ class NotasProductosController {
 			// actualiza el valor de la cantidad del producto
 			NotasProductosController.restarCantidad.call( NotasProductosController.database, notaProducto, callback );
 		});
-
 	}
 
 
@@ -73,7 +72,7 @@ class NotasProductosController {
 			if ( callback ) {
 				callback();
 			}
-  	});
+  		});
 	}
 
 	/**
@@ -105,7 +104,7 @@ class NotasProductosController {
 			}
 
 			callback();
-  	});
+  		});
 	}
 
 
