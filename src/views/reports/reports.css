@@ -6,7 +6,7 @@ body {
 
 main {
 	width: 100%;
-	height: 100%;
+	/*height: 100%; */
 }
 
 .info {
@@ -43,4 +43,21 @@ form[name="form-estadistics"] {
 .report-preview {
 	max-height: 150px;
 	max-width: 150px;
+}
+
+.form-content {
+	background-color: var(--background-menu-home);
+	color: white;
+	height: auto;
+	min-height: 65%;
+}
+
+.form-content .padding-5rem {
+	padding-top: 5rem;
+}
+
+#canvas-estadistics .chart-model {
+	background-color: var(--main-color);
+	border-radius: 5px;
+	padding: 20px;
 }

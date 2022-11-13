@@ -12,7 +12,7 @@
     <script src="components/loading/loading-component.js" defer></script>
     <app-loading class="loading" show="false"></app-loading> 
     <form name="form-estadistics">
-      <main class="container p-3 h-100">
+      <main class="container p-3">
         <div class="d-flex flex-row justify-content-between border-bottom">
           <h2>
             <i class="fas fa-arrow-circle-left point" onclick="redirectTo('home/home.html')"></i>
@@ -31,9 +31,11 @@
             <img src="assets/img/report-minified.png" alt="logo" class="report-preview" />
           </div>
         </div>
+      </main>
 
-        <div class="main-content mt-5">
-          <div class="mt-4" >
+      <main class="form-content">
+        <div class="container main-content mt-5">
+          <div class="padding-5rem" >
             <div class="row mb-4">
 
               <div class="col-md-6 col-12 pe-3">
@@ -140,7 +142,7 @@
                 <div class="col-12 col-md-6" id="table-data"></div>
                 <!-- estadisticas -->
                 <div class="col-12 col-md-6">
-                  <div class="d-flex justify-content-center align-items-center h-100">
+                  <div class="d-flex justify-content-center align-items-center h-100 chart-model">
                     <div>
                       <canvas id="chart-model"></canvas>
                     </div>
@@ -152,10 +154,11 @@
           </div>
         </div>
       </main>
+
       <div class="fixed-bottom">
         <div class="d-flex justify-content-center justify-content-center m-3">
-          <button type="submit" class="btn btn-primary">Mostrar Gráficas</button>
-          <button type="button" class="btn btn-primary ms-3" onclick="reportsComponent.generateReport()">
+          <button type="submit" class="btn btn-dark">Mostrar Gráficas</button>
+          <button type="button" class="btn btn-dark ms-3" onclick="reportsComponent.generateReport()">
             Generar reporte
           </button>
         </div>
