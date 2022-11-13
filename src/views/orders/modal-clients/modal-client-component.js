@@ -121,7 +121,7 @@ class ModalClientComponent {
 
         // se crea este listener para dar solucion a la propagacion del evento onclick
         // del input al tr.
-        input.addEventListener('click', $event => $event.stopPropagation());
+        input.addEventListener('click', event => event.stopPropagation() );
       }
 
    } else {
