@@ -5,7 +5,7 @@ const path = require('path');
 
 //console.log (XLSX);
 
-function readFile(url){
+function writeFile(url){
   let file = fs.readFileSync( ('C:/Users/Brandon/Desktop/fuente_ejemplo_excel.json'), { encoding: "utf-8" });
   file = JSON.parse(file);  
   const filter = file.filter(row => row.terms.some(term => term.type === "prez"));
@@ -32,6 +32,28 @@ function readFile(url){
   /*return file;*/
 }
 
+//  writeFile();
+// funcion que lee un archivo de excel
+function readFile(){
+
+  let file = fs.readFileSync( ('C:/Users/Brandon/Desktop/model.xls') ); //buffer por defecto
+  let resultado = XLSX.read(file);
+  // arreglo de objetos con cada una de las hojas contenidas en el libro
+  const hojas = [];
+  // en Workbok estan cada una de las propiedades del libro
+  // Sheets es el arreglo dentro de Workbook que contiene la informacion de cada hoja
+  resultado.Workbook.Sheets.forEach(nombres => {
+    let data = resultado.Sheets[nombres.name];
+    let sheet = XLSX.utils.sheet_to_json(data);
+    let hoja = {
+      nombre: nombres.name,
+      contenido: sheet
+    };
+    hojas.push(hoja);
+    //console.log(sheet)
+  });
+  
+  console.log(hojas);
+}
+
   readFile();
-
-
