@@ -46,15 +46,12 @@ class OrdersTableComponent {
 		try {
 
 			this.deliveryNotes = await NotasController.listarNotas( pagination );
-
 			const totalOrders = await NotasController.obtenerTotalNotas();
 
 			setPaginationStorage('notesTable', { pagination });
 
-			console.log( totalOrders );
+			// console.log( totalOrders );
 			this.render( totalOrders.totalPaginas, totalOrders.totalRegistros );
-
-			
 		}
 
 		catch ( error ) {

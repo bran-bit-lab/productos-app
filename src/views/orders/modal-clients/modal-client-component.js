@@ -116,7 +116,12 @@ class ModalClientComponent {
       `)).join('');
 
       for ( const input of this.tbody.querySelectorAll('input[type="radio"]') ) {
+        
         input.addEventListener( 'change', this.handleChange.bind( this ) );
+
+        // se crea este listener para dar solucion a la propagacion del evento onclick
+        // del input al tr.
+        input.addEventListener('click', $event => $event.stopPropagation());
       }
 
    } else {
