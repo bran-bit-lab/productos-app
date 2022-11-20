@@ -59,7 +59,7 @@ class ModalProductsComponent {
 
       this.products = await ProductosController.listarProductosActivos( pagination );
 
-      console.log( this.products );
+      // console.log( this.products );
 
       let totalProducts = await ProductosController.obtenerTotalProductosActivos();
 
@@ -83,8 +83,8 @@ class ModalProductsComponent {
    * renderiza la tabla de productos dentro del modal
    *
    * @param  {number} totalPages numero de paginas
-   * @param  {type} totalRegisters numero de registros
-   * @param  {type} search flag que indica si actualizar el paginador
+   * @param  {number} totalRegisters numero de registros
+   * @param  {boolean} search flag que indica si actualizar el paginador
    */
   renderProducts( totalPages = 0, totalRegisters = 0, search = false ) {
 
@@ -101,7 +101,7 @@ class ModalProductsComponent {
       showElement( this.pagination );
 
       this.tbody.innerHTML = this.products.map(( product ) => (`
-       <tr class="text-center">
+       <tr class="text-center point" onclick="product_${ product.productoid }.click();">
          <td name="productoid">${ product.productoid }</td>
          <td name="nombre_producto">${ product.nombre }</td>
          <td name="nombre_categoria">${ product.nombre_categoria }</td>
@@ -120,7 +120,12 @@ class ModalProductsComponent {
       `)).join('');
 
       for ( const input of this.tbody.querySelectorAll('input[type="checkbox"]') ) {
-        input.addEventListener( 'change', this.handleChange.bind( this ) );
+        
+        input.addEventListener('change', this.handleChange.bind( this ) );
+        
+        // se crea este listener para dar solucion a la propagacion del evento onclick
+        // del input al tr.
+        input.addEventListener('click', event => event.stopPropagation() );
       }
 
    } else {
@@ -153,7 +158,11 @@ class ModalProductsComponent {
     	if ( index === -1 ) {
 
     		let product = this.products.find(( product ) => product.productoid === id_product );
-        product = {...product, precio: product.precio || 0, cantidad_seleccionada: 1 };
+        product = { 
+          ...product, 
+          precio: product.precio || 0, 
+          cantidad_seleccionada: 1 
+        };
 
     		this.productsSelected.push( product );
     	}
@@ -221,7 +230,7 @@ class ModalProductsComponent {
   /**
    * chequea si el producto esta marcado en la orden
    *
-   * @param  {Porduct} product instancia del producto
+   * @param  {Product} product instancia del producto
    * @return {boolean} resultado de la verificacion de la existencia del producto.
 	 * Devuelve true si lo encuentra
    */

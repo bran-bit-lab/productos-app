@@ -13,38 +13,50 @@
             ></button>
           </div>
 
-          <div class="modal-body">
-            <div class="row">
-
-              <div class="col-sm-6 col-12">
-
-                <div class="form-group">
-                  <label for="name-client">Nombre cliente:</label>
-                  <input type="text" id="name-client" name="nombre_cliente" class="form-control" />
-                  <div class="invalid-feedback text-center" id="error-name"></div>
-                </div>
-
-                <div class="form-group only-new">
-                  <label for="direction-client">Dirección:</label>
-                  <input class="form-control" type="text" name="direccion_entrega" id="direction-client" />
-                  <div class="invalid-feedback text-center" id="error-direction"></div>
-                </div>
-
+          <div class="modal-body ps-5 pe-5">
+            
+            <div class="mb-3 row">
+              <!-- nombre cliente -->
+              <label for="name-client" class="col-form-label col-4">Nombre cliente:</label>
+              <div class="col-8">
+                <input type="text" id="name-client" name="nombre_cliente" class="form-control" />
+                <div class="invalid-feedback text-center" id="error-name"></div>
               </div>
-              <div class="col-sm-6 col-12">
+            </div>
 
-                <div class="form-group">
-                  <label for="rif-client">RIF:</label>
-                  <input type="text" id="rif-client" name="rif" class="form-control" />
-                  <div class="invalid-feedback text-center" id="error-rif"></div>
-                </div>
 
-                 <div class="form-group">
-                  <label for="phone-client">Telefono cliente:</label>
-                  <input type="email" id="phone-client" name="telefono_contacto" class="form-control" />
-                  <div class="invalid-feedback text-center" id="error-phone"></div>
-                </div>
+            <div class="mb-3 row">
+              <!-- rif -->
+              <label for="rif-client" class="col-form-label col-4">
+                Registro de Identificación Fiscal (RIF):
+                <i 
+                  class="fas fa-question-circle text-secondary info-question"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="bottom" 
+                  title="El número de indentificación debe colocarse de la siguiente forma: J-12345678-9 o G-12345678-8 o V-12345678-2"
+                  id="info-rif"  
+                ></i>
+              </label>
+              <div class="col-8">
+                <input type="text" id="rif-client" name="rif" class="form-control" />
+                <div class="invalid-feedback text-center" id="error-rif"></div>
+              </div>
+            </div>
 
+            <div class="mb-3 row">
+              <!-- direccion cliente -->
+              <label for="direction-client" class="col-form-label col-4">Dirección:</label>
+              <div class="col-8 only-new">
+                <input class="form-control" type="text" name="direccion_entrega" id="direction-client" />
+                <div class="invalid-feedback text-center" id="error-direction"></div>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="phone-client" class="col-form-label col-4">Teléfono cliente:</label>
+              <div class="col-8">
+                <input type="email" id="phone-client" name="telefono_contacto" class="form-control" />
+                <div class="invalid-feedback text-center" id="error-phone"></div>
               </div>
             </div>
           </div>

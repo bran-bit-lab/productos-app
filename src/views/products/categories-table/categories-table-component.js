@@ -213,7 +213,7 @@ class CategoryTableComponent {
 					<button
 						type="button"
 						onclick="categoryTableComponent.openModalConfirm( ${ category.categoriaid } )"
-						class="btn btn-danger btn-sm"
+						class="btn btn-secondary btn-sm"
 					>
 						<i class="fas fa-trash"></i>
 					</button>

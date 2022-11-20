@@ -40,15 +40,22 @@ body {
 }
 
 .form-group, label {
-	font-weight: bold;
+	/*font-weight: bold;*/
 	font-size: 14px;
 	margin-bottom: 5px;
 }
 
-.invalid-feedback > small {
-	font-weight: lighter;
-}
-
 .ml-3 {
 	margin-left: 20px;
+}
+
+label[for="rif-client"] {
+	position: relative;
+}
+
+.info-question {
+	position: absolute;
+	font-size: 11px;
+	left: 48%;
+	top:  58%;
 }

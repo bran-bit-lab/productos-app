@@ -6,65 +6,66 @@
           <h5 class="modal-title"></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-
-          <div class="row mt-3">
-
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label for="product-name">Nombre:</label>
-                <input type="text" class="form-control" name="product-name" id="product-name" />
-                <div class="invalid-feedback text-center" id="error-product-name"></div>
-              </div>
+        <div class="modal-body ps-5 pe-5">
+          
+          <!-- nombre -->
+          <div class="row mb-3">
+            <label class="col-form-label col-4" for="product-name">Nombre:</label>
+            <div class="col-8">
+              <input type="text" class="form-control" name="product-name" id="product-name" />
+              <div class="invalid-feedback text-center" id="error-product-name"></div>
             </div>
+          </div>
 
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label for="product-quantity">Cantidad:</label>
-                <input onchange="handleChangeQuantity( this )" type="number" min="0" max="1000" id="product-quantity"
-                  name="product-quantity" class="form-control" />
-                  <div class="invalid-feedback text-center" id="error-product-quantity"></div>
-              </div>
+          <!-- descripcion -->
+          <div class="row mb-3">
+            <label class="col-form-label col-4" for="product-description">Descripción:</label>
+            <div class="col-8">
+              <textarea name="product-description" id="product-description" maxlength="600" class="form-control"></textarea>
+              <div class="invalid-feedback text-center" id="error-product-description"></div>
             </div>
+          </div>
 
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label for="product-category">Categoría:</label>
-                <select name="product-category" id="product-category" class="form-control">
-                  <option value="" selected>Seleccione</option>
-                  <option value="1">Carnes</option>
-                  <option value="2">Verduras</option>
-                  <option value="3">Bebidas</option>
-                </select>
-                <div class="invalid-feedback text-center" id="error-product-category"></div>
-              </div>
+          <!-- cantidada -->
+          <div class="row mb-3">
+            <label class="col-form-label col-4" for="product-quantity">Cantidad:</label>
+            <div class="col-8">
+              <input onchange="handleChangeQuantity( this )" type="number" min="0" max="1000" id="product-quantity"
+                name="product-quantity" class="form-control" />
+                <div class="invalid-feedback text-center" id="error-product-quantity"></div>
             </div>
+          </div>
 
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label for="product-price">Precio unitario:</label>
-                <input onchange="handleChangeQuantity( this )" type="number" min="0" max="999" step="0.01"
-                  class="form-control" name="product-price" id="product-price" />
-                <div class="invalid-feedback text-center" id="error-product-price"></div>
-              </div>
+          <!-- categoria -->
+          <div class="row mb-3">
+            <label class="col-form-label col-4" for="product-category">Categoría:</label>
+            <div class="col-8">
+              <select name="product-category" id="product-category" class="form-control">
+                <option value="" selected>Seleccione</option>
+              </select>
+              <div class="invalid-feedback text-center" id="error-product-category"></div>
             </div>
+          </div>
 
-            <div class="col-12 col-md-6 align-self-center">
+          <!-- precio unitario -->
+          <div class="row mb-3">
+            <label class="col-form-label col-4" for="product-price">Precio unitario:</label>
+            <div class="col-8">
+              <input onchange="handleChangeQuantity( this )" type="number" min="0" max="999" step="0.01"
+                class="form-control" name="product-price" id="product-price" />
+              <div class="invalid-feedback text-center" id="error-product-price"></div>
+            </div>
+          </div>
+
+          <!-- producto disponible -->
+          <div class="row mb-3">
+            <label for="product-available" class="col-form-label col-4">Producto disponible</label>
+            <div class="col-8">
               <div class="form-check">
                 <input name="product-available" type="checkbox" id="product-available" class="form-check-input" />
-                <label class="form-check-label" for="product-available">Producto disponible</label>
                 <div class="invalid-feedback text-center" id="error-product-available"></div>
               </div>
             </div>
-
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label for="product-description">Descripción:</label>
-                <textarea name="product-description" id="product-description" maxlength="600" class="form-control"></textarea>
-                <div class="invalid-feedback text-center" id="error-product-description"></div>
-              </div>
-            </div>
-
           </div>
 
         </div>

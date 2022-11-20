@@ -298,6 +298,9 @@ const modalClientForm = new Modal( footer.querySelector('.modal-clients'), {
   backdrop: 'static'
 });
 
+const tooltip = new Tooltip( footer.querySelector('#info-rif') );
+console.log( tooltip );
+
 const nameClientErrorsNode = clientForm.querySelector('#error-name');
 const directionErrorsNode = clientForm.querySelector('#error-direction');
 const rifErrorsNode = clientForm.querySelector('#error-rif');

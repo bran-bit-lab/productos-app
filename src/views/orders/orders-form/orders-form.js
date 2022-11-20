@@ -1,10 +1,13 @@
 const { remote } = require('electron');
 const { dateToString } = remote.require('./util_functions/time');
-const { readFileAssets } = remote.require('./util_functions/file');
-const { ClientesController, ProductosController, NotasController, NotasProductosController } = remote.require('./controllers');
+const { 
+  ClientesController, 
+  ProductosController, 
+  NotasController, 
+  NotasProductosController 
+} = remote.require('./controllers');
+
 const Modal = require('bootstrap/js/dist/modal');
-// const { ModalClientComponent } = require('../modal-clients/modal-client-component');
-// const { ModalProductsComponent } = require('../modal-products/modal-products-component');
 
 /** clase formulario notas de entrega */
 class OrdersForm {
@@ -14,7 +17,7 @@ class OrdersForm {
     this.footer = document.querySelector('footer');
     this.noteForm = document.forms['note-form'];
 
-    this.loadingComponent = document.querySelector('loading-component');  
+    this.loadingComponent = document.querySelector('app-loading');  
 
     /** @type {?number} */
     this.deliveryId = null;
@@ -68,9 +71,9 @@ class OrdersForm {
   setHtml( callback ) {
 
     Promise.all([
-      fetch('../modal-clients/modal-client-component.html').then( resp => resp.text() ),
-      fetch('../modal-products/modal-products-component.html').then( resp => resp.text() ),
-      fetch('../../shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() )
+      fetch('orders/modal-clients/modal-client-component.html').then( resp => resp.text() ),
+      fetch('orders/modal-products/modal-products-component.html').then( resp => resp.text() ),
+      fetch('shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() )
     ]).then( htmlArray => {
       
       this.footer.innerHTML = htmlArray.join('');
@@ -130,7 +133,7 @@ class OrdersForm {
       document.querySelector('.select-state').style.display = '';
 
       // se consulta a la base de datos
-      setTimeout(() => this.getDeliveryNote( this.deliveryId ), 500 );
+      this.getDeliveryNote( this.deliveryId );
 
     } else { // new
 
@@ -147,9 +150,32 @@ class OrdersForm {
 
     this.note = await NotasController.obtenerNota( idNote );
 
-    this.setFields()
-   
-    this.loadingComponent._show = 'false';
+   if ( this.note.fecha_entrega ) {
+     document.querySelector('.date-state').style.display = '';
+   }
+
+   // console.log( this.note );
+
+    // se añaden al formulario
+    const inputs = this.noteForm.querySelectorAll('input');
+    const select = this.noteForm.querySelector('select');
+
+    inputs[0].value = this.note.descripcion_nota;
+    inputs[1].value = this.note.fecha_entrega;
+
+    select.value = this.note.status;
+
+    this.productsSelected = this.note.productos;
+    this.clientsSelected = this.clientsSelected.concat([{
+      direccion_entrega: this.note.direccion_entrega,
+      id_cliente: this.note.id_cliente,
+      nombre_cliente: this.note.nombre_cliente,
+      rif: this.note.rif,
+      telefono_contacto: this.note.telefono_contacto
+    }]);
+
+    this.setClientsTable();
+    this.setProductsTable();
   }
 
   /** Funcion que activa la seleccion de productos */
@@ -249,7 +275,6 @@ class OrdersForm {
     }
   }
 
-
   /**
    * evento que captura el envio del formulario
    * @param  {*} event description
@@ -305,25 +330,24 @@ class OrdersForm {
     
     try {
 
-      if ( this.deliveryId ) {
+      // genera un loading de 3 segundos mientra registra la nota + productos
+      setTimeout(() => {
         
-        setTimeout(() => {
+        if ( this.deliveryId ) {
           
           NotasController.actualizarNota({ ...data, id_nota:  Number.parseInt( this.deliveryId ) });
+  
+          redirectTo('orders/orders.html');
 
-          redirectTo('../orders.html');
-        }, 3000 );
+          return;
+        }
 
-      } else { // new
+        
+        NotasController.crearNota( data );
 
-        // genera un loading de 3 segundos mientra registra la nota + productos
-        setTimeout(() => {
+        redirectTo('orders/orders.html');
 
-          NotasController.crearNota( data );
-
-          redirectTo('../orders.html');
-        }, 3000 );
-      }
+      }, 3000 );
 
     } catch ( error ) {
 

@@ -1,43 +1,78 @@
 <!DOCTYPE html>
 <html lang="es-VE">
   <head>
+    <base href="../../" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <title>Products app</title>
     <!-- Mitigacion de cross site scripting -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="../orders.css" />
-    <link rel="stylesheet" href="./orders-form.css" />
-    <script src="../../components/searchbar-component.js"></script>
-    <script src="../../components/pagination-component.js"></script>
-    <script src="../../components/loading-component.js"></script>
+    <link rel="stylesheet" href="orders/orders.css" />
+    <link rel="stylesheet" href="orders/orders-form/orders-form.css" />
   </head>
   <body>
-    <loading-component class="loading" show="true"></loading-component>
+    <script src="components/loading/loading-component.js" defer></script>
+    <script src="components/search-bar/search-bar-component.js" defer></script>
+    <script src="components/pagination/pagination-component.js" defer></script>
+    
+    <app-loading class="loading" show="true"></app-loading>
     <main class="container p-3 h-100">
       <div class="d-flex flex-row justify-content-between border-bottom">
         <h2>
-          <i class="fas fa-arrow-circle-left point" onclick="redirectTo('../orders.html');"></i>
+          <i class="fas fa-arrow-circle-left point" onclick="redirectTo('orders/orders.html');"></i>
           <span class="ms-3" id="title"></span>
         </h2>
       </div>
       <form name="note-form">
+
+        <!-- descripcion entrega -->
+        <div class="row mb-3">
+          <label for="delivery-description" class="col-form-label col-4">Descripción de la entrega:</label>
+          <div class="col-8">
+            <input name="delivery-description" id="delivery-description" class="form-control" />
+            <div class="invalid-feedback text-center" id="error-delivery-description"></div>
+          </div>
+        </div>
+
+        <!-- fecha de entrega -->
+        <div class="row mb-3 date-state" style="display: none;">
+          <label for="delivery-date" class="col-form-label col-4">Fecha de entrega:</label>
+          <div class="col-8" >
+            <input readonly type="date" id="delivery-date" name="delivery-date" class="form-control" />
+            <div class="invalid-feedback text-center" id="error-delivery-date"></div>
+          </div>
+        </div>
+
+        <!-- estado -->
+        <div class="row mb-3 select-state" style="display: none;">
+          <label for="delivery-state" class="col-form-label col-4">Estado de la entrega</label>
+          <div class="col-8">
+            <select name="delivery-state" id="delivery-state" class="form-control">
+              <option value="EN_PROCESO" selected>En proceso</option>
+              <option value="ACEPTADO">Aceptado</option>
+              <option value="ENTREGADA">Entregada</option>
+              <option value="CANCELADA">Cancelada</option>
+              <option value="POSPUESTO">Pospuesto</option>
+            </select>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-12">
 
-            <div class="form-group">
+            <!--<div class="form-group">
               <label for="delivery-description" class="form-label">Descripcion de la entrega:</label>
               <input name="delivery-description" id="delivery-description" class="form-control" />
               <div class="invalid-feedback text-center" id="error-delivery-description"></div>
-            </div>
+            </div>-->
 
-            <div class="form-group date-state" style="display: none;">
+            <!--<div class="form-group date-state" style="display: none;">
               <label for="delivery-date" class="form-label">Fecha de entrega</label>
               <input readonly type="date" id="delivery-date" name="delivery-date" class="form-control" />
               <div class="invalid-feedback text-center" id="error-delivery-date"></div>
-            </div>
+            </div>-->
 
-            <div class="form-group select-state" style="display: none;">
+            <!--<div class="form-group select-state" style="display: none;">
               <label for="delivery-state" class="form-label">Estado de la entrega</label>
               <select name="delivery-state" id="delivery-state" class="form-control">
                 <option value="EN_PROCESO" selected>En proceso</option>
@@ -46,7 +81,7 @@
                 <option value="CANCELADA">Cancelada</option>
                 <option value="POSPUESTO">Pospuesto</option>
               </select>
-            </div>
+            </div>-->
 
           </div>
         </div>
@@ -128,7 +163,7 @@
 
     </main>
     <footer id="footer"></footer>
-    <script src="../../global.js"></script>
-    <script type="text/javascript" src="./orders-form.js"></script>
+    <script src="global.js"></script>
+    <script src="orders/orders-form/orders-form.js"></script>
   </body>
 </html>

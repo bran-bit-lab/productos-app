@@ -8,7 +8,6 @@ const {
 } = remote.require('./controllers');
 
 const { ProfileModalComponent } = require('./profile-modal/profile-modal-component');
-const Tooltip = require('bootstrap/js/dist/tooltip');
 
 /** clase home */
 class HomeComponent {
@@ -24,22 +23,22 @@ class HomeComponent {
 
 	/** redirecciona a usuarios */
 	openUsers() {
-		return redirectTo('../users/users.html');
+		return redirectTo('users/users.html');
 	}
 
 	/** redirecciona a ordenes de entrega */
 	openOrders() {
-		return redirectTo('../orders/orders.html');
+		return redirectTo('orders/orders.html');
 	}
 
 	/** redirecciona a estadisticas */
 	openEstadistics() {
-		return redirectTo('../reports/reports.html');
+		return redirectTo('reports/reports.html');
 	}
 
 	/** redirecciona a productos */
 	openProducts() {
-		return redirectTo('../products/products.html');
+		return redirectTo('products/products.html');
 	}
 
 	/** cierra la sesion */
@@ -75,7 +74,7 @@ class HomeComponent {
 		
 		sessionStorage.removeItem('userLogged');
 		
-		return redirectTo('../login/login.html');
+		return redirectTo('login/login.html');
 	}
 
 	/** muestra las opciones segun el perfil del usuario logueado */
@@ -115,15 +114,8 @@ class HomeComponent {
 
 		try {
 			
+			const elementsDOM = document.querySelectorAll('app-card p.quantity');
 			const response = await Promise.all([
-				// total usuarios y clientes
-				Promise.all([
-					UsersController.obtenerTotalUsuarios(),
-					ClientesController.obtenerTotalClientes(),
-				]),
-
-				// se envia un string vacio
-				{ totalRegistros: '' },
 
 				// total notas
 				NotasController.obtenerTotalNotas(),
@@ -132,12 +124,19 @@ class HomeComponent {
 				Promise.all([
 					ProductosController.obtenerTotalProductos(),
 					CategoriasController.obtenerTotalCategorias()
-				])
+				]),
+
+				// se envia un string vacio
+				{ totalRegistros: '' },
+
+				// total usuarios y clientes
+				Promise.all([
+					UsersController.obtenerTotalUsuarios(),
+					ClientesController.obtenerTotalClientes(),
+				]),
 			]);
 
-			const elementsDOM = document.querySelectorAll('span');
-			
-			let values = response.map(( value ) => {
+			let values = response.map( value  => {
 
 				if ( Array.isArray( value ) ) {
 					return value.reduce( this.reduceValues, 0 );
@@ -146,14 +145,16 @@ class HomeComponent {
 				return value.totalRegistros;
 			});
 
-			// console.log( values );
+			elementsDOM.forEach(( element, index ) => {
 
-			for ( let i = 0; i < elementsDOM.length; i++ ) {
-				elementsDOM[i].innerText = values[i];
-			}
+				if ( values[index].toString().length === 0 ) {
+					return;
+				}
 
+				element.innerText = (`${values[index]} registros`);
+			});
+			
 			this.showOptions();
-
 
 		} catch (error) {
 			console.error( error );

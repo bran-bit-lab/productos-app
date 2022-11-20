@@ -13,7 +13,7 @@ class OrdersTableComponent {
 	constructor() {
 
 		this.deliveryNotes = [];
-		this.loading = document.querySelector('loading-component');
+		this.loading = document.querySelector('app-loading');
 		this.deliveryTable = document.querySelector('#tbody-delivery-notes');
 		this.searchComponent = document.querySelector('search-bar-component');
 		this.pagination = document.querySelector('#pagination-delivery');
@@ -46,15 +46,12 @@ class OrdersTableComponent {
 		try {
 
 			this.deliveryNotes = await NotasController.listarNotas( pagination );
-
 			const totalOrders = await NotasController.obtenerTotalNotas();
 
 			setPaginationStorage('notesTable', { pagination });
 
-			console.log( this.deliveryNotes );
+			// console.log( totalOrders );
 			this.render( totalOrders.totalPaginas, totalOrders.totalRegistros );
-
-			
 		}
 
 		catch ( error ) {
@@ -66,7 +63,7 @@ class OrdersTableComponent {
 
 	/** redirecciona al formulario de notas al crear una nota */
 	createDeliveryNote() {
-		redirectTo('./orders-form/orders-form.html');
+		redirectTo('orders/orders-form/orders-form.html');
 	}
 
 
@@ -75,7 +72,7 @@ class OrdersTableComponent {
 	 * @param  {number} idDelivery identificador de la nota
 	 */
 	editDeiliveryNote( idDelivery ) {
-		redirectTo('./orders-form/orders-form.html?idDelivery=' + idDelivery )
+		redirectTo('orders/orders-form/orders-form.html?idDelivery=' + idDelivery )
 	}
 
 	/**

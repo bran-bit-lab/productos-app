@@ -12,7 +12,7 @@ class ProductsComponent {
 	constructor() {
 		this.setHtml = this.setHtml.bind( this );
 
-		this.loading = document.querySelector('loading-component');
+		this.loading = document.querySelector('app-loading');
 		this.productsElement = document.querySelector('#products');
 		this.categoriesElement = document.querySelector('#category');
 
@@ -84,16 +84,16 @@ class ProductsComponent {
 	setHtml( callback ) {
 
 		Promise.all([
-			fetch('./categories-form/categories-form.html').then( resp => resp.text() ),
-			fetch('../shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() ),
-			fetch('./products-form/products-form.html').then( resp => resp.text() ),
+			fetch('products/categories-form/categories-form.html').then( resp => resp.text() ),
+			fetch('shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() ),
+			fetch('products/products-form/products-form.html').then( resp => resp.text() ),
 		])
 		.then( async htmlArray => {
 
 			footer.innerHTML = htmlArray.join('');
 
-			this.productsElement.innerHTML = await fetch('./products-table/products-table-component.html').then( resp => resp.text() );
-			this.categoriesElement.innerHTML = await fetch('./categories-table/categories-table-component.html').then( resp => resp.text() )
+			this.productsElement.innerHTML = await fetch('products/products-table/products-table-component.html').then( resp => resp.text() );
+			this.categoriesElement.innerHTML = await fetch('products/categories-table/categories-table-component.html').then( resp => resp.text() )
 
 			callback();	
 		})

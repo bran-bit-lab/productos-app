@@ -6,6 +6,13 @@
 	--success-color: seagreen;
 	--main-color: #e8e8e8;
 	--inverse-main: #171a1c;
+	--gradient-azul: linear-gradient(120deg, rgba(148,124,241,1) 9%, rgba(61,78,238,1) 100%);
+	--gradient-rosa: linear-gradient(120deg, rgba(245,137,121,1) 26%, rgba(195,132,238,1) 100%);
+	--gradient-turquesa: linear-gradient(120deg, rgba(24,192,200,1) 20%, rgba(7,131,180,1) 100%);
+	--gradient-morado: linear-gradient(120deg, rgba(220,131,236,1) 8%, rgba(130,61,238,1) 100%);
+	--background-menu-home: #181844;
+	--background-secondary-color: var(--bs-dark);
+	--background-menu-rgba: rgba(24, 24, 68, 0.9);
 }
 
 body {
@@ -29,6 +36,21 @@ body {
 .table-responsive {
 	background: #fff;
 	border-radius: 5px;
+	padding: 0;
+}
+
+.table-responsive table {
+	margin-bottom: 0;
+}
+
+.table-responsive table th {
+	padding: 10px;
+}
+
+.table-responsive thead {
+	background-color: var(--bs-dark);
+	color: #fff;
+	border: none;
 }
 
 
@@ -66,10 +88,77 @@ body {
 }
 
 .loading .back {
-	background-color: black;
-	opacity: 0.2;
+	background-color: rgba(0, 0, 0, 0.8)
 }
 
-.loading .cont i {
+.loading  i {
 	color: white !important;
+}
+
+/**
+ * Modals
+ * */
+ .modal-footer,
+ .modal-body,
+ .modal-header {
+ 	padding: 20px 30px;
+ }
+
+.modal-content {
+	border-radius: 20px;
+}
+
+/**
+ * Buttons
+ * */
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:disabled {
+	background: var(--background-menu-home);
+	border:  1px solid var(--background-menu-home);
+	box-shadow: none !important;
+}
+
+
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-secondary:disabled {
+	background: var(--background-secondary-color);
+	border:  1px solid var(--background-secondary-color);
+	box-shadow: none !important;
+}
+
+/*
+	switch's
+*/
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+	background: var(--background-secondary-color);
+}
+
+.nav-link,
+.nav-link:hover {
+	color: var(--background-secondary-color);
+}
+
+/*
+	pagination's
+*/
+.page-link,
+.page-link:hover {
+	color: var(--background-menu-home);
+}
+
+.page-item.active .page-link {
+	background-color: var(--background-menu-home);
+	border-color: var(--background-menu-home);	
+}
+
+/* input radio and checkbox */
+.form-check-input:checked {
+    background-color: var(--background-menu-home);
+    border-color: var(--background-menu-home);
 }

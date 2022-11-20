@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<base href="../" /> <!-- establece la ruta del proyecto desde la carpeta Views -->
     <meta charset="UTF-8">
     <title>Products app</title>
     <!-- Mitigacion de cross site scripting -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="login.css">
-	<script src="../components/loading-component.js"></script>
-    <title>Login</title>
+    <link rel="stylesheet" href="login/login.css">
 </head>
 <body>
-	<loading-component class="loading" show="false"></loading-component>
+	<script src="components/loading/loading-component.js" defer></script>
+	
+	<app-loading class="loading" show="false"></app-loading>
 	<main class="row justify-content-center align-items-center">
 		
-		<div class="container w-50">
-			<h1 class="text-center mb-5">Products-app</h1>
+		<div class="container login-container">
+			<h1 class="text-center text-white mb-5 mt-3">Productos App</h1>
 
 			<form name="login-form" novalidate>
 				<div class="row">
 					<div class="col-4">
-						<label class="col-form-label" for="correo-login">Usuario:</label>
+						<label class="col-form-label text-white" for="correo-login">Usuario:</label>
 					</div>
 					<div class="col-8">
 						<input type="email" id="correo-login" name="correo" class="form-control" />
@@ -29,7 +30,7 @@
 
 				<div class="row">
 					<div class="col-4">
-						<label for="password-login" class="col-form-label">Contraseña:</label>
+						<label for="password-login" class="col-form-label text-white">Contraseña:</label>
 					</div>
 					<div class="col-8">
 						<input type="password" id="password-login" name="password" class="form-control" />
@@ -39,7 +40,7 @@
 
 				<div class="mt-5 d-flex flex-row justify-content-around">
 					<button class="btn btn-primary" type="submit">
-						Enviar
+						Acceder
 					</button>
 					<button
 						class="btn btn-primary"
@@ -48,9 +49,13 @@
 						disabled
 					>
 						<i class="fas fa-spinner fa-pulse"></i>
-						Enviar
+						Acceder
 					</button>
-					<button class="btn btn-secondary" type="button" onclick="loginComponent.resetLoginForm( true )">
+					<button 
+						class="btn btn-secondary" 
+						type="button" 
+						onclick="loginComponent.resetLoginForm( true )"
+					>
 						Cancelar
 					</button>
 				</div>
@@ -59,12 +64,12 @@
 		</div>
 	</main>
 
-	<footer class="p-2">
-		<div class="row justify-content-center">
-			Bran-bit-lab &copy 2021
-		</div>
+	<footer class="p-3 position-absolute bottom-0 start-50 translate-middle-x">
+		<p class="text-center m-0 text-white">
+			Bran-Bit-Lab &copy; <span id="year"></span>
+		</p>
 	</footer>
-  <script src="../global.js"></script>
-  <script src="login.js"></script>
+  <script src="global.js"></script>
+  <script src="login/login.js"></script>
 </body>
 </html>

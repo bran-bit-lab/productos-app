@@ -9,7 +9,7 @@ class ReportsComponent {
 
     // element html
     this.form = document.forms['form-estadistics'];
-    this.loadingComponent = document.querySelector('loading-component');
+    this.loadingComponent = document.querySelector('app-loading');
     this.productQuestions = this.form.querySelector('#product-questions');
     this.deliveryQuestions = this.form.querySelector('#delivery-questions');
     this.period = this.form.querySelector('#from-until');
@@ -589,20 +589,15 @@ class ReportsComponent {
         ReporteController.buscarCantidadMaximaVendida(),
         ReporteController.buscarCantidadProductosVendidosAnual()
       ]);
-
-      // se asegura que las consultas existan antes 
-      // de generar el reporte
-      const resultsFilter = results.filter(( data ) => data );
       
-      await ReporteController.generarReporte( resultsFilter );
+      await ReporteController.generarReporte( results );
 
     } catch ( error ) {
-
       console.log( error );
 
     } finally {
-
       this.loadingComponent._show = 'false';
+    
     } 
   }
 }

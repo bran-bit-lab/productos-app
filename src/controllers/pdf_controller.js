@@ -295,7 +295,7 @@ class PdfController {
 
 	/**
 	 * Funcion que genera el pdf del reporte
-	 * @param {Array<ResponseReport>} consultas  arreglo de consultas
+	 * @param {Array<ResponseReport|null>} consultas  arreglo de consultas
 	 * @returns {Uint8Array}  retorna el buffer de datos del archivo PDF
 	 */
 	async crearReporte( consultas ) {
@@ -307,6 +307,8 @@ class PdfController {
 			buscarCantidadMaximaVendida,
 			buscarCantidadProductosVendidosAnual
 		] = consultas;
+
+		// console.log( consultas );
 
 		const pdfDoc = await PDFDocument.create();
 		const helveticaFont = await pdfDoc.embedFont( StandardFonts.Helvetica );
@@ -580,7 +582,9 @@ class PdfController {
 			posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
 
 			buscarNotasVendidasPorVendedor.results.forEach(( consult ) => {
-				//console.log({consult});
+				
+				// console.log({ consult });
+
 				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
 		
 				// cambia las propiedades a las que estan dentro de consult examinalas y cambialas

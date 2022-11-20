@@ -48,3 +48,59 @@ svg {
   font-size: 14px;
   margin-bottom: 5px;
 }
+
+
+app-card .content {
+	min-height: 170px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+app-card i {
+	font-size: 100px;
+	padding: 0;
+	opacity: 0.5;
+}
+
+@media screen and (max-width: 920px) {
+	app-card i {
+		font-size: 50px;
+	}
+}
+
+
+app-card .grid-card {
+	display: grid;
+	grid-template-columns: 70% 1fr;
+	gap: 0;
+}
+
+.grid-card {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(2, auto);
+	gap: 30px;
+}
+
+/* menu */
+.menu {
+	background: var(--background-menu-home);
+}
+
+.menu .container {
+	margin-top: 3rem;
+	margin-bottom: 3rem;
+}
+
+.intro {
+	margin-top: 1rem;
+	margin-bottom: 3rem;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.intro .preview {
+	max-height: 250px;
+	height: auto;
+}

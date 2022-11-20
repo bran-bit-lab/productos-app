@@ -2,9 +2,6 @@
 class LoadingComponent extends HTMLElement {
     constructor() {
         super();
-
-        this.show = this._show;
-
         this.render = this.render.bind( this );
     }
 
@@ -49,50 +46,27 @@ class LoadingComponent extends HTMLElement {
     
         if ( oldValue !== newValue ) {
           this[name] = newValue;
+          
           this.render();
         }
     }
 
     /** Callback que conecta al DOM */
     connectedCallback() {
-        
-        // console.log('conectado');
-
-        this.innerHTML = (`
-            <div class="back h-100 w-100 d-flex justify-content-center align-items-center">
-                <div class="cont">
-                    <i class="fas fa-spinner fa-3x fa-pulse"></i>
-                </div>
-            </div>
-        `);
+        fetch('components/loading/loading-component.html')
+            .then( response => response.text() )
+            .then( html => {
+                this.innerHTML = html;
+            })
+            .catch( error => {
+                console.log( error );
+            });
     }
 
     /** Muestra el loading en la vista */
     render() {
         this._show === 'true' ? this.style.display = '' : this.style.display = 'none';
     }
-
-
-    /**
-    * Reajusta el tamano del loading para que ocupe todo el ancho de la body
-    */
-    setSizeLoading( resize = false ) {
-
-        if ( resize ) {
-
-            const body = document.querySelector('body');
-            
-            body.style.height = '100%';
-    
-            const size = {
-              height: body.offsetHeight.toString() + 'px',
-              width: body.offsetWidth.toString() + 'px'
-            };
-            
-            this.style.height = size.height;
-            this.style.width = size.width;
-        }
-      }
 }
 
-customElements.define('loading-component', LoadingComponent );
+customElements.define('app-loading', LoadingComponent );

@@ -133,7 +133,7 @@ class PaginationComponentElement extends HTMLElement {
   render() {
 
     this.innerHTML = (`
-      <div class="row pt-2">
+      <div class="row mt-3">
         <div class="col-sm-6 col-12 text-start">
           Total de registros: <span>${ this.registers }</span>
         </div>

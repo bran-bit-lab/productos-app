@@ -74,7 +74,7 @@ class ProfileModalComponent {
    */
   setHtml( callback ) {
 
-    fetch('./profile-modal/profile-modal-component.html')
+    fetch('home/profile-modal/profile-modal-component.html')
       .then( resp => resp.text() )
       .then( html => {
         
@@ -110,14 +110,18 @@ class ProfileModalComponent {
       };
 
       try {
-        let userLogged = await UsersController.actualizarPerfil( data );
+
+        const userLogged = await UsersController.actualizarPerfil( data );
         setUserLogged( userLogged );
-        console.log( userLogged );
+        
+        // console.log( userLogged );
 
       } catch ( err ) {
+        
         console.error( err );
 
       } finally {
+        
         this.modalInstance.hide();
 
       }

@@ -10,11 +10,8 @@
 
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const fs = require('fs');
 const { Database } = require('./database/database');
 const { ENV } = require('./env');
-
-const urlAssets = __dirname + '/views';
 
 if ( ENV.DEV ) {
   require('electron-reload')( __dirname );
@@ -34,7 +31,7 @@ function createWindow() {
     });
 
     // carga los datos
-    win.loadFile( path.join( urlAssets, '/login/login.html' ) );
+    win.loadFile( path.join( ENV.PATH_VIEWS, 'login', 'login.html' ) );
 
     win.once('ready-to-show', () => {
         win.show();

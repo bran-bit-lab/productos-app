@@ -1,138 +1,170 @@
 <!DOCTYPE html>
 <html lang="es-VE">
   <head>
+    <base href="../">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="stylesheet" href="./reports.css" />
-    <!-- Mitigacion de cross site scripting -->
+    <link rel="stylesheet" href="reports/reports.css" />
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <script src="../components/loading-component.js"></script>
     <title>Products app</title>
   </head>
   <body>
-    <loading-component class="loading" show="false"></loading-component> 
+    <script src="components/loading/loading-component.js" defer></script>
+    <app-loading class="loading" show="false"></app-loading> 
     <form name="form-estadistics">
-      <main class="container p-3 h-100">
+      <main class="container p-3">
         <div class="d-flex flex-row justify-content-between border-bottom">
           <h2>
-            <i class="fas fa-arrow-circle-left point" onclick="redirectTo('../home/home.html')"></i>
+            <i class="fas fa-arrow-circle-left point" onclick="redirectTo('home/home.html')"></i>
             <span class="ms-3">Estadísticas y reportes</span>
           </h2>
         </div>
+        <div class="row intro mt-4">
+          <div class="col-8 align-self-center">
+            <article class="fw-lighter text-center text-center">
+              "La información estadistica corresponde a los productos y notas de entregas
+              generadas a los clientes desde la aplicación. Puede utilizar la selección para ayudarlo a crear
+              la consulta y obtener los resultados."
+            </article>
+          </div>
+          <div class="col-4 d-flex justify-content-center">
+            <img src="assets/img/report-minified.png" alt="logo" class="report-preview" />
+          </div>
+        </div>
+      </main>
 
-        <div class="main-content mt-4">
-          <article class="fst-italic fw-lighter text-center info">
-            "La información estadistica corresponde a los productos y notas de entregas
-            generadas a los clientes desde la aplicación. Puede utilizar la selección para ayudarlo a crear
-            la consulta y obtener los resultados."
-          </article>
-
-          <div class="mt-4" >
-            <div class="row">
+      <main class="form-content">
+        <div class="container main-content mt-5">
+          <div class="padding-5rem" >
+            <div class="row mb-4">
 
               <div class="col-md-6 col-12 pe-3">
-                <div class="form-group">
-                  <label for="area-business" class="form-label">Area del negocio:</label>
-                  <select
-                  class="form-control"
-                  onchange="reportsComponent.handleChangeBusiness( event )"
-                  id="area-business"
-                  name="area-business"
-                  >
-                  <option value="">Seleccione</option>
-                  <option value="delivery">Notas de entrega</option>
-                  <option value="product">Productos</option>
-                </select>
-                <div class="invalid-feedback text-center" id="error-area-business"></div>
-              </div>
+                
+                <!-- area del negocio -->
+                <div class="row">
+                  <label for="area-business" class="col-form-label col-4">Área del negocio:</label>
+                  <div class="col-8">
+                    <select
+                    class="form-control"
+                    onchange="reportsComponent.handleChangeBusiness( event )"
+                    id="area-business"
+                    name="area-business"
+                    >
+                      <option value="">Seleccione</option>
+                      <option value="delivery">Notas de entrega</option>
+                      <option value="product">Productos</option>
+                    </select>
+                    <div class="invalid-feedback text-center" id="error-area-business"></div>
+                  </div>
+                </div>
 
               </div>
               <div class="col-md-6 col-12 ps-3">
 
                 <!-- nota de entrega -->
                 <div class="form-group" id="delivery-questions">
-                  <label for="del-questions" class="form-label">Consultar:</label>
-                  <select
-                    class="form-control"
-                    onchange="reportsComponent.handleChangeQuestions( event )"
-                    id="del-questions"
-                    name="delivery-questions"
-                  >
-                    <option value="">Seleccione</option>
-                    <option value="quantity-general">Cantidad de notas entregadas por vendedor ( General )</option>
-                    <option value="quantity-period">Cantidad de notas entregadas por vendedor ( Periodo )</option>
-                    <option value="delivery-general">Cantidad de notas por categoria ( General )</option>
-                    <option value="delivery-period">Cantidad de notas por categoria ( Periodo )</option>
-                  </select>
-                  <div class="invalid-feedback text-center error-questions"></div>
+                  <div class="row">
+                    <label for="del-questions" class="col-form-label col-4">Consultar:</label>
+                    <div class="col-8">
+                      <select
+                        class="form-control"
+                        onchange="reportsComponent.handleChangeQuestions( event )"
+                        id="del-questions"
+                        name="delivery-questions"
+                      >
+                        <option value="">Seleccione</option>
+                        <option value="quantity-general">Cantidad de notas entregadas por vendedor ( General )</option>
+                        <option value="quantity-period">Cantidad de notas entregadas por vendedor ( Periodo )</option>
+                        <option value="delivery-general">Cantidad de notas por categoria ( General )</option>
+                        <option value="delivery-period">Cantidad de notas por categoria ( Periodo )</option>
+                      </select>
+                      <div class="invalid-feedback text-center error-questions"></div>
+                    </div>
+                  </div>
                 </div>
 
                 <!-- productos -->
                 <div class="form-group" id="product-questions">
-                  <label for="prod-questions" class="form-label">Consultar:</label>
-                  <select
-                  class="form-control"
-                  id="prod-questions"
-                  name="product-questions"
-                  onchange="reportsComponent.handleChangeQuestions( event )"
-                  >
-                    <option value="">Seleccione</option>
-                    <option value="total-product-category">Totalidad de productos por categoria</option>
-                    <option value="product-sold-general">Cantidad de productos vendidos año anual</option>
-                    <!-- <option value="product-sold-period">Cantidad de productos vendidos por periodo</option> -->
-                    <option value="product-max-sold-general">Cantidad maxima vendida por producto ( General )</option>
-                    <option value="product-max-sold-period">Cantidad maxima vendida por producto ( Periodo )</option>
-                  </select>
-                  <div class="invalid-feedback text-center error-questions"></div>
+                  <div class="row">
+                    <label for="prod-questions" class="col-form-label col-4">Consultar:</label>
+                    <div class="col-8">
+                      <select
+                        class="form-control"
+                        id="prod-questions"
+                        name="product-questions"
+                        onchange="reportsComponent.handleChangeQuestions( event )"
+                      >
+                        <option value="">Seleccione</option>
+                        <option value="total-product-category">Totalidad de productos por categoria</option>
+                        <option value="product-sold-general">Cantidad de productos vendidos año anual</option>
+                        <!-- <option value="product-sold-period">Cantidad de productos vendidos por periodo</option> -->
+                        <option value="product-max-sold-general">Cantidad maxima vendida por producto ( General )</option>
+                        <option value="product-max-sold-period">Cantidad maxima vendida por producto ( Periodo )</option>
+                      </select>
+                      <div class="invalid-feedback text-center error-questions"></div>
+                    </div>
+                  </div>
                 </div>
 
               </div>
             </div>
 
-            <div class="row mt-3" id="from-until">
+            <div class="row" id="from-until">
               <div class="col-md-6 col-12 pe-3">
                 <div class="form-group">
-                  <label for="" class="form-label">Desde:</label>
-                  <input type="date" name="from" value="" class="form-control" />
-                  <div class="invalid-feedback text-center" id="error-from"></div>
+                  <div class="row">
+                    <label for="from-date" class="col-form-label col-4">Desde:</label>
+                    <div class="col-8">
+                      <input type="date" name="from" id="from-date" value="" class="form-control" />
+                      <div class="invalid-feedback text-center" id="error-from"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="col-md-6 col-12 ps-3">
                 <div class="form-group">
-                  <label for="" class="form-label">Hasta:</label>
-                  <input type="date" name="to" value="" class="form-control" />
-                  <div class="invalid-feedback text-center" id="error-to"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- modelo -->
-            <div class="row mt-5 pb-3" id="canvas-estadistics">
-              <!-- tabla de datos -->
-              <div class="col-12 col-md-6" id="table-data"></div>
-              <!-- estadisticas -->
-              <div class="col-12 col-md-6">
-                <div class="d-flex justify-content-center align-items-center h-100">
-                  <div>
-                    <canvas id="chart-model"></canvas>
+                  <div class="row">
+                    <label for="date-to" class="col-form-label col-4">Hasta:</label>
+                    <div class="col-8">
+                      <input type="date" id="date-to" name="to" value="" class="form-control" />
+                      <div class="invalid-feedback text-center" id="error-to"></div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
+            <section class="mt-5">
+              <h5>Resultados obtenidos:</h5>
+              <!-- modelo -->
+              <div class="row mt-5 pb-3" id="canvas-estadistics">
+                <!-- tabla de datos -->
+                <div class="col-12 col-md-6" id="table-data"></div>
+                <!-- estadisticas -->
+                <div class="col-12 col-md-6">
+                  <div class="d-flex justify-content-center align-items-center h-100 chart-model">
+                    <div>
+                      <canvas id="chart-model"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
           </div>
         </div>
       </main>
+
       <div class="fixed-bottom">
         <div class="d-flex justify-content-center justify-content-center m-3">
-          <button type="submit" class="btn btn-primary">Mostrar Gráficas</button>
-          <button type="button" class="btn btn-primary ms-3" onclick="reportsComponent.generateReport()">
+          <button type="submit" class="btn btn-dark">Mostrar Gráficas</button>
+          <button type="button" class="btn btn-dark ms-3" onclick="reportsComponent.generateReport()">
             Generar reporte
           </button>
         </div>
       </div>
     </form>
-    <script src="../global.js"></script>
-    <script src="./reports.js"></script>
+    <script src="global.js"></script>
+    <script src="reports/reports.js"></script>
   </body>
 </html>

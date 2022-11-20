@@ -18,12 +18,15 @@ class LoginPage {
 		this.errorPassword = this.form.querySelector('#error-password');
 
 		/** @type {HTMLElement} */
-		this.loadingComponent = document.querySelector('loading-component');
+		this.loadingComponent = document.querySelector('app-loading');
 
 		this.validateForm = this.validateForm.bind( this );
 		this.handleSubmit = this.handleSubmit.bind( this );
 
 		this.form.addEventListener('submit', this.handleSubmit );
+
+		const year = document.querySelector('#year');
+		year.innerHTML = new Date().getFullYear();
 	}
 
 
@@ -182,7 +185,7 @@ class LoginPage {
 
 	 		sessionStorage.setItem('userLogged', JSON.stringify( userLogged ));
 
-	 		redirectTo('../home/home.html');
+	 		redirectTo('home/home.html');
 
 	 	} catch ( error ) {
 
