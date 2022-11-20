@@ -1,6 +1,9 @@
 const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
+const { readFile, writeFile } = require('../util_functions/excel_functions')
 const CRUD = require('../database/CRUD');
+
+console.log( readFile );
 
 /** clase que gestiona los productos */
 class ProductosController {
@@ -11,6 +14,10 @@ class ProductosController {
 	/** Propiedad get database retorna una nueva instancia de la clase Database */
 	static get database() {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
+	}
+
+	static exportarProductos(  ){
+
 	}
 
 	/**
