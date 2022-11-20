@@ -1,9 +1,8 @@
 const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
-const { readFile, writeFile } = require('../util_functions/excel_functions')
+const excelModule = require('../util_functions/excel');
 const CRUD = require('../database/CRUD');
 
-console.log( readFile );
 
 /** clase que gestiona los productos */
 class ProductosController {
@@ -16,8 +15,10 @@ class ProductosController {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
 
-	static exportarProductos(  ){
-
+	/**
+	 * Exporta los productos en un archivo de excel
+	 */
+	static exportarProductos() {
 	}
 
 	/**
