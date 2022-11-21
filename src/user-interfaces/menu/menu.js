@@ -28,26 +28,33 @@ const templateMenu = [
                 label: 'Aprender más',
                 accelerator: 'F1',
                 click: () => {
+                    // importa la documentacion del usuario
                     console.log('test');
                 }, 
             },
             // acerca de
             {
                 label: 'Acerca de',
+                accelerator: 'Ctrl+h',
                 click: () => {
-                    dialog.showMessageBox(null, {
-                        title: 'Acerca de',
-                        message: (`
-            ©Products-App 
+                    const fs = require('fs');
+                    const path = require('path');
 
-Todos los derechos reservados 2022
+                    fs.readFile( 
+                        path.join( __dirname, 'acerca.txt' ), 
+                        { encoding: 'utf-8' }, 
+                        ( error, message ) => {
 
-Equipo de Trabajo:
+                            if ( error )  {
+                                throw error;
+                            }
 
-Gabriel Martínez  (gabmart1995)
-Brandon Silva     (bran-bit-lab) 
-`)
-                    }); 
+                            dialog.showMessageBox(null, {
+                                title: 'Acerca de',
+                                message 
+                            });
+                        }
+                    );
                 }, 
             },
         ]
