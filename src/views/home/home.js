@@ -1,4 +1,4 @@
-const { remote } = require('electron');
+const { remote, ipcRenderer } = require('electron');
 const { 
 	UsersController, 
 	ClientesController, 
@@ -6,6 +6,7 @@ const {
 	NotasController, 
 	CategoriasController 
 } = remote.require('./controllers');
+const { addMenuItem } = remote.require('./user-interfaces/menu/menu');
 
 const { ProfileModalComponent } = require('./profile-modal/profile-modal-component');
 
@@ -73,6 +74,9 @@ class HomeComponent {
 		}
 		
 		sessionStorage.removeItem('userLogged');
+
+		// ocultamos el menu de exportacion
+		ipcRenderer.send('hide-export-menu');
 		
 		return redirectTo('login/login.html');
 	}
@@ -95,6 +99,10 @@ class HomeComponent {
 		}
 
 		// this.loadingComponent._show = 'false';
+
+		if ( userLogged.area ===  'Administracion' ) {
+			ipcRenderer.send('show-export-menu');
+		}
 	}
 
 
