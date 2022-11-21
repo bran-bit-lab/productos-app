@@ -8,8 +8,12 @@
 
 'use strict'
 
-const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const { app, BrowserWindow } = require('electron');
+
+// custom user interfaces
+const { initMainMenu } = require('./user-interfaces/menu/menu');
+
 const { Database } = require('./database/database');
 const { ENV } = require('./env');
 
@@ -34,12 +38,14 @@ function createWindow() {
     win.loadFile( path.join( ENV.PATH_VIEWS, 'login', 'login.html' ) );
 
     win.once('ready-to-show', () => {
-        win.show();
+        initMainMenu();
         Database.connect();
+        win.show();
     });
 
     // win.webContents.openDevTools();
 }
+
 
 
 app.whenReady().then( createWindow );
