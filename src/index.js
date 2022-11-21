@@ -7,22 +7,20 @@
  */
 
 'use strict'
-
-const path = require('path');
 const { app, BrowserWindow } = require('electron');
-
-// custom user interfaces
-const { initMainMenu } = require('./user-interfaces/menu/menu');
-
 const { Database } = require('./database/database');
 const { ENV } = require('./env');
 
 if ( ENV.DEV ) {
-  require('electron-reload')( __dirname );
+    require('electron-reload')( __dirname );
 }
 
 /** funcion principal para crear la ventana principal de electronJS */
 function createWindow() {
+    
+    // custom user interfaces
+    const { join } = require('path');
+    const { initMainMenu } = require('./user-interfaces/menu/menu');
 
     const win = new BrowserWindow({
         width: 800,
@@ -35,7 +33,7 @@ function createWindow() {
     });
 
     // carga los datos
-    win.loadFile( path.join( ENV.PATH_VIEWS, 'login', 'login.html' ) );
+    win.loadFile( join( ENV.PATH_VIEWS, 'login', 'login.html' ) );
 
     win.once('ready-to-show', () => {
         initMainMenu();
@@ -45,8 +43,6 @@ function createWindow() {
 
     // win.webContents.openDevTools();
 }
-
-
 
 app.whenReady().then( createWindow );
 
