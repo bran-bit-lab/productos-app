@@ -144,10 +144,10 @@ class Database {
 		let user = null
 
 		try {
-			let data = file.readFile("/users-productos-app.ini");
+			let data = file.readFile('/users-productos-app.json');
 
 			let arregloConexion = JSON.parse( data );
-			let key = "root";
+			let key = 'root_2';
 
 			if ( !arregloConexion.hasOwnProperty( key ) ) {
 				throw { 
@@ -168,11 +168,11 @@ class Database {
 		}
 
 		mysqlAPI = mysql.createConnection({
-			host: user["host"],
-			user: user["username"],
-			password: user["password"],
-			database: user["database"],
-			port: user["port"],
+			host: user['host'],
+			user: user['username'],
+			password: user['password'],
+			database: user['database'],
+			port: user['port'],
 			multipleStatements: true  // permite la ejecucion de multiples query en una sola instruccion SQL
 		});
 
