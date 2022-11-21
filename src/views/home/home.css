@@ -86,6 +86,7 @@ app-card .grid-card {
 /* menu */
 .menu {
 	background: var(--background-menu-home);
+	min-height: 50vh;
 }
 
 .menu .container {

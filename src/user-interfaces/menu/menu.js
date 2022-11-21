@@ -1,10 +1,25 @@
 const { Menu, dialog } = require('electron');
 /**
  * Funcion que inicializa el menu principal
- * @param {Array<Electron.MenuItemConstructorOptions | Electron.MenuItem>} [mainMenuTemplate] - array de opciones del menu
+ * @param {boolean} dev - entorno de desarrollo
  */
-function initMainMenu( mainMenuTemplate = templateMenu ) {
-    const menu = Menu.buildFromTemplate( mainMenuTemplate );
+function initMainMenu( dev ) {
+    
+    // añadimos las opciones de desarrollador
+    // si el entorno es de desarrollo
+    if ( dev ) {
+        templateMenu.unshift({
+            label: 'Ventana',
+            role: 'window',
+            submenu: [
+                {
+                    role: 'toggleDevTools',
+                }
+            ]
+        });
+    }
+
+    const menu = Menu.buildFromTemplate( templateMenu );
     Menu.setApplicationMenu( menu );
 }
 

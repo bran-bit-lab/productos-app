@@ -144,8 +144,8 @@ class UsersController {
 		this.database.update( CRUD.editarRolUsuario, usuario, ( error ) => {
 
 			const notificacion = new Notification({
-				title: '',
-				body: ''
+				title: 'Exito',
+				body: 'Usuario actualizado'
 			});
 
 			if ( error ) {
@@ -162,6 +162,7 @@ class UsersController {
 				return;
 			}
 
+			notificacion.show();
   	});
 	}
 
