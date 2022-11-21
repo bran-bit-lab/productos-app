@@ -240,7 +240,7 @@ class ReportPDF {
 }
 
 // capturamos los datos del socket
-ipcRenderer.on('consults', ( $event, consults ) => {
+ipcRenderer.once('consults', ( $event, consults ) => {
    
     const reportPDF = new ReportPDF();
 

@@ -495,13 +495,13 @@ class ReporteController {
 			const contents = window.webContents;
 			
 			// entrada al dom oculto
-			
-			contents.on('did-finish-load', () => {
+			contents.once('did-finish-load', () => {
 				contents.send( 'consults', consults );
 			});
 	
 			// recibe los datos en el buffer
-			ipcMain.on('receiveBuffer', ( $event, consultsWindow ) => {
+			// crea el listener lo escucha una vez y se desmonta
+			ipcMain.once('receiveBuffer', ( $event, consultsWindow ) => {
 				
 				// se valida la instancia de window
 				if ( window ) {
