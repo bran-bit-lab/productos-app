@@ -6,7 +6,6 @@ const {
 	NotasController, 
 	CategoriasController 
 } = remote.require('./controllers');
-const { addMenuItem } = remote.require('./user-interfaces/menu/menu');
 
 const { ProfileModalComponent } = require('./profile-modal/profile-modal-component');
 
