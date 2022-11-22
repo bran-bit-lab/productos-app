@@ -49,6 +49,10 @@ class ProductsComponent {
 				this.exportProducts();
 			});
 
+			if ( getUserLogged().area !== 'Administracion' ) {
+				this.exportElement.style.display = 'none';
+			}
+
 			this.setTabs();
 		});
 

@@ -34,7 +34,7 @@ class OrdersTableComponent {
 			this.page = $event.detail.page;
 			this.getAll( $event.detail.value );
 		});
-
+		
 		// inciamos los eventos del exportador
 		this.exportElement = document.querySelector('app-export');
 		this.exportElement.addEventListener('export-data', event => {
@@ -47,6 +47,10 @@ class OrdersTableComponent {
 
 			this.exportNotes();
 		});
+		
+		if ( getUserLogged().area !== 'Administracion' ) {
+			this.exportElement.style.display = 'none';
+		}
 	}
 
 	/**
