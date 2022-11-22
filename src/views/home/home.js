@@ -76,7 +76,7 @@ class HomeComponent {
 		sessionStorage.removeItem('userLogged');
 
 		// ocultamos el menu de exportacion
-		ipcRenderer.send('hide-flie-menu');
+		ipcRenderer.send('hide-file-menu');
 		
 		return redirectTo('login/login.html');
 	}
