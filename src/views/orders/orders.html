@@ -12,6 +12,7 @@
     <script src="components/loading/loading-component.js" defer></script>
     <script src="components/pagination/pagination-component.js" defer></script>
     <script src="components/search-bar/search-bar-component.js" defer></script>
+    <script src="components/export/export-component.js" defer></script>
     
     <app-loading class="loading" show="true"></app-loading>
     <main class="container p-3 h-100">
@@ -33,6 +34,9 @@
 
     <!-- tables -->
     <div class="main-content mt-5">
+      
+      <app-export></app-export>
+      
       <search-bar-component from="delivery-notes"></search-bar-component>
       <div class="row justify-content-sm-end justify-content-center mt-3">
         <div class="table-responsive w-100">

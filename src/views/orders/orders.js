@@ -34,8 +34,20 @@ class OrdersTableComponent {
 			this.page = $event.detail.page;
 			this.getAll( $event.detail.value );
 		});
-	}
 
+		// inciamos los eventos del exportador
+		this.exportElement = document.querySelector('app-export');
+		this.exportElement.addEventListener('export-data', event => {
+			const { nameEvent } = event.detail;
+
+			if ( nameEvent === 'import-file' ) {
+				this.importNotes();
+				return;
+			}
+
+			this.exportNotes();
+		});
+	}
 
 	/**
 	 * obtiene todas las notas
@@ -201,6 +213,14 @@ class OrdersTableComponent {
 				</tr>
 			`);
 		}
+	}
+
+	importNotes() {
+		console.log('import notes');
+	}
+
+	exportNotes() {
+		console.log('export notes');
 	}
 }
 

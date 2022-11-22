@@ -35,6 +35,20 @@ class ProductsComponent {
 
 			ModalConfirmComponent = require('../shared/modal-confirm/modal-confirm-component');
 
+			// inciamos los eventos del exportador
+			this.exportElement = document.querySelector('app-export');
+			this.exportElement.addEventListener('export-data', event => {
+				
+				const { nameEvent } = event.detail;
+
+				if ( nameEvent === 'import-file' ) {
+					this.importProducts();
+					return;
+				}
+
+				this.exportProducts();
+			});
+
 			this.setTabs();
 		});
 
@@ -118,6 +132,13 @@ class ProductsComponent {
 		});
 	}
 
+	importProducts() {
+		console.log('import products');
+	}
+
+	exportProducts() {
+		console.log('export products');
+	}
 }
 /** @type {ProductsComponent}  */
 const productsComponent = new ProductsComponent();

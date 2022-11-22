@@ -1,0 +1,21 @@
+.import-module p.text-muted {
+	font-size: 14px;
+	margin-top: 20px;
+	margin-bottom: 0;
+	font-style: italic;
+}
+
+.import-module .import-column,
+.import-module .export-column {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: auto;
+	min-height: 150px;
+	cursor: pointer;
+}
+
+.import-module .card-header {
+	padding: 12px 24px;
+}

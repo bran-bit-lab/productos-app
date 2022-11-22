@@ -36,7 +36,7 @@ function createWindow() {
     win.loadFile( join( ENV.PATH_VIEWS, 'login', 'login.html' ) );
 
     win.once('ready-to-show', () => {
-        initMainMenu();
+        initMainMenu( ENV.DEV );
         Database.connect();
         win.show();
     });

@@ -1,21 +1,24 @@
+<app-export></app-export>
+
+<!-- tabla de productos -->
 <search-bar-component from="products"></search-bar-component>
 <div class="row justify-content-end">
 	<div class="table-responsive w-100">
 		<table class="table table-striped">
-  		<thead>
-  			<tr class="text-center">
-  				<th>Codigo:</th>
-  				<th>Nombre:</th>
-  				<th>Cantidad:</th>
-          		<th>Categoría</th>
-  				<th>Precio unitario:</th>
-  				<th>Creado por:</th>
-  				<th>Disponibilidad:</th>
-  				<th>Acciones</th>
-  			</tr>
-  		</thead>
-  		<tbody id="tbody-products"></tbody>
-  	</table>
+			<thead>
+				<tr class="text-center">
+					<th>Codigo:</th>
+					<th>Nombre:</th>
+					<th>Cantidad:</th>
+					<th>Categoría</th>
+					<th>Precio unitario:</th>
+					<th>Creado por:</th>
+					<th>Disponibilidad:</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody id="tbody-products"></tbody>
+		</table>
 	</div>
 </div>
 <pagination-component id="pagination-products" from="products"></pagination-component>

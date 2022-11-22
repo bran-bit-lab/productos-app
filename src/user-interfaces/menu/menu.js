@@ -1,32 +1,34 @@
-const { Menu, dialog, ipcMain } = require('electron');
-
-const { ProductosController, NotasController } = require('../../controllers');
-const { ENV } = require('../../env');
+const { Menu, dialog } = require('electron');
 
 /**
  * Funcion que inicializa el menu principal
  * @param {boolean} dev - entorno de desarrollo
  */
-function initMainMenu() {
+function initMainMenu( dev ) {
     
     // añadimos las opciones de desarrollador
     // si el entorno es de desarrollo
-    if ( ENV.DEV ) {
+    if ( dev ) {
 
         // si ya esta agragado el elemento ventana no cargamos la opcion
-        if ( templateMenu.findIndex( menu => menu.label === 'Ventana' ) === -1 ) {
-            
-            templateMenu.push({
-                label: 'Ventana',
-                role: 'window',
-                submenu: [
-                    {
-                        role: 'toggleDevTools',
-                    }
-                ]
-            });
-        }
-
+        templateMenu.unshift({
+            label: 'Ventana',
+            role: 'window',
+            submenu: [
+                {
+                    role: 'reload',
+                },
+                { 
+                    role: 'forceReload',
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    role: 'toggleDevTools',
+                },
+            ]
+        });
     }
 
     // creamos el menu
@@ -34,27 +36,8 @@ function initMainMenu() {
     Menu.setApplicationMenu( menu );
 }
 
-/**
- * Añade un nuevo elemento al menu
- * @param {Electron.Menu} item - Elemento del menu a añadir 
- */ 
-function addMenuItem( item ) {
-
-    templateMenu.unshift( item );
-    initMainMenu();
-}
-
-function hideMenuItem( item ) {
-    
-    if ( item ) {
-
-        templateMenu = templateMenu.filter( menu => menu !== item );
-        initMainMenu();
-    }
-}
-
 /** @type {Array<Electron.MenuItemConstructorOptions | Electron.MenuItem>} */
-let templateMenu = [
+const templateMenu = [
     {
         label: 'Ayuda',
         role: 'help',
@@ -94,52 +77,6 @@ let templateMenu = [
 
 ];
 
-// events listeners
-ipcMain.on('show-file-menu', () => {
-
-    // opcion archivo
-    if ( templateMenu.findIndex( menu => menu.label === 'Archivo' ) === -1 ) {
-        
-        addMenuItem({
-            label: 'Archivo',
-            role: 'fileMenu',
-            submenu:  [
-                {
-                    label: 'Exportar',
-                    submenu: [
-                        {
-                            label: 'Productos',
-                            click: ProductosController.exportarProductos,
-                        },
-                        {
-                            label: 'Notas de entrega',
-                            click: NotasController.exportarNotas,
-                        },
-                    ],
-                },
-                {
-                    label: 'Importar',
-                    submenu: [
-                        {
-                            label: 'Productos',
-                            click: ProductosController.importarProductos,
-                        },
-                        {
-                            label: 'Notas de entrega',
-                            click: NotasController.importarNotas,
-                        },
-                    ],
-                },
-            ]
-        });
-    }
-});
-
-ipcMain.on('hide-file-menu', () => {
-    hideMenuItem( templateMenu.find( menu => menu.label === 'Archivo' ) );
-});
-
 module.exports = {
     initMainMenu,
-    addMenuItem
 }

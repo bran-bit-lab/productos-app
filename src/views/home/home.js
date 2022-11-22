@@ -73,9 +73,6 @@ class HomeComponent {
 		}
 		
 		sessionStorage.removeItem('userLogged');
-
-		// ocultamos el menu de exportacion
-		ipcRenderer.send('hide-file-menu');
 		
 		return redirectTo('login/login.html');
 	}
@@ -98,10 +95,6 @@ class HomeComponent {
 		}
 
 		// this.loadingComponent._show = 'false';
-
-		if ( userLogged.area ===  'Administracion' ) {
-			ipcRenderer.send('show-file-menu');
-		}
 	}
 
 
