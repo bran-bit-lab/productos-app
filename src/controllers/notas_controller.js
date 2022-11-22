@@ -17,6 +17,21 @@ class NotasController {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
 
+
+	/**
+	 * Exporta los productos en un archivo de excel
+	 */
+	 static exportarNotas() {
+		console.log('exportar notas desde el notas controller');
+	}
+
+	/**
+	 * Importa los productos en un archivo excel
+	 */
+	static importarNotas() {
+		console.log('importar notas desde notas controller');
+	}
+
 	/**
 	 * crea un registro de una nota de entrega
 	 * @param  {Nota} nota instancia de la nota

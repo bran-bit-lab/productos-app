@@ -1,4 +1,6 @@
 const { Menu, dialog, ipcMain } = require('electron');
+
+const { ProductosController, NotasController } = require('../../controllers');
 const { ENV } = require('../../env');
 
 /**
@@ -14,7 +16,7 @@ function initMainMenu() {
         // si ya esta agragado el elemento ventana no cargamos la opcion
         if ( templateMenu.findIndex( menu => menu.label === 'Ventana' ) === -1 ) {
             
-            templateMenu.unshift({
+            templateMenu.push({
                 label: 'Ventana',
                 role: 'window',
                 submenu: [
@@ -23,7 +25,6 @@ function initMainMenu() {
                     }
                 ]
             });
-
         }
 
     }
@@ -39,35 +40,14 @@ function initMainMenu() {
  */ 
 function addMenuItem( item ) {
 
-    // creamos la opcion si no existe
-    if ( !item ) {
-        
-        templateMenu.unshift({
-            label: 'Archivo',
-            role: 'fileMenu',
-            submenu:  [
-                {
-                    label: 'exportar productos',
-                    click: () => {
-                        console.log('exportar productos');
-                    }
-                },
-                {
-                    label: 'exportar notas de entrega',
-                    click: () => {
-                        console.log('exportar notas de entrega');
-                    }
-                }
-            ]
-        });
-
-        initMainMenu();
-    }
+    templateMenu.unshift( item );
+    initMainMenu();
 }
 
 function hideMenuItem( item ) {
     
     if ( item ) {
+
         templateMenu = templateMenu.filter( menu => menu !== item );
         initMainMenu();
     }
@@ -93,36 +73,69 @@ let templateMenu = [
                 label: 'Acerca de',
                 accelerator: 'Ctrl+h',
                 click: () => {
-                    const fs = require('fs');
-                    const path = require('path');
-
-                    fs.readFile( 
-                        path.join( __dirname, 'acerca.txt' ), 
-                        { encoding: 'utf-8' }, 
-                        ( error, message ) => {
-
-                            if ( error )  {
-                                throw error;
-                            }
-
-                            dialog.showMessageBox(null, {
-                                title: 'Acerca de',
-                                message 
-                            });
-                        }
-                    );
+                    
+                    const FILE = require('../../util_functions/file');
+                    
+                    try {
+                        const message = FILE.readFile( '/user-interfaces/menu/acerca.txt' );
+                        
+                        dialog.showMessageBox( null, {
+                            title: 'Acerca de',
+                            message 
+                        });
+                    
+                    } catch ( error ) {
+                        throw error;
+                    }
                 }, 
             },
         ]
     },
+
 ];
 
 // events listeners
-ipcMain.on('show-export-menu', () => {
-    addMenuItem( templateMenu.find( menu => menu.label === 'Archivo' ) );
+ipcMain.on('show-file-menu', () => {
+
+    // opcion archivo
+    if ( templateMenu.findIndex( menu => menu.label === 'Archivo' ) === -1 ) {
+        
+        addMenuItem({
+            label: 'Archivo',
+            role: 'fileMenu',
+            submenu:  [
+                {
+                    label: 'Exportar',
+                    submenu: [
+                        {
+                            label: 'Productos',
+                            click: ProductosController.exportarProductos,
+                        },
+                        {
+                            label: 'Notas de entrega',
+                            click: NotasController.exportarNotas,
+                        },
+                    ],
+                },
+                {
+                    label: 'Importar',
+                    submenu: [
+                        {
+                            label: 'Productos',
+                            click: ProductosController.importarProductos,
+                        },
+                        {
+                            label: 'Notas de entrega',
+                            click: NotasController.importarNotas,
+                        },
+                    ],
+                },
+            ]
+        });
+    }
 });
 
-ipcMain.on('hide-export-menu', () => {
+ipcMain.on('hide-file-menu', () => {
     hideMenuItem( templateMenu.find( menu => menu.label === 'Archivo' ) );
 });
 

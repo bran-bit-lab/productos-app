@@ -19,6 +19,14 @@ class ProductosController {
 	 * Exporta los productos en un archivo de excel
 	 */
 	static exportarProductos() {
+		console.log('exportar productos desde el product controller');
+	}
+
+	/**
+	 * Importa los productos en un archivo excel
+	 */
+	static importarProductos() {
+		console.log('importar productos desde product controller');
 	}
 
 	/**
