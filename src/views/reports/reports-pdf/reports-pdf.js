@@ -1,5 +1,4 @@
 const { ipcRenderer } = require('electron');
-const Chart = require('chart.js');
 
 /** Clase que controla la generacion de los archivos de Imagen estadisticos */
 class ReportPDF {
@@ -71,7 +70,8 @@ class ReportPDF {
         const { backgroundColor, borderColor } = this.createRandomColor( values, 0.2 );
     
         canvas.parentNode.style.width = '90%';
-    
+
+        // Chart viene del objeto global
         this.chartElement = new Chart( canvas, {
           type: 'bar',
           data: {

@@ -1,7 +1,7 @@
 const { remote } = require('electron');
 const { ReporteController } = remote.require('./controllers');
-const Chart = require('chart.js');
 const render = require('./render-table-chart');
+
 
 /** clase que controla las consultas estadisticas  */
 class ReportsComponent {
@@ -358,6 +358,7 @@ class ReportsComponent {
 
     canvas.parentNode.style.width = '90%';
 
+    // chart viene del objeto global
     this.chart = new Chart( canvas, {
       type: 'bar',
       data: {
