@@ -2,8 +2,10 @@
 
 const { remote } = require('electron');
 const { CategoriasController, ProductosController } = remote.require('./controllers');
-const Tab = require('bootstrap/js/dist/tab');
-const Modal = require('bootstrap/js/dist/modal');
+
+// boostrap components
+const { Tab, Modal } = bootstrap;
+
 const ProductsTableComponent = require('./products-table/products-table-component');
 const CategoryTableComponent = require('./categories-table/categories-table-component');
 

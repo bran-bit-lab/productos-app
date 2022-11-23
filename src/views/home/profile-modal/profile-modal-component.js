@@ -1,4 +1,5 @@
-const Modal = require('bootstrap/js/dist/modal');
+// se incluye la variable global bootstrap
+const { Modal } = bootstrap;
 
 /** Clase componente de perfil */
 class ProfileModalComponent {

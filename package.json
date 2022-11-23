@@ -48,10 +48,7 @@
     }
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.1",
-    "@popperjs/core": "^2.6.0",
     "bcryptjs": "^2.4.3",
-    "bootstrap": "^5.0.0-beta1",
     "chart.js": "^3.5.1",
     "electron-squirrel-startup": "^1.0.0",
     "inquirer": "^8.1.1",

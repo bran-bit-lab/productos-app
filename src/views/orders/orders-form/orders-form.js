@@ -7,7 +7,7 @@ const {
   NotasProductosController 
 } = remote.require('./controllers');
 
-const Modal = require('bootstrap/js/dist/modal');
+const { Modal } = bootstrap;
 
 /** clase formulario notas de entrega */
 class OrdersForm {

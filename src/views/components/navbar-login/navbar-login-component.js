@@ -1,4 +1,4 @@
-const Tooltip = require('bootstrap/js/dist/tooltip');
+const { Tooltip } = bootstrap;
 
 class NavbarLoginComponent extends HTMLElement {
 	constructor() {

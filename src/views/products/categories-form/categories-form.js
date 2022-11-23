@@ -210,7 +210,7 @@ function resetForm( button = false ) {
 	}
 }
 
-/** @type {Modal} */
+/** @type {bootstrap.Modal} */
 const modalFormCategory = new Modal( footer.querySelector('#category-form'), {
 	backdrop: 'static'
 });
