@@ -19,7 +19,30 @@ class ProductosController {
 	 * Exporta los productos en un archivo de excel
 	 */
 	static exportarProductos() {
-		console.log('exportar productos desde el product controller');
+		
+		const opciones = { 
+			title: 'Exportar Archivo', 
+			filters: [ {name: 'JSON', extensions: ['json']},
+				{name: 'EXCEL', extensions: ['xls', 'xlsx']} ] 
+		};
+		const extensiones = ['json', 'xls', 'xlsx']
+
+		//  asi se consume
+		dialog.showSaveDialog(null, opciones)
+			.then( respuesta => {
+				if(respuesta.canceled === true){
+					return;
+				}
+				let validacion = extensiones.some((opciones)=>{
+					// no es extensiones sino opciones 
+					return respuesta.filePath.includes(opciones); 
+				})
+				console.log({respuesta, validacion});			
+			})
+			.catch( error => {
+				console.log( error );
+			})
+
 	}
 
 	/**
