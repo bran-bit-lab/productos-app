@@ -20,29 +20,42 @@ class ProductosController {
 	 */
 	static exportarProductos() {
 		
+		const extensiones = ['.json', '.xls', '.xlsx']
 		const opciones = { 
 			title: 'Exportar Archivo', 
-			filters: [ {name: 'JSON', extensions: ['json']},
-				{name: 'EXCEL', extensions: ['xls', 'xlsx']} ] 
+			filters: [ 
+				{ name: 'Archivo excel', extensions: ['.xls', '.xlsx'] },
+				{ name: 'Archivo json', extensions: ['.json'] },
+			], 
 		};
-		const extensiones = ['json', 'xls', 'xlsx']
-
+		
 		//  asi se consume
-		dialog.showSaveDialog(null, opciones)
+		dialog.showSaveDialog( null, opciones )
 			.then( respuesta => {
-				if(respuesta.canceled === true){
+				
+				if ( respuesta.canceled === true ){
 					return;
 				}
-				let validacion = extensiones.some((opciones)=>{
-					// no es extensiones sino opciones 
-					return respuesta.filePath.includes(opciones); 
-				})
-				console.log({respuesta, validacion});			
+
+				let validacion = extensiones.some(( extension ) => {
+					// no es extensiones sino extension 
+					return respuesta.filePath.includes( extension ); 
+				});
+
+				console.log({ respuesta, validacion });			
+
+				// si la condicion es falsa arroja un throw
+				// ...
+
+				// luego procedes a crear el archivo desde excelModule con write
+				// ...
+
 			})
 			.catch( error => {
+				// capturamos el error aqui
+				// mandamos una notificacion al usuario
 				console.log( error );
-			})
-
+			});
 	}
 
 	/**
