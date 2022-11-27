@@ -45,10 +45,11 @@ class ProductsComponent {
 
 				if ( nameEvent === 'import-file' ) {
 					this.importProducts();
-					return;
-				}
+					
+				} else {
+					this.exportProducts();
 
-				this.exportProducts();
+				}
 			});
 
 			if ( getUserLogged().area !== 'Administracion' ) {
@@ -139,11 +140,11 @@ class ProductsComponent {
 	}
 
 	importProducts() {
-		console.log('import products');
+		ProductosController.importarProductos();
 	}
 
 	exportProducts() {
-		console.log('export products');
+		ProductosController.exportarProductos();
 	}
 }
 /** @type {ProductsComponent}  */

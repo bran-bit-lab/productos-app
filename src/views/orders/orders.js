@@ -42,10 +42,11 @@ class OrdersTableComponent {
 
 			if ( nameEvent === 'import-file' ) {
 				this.importNotes();
-				return;
-			}
+				
+			} else {
+				this.exportNotes();
 
-			this.exportNotes();
+			}
 		});
 		
 		if ( getUserLogged().area !== 'Administracion' ) {
@@ -220,11 +221,11 @@ class OrdersTableComponent {
 	}
 
 	importNotes() {
-		console.log('import notes');
+		NotasController.importarNotas();
 	}
 
 	exportNotes() {
-		console.log('export notes');
+		NotasController.exportarNotas();
 	}
 }
 
