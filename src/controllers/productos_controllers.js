@@ -24,8 +24,8 @@ class ProductosController {
 		const opciones = { 
 			title: 'Exportar Archivo', 
 			filters: [ 
-				{ name: 'Archivo excel', extensions: ['.xls', '.xlsx'] },
-				{ name: 'Archivo json', extensions: ['.json'] },
+				{ name: 'Archivo excel', extensions: ['xls', 'xlsx'] },
+				{ name: 'Archivo json', extensions: ['json'] },
 			], 
 		};
 		
