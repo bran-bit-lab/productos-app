@@ -1,4 +1,4 @@
-const { remote, ipcRenderer } = require('electron');
+const { remote } = require('electron');
 const { 
 	UsersController, 
 	ClientesController, 

@@ -1,8 +1,7 @@
-const { Notification, dialog } = require('electron');
+const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database');
 const excelModule = require('../util_functions/excel');
 const CRUD = require('../database/CRUD');
-
 
 /** clase que gestiona los productos */
 class ProductosController {
@@ -30,15 +29,16 @@ class ProductosController {
 		};
 		
 		//  asi se consume
-		dialog.showSaveDialog( null, opciones )
+		dialog.showSaveDialog( BrowserWindow.getFocusedWindow(), opciones )
 			.then( respuesta => {
 				
 				if ( respuesta.canceled === true ){
 					return;
 				}
 
-				let validacion = extensiones.some(( extension ) => {
-					// no es extensiones sino extension 
+				// validamos que el archivo cumpla con una de las 
+				// extensiones
+				let validacion = extensiones.some(( extension ) => { 
 					return respuesta.filePath.includes( extension ); 
 				});
 
