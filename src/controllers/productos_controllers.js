@@ -20,6 +20,8 @@ class ProductosController {
 	static exportarProductos() {
 		
 		const extensiones = ['.json', '.xls', '.xlsx']
+		
+		/** @type {Electron.SaveDialogOptions} */
 		const opciones = { 
 			title: 'Exportar Archivo', 
 			filters: [ 
