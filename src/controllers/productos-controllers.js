@@ -1,5 +1,5 @@
 const { Notification, dialog, BrowserWindow } = require('electron');
-const { Database } = require('../database/database');
+const { Database } = require('../database/database'); 
 const excelModule = require('../util-functions/excel');
 const CRUD = require('../database/CRUD');
 
@@ -33,10 +33,12 @@ class ProductosController {
 				{ name: 'Archivo json', extensions: ['json'] },
 			], 
 		};
+
+		let path = null;
 		
 		//  asi se consume
 		dialog.showSaveDialog( BrowserWindow.getFocusedWindow(), opciones )
-			.then( respuesta => {
+			.then( async respuesta => {
 				
 				if ( respuesta.canceled === true ){
 					return;
@@ -56,19 +58,30 @@ class ProductosController {
 						path: respuesta.filePath,
 					};
 				}
-				// si la condicion es falsa arroja un throw
-				// ...
 
-				// luego procedes a crear el archivo desde excelModule con write
-				// ...
+				// asignamos el path al scope superior
+				path = respuesta.filePath;
+
+				return ProductosController.obtenerTotalProductosExportar();
+			})
+			.then( consultaDB => {
+				// aqui obtienes la respuesta del excel write file
+				console.log({ path }); 
+				// aqui obtienes las respuesta de la promesa path y 
+				// arreglo de objetos de la data del sql
+				return excelModule.writeFileExcel(path, consultaDB);
+			})
+			.then( respuestaExcel => {
+				console.log(respuestaExcel);
 
 			})
 			.catch( error => {
+				console.log( error );
 				// capturamos el error aqui
-				notificacion.body = error['error'];
+				/*notificacion.body = error['error'];
 				notificacion.title = 'Error';
 				// mandamos una notificacion al usuario
-				notificacion.show();
+				notificacion.show();*/
 				console.log( error );
 			});
 	}
@@ -158,6 +171,35 @@ class ProductosController {
 			});
 
 		});
+	}
+
+	/**
+	* Obtiene el total de los productos
+	* @returns {Promise<{ totalPaginas: number, totalRegistros: number }>}
+	*/
+	static obtenerTotalProductosExportar() {
+		console.log('paso por aqui');
+		return new Promise( ( resolve, reject ) => {
+			this.database.consult( CRUD.exportarProductos, ( error, resultados ) => {
+					
+				// lo capturamos en el catch
+				if ( error ) {
+					reject({
+						error: 'Error en la consulta BD',
+						detail: error
+					});
+
+					return
+				}
+
+				// console.log( resultados );
+
+				// aqui no puedo retorna la promesa porque el then no se ejeucuta
+				// porque este return es el callback
+				resolve( resultados );
+			});
+		});
+
 	}
 
 	/**

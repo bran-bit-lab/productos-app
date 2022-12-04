@@ -9,6 +9,8 @@ CREATE TABLE usuarios (
 	area char(30)
 );
 
+SELECT productos.*, categorias.nombre AS nombre_categoria FROM productos INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid;
+
 INSERT INTO usuarios(nombre, apellido, correo, password, area)
 	VALUE("Gabriel", "Martinez", "prueba6@prueba.com", "123456", "Ventas");
 

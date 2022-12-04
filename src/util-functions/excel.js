@@ -1,16 +1,16 @@
 const XLSX = require("xlsx");
 const fs = require('fs');
 
-function writeFileExcel( url ) {
+function writeFileExcel( url, data ) {
 
+  console.log({data, url});
   const manejador = function ( resolve, reject ) {
     
     try {
-      
-      // lectura del archivo
-      let file = fs.readFileSync( url, { encoding: "utf-8" });
-      file = JSON.parse( file );      
-      
+    
+      // vamos a hacer un ejemplo con 2 productos 
+    /*  
+      Documenttacion 
       const filter = file.filter( row => row.terms.some( term => term.type === "prez"));
       
       const rows = filter.map(( row, index ) => ({
@@ -24,11 +24,10 @@ function writeFileExcel( url ) {
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet( workbook, worksheet, "Dates");
       
-      /* fix headers */
+      fix headers 
       XLSX.utils.sheet_add_aoa( worksheet, [["Id", "Name", "Gender"]], { origin: "A1" });
 
-      XLSX.writeFile( workbook, "Presidents.xlsx" );
-
+      XLSX.writeFile( workbook, "Presidents.xlsx" );*/
       resolve('Archivo excel creado con exito');  
     
     } catch ( error ) { 
@@ -38,7 +37,7 @@ function writeFileExcel( url ) {
   }
 
   const promesa = new Promise( manejador );
-
+  // esta
   return promesa;
 }
 
