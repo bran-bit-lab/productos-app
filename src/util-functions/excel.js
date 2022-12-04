@@ -18,18 +18,21 @@ function writeFileExcel( url, data ) {
         name: row.name.first + " " + row.name.last,
         gender: row.bio.gender
       }));
-      
+      */
       // Generar la hoja y el libro de trabajo
-      const worksheet = XLSX.utils.json_to_sheet( rows );
+      const worksheet = XLSX.utils.json_to_sheet( data );
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet( workbook, worksheet, "Dates");
       
-      fix headers 
-      XLSX.utils.sheet_add_aoa( worksheet, [["Id", "Name", "Gender"]], { origin: "A1" });
+      console.log(worksheet);
 
-      XLSX.writeFile( workbook, "Presidents.xlsx" );*/
+      //fix headers 
+      //XLSX.utils.sheet_add_aoa( worksheet, [["Id", "Name", "Gender"]], { origin: "A1" });
+      XLSX.writeFile( workbook, 'productos.xlsx' );
       resolve('Archivo excel creado con exito');  
-    
+/*
+      XLSX.writeFile( workbook, "Presidents.xlsx" );
+*/    
     } catch ( error ) { 
 
       reject( error );
@@ -37,7 +40,7 @@ function writeFileExcel( url, data ) {
   }
 
   const promesa = new Promise( manejador );
-  // esta
+  
   return promesa;
 }
 
