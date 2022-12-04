@@ -290,7 +290,7 @@ class PdfController {
 		})
 
 		// fin pagina
-		return await pdfDoc.save();
+		return pdfDoc.save();
 	}
 
 	/**
@@ -1034,7 +1034,7 @@ class PdfController {
 
 		setPagination( ( pdfDoc.getPageIndices()[3] + 1 ), page4 );
 		
-		return await pdfDoc.save();
+		return pdfDoc.save();
 
 	}
 }
