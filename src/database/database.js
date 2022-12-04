@@ -147,7 +147,7 @@ class Database {
 			let data = file.readFile('/users-productos-app.json');
 
 			let arregloConexion = JSON.parse( data );
-			let key = 'root';
+			let key = 'root_2';
 
 			if ( !arregloConexion.hasOwnProperty( key ) ) {
 				throw { 

@@ -3,7 +3,6 @@ const fs = require('fs');
 
 function writeFileExcel( url, data ) {
 
-  console.log({data, url});
   const manejador = function ( resolve, reject ) {
     
     try {
@@ -11,13 +10,16 @@ function writeFileExcel( url, data ) {
       // Generar la hoja y el libro de trabajo
       const worksheet = XLSX.utils.json_to_sheet( data );
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet( workbook, worksheet, "Dates");
       
-      console.log(worksheet);
+      XLSX.utils.book_append_sheet( workbook, worksheet, "data");
+      
+      // console.log( worksheet );
 
-      //fix headers 
-      //XLSX.utils.sheet_add_aoa( worksheet, [["Id", "Name", "Gender"]], { origin: "A1" });
+      // fix headers 
+      // XLSX.utils.sheet_add_aoa( worksheet, [["Id", "Name", "Gender"]], { origin: "A1" });
+      
       XLSX.writeFile( workbook, url );
+      
       resolve('Archivo excel creado con exito');  
   
     } catch ( error ) { 

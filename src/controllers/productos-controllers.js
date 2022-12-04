@@ -18,11 +18,9 @@ class ProductosController {
 	 * Exporta los productos en un archivo de excel
 	 */
 	static exportarProductos() {
+
 		// almacena una instancia de notificacion al usuario
-		const notificacion = new Notification({
-	  		error:'' , 
-	  		body:'' 
-	  	});
+		const notificacion = new Notification();
 		const extensiones = ['.json', '.xls', '.xlsx']
 		
 		/** @type {Electron.SaveDialogOptions} */
@@ -38,9 +36,9 @@ class ProductosController {
 		
 		//  asi se consume
 		dialog.showSaveDialog( BrowserWindow.getFocusedWindow(), opciones )
-			.then( async respuesta => {
+			.then( respuesta => {
 				
-				if ( respuesta.canceled === true ){
+				if ( respuesta.canceled ) {
 					return;
 				}
 
@@ -50,9 +48,9 @@ class ProductosController {
 					return respuesta.filePath.includes( extension ); 
 				});
 
-				console.log({ respuesta, validacion });			
+				// console.log({ respuesta, validacion });			
 
-				if (validacion === false){
+				if ( !validacion ) {
 					throw {
 						error: 'La extension del archivo no es valida',
 						path: respuesta.filePath,
@@ -65,26 +63,32 @@ class ProductosController {
 				return ProductosController.obtenerTotalProductosExportar();
 			})
 			.then( consultaDB => {
-				// aqui obtienes la respuesta del excel write file
-				console.log({ path }); 
+				
+				// aqui obtienes la respuesta de la BD de datos
+				// console.log({ path }); 
+				
 				// aqui obtienes las respuesta de la promesa path y 
 				// arreglo de objetos de la data del sql
-				return excelModule.writeFileExcel(path, consultaDB);
+				return excelModule.writeFileExcel( path, consultaDB );
 			})
 			.then( respuestaExcel => {
-				console.log(respuestaExcel);
-				notificacion.body = 'Archivo excel creado con exito';
-				notificacion.title = "Exito";
+
+				console.log( respuestaExcel );
+				
+				notificacion.body = respuestaExcel;
+				notificacion.title = 'Exito';
+				
 				notificacion.show();
 			})
 			.catch( error => {
 				console.log( error );
+				
 				// capturamos el error aqui
-				/*notificacion.body = error['error'];
+				notificacion.body = error['error'];
 				notificacion.title = 'Error';
+				
 				// mandamos una notificacion al usuario
-				notificacion.show();*/
-				console.log( error );
+				notificacion.show();
 			});
 	}
 
@@ -176,12 +180,12 @@ class ProductosController {
 	}
 
 	/**
-	* Obtiene el total de los productos
-	* @returns {Promise<{ totalPaginas: number, totalRegistros: number }>}
+	* Obtiene el total de los productos para exportar
+	* @returns {Promise<Array<Product>>}
 	*/
 	static obtenerTotalProductosExportar() {
-		console.log('paso por aqui');
-		return new Promise( ( resolve, reject ) => {
+		
+		return new Promise(( resolve, reject ) => {
 			this.database.consult( CRUD.exportarProductos, ( error, resultados ) => {
 					
 				// lo capturamos en el catch
@@ -201,7 +205,6 @@ class ProductosController {
 				resolve( resultados );
 			});
 		});
-
 	}
 
 	/**
