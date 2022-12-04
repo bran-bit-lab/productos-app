@@ -1,6 +1,6 @@
 const { dialog } = require('electron');
 const mysql = require('mysql');
-const file = require('../util_functions/file');
+const file = require('../util-functions/file');
 
 /**
 * API de mysql

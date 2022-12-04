@@ -1,6 +1,6 @@
 const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database');
-const excelModule = require('../util_functions/excel');
+const excelModule = require('../util-functions/excel');
 const CRUD = require('../database/CRUD');
 
 /** clase que gestiona los productos */

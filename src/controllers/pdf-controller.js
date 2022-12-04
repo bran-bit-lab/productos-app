@@ -1,5 +1,5 @@
 const { PDFDocument, StandardFonts, rgb, degrees, PDFPage } = require('pdf-lib');
-const TIME = require('../util_functions/time');
+const TIME = require('../util-functions/time');
 
 /** clase que permite generar los documentos de salida */
 class PdfController {

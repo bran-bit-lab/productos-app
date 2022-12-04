@@ -1,10 +1,10 @@
 const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
-const TIME = require('../util_functions/time');
-const { NotasProductosController } = require('./notas_productos_controller');
-const { PdfController } = require('./pdf_controller');
-const FILE = require('../util_functions/file');
+const TIME = require('../util-functions/time');
+const { NotasProductosController } = require('./notas-productos-controller');
+const { PdfController } = require('./pdf-controller');
+const FILE = require('../util-functions/file');
 
 /** Clase que gestiona las notas de entregas */
 class NotasController {

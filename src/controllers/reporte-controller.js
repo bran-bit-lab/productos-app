@@ -1,10 +1,10 @@
 const { Notification, dialog, BrowserWindow, ipcMain } = require('electron');
 const CRUD = require('../database/CRUD');
 const { Database } = require('../database/database');
-const FILE = require('../util_functions/file');
-const TIME = require('../util_functions/time');
+const FILE = require('../util-functions/file');
+const TIME = require('../util-functions/time');
 const { ENV } = require('../env');
-const { PdfController } = require('./pdf_controller');
+const { PdfController } = require('./pdf-controller');
 
 /** clase que gestiona los reportes */
 class ReporteController {

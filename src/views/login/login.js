@@ -1,7 +1,7 @@
 // remote actua como un objeto de conexion con el proceso principal
 
 const { remote } = require('electron');
-const { UsersController } = remote.require('./controllers/users_controller');
+const { UsersController } = remote.require('./controllers');
 
 /** clase que authentica al usuario */
 class LoginPage {
