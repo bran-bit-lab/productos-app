@@ -18,7 +18,11 @@ class ProductosController {
 	 * Exporta los productos en un archivo de excel
 	 */
 	static exportarProductos() {
-		
+		// almacena una instancia de notificacion al usuario
+		const notificacion = new Notification({
+	  		error:'' , 
+	  		body:'' 
+	  	});
 		const extensiones = ['.json', '.xls', '.xlsx']
 		
 		/** @type {Electron.SaveDialogOptions} */
@@ -46,6 +50,12 @@ class ProductosController {
 
 				console.log({ respuesta, validacion });			
 
+				if (validacion === false){
+					throw {
+						error: 'La extension del archivo no es valida',
+						path: respuesta.filePath,
+					};
+				}
 				// si la condicion es falsa arroja un throw
 				// ...
 
@@ -55,7 +65,10 @@ class ProductosController {
 			})
 			.catch( error => {
 				// capturamos el error aqui
+				notificacion.body = error['error'];
+				notificacion.title = 'Error';
 				// mandamos una notificacion al usuario
+				notificacion.show();
 				console.log( error );
 			});
 	}
