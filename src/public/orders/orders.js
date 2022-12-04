@@ -3,7 +3,7 @@
 // =========================
 
 const { remote } = require('electron');
-const { showLog } = remote.require('./util_functions/time');
+const { showLog } = remote.require('./util-functions/time');
 const { NotasController } = remote.require('./controllers');
 const deliveryNotes = document.querySelector('#delivery-note');
 

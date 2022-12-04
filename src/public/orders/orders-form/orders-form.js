@@ -1,5 +1,5 @@
 const { remote } = require('electron');
-const { dateToString } = remote.require('./util_functions/time');
+const { dateToString } = remote.require('./util-functions/time');
 const { 
   ClientesController, 
   ProductosController, 

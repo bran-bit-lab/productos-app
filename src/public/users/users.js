@@ -4,8 +4,8 @@
 
 const { remote } = require('electron');
 const { UsersController, ClientesController } = remote.require('./controllers');
-const { readFileAssets } = remote.require('./util_functions/file');
-const { sliceString } = remote.require('./util_functions/string');
+const { readFileAssets } = remote.require('./util-functions/file');
+const { sliceString } = remote.require('./util-functions/string');
 
 const { Modal, Tab, Tooltip } = bootstrap;
 

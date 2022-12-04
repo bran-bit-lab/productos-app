@@ -39,7 +39,7 @@ function closeModalConfirm( confirm = false, callback = this ) {
 
 	callback({ id: idComponent, confirm });
 
-	return modalConfirm.hide();
+	modalConfirm.hide();
 }
 
 /** @type {?number} */

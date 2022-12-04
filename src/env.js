@@ -1,5 +1,5 @@
 const ENV = Object.freeze({
-  PATH_VIEWS: __dirname + '/views/',
+  PATH_VIEWS: __dirname + '/public/',
   PATH_INI: __dirname ,
   PATH_PICTURES: __dirname + '/imagenes/',
   DEV: true,  // production flag
