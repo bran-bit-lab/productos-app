@@ -8,17 +8,6 @@ function writeFileExcel( url, data ) {
     
     try {
     
-      // vamos a hacer un ejemplo con 2 productos 
-    /*  
-      Documenttacion 
-      const filter = file.filter( row => row.terms.some( term => term.type === "prez"));
-      
-      const rows = filter.map(( row, index ) => ({
-        id: index+1,
-        name: row.name.first + " " + row.name.last,
-        gender: row.bio.gender
-      }));
-      */
       // Generar la hoja y el libro de trabajo
       const worksheet = XLSX.utils.json_to_sheet( data );
       const workbook = XLSX.utils.book_new();
@@ -28,11 +17,9 @@ function writeFileExcel( url, data ) {
 
       //fix headers 
       //XLSX.utils.sheet_add_aoa( worksheet, [["Id", "Name", "Gender"]], { origin: "A1" });
-      XLSX.writeFile( workbook, 'productos.xlsx' );
+      XLSX.writeFile( workbook, url );
       resolve('Archivo excel creado con exito');  
-/*
-      XLSX.writeFile( workbook, "Presidents.xlsx" );
-*/    
+  
     } catch ( error ) { 
 
       reject( error );

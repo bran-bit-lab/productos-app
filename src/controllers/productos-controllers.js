@@ -73,7 +73,9 @@ class ProductosController {
 			})
 			.then( respuestaExcel => {
 				console.log(respuestaExcel);
-
+				notificacion.body = 'Archivo excel creado con exito';
+				notificacion.title = "Exito";
+				notificacion.show();
 			})
 			.catch( error => {
 				console.log( error );
