@@ -57,7 +57,7 @@ const templateMenu = [
                 accelerator: 'Ctrl+h',
                 click: () => {
                     
-                    const FILE = require('../../util_functions/file');
+                    const FILE = require('../../util-functions/file');
                     
                     try {
                         const message = FILE.readFile( '/user-interfaces/menu/acerca.txt' );
