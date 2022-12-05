@@ -16,80 +16,103 @@ class ProductosController {
 
 	/**
 	 * Exporta los productos en un archivo de excel
+	 * @returns {Promise<string>}
 	 */
 	static exportarProductos() {
 
-		// almacena una instancia de notificacion al usuario
-		const notificacion = new Notification();
-		const extensiones = ['.json', '.xls', '.xlsx']
-		
-		/** @type {Electron.SaveDialogOptions} */
-		const opciones = { 
-			title: 'Exportar Archivo', 
-			filters: [ 
-				{ name: 'Archivo excel', extensions: ['xls', 'xlsx'] },
-				{ name: 'Archivo json', extensions: ['json'] },
-			], 
-		};
+		return new Promise(( resolve, reject ) => {
 
-		let path = null;
-		
-		//  asi se consume
-		dialog.showSaveDialog( BrowserWindow.getFocusedWindow(), opciones )
-			.then( respuesta => {
-				
-				if ( respuesta.canceled ) {
-					return;
-				}
+			// almacena una instancia de notificacion al usuario
+			const notificacion = new Notification();
+			const extensiones = ['.json', '.xls', '.xlsx']
+			
+			/** @type {Electron.SaveDialogOptions} */
+			const opciones = { 
+				title: 'Exportar Archivo', 
+				filters: [ 
+					{ name: 'Archivo excel', extensions: ['xls', 'xlsx'] },
+					{ name: 'Archivo json', extensions: ['json'] },
+				], 
+			};
+	
+			let path = '';
+			
+			//  asi se consume
+			dialog.showSaveDialog( BrowserWindow.getFocusedWindow(), opciones )
+				.then( respuesta => {
+					
+					let message = 'Cancelada';
 
-				// validamos que el archivo cumpla con una de las 
-				// extensiones
-				let validacion = extensiones.some(( extension ) => { 
-					return respuesta.filePath.includes( extension ); 
+					if ( respuesta.canceled ) {
+						
+						// rechazamos hacia frontend
+						reject( message );
+						
+						// abortamos la ejecucion del resto de promesas
+						// pasamos al catch
+						throw message;
+					}
+	
+					// validamos que el archivo cumpla con una de las 
+					// extensiones
+					let validacion = extensiones.some(( extension ) => { 
+						return respuesta.filePath.includes( extension ); 
+					});
+	
+					// console.log({ respuesta, validacion });			
+	
+					if ( !validacion ) {
+						message = 'La extensión del archivo no es valida';
+
+						notificacion.title = 'Atención';
+						notificacion.body = message;
+	
+						notificacion.show();
+
+						// rechazamos hacia frontend
+						reject( message );
+						
+						// abortamos la ejecucion del resto de promesas
+						// pasamos al catch
+						throw message;
+					}
+	
+					// asignamos el path al scope superior
+					path = respuesta.filePath;
+	
+					return ProductosController.obtenerTotalProductosExportar();
+				})
+				.then( consultaDB => {
+					
+					// aqui obtienes la respuesta de la BD de datos
+					// console.log({ path }); 
+	
+					// validamos si es un JSON
+					if ( path.includes( extensiones[0] ) ) {
+						return excelModule.exportJSON( path, consultaDB );
+					}
+					
+					// aqui obtienes las respuesta de la promesa path y 
+					// arreglo de objetos de la data del sql
+					return excelModule.writeFileExcel( path, consultaDB );
+				})
+				.then( respuestaArchivo => {
+	
+					console.log( respuestaArchivo );
+					
+					notificacion.body = respuestaArchivo;
+					notificacion.title = 'Exito';
+					
+					notificacion.show();
+
+					resolve( respuestaArchivo );
+				})
+				.catch( error => {
+					console.log( error );
+
+					reject( error );
 				});
-
-				// console.log({ respuesta, validacion });			
-
-				if ( !validacion ) {
-					throw {
-						error: 'La extension del archivo no es valida',
-						path: respuesta.filePath,
-					};
-				}
-
-				// asignamos el path al scope superior
-				path = respuesta.filePath;
-
-				return ProductosController.obtenerTotalProductosExportar();
-			})
-			.then( consultaDB => {
-				
-				// aqui obtienes la respuesta de la BD de datos
-				// console.log({ path }); 
-				
-				// aqui obtienes las respuesta de la promesa path y 
-				// arreglo de objetos de la data del sql
-				return excelModule.writeFileExcel( path, consultaDB );
-			})
-			.then( respuestaExcel => {
-
-				console.log( respuestaExcel );
-				
-				notificacion.body = respuestaExcel;
-				notificacion.title = 'Exito';
-				
-				notificacion.show();
-			})
-			.catch( error => {
-				console.log( error );
-				
-				// capturamos el error aqui
-				notificacion.body = error['error'];
-				notificacion.title = 'Error';
-				
-				// mandamos una notificacion al usuario
-				notificacion.show();
-			});
+		});
 	}
 
 	/**

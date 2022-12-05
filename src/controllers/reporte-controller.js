@@ -430,7 +430,7 @@ class ReporteController {
 					consults = await ReporteController.getImageBuffer( consults );
 					const data = await pdfController.crearReporte( consults );
 
-					if( FILE.checkAsset( response['filePath'], false ) ){
+					if ( FILE.checkAsset( response['filePath'], false ) ){
 						FILE.deleteFileSync( response['filePath'] );
 					}
 

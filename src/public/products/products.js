@@ -143,8 +143,19 @@ class ProductsComponent {
 		ProductosController.importarProductos();
 	}
 
-	exportProducts() {
-		ProductosController.exportarProductos();
+	async exportProducts() {
+
+		this.loading._show = 'true';
+
+		try {
+			await ProductosController.exportarProductos();
+
+		} catch ( error ) {
+			console.log( error );
+		
+		} finally {
+			this.loading._show = 'false';
+		}
 	}
 }
 /** @type {ProductsComponent}  */
