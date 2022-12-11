@@ -56,6 +56,7 @@ CREATE TABLE productos (
 	descripcion varchar(600)	
 );
 
+/* esta me sirve */
 INSERT INTO productos(nombre, descripcion)
 	VALUE("compresor mtz168", "monofasico, gas r404");
 
