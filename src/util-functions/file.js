@@ -8,12 +8,39 @@ const path = require('path');
 const { ENV } = require('../env');
 const os = require('os');
 
+function readFilePromise (url) {
+	const manejador = function (resolve, reject){
+		
+		try {
+
+			let data = readFile(url, true);
+			//console.log(data);
+			data = JSON.parse(data);
+
+			resolve(data);
+		
+		} catch(error){
+
+			reject (error);
+
+		}
+	}
+	const promesa = new Promise( manejador );
+	console.log(url);
+   	return promesa;
+};
+
 /**
 * Permite leer un archivo
 * @param {string} url ruta para leer el archivo
 *	@returns {string} retorna el contenido del archivo
 */
-function readFile( url ) {
+function readFile( url, isPathComplete = false ) {
+	
+	if ( isPathComplete === true ) {
+		return fs.readFileSync( url, { encoding: "utf-8" });
+	}
+	
 	return fs.readFileSync( path.join( ENV.PATH_INI, url ), { encoding: "utf-8" });
 };
 
@@ -202,5 +229,6 @@ module.exports = {
 	formatUrl,
 	writeFile,
 	getHomePath,
-	appendFile
+	appendFile,
+	readFilePromise
 };

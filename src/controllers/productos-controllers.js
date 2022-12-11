@@ -1,6 +1,7 @@
 const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database'); 
 const excelModule = require('../util-functions/excel');
+const fileModule = require('../util-functions/file');
 const CRUD = require('../database/CRUD');
 
 /** clase que gestiona los productos */
@@ -119,6 +120,75 @@ class ProductosController {
 	 * Importa los productos en un archivo excel
 	 */
 	static importarProductos() {
+
+		const notificacion = new Notification();
+		const extensiones = ['.json', '.xls', '.xlsx'];
+
+		const opciones = { 
+				title: 'Importar Archivo', 
+				filters: [ 
+					{ name: 'Archivo excel', extensions: ['xls', 'xlsx'] },
+					{ name: 'Archivo json', extensions: ['json'] },
+				], 
+		};
+
+		dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
+			
+			.then( respuesta => {
+
+				let message = 'Cancelada';
+
+					if ( respuesta.canceled ) {
+						
+						// rechazamos hacia frontend
+						//reject( message );
+						
+						// abortamos la ejecucion del resto de promesas
+						// pasamos al catch
+						throw message;
+					}	
+
+					let path = respuesta.filePaths[0];
+					console.log(path);
+					let validacion = extensiones.some(( extension ) => { 
+						return path.includes( extension ); 
+					});
+
+					if ( validacion === false ) {
+						message = 'La extension del archivo no es valida';
+
+						notificacion.title = 'Atención';
+						notificacion.body = message;
+	
+						notificacion.show();
+
+						// rechazamos hacia frontend
+						//reject( message );
+						
+						// abortamos la ejecucion del resto de promesas
+						// pasamos al catch
+						throw message;
+					}	
+
+					// validamos si es un JSON
+					if ( path.includes( extensiones[0] ) ) {
+						
+						return fileModule.readFilePromise(path);
+
+						
+					}else{
+						console.log('es un excel');
+					}
+			})
+			.then( respuestaArchivo => {
+				console.log( respuestaArchivo );
+			})			
+			.catch( error => {
+
+					console.log( error );
+					//reject( error );
+			});
+
 		console.log('importar productos desde product controller');
 	}
 
