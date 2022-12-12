@@ -212,7 +212,7 @@ function getHomePath( fileName = '' ) {
  * @param {string} url path del archivo
  * @param {boolean} isPathComplete flag que indica que la ruta es completa
  * @param {boolean} isBuffer flag que indica si la respuesta viene en datos buffer
- * @returns {Promise<any>}
+ * @returns {Promise<any[]>}
  */
 function readFilePromiseJSON( url, isPathComplete = false, isBuffer = false ) {
 

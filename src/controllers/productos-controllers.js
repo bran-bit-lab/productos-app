@@ -1,8 +1,12 @@
 const { Notification, dialog, BrowserWindow } = require('electron');
+
 const { Database } = require('../database/database'); 
+const ProductModel = require('../models/product');
+const CRUD = require('../database/CRUD');
+
 const excelModule = require('../util-functions/excel');
 const fileModule = require('../util-functions/file');
-const CRUD = require('../database/CRUD');
+
 
 /** clase que gestiona los productos */
 class ProductosController {
@@ -134,11 +138,10 @@ class ProductosController {
 			};
 	
 			let path = '';
+			let message = 'Cancelada';
 	
 			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
 				.then( respuesta => {
-	
-					let message = 'Cancelada';
 	
 					if ( respuesta.canceled ) {
 						
@@ -184,11 +187,69 @@ class ProductosController {
 				})
 				.then( respuestaArchivo => {
 					
-					console.log( respuestaArchivo );		
-					resolve();		
+					// validamos si es un JSON
+					if ( path.includes( extensiones[0] ) ) {
+
+						// validaciones JSON
+						const validate = respuestaArchivo.every( product => ProductModel.validate( product ));
+
+						if ( !validate ) {
+							
+							message = 'El orden de los campos importados son incorrectos';
+							
+							dialog.showErrorBox(
+								'Error',
+								(
+									'Los campos en el archivo son incorrectos.\n\n' +
+									'Consulta el manual para obtener más información\n' +
+									'sobre como importar archivos.'
+								)
+							);
+							
+							throw message; 
+						}
+
+						console.log('enviar a la base de datos');
+
+						resolve();		
+					
+					} else {
+
+						// Archivo Excel validaciones
+						const validate = respuestaArchivo.some( hoja => {
+							
+							// validamos si productos importados JSON 
+							// coinciden con el modelo de producto
+							return hoja.contenido.every( product => ProductModel.validate( product ));
+						});
+
+						// console.log( validate );
+
+						if ( !validate ) {
+							message = 'El orden de los campos importados son incorrectos';
+
+							dialog.showErrorBox(
+								'Error',
+								(
+									'Los campos en el archivo son incorrectos.\n\n' +
+									'Consulta el manual para obtener más información\n' +
+									'sobre como importar archivos.'
+								)
+							);
+							
+							throw message; 
+						}
+
+						console.log('enviar a la base de datos');
+
+						resolve();
+					}
+				
 				})			
 				.catch( error => {
+					
 					console.log( error );
+					
 					reject( error );
 				});
 		});
