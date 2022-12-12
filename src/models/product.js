@@ -1,4 +1,9 @@
 /**
+* Modelo de productos y validaciones
+* @module product
+*/
+
+/**
  * Product
  * @typedef {Object} Product
  * @property {number} [productoid] identificador de producto
