@@ -8,37 +8,25 @@ const path = require('path');
 const { ENV } = require('../env');
 const os = require('os');
 
-function readFilePromise (url) {
-	const manejador = function (resolve, reject){
-		
-		try {
-
-			let data = readFile(url, true);
-			//console.log(data);
-			data = JSON.parse(data);
-
-			resolve(data);
-		
-		} catch(error){
-
-			reject (error);
-
-		}
-	}
-	const promesa = new Promise( manejador );
-	console.log(url);
-   	return promesa;
-};
-
 /**
-* Permite leer un archivo
-* @param {string} url ruta para leer el archivo
-*	@returns {string} retorna el contenido del archivo
+* 	Permite leer un archivo
+* 	@param {string} url ruta para leer el archivo
+*	@param {boolean} isPathComplete flag que indica que la ruta es completa
+* 	@param {boolean} isBuffer flag que indica si la respuesta viene en datos buffer
+*	@returns {string|Buffer} retorna el contenido del archivo
 */
-function readFile( url, isPathComplete = false ) {
+function readFile( url, isPathComplete = false, isBuffer = false ) {
 	
-	if ( isPathComplete === true ) {
+	if ( isPathComplete && isBuffer ) {
+		return fs.readFileSync( url );
+	}
+
+	if ( isPathComplete ) {
 		return fs.readFileSync( url, { encoding: "utf-8" });
+	}
+
+	if ( !isPathComplete && isBuffer ) {
+		return fs.readFileSync( path.join( ENV.PATH_INI, url ));
 	}
 	
 	return fs.readFileSync( path.join( ENV.PATH_INI, url ), { encoding: "utf-8" });
@@ -217,6 +205,36 @@ function getHomePath( fileName = '' ) {
 	}
 
 	return path.join( os.homedir() );
+}
+
+/**
+ * Lee los archivos en forma de promesa
+ * @param {string} url path del archivo
+ * @param {boolean} isPathComplete flag que indica que la ruta es completa
+ * @param {boolean} isBuffer flag que indica si la respuesta viene en datos buffer
+ * @returns {Promise<{ url: string, data: string | Buffer }>}
+ */
+function readFilePromise( url, isPathComplete = false, isBuffer = false ) {
+
+	const manejador = function( resolve, reject ) {
+		
+		try {
+
+			let data = readFile( url, isPathComplete, isBuffer );
+
+			// console.log( data );
+
+			resolve( data );
+		
+		} catch( error ) {
+
+			reject( error );
+		}
+	};
+	
+	const promesa = new Promise( manejador );
+   	
+	return promesa;
 }
 
 module.exports = {
