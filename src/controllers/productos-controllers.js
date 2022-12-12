@@ -155,9 +155,7 @@ class ProductosController {
 	
 					path = respuesta.filePaths[0];
 					
-					let validacion = extensiones.some(( extension ) => { 
-						return path.includes( extension ); 
-					});
+					let validacion = extensiones.some(( extension ) => path.includes( extension ));
 	
 					if ( validacion === false ) {
 						message = 'La extension del archivo no es valida';
@@ -209,6 +207,8 @@ class ProductosController {
 							throw message; 
 						}
 
+						// enviar a la base de datos ...
+
 						console.log('enviar a la base de datos');
 
 						resolve();		
@@ -217,9 +217,6 @@ class ProductosController {
 
 						// Archivo Excel validaciones
 						const validate = respuestaArchivo.some( hoja => {
-							
-							// validamos si productos importados JSON 
-							// coinciden con el modelo de producto
 							return hoja.contenido.every( product => ProductModel.validate( product ));
 						});
 
@@ -239,6 +236,8 @@ class ProductosController {
 							
 							throw message; 
 						}
+
+						// enviar a la base de datos ...
 
 						console.log('enviar a la base de datos');
 
