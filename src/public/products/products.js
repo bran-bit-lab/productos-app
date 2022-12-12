@@ -139,8 +139,19 @@ class ProductsComponent {
 		});
 	}
 
-	importProducts() {
-		ProductosController.importarProductos();
+	async importProducts() {
+		
+		this.loading._show = 'true';
+
+		try {
+			await ProductosController.importarProductos();
+
+		} catch ( error ) {
+			console.log( error );
+		
+		} finally {
+			this.loading._show = 'false';
+		}
 	}
 
 	async exportProducts() {

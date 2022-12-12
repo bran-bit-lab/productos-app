@@ -212,16 +212,16 @@ function getHomePath( fileName = '' ) {
  * @param {string} url path del archivo
  * @param {boolean} isPathComplete flag que indica que la ruta es completa
  * @param {boolean} isBuffer flag que indica si la respuesta viene en datos buffer
- * @returns {Promise<string | Buffer>}
+ * @returns {Promise<any>}
  */
-function readFilePromise( url, isPathComplete = false, isBuffer = false ) {
+function readFilePromiseJSON( url, isPathComplete = false, isBuffer = false ) {
 
 	const manejador = function( resolve, reject ) {
 		
 		try {
 
 			let data = readFile( url, isPathComplete, isBuffer );
-
+			data = JSON.parse( data );
 			// console.log( data );
 
 			resolve( data );
@@ -248,5 +248,5 @@ module.exports = {
 	writeFile,
 	getHomePath,
 	appendFile,
-	readFilePromise
+	readFilePromiseJSON
 };

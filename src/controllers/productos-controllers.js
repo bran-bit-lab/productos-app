@@ -121,86 +121,77 @@ class ProductosController {
 	 */
 	static importarProductos() {
 
-		const notificacion = new Notification();
-		const extensiones = ['.json', '.xls', '.xlsx'];
-
-		const opciones = { 
-				title: 'Importar Archivo', 
-				filters: [ 
-					{ name: 'Archivo excel', extensions: ['xls', 'xlsx'] },
-					{ name: 'Archivo json', extensions: ['json'] },
-				], 
-		};
-
-		let path = '';
-
-		dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
-			.then( async respuesta => {
-
-				let message = 'Cancelada';
-
-				if ( respuesta.canceled ) {
+		return new Promise(( resolve, reject ) => {
+			
+			const notificacion = new Notification();
+			const extensiones = ['.json', '.xls', '.xlsx'];
+			const opciones = { 
+					title: 'Importar Archivo', 
+					filters: [ 
+						{ name: 'Archivo excel', extensions: ['xls', 'xlsx'] },
+						{ name: 'Archivo json', extensions: ['json'] },
+					], 
+			};
+	
+			let path = '';
+	
+			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
+				.then( respuesta => {
+	
+					let message = 'Cancelada';
+	
+					if ( respuesta.canceled ) {
+						
+						// rechazamos hacia frontend
+						reject( message );
+						
+						// abortamos la ejecucion del resto de promesas
+						// pasamos al catch
+						throw message;
+					}	
+	
+					path = respuesta.filePaths[0];
 					
-					// rechazamos hacia frontend
-					//reject( message );
+					let validacion = extensiones.some(( extension ) => { 
+						return path.includes( extension ); 
+					});
+	
+					if ( validacion === false ) {
+						message = 'La extension del archivo no es valida';
+	
+						notificacion.title = 'Atención';
+						notificacion.body = message;
+	
+						notificacion.show();
+	
+						// rechazamos hacia frontend
+						reject( message );
+						
+						// abortamos la ejecucion del resto de promesas
+						// pasamos al catch
+						throw message;
+					}	
+	
+					// validamos si es un JSON
+					if ( path.includes( extensiones[0] ) ) {
+						return fileModule.readFilePromiseJSON( path, true );
+	
+					} else {
+						// ejecutamos la promesa del excel
+						return excelModule.readFileExcel( path );
+					}
 					
-					// abortamos la ejecucion del resto de promesas
-					// pasamos al catch
-					throw message;
-				}	
-
-				path = respuesta.filePaths[0];
-				
-				let validacion = extensiones.some(( extension ) => { 
-					return path.includes( extension ); 
-				});
-
-				if ( validacion === false ) {
-					message = 'La extension del archivo no es valida';
-
-					notificacion.title = 'Atención';
-					notificacion.body = message;
-
-					notificacion.show();
-
-					// rechazamos hacia frontend
-					//reject( message );
+				})
+				.then( respuestaArchivo => {
 					
-					// abortamos la ejecucion del resto de promesas
-					// pasamos al catch
-					throw message;
-				}	
-
-				// validamos si es un JSON
-				if ( path.includes( extensiones[0] ) ) {
-					return fileModule.readFilePromise( path, true );
-
-				} else {
-					// ejecutamos la promesa del excel
-
-				}
-				
-			})
-			.then( respuestaArchivo => {
-				
-				// validamos si es un JSON
-				if ( path.includes( extensiones[0] ) ) {
-
-					// console.log('es un JSON');
-
-					respuestaArchivo = JSON.parse( respuestaArchivo );
-					console.log( respuestaArchivo );
-
-				} else {
-					console.log('es un excel');
-
-				}				
-			})			
-			.catch( error => {
-
+					console.log( respuestaArchivo );		
+					resolve();		
+				})			
+				.catch( error => {
 					console.log( error );
-					//reject( error );
-			});
+					reject( error );
+				});
+		});
 	}
 
 	/**

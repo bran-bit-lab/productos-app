@@ -43,6 +43,11 @@ function writeFileExcel( url, data ) {
 }
 
 
+/**
+ * Lee un archivo excel y devuelve un array con sus hojas correspondientes
+ * @param {string} url path a leer el archivo
+ * @returns {Promise<Array<{ nombre: string, contenido: Array<any> }>>}
+ */
 function readFileExcel( url ){
 
   const manejador = function( resolve, reject ) {
