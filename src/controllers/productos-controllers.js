@@ -164,12 +164,15 @@ class ProductosController {
 					// validamos si es un JSON
 					if ( path.includes( extensiones[0] ) ) {
 
+						// esperamos la respuesta del JSON
 						const respuestaArchivo = await fileModule.readFilePromiseJSON( path, true );
 							
 						// validaciones JSON
-						const validate = respuestaArchivo.every( product => ProductModel.validate( product ));
+						const validate = respuestaArchivo.every( product => { 
+							return ProductModel.validate( product ) 
+						});
 
-						if ( !validate ) {
+						if ( validate === false ) {
 							
 							message = 'El orden de los campos importados son incorrectos';
 							
@@ -203,7 +206,7 @@ class ProductosController {
 
 						// console.log( validate );
 
-						if ( !validate ) {
+						if ( validate === false ) {
 							message = 'El orden de los campos importados son incorrectos';
 
 							dialog.showErrorBox(
