@@ -164,67 +164,12 @@ class ProductosController {
 					// validamos si es un JSON
 					if ( path.includes( extensiones[0] ) ) {
 
-
 						return fileModule.readFilePromiseJSON( path, true );
-						// esperamos la respuesta del JSON
-						/*const respuestaArchivo = await fileModule.readFilePromiseJSON( path, true );
-							
-						// validaciones JSON
-						const validate = respuestaArchivo.every( product => { 
-							return ProductModel.validate( product ) 
-						});
-
-						if ( validate === false ) {
-							
-							message = 'El orden de los campos importados son incorrectos';
-							
-							dialog.showErrorBox(
-								'Error',
-								(
-									'Los campos en el archivo son incorrectos.\n\n' +
-									'Consulta el manual para obtener más información\n' +
-									'sobre como importar archivos.'
-								)
-							);
-							
-							throw message; 
-						}*/
-
-
+						
 					} else {
 
-						return excelModule.readFileExcel( path );
-						// ejecutamos la promesa del excel
-						/*const respuestaArchivo = await excelModule.readFileExcel( path );
+						return excelModule.readFileExcel( path );	
 
-						
-						// Archivo Excel validaciones
-						const validate = respuestaArchivo.some( hoja => {
-							return hoja.contenido.every( product => ProductModel.validate( product ));
-						});
-
-						// console.log( validate );
-
-						if ( validate === false ) {
-							message = 'El orden de los campos importados son incorrectos';
-
-							dialog.showErrorBox(
-								'Error',
-								(
-									'Los campos en el archivo son incorrectos.\n\n' +
-									'Consulta el manual para obtener más información\n' +
-									'sobre como importar archivos.'
-								)
-							);
-							
-							throw message; 
-						}*/
-
-						// enviar a la base de datos ...
-
-						console.log('enviar a la base de datos');
-
-						resolve();
 					}
 					
 				})
@@ -277,9 +222,15 @@ class ProductosController {
 						}
 					}
 
-					console.log( respuestaArchivo );  
-					resolve();
+					return ProductosController.insertarArrayProductos( CRUD.importarProductos, respuestaArchivo );
 
+					//console.log( respuestaArchivo );  
+					resolve()
+
+				})
+				.then( respuesta=>{
+					console.log('importacion con exito');
+					resolve()
 				})			
 				.catch( error => {
 					
@@ -288,6 +239,50 @@ class ProductosController {
 					reject( error );
 				});
 		});
+	}
+
+	static insertarArrayProductos( sql , productos ){
+
+		return new Promise(( resolve, reject ) => {
+
+			//1. transformar los valores a string dentro de un arreglo
+			let dataProductos = productos.map(( producto )=>{
+				// este es el values SQL que se va a concatenar
+				return `(${producto.userid}, ${producto.categoriaid}, "${producto.nombre}", "${producto.descripcion}", ${producto.cantidad}, ${producto.precio}, ${producto.disponibilidad} )`;  
+			});
+			//2. Se transforma el array en string
+			dataProductos = dataProductos.join(",");
+
+			this.database.insert( sql, { values: dataProductos }, ( error ) => {
+
+				const notificacion = new Notification({
+					title: '',
+					body: ''
+				});
+
+				if ( error ) {
+
+					notificacion['title'] = 'Error!!';
+					notificacion['body'] = 'Error al crear producto';
+
+					notificacion.show();
+
+					reject (error);
+
+					return;
+				}
+
+				notificacion['title'] = 'Éxito';
+				notificacion['body'] = 'Productos importados con éxito';
+
+				notificacion.show();
+				resolve();
+
+			});
+			//console.log(dataProductos);
+			//sqlProductosController.importarProductos( sql );
+		});
+
 	}
 
 	/**
