@@ -135,7 +135,7 @@ class ProductosController {
 			let message = 'Cancelada';
 	
 			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
-				.then( async respuesta => {
+				.then( respuesta => {
 	
 					if ( respuesta.canceled ) {
 						
@@ -164,8 +164,10 @@ class ProductosController {
 					// validamos si es un JSON
 					if ( path.includes( extensiones[0] ) ) {
 
+
+						return fileModule.readFilePromiseJSON( path, true );
 						// esperamos la respuesta del JSON
-						const respuestaArchivo = await fileModule.readFilePromiseJSON( path, true );
+						/*const respuestaArchivo = await fileModule.readFilePromiseJSON( path, true );
 							
 						// validaciones JSON
 						const validate = respuestaArchivo.every( product => { 
@@ -186,17 +188,14 @@ class ProductosController {
 							);
 							
 							throw message; 
-						}
+						}*/
 
-						// enviar a la promesa de base de datos ...
-
-						console.log('enviar a la base de datos');
-						
-						resolve();
 
 					} else {
+
+						return excelModule.readFileExcel( path );
 						// ejecutamos la promesa del excel
-						const respuestaArchivo = await excelModule.readFileExcel( path );
+						/*const respuestaArchivo = await excelModule.readFileExcel( path );
 
 						
 						// Archivo Excel validaciones
@@ -219,7 +218,7 @@ class ProductosController {
 							);
 							
 							throw message; 
-						}
+						}*/
 
 						// enviar a la base de datos ...
 
@@ -229,7 +228,58 @@ class ProductosController {
 					}
 					
 				})
-				.then( respuestaBD => {
+				.then( respuestaArchivo => {
+					
+					if ( path.includes( extensiones[0] ) ) { 
+
+						const validate = respuestaArchivo.every( product => { 
+							return ProductModel.validate( product ) 
+						});
+						//console.log( validate );  
+
+						if ( validate === false ) {
+							
+							message = 'El orden de los campos importados son incorrectos';
+							
+							dialog.showErrorBox(
+								'Error',
+								(
+									'Los campos en el archivo son incorrectos.\n\n' +
+									'Consulta el manual para obtener más información\n' +
+									'sobre como importar archivos.'
+								)
+							);
+							
+							throw message; 
+						}
+
+					}else{
+
+						// Archivo Excel validaciones
+						const validate = respuestaArchivo.some( hoja => {
+							return hoja.contenido.every( product => ProductModel.validate( product ));
+						});
+
+						if ( validate === false ) {
+							
+							message = 'El orden de los campos importados son incorrectos';
+							
+							dialog.showErrorBox(
+								'Error',
+								(
+									'Los campos en el archivo son incorrectos.\n\n' +
+									'Consulta el manual para obtener más información\n' +
+									'sobre como importar archivos.'
+								)
+							);
+							
+							throw message; 
+						}
+					}
+
+					console.log( respuestaArchivo );  
+					resolve();
+
 				})			
 				.catch( error => {
 					
