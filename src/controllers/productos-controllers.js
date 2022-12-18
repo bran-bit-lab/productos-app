@@ -163,26 +163,24 @@ class ProductosController {
 	
 					// validamos si es un JSON
 					if ( path.includes( extensiones[0] ) ) {
-
 						return fileModule.readFilePromiseJSON( path, true );
 						
-					} else {
-
-						return excelModule.readFileExcel( path );	
-
 					}
+
+					return excelModule.readFileExcel( path );	
 					
 				})
 				.then( respuestaArchivo => {
 					
 					if ( path.includes( extensiones[0] ) ) { 
 
-						const validate = respuestaArchivo.every( product => { 
+						const validacion = respuestaArchivo.every( product => { 
 							return ProductModel.validate( product ) 
 						});
+						
 						//console.log( validate );  
 
-						if ( validate === false ) {
+						if ( validacion === false ) {
 							
 							message = 'El orden de los campos importados son incorrectos';
 							
@@ -194,18 +192,23 @@ class ProductosController {
 									'sobre como importar archivos.'
 								)
 							);
-							
+									
 							throw message; 
 						}
+								
+						return ProductosController.insertarArrayProductos( 
+							CRUD.importarProductos, 
+							respuestaArchivo 
+						);
 
-					}else{
+					} else {
 
 						// Archivo Excel validaciones
-						const validate = respuestaArchivo.some( hoja => {
+						const validacion = respuestaArchivo.some( hoja => {
 							return hoja.contenido.every( product => ProductModel.validate( product ));
 						});
 
-						if ( validate === false ) {
+						if ( validacion === false ) {
 							
 							message = 'El orden de los campos importados son incorrectos';
 							
@@ -222,13 +225,8 @@ class ProductosController {
 						}
 					}
 
-					return ProductosController.insertarArrayProductos( CRUD.importarProductos, respuestaArchivo );
-
-					//console.log( respuestaArchivo );  
-					resolve()
-
 				})
-				.then( respuesta=>{
+				.then( respuesta => {
 					console.log('importacion con exito');
 					resolve()
 				})			
@@ -241,16 +239,24 @@ class ProductosController {
 		});
 	}
 
-	static insertarArrayProductos( sql , productos ){
+	/**
+	 * Inserta un array de productos en la BD
+	 * @param {string} sql consulta SQL
+	 * @param {Product[]} productos array de productos
+	 * @returns {Promise<void>}
+	 */
+	static insertarArrayProductos( sql, productos ) {
 
 		return new Promise(( resolve, reject ) => {
 
 			//1. transformar los valores a string dentro de un arreglo
-			let dataProductos = productos.map(( producto )=>{
+			let dataProductos = productos.map(( producto ) => {
+
 				// este es el values SQL que se va a concatenar
-				return `(${producto.userid}, ${producto.categoriaid}, "${producto.nombre}", "${producto.descripcion}", ${producto.cantidad}, ${producto.precio}, ${producto.disponibilidad} )`;  
+				return `(${producto.userid}, ${producto.categoriaid}, "${producto.nombre}", "${producto.descripcion}", ${producto.cantidad}, ${producto.precio}, ${producto.disponibilidad})`;  
 			});
-			//2. Se transforma el array en string
+
+			// 2. Se transforma el array en string
 			dataProductos = dataProductos.join(",");
 
 			this.database.insert( sql, { values: dataProductos }, ( error ) => {
@@ -267,7 +273,7 @@ class ProductosController {
 
 					notificacion.show();
 
-					reject (error);
+					reject( error );
 
 					return;
 				}
@@ -276,11 +282,9 @@ class ProductosController {
 				notificacion['body'] = 'Productos importados con éxito';
 
 				notificacion.show();
+				
 				resolve();
-
 			});
-			//console.log(dataProductos);
-			//sqlProductosController.importarProductos( sql );
 		});
 
 	}
