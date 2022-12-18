@@ -49,10 +49,7 @@ class ProductosController {
 					let message = 'Cancelada';
 
 					if ( respuesta.canceled ) {
-						
-						// rechazamos hacia frontend
-						reject( message );
-						
+					
 						// abortamos la ejecucion del resto de promesas
 						// pasamos al catch
 						throw message;
@@ -73,9 +70,6 @@ class ProductosController {
 						notificacion.body = message;
 	
 						notificacion.show();
-
-						// rechazamos hacia frontend
-						reject( message );
 						
 						// abortamos la ejecucion del resto de promesas
 						// pasamos al catch
@@ -141,12 +135,9 @@ class ProductosController {
 			let message = 'Cancelada';
 	
 			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
-				.then( respuesta => {
+				.then( async respuesta => {
 	
 					if ( respuesta.canceled ) {
-						
-						// rechazamos hacia frontend
-						reject( message );
 						
 						// abortamos la ejecucion del resto de promesas
 						// pasamos al catch
@@ -164,9 +155,6 @@ class ProductosController {
 						notificacion.body = message;
 	
 						notificacion.show();
-	
-						// rechazamos hacia frontend
-						reject( message );
 						
 						// abortamos la ejecucion del resto de promesas
 						// pasamos al catch
@@ -175,19 +163,9 @@ class ProductosController {
 	
 					// validamos si es un JSON
 					if ( path.includes( extensiones[0] ) ) {
-						return fileModule.readFilePromiseJSON( path, true );
-	
-					} else {
-						// ejecutamos la promesa del excel
-						return excelModule.readFileExcel( path );
-					}
-					
-				})
-				.then( respuestaArchivo => {
-					
-					// validamos si es un JSON
-					if ( path.includes( extensiones[0] ) ) {
 
+						const respuestaArchivo = await fileModule.readFilePromiseJSON( path, true );
+							
 						// validaciones JSON
 						const validate = respuestaArchivo.every( product => ProductModel.validate( product ));
 
@@ -207,14 +185,17 @@ class ProductosController {
 							throw message; 
 						}
 
-						// enviar a la base de datos ...
+						// enviar a la promesa de base de datos ...
 
 						console.log('enviar a la base de datos');
+						
+						resolve();
 
-						resolve();		
-					
 					} else {
+						// ejecutamos la promesa del excel
+						const respuestaArchivo = await excelModule.readFileExcel( path );
 
+						
 						// Archivo Excel validaciones
 						const validate = respuestaArchivo.some( hoja => {
 							return hoja.contenido.every( product => ProductModel.validate( product ));
@@ -243,7 +224,9 @@ class ProductosController {
 
 						resolve();
 					}
-				
+					
+				})
+				.then( respuestaBD => {
 				})			
 				.catch( error => {
 					

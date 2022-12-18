@@ -35,10 +35,10 @@ const PRODUCT_MODEL = Object.freeze({
 function validate( product ) {
   
     const PATTERNS = Object.freeze({
-		email: new RegExp( /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/ ),
-		onlyLetters: new RegExp( /^[a-zA-Z\u00f1\u00d1\u00E0-\u00FC\u00C0-\u017F\s]+$/ ),
-        onlyNumbers: new RegExp( /^[0-9]{1,4}$/ ),
-        onlyNumbersWithDecimal: new RegExp( /^[0-9]{1,4}(\.[0-9]{0,2})?$/ ),
+		email: /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/,
+		onlyLetters: /^[a-zA-Z\u00f1\u00d1\u00E0-\u00FC\u00C0-\u017F\s]+$/,
+        onlyNumbers: /^[0-9]{1,4}$/,
+        onlyNumbersWithDecimal: /^[0-9]{1,4}(\.[0-9]{0,2})?$/,
 	});
 
 
