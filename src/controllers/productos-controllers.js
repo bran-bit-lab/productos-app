@@ -224,12 +224,41 @@ class ProductosController {
 							
 							throw message; 
 						}
+
+						/**
+						 * Cada hoja ejecutara insertarArrayProductos
+						 * usamos Array.map para devolver un nuevo array. En cada posición se almacena 
+						 * la ejecucion de la promesa y para manejar su flujo se utiliza Promise.all
+						*/
+		 
+						const arrayPromesas = respuestaArchivo.map( hoja => {
+							return ProductosController.insertarArrayProductos( 
+								CRUD.importarProductos, 
+								hoja.contenido 
+							);
+						});
+
+						// console.log( promises );
+
+						/**
+						 * Promise all recibe un array de promesas por parametro, 
+						 * espera a que todas las promesas se ejecuten dentro del
+						 * array. Si falla una cae al catch
+						 */
+						return Promise.all( arrayPromesas );	
 					}
 
 				})
 				.then( respuesta => {
 					
 					console.log( respuesta );
+
+					const notificacion = new Notification({
+						title: 'Éxito',
+						body: 'Productos importados con éxito'
+					});
+
+					notificacion.show();
 					
 					resolve();
 				})			
@@ -274,34 +303,19 @@ class ProductosController {
 			 * Se decide reemplazar values pasar directamente la cadena sql porque el segundo 
 			 * parametro escapa el valor del string y manda los valores entre comillados
 			 *
-			 * 3. se sustituye manualmente el valor con string replace
+			 * 3. se sustituye manualmente el valor con String.replace
  			*/
 			sql = sql.replace(':values', dataProductos );
 
 			// 4. se manda a la BD con el parametro data en null
 			this.database.insert( sql, null, ( error ) => {
 
-				const notificacion = new Notification({
-					title: '',
-					body: ''
-				});
-
 				if ( error ) {
-
-					notificacion['title'] = 'Error!!';
-					notificacion['body'] = 'Error al crear los productos';
-
-					notificacion.show();
 
 					reject( error );
 
 					return;
 				}
-
-				notificacion['title'] = 'Éxito';
-				notificacion['body'] = 'Productos importados con éxito';
-
-				notificacion.show();
 				
 				resolve('Productos importados con éxito');
 			});
