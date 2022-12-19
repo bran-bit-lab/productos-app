@@ -12,6 +12,13 @@ let mysqlAPI = null;
 class Database {
 
 	/**
+	 * Retorna una instancia del objeto de conexion MYSQL
+	 */
+	get _mysqlAPI() {
+		return mysqlAPI;
+	}
+
+	/**
 	* @callback callbackInsert
 	* @param {string|Error|null} error error al insertar en la BD.
 	*/
@@ -147,7 +154,7 @@ class Database {
 			let data = file.readFile('/users-productos-app.json');
 
 			let arregloConexion = JSON.parse( data );
-			let key = 'root';
+			let key = 'root_2';
 
 			if ( !arregloConexion.hasOwnProperty( key ) ) {
 				throw { 

@@ -85,7 +85,7 @@ class ProductsComponent {
 				elementsProducts.forEach( ( elementHTML ) => showElement( elementHTML ) );
 				elementsCategory.forEach( ( elementHTML ) => hideElement( elementHTML ) );
 
-				productsTableComponent.getAll( null, getPaginationStorage('productsTable') )
+				productsTableComponent.getAll( null, getPaginationStorage('productsTable') );
 
 				break;
 			}
@@ -145,6 +145,9 @@ class ProductsComponent {
 
 		try {
 			await ProductosController.importarProductos();
+			
+			// actualizamos la tabla
+			productsTableComponent.getAll( null, getPaginationStorage('productsTable') );
 
 		} catch ( error ) {
 			console.log( error );

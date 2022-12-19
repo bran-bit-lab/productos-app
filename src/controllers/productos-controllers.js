@@ -116,6 +116,7 @@ class ProductosController {
 
 	/**
 	 * Importa los productos en un archivo excel
+	 * @returns {Promise<void>}
 	 */
 	static importarProductos() {
 
@@ -227,8 +228,10 @@ class ProductosController {
 
 				})
 				.then( respuesta => {
-					console.log('importacion con exito');
-					resolve()
+					
+					console.log( respuesta );
+					
+					resolve();
 				})			
 				.catch( error => {
 					
@@ -242,24 +245,41 @@ class ProductosController {
 	/**
 	 * Inserta un array de productos en la BD
 	 * @param {string} sql consulta SQL
-	 * @param {Product[]} productos array de productos
-	 * @returns {Promise<void>}
+	 * @param {Array<Product>} productos array de productos
+	 * @returns {Promise<string>}
 	 */
 	static insertarArrayProductos( sql, productos ) {
-
+	
 		return new Promise(( resolve, reject ) => {
-
-			//1. transformar los valores a string dentro de un arreglo
+			
+			// 1. transformar los valores a string dentro de un arreglo usando map
 			let dataProductos = productos.map(( producto ) => {
 
 				// este es el values SQL que se va a concatenar
-				return `(${producto.userid}, ${producto.categoriaid}, "${producto.nombre}", "${producto.descripcion}", ${producto.cantidad}, ${producto.precio}, ${producto.disponibilidad})`;  
+				return ("(" +
+					this.database._mysqlAPI.escape( producto.userid ) + ", " +
+					this.database._mysqlAPI.escape( producto.categoriaid ) + ", " + 
+					this.database._mysqlAPI.escape( producto.nombre )  + ", " + 
+					this.database._mysqlAPI.escape( producto.descripcion )  + ", " + 
+					this.database._mysqlAPI.escape( producto.cantidad )  + ", " + 
+					this.database._mysqlAPI.escape( producto.precio )  + ", " + 
+					this.database._mysqlAPI.escape( producto.disponibilidad ) +	
+				")");
 			});
 
 			// 2. Se transforma el array en string
-			dataProductos = dataProductos.join(",");
+			dataProductos = dataProductos.join(',');
 
-			this.database.insert( sql, { values: dataProductos }, ( error ) => {
+			/**
+			 * Se decide reemplazar values pasar directamente la cadena sql porque el segundo 
+			 * parametro escapa el valor del string y manda los valores entre comillados
+			 *
+			 * 3. se sustituye manualmente el valor con string replace
+ 			*/
+			sql = sql.replace(':values', dataProductos );
+
+			// 4. se manda a la BD con el parametro data en null
+			this.database.insert( sql, null, ( error ) => {
 
 				const notificacion = new Notification({
 					title: '',
@@ -269,7 +289,7 @@ class ProductosController {
 				if ( error ) {
 
 					notificacion['title'] = 'Error!!';
-					notificacion['body'] = 'Error al crear producto';
+					notificacion['body'] = 'Error al crear los productos';
 
 					notificacion.show();
 
@@ -283,7 +303,7 @@ class ProductosController {
 
 				notificacion.show();
 				
-				resolve();
+				resolve('Productos importados con éxito');
 			});
 		});
 
