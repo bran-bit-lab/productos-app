@@ -172,6 +172,23 @@ class ProductosController {
 					
 				})
 				.then( respuestaArchivo => {
+
+					/** funcion que muestra el alert de campos incorrectos */
+					const mostrarMensaje = () => {
+
+						message = 'El orden de los campos importados son incorrectos';
+							
+						dialog.showErrorBox(
+							'Error',
+							(
+								'Los campos en el archivo son incorrectos.\n\n' +
+								'Consulta el manual para obtener más información\n' +
+								'sobre como importar archivos.'
+							)
+						);
+								
+						throw message; 
+					};
 					
 					if ( path.includes( extensiones[0] ) ) { 
 
@@ -182,19 +199,7 @@ class ProductosController {
 						//console.log( validate );  
 
 						if ( validacion === false ) {
-							
-							message = 'El orden de los campos importados son incorrectos';
-							
-							dialog.showErrorBox(
-								'Error',
-								(
-									'Los campos en el archivo son incorrectos.\n\n' +
-									'Consulta el manual para obtener más información\n' +
-									'sobre como importar archivos.'
-								)
-							);
-									
-							throw message; 
+							mostrarMensaje();
 						}
 								
 						return ProductosController.insertarArrayProductos( 
@@ -210,19 +215,7 @@ class ProductosController {
 						});
 
 						if ( validacion === false ) {
-							
-							message = 'El orden de los campos importados son incorrectos';
-							
-							dialog.showErrorBox(
-								'Error',
-								(
-									'Los campos en el archivo son incorrectos.\n\n' +
-									'Consulta el manual para obtener más información\n' +
-									'sobre como importar archivos.'
-								)
-							);
-							
-							throw message; 
+							mostrarMensaje();
 						}
 
 						/**
