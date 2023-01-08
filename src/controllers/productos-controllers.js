@@ -193,7 +193,7 @@ class ProductosController {
 					if ( path.includes( extensiones[0] ) ) { 
 
 						const validacion = respuestaArchivo.every( product => { 
-							return ProductModel.validate( product ) 
+							return ProductModel.validate( product ); 
 						});
 						
 						//console.log( validate );  
@@ -276,6 +276,10 @@ class ProductosController {
 			
 			// 1. transformar los valores a string dentro de un arreglo usando map
 			let dataProductos = productos.map(( producto ) => {
+
+				if ( !this.database._mysqlAPI ) {
+					return '';
+				}
 
 				// este es el values SQL que se va a concatenar
 				return ("(" +
