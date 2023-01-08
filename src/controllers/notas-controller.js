@@ -1,4 +1,4 @@
-const { Notification, dialog, BrowserWindow } = require('electron');
+const { Notification, dialog } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const TIME = require('../util-functions/time');
@@ -29,7 +29,7 @@ class NotasController {
 			// 3.- realizar la consulta de las notas + productos asociados con la misma ( generar el SQL )
 			// 4.- validar los campos de la nota + productos
 			// 5.- exportar a excel
-			
+
 			resolve();
 		});	
 	}
@@ -47,7 +47,7 @@ class NotasController {
 			// 2.- validar la cancelacion y el formato
 			// 3.- importar el excel
 			// 4.- validar los campos del excel
-			// 5.- preparar la consulta SQL
+			// 5.- preparar la consulta SQL que inserta las notas + productos
 			// 6.- ejecutar la consulta
 
 			resolve();

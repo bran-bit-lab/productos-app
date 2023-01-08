@@ -219,11 +219,10 @@ class ProductosController {
 						}
 
 						/**
-						 * Cada hoja ejecutara insertarArrayProductos
+						 * Cada hoja del excel ejecutara insertarArrayProductos
 						 * usamos Array.map para devolver un nuevo array. En cada posición se almacena 
 						 * la ejecucion de la promesa y para manejar su flujo se utiliza Promise.all
 						*/
-		 
 						const arrayPromesas = respuestaArchivo.map( hoja => {
 							return ProductosController.insertarArrayProductos( 
 								CRUD.importarProductos, 
