@@ -63,7 +63,7 @@ class ProductosController {
 	
 					// console.log({ respuesta, validacion });			
 	
-					if ( !validacion ) {
+					if ( validacion === false ) {
 						message = 'La extensión del archivo no es valida';
 
 						notificacion.title = 'Atención';

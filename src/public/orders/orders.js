@@ -224,8 +224,14 @@ class OrdersTableComponent {
 		NotasController.importarNotas();
 	}
 
-	exportNotes() {
-		NotasController.exportarNotas();
+	async exportNotes() {
+
+		try {
+			await NotasController.exportarNotas();
+
+		} catch ( error ) {
+			console.log( error );
+		}
 	}
 }
 

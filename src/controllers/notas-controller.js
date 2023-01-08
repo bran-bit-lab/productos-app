@@ -17,19 +17,127 @@ class NotasController {
 		return this.databaseInstance || ( this.databaseInstance = new Database() );
 	}
 
-
 	/**
 	 * Exporta los productos en un archivo de excel
 	 */
 	 static exportarNotas() {
-		console.log('exportar notas desde el notas controller');
+		
+		return new Promise(( resolve, reject ) => {
+			
+			const notificacion = new Notification();
+			const extensiones = ['.json', '.xls', '.xlsx']
+
+			/** @type {Electron.SaveDialogOptions} */
+			const opciones = { 
+				title: 'Exportar Archivo', 
+				filters: [ 
+					{ name: 'Archivo excel', extensions: ['xls', 'xlsx'] },
+					{ name: 'Archivo json', extensions: ['json'] },
+				], 
+			};
+
+			let path = '';
+	
+			dialog.showSaveDialog( BrowserWindow.getFocusedWindow(), opciones )
+				.then( respuesta => {
+	
+					let message = 'cancelada';
+	
+					if ( respuesta.canceled ) {
+						throw message;
+					}
+					
+					// validamos que el archivo cumpla con una de las 
+					// extensiones
+					let validacion = extensiones.some(( extension ) => { 
+						return respuesta.filePath.includes( extension ); 
+					});
+	
+					// console.log({ respuesta, validacion });			
+	
+					if ( validacion === false ) {
+						message = 'La extensión del archivo no es valida';
+
+						notificacion.title = 'Atención';
+						notificacion.body = message;
+	
+						notificacion.show();
+						
+						// abortamos la ejecucion del resto de promesas
+						// pasamos al catch
+						throw message;
+					}
+
+					path = respuesta.filePath;
+
+					resolve();
+				})
+				.catch( error => {
+					console.log( error );
+
+					reject( error );
+				});
+		});
+
+			
 	}
 
 	/**
 	 * Importa los productos en un archivo excel
 	 */
 	static importarNotas() {
-		console.log('importar notas desde notas controller');
+		
+		return new Promise(( resolve, reject ) => {
+			
+			const notificacion = new Notification();
+			const extensiones = ['.json', '.xls', '.xlsx']
+
+			/** @type {Electron.SaveDialogOptions} */
+			const opciones = { 
+				title: 'Exportar Archivo', 
+				filters: [ 
+					{ name: 'Archivo excel', extensions: ['xls', 'xlsx'] },
+					{ name: 'Archivo json', extensions: ['json'] },
+				], 
+			};
+
+			let path = '';
+	
+			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
+				.then( respuesta => {
+	
+					if ( respuesta.canceled ) {
+						
+						// abortamos la ejecucion del resto de promesas
+						// pasamos al catch
+						throw message;
+					}	
+	
+					path = respuesta.filePaths[0];
+					
+					let validacion = extensiones.some(( extension ) => path.includes( extension ));
+	
+					if ( validacion === false ) {
+						message = 'La extension del archivo no es valida';
+	
+						notificacion.title = 'Atención';
+						notificacion.body = message;
+	
+						notificacion.show();
+						
+						// abortamos la ejecucion del resto de promesas
+						// pasamos al catch
+						throw message;
+					}
+
+					resolve();
+				})
+				.catch( error => {
+					console.log( error );
+
+					reject( error );
+				});
+		});
 	}
 
 	/**
