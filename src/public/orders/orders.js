@@ -220,8 +220,13 @@ class OrdersTableComponent {
 		}
 	}
 
-	importNotes() {
-		NotasController.importarNotas();
+	async importNotes() {
+		try {
+			await NotasController.importarNotas();
+
+		} catch ( error ) {
+			console.log( error );
+		}
 	}
 
 	async exportNotes() {

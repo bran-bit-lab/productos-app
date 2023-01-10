@@ -1,4 +1,4 @@
-const { Notification, dialog } = require('electron');
+const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const TIME = require('../util-functions/time');
@@ -22,15 +22,59 @@ class NotasController {
 	 */
 	 static exportarNotas() {
 		return new Promise(( resolve, reject ) => {
+			
 			// colocar codigo aqui
+			const notificacion = new Notification();
+			const extensiones = ['.json', '.xls', '.xlsx'];
+			const opciones = { 
+				title: 'Importar Archivo', 
+				filters: [ 
+					{ name: 'Archivo excel', extensions: ['xls', 'xlsx'] },
+					{ name: 'Archivo json', extensions: ['json'] },
+				], 
+			};
+
+			let path = '';
+			let message = 'Cancelada'
 
 			// 1.- crear la ventana de exportacion
-			// 2.- validar la cancelacion y el formato
-			// 3.- realizar la consulta de las notas + productos asociados con la misma ( generar el SQL )
-			// 4.- validar los campos de la nota + productos
+			dialog.showSaveDialog( BrowserWindow.getFocusedWindow(), opciones )
+				.then( respuesta => {
+					
+					// 2.- validar la cancelacion y el formato
+					if ( respuesta.canceled ) {
+						throw message;
+					}
+
+					path = respuesta.filePath;
+					const validacion = extensiones.some( extension => path.includes( extension ) );
+					
+					if ( !validacion ) {
+						message = 'La extensión del archivo no es valida';
+
+						notificacion.title = 'Atención';
+						notificacion.body = message;
+
+						notificacion.show();
+
+						throw message;
+					}
+					
+					// 3.- realizar la consulta de las notas + productos asociados con la misma ( generar el SQL )
+					return NotasController.obtenerNotasArray();
+				})
+				.then( consultaDB => {
+					// 4.- validar los campos de la nota + productos
+					console.log( consultaDB );
+			
+				})
+				.catch( error => {
+					console.log( error );
+
+					reject( error );
+				})
 			// 5.- exportar a excel
 
-			resolve();
 		});	
 	}
 
@@ -441,8 +485,6 @@ class NotasController {
 						console.log( error );
 
 						throw error;
-
-						return;
 					}
 
 					const notaProductoDB = results;
@@ -579,6 +621,54 @@ class NotasController {
 
 				console.log( error );
 			});
+	}
+
+	static obtenerNotasArray() {
+		
+		// promesa de notas productos
+		const promesaNotaProductos = ( nota ) => new Promise(( resolve, reject ) => {
+			this.database.consult( CRUD.obtenerNotaProducto, { id_nota: nota.id_nota }, ( error, productos ) => {
+						
+				if ( error ) {
+					console.log( error );
+					
+					reject( error );
+
+					throw error;
+				}
+
+				// asigna cada producto al arreglo padre
+				resolve({ ...nota, productos });
+			});
+		});
+
+		return new Promise(( resolve, reject ) => {
+			
+			let result = [];
+			
+			this.database.consult( CRUD.exportarNotas, null, async ( error, notas ) => {
+				
+				if ( error ) {
+					console.log( error );
+					
+					reject( error );
+
+					throw error;
+				}
+				
+				try {
+					result = await Promise.all( notas.map( nota => promesaNotaProductos( nota ) ) );
+					
+					resolve( result );
+
+				} catch ( error )  {
+
+					console.log( error );
+
+					reject( error );
+				}
+			});
+		});
 	}
 }
 
