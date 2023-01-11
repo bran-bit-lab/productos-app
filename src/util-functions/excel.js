@@ -11,9 +11,10 @@ const FILE = require('./file');
  * Exporta el archivo en formato excel
  * @param {string} url path donde se exporta el archivo
  * @param {{[string]: any} | Array<{[string]: any}>} data informacion a mostrar en el excel
+ * @param {string} [nombreHoja] nombre de la hoja
  * @returns {Promise<string>}
  */
-function writeFileExcel( url, data ) {
+function writeFileExcel( url, data, nombreHoja = 'data' ) {
 
   const manejador = function ( resolve, reject ) {
     
@@ -26,7 +27,7 @@ function writeFileExcel( url, data ) {
       // fix headers 
       // XLSX.utils.sheet_add_aoa( worksheet, [["Id", "Name", "Gender"]], { origin: "A1" });
       
-      XLSX.utils.book_append_sheet( workbook, worksheet, "data");
+      XLSX.utils.book_append_sheet( workbook, worksheet, nombreHoja);
       XLSX.writeFile( workbook, url );
       
       resolve('Archivo excel creado con exito');  
@@ -37,6 +38,67 @@ function writeFileExcel( url, data ) {
     }
   };
 
+  const promesa = new Promise( manejador );
+  
+  return promesa;
+}
+
+/**
+ * Exporta el archivo en formato excel
+ * @param {string} url path donde se exporta el archivo
+ * @param {{[string]: any} | Array<{[string]: any}>} data informacion a mostrar en el excel
+ * @param {string} [nombreHoja] nombre de la hoja
+ * @returns {Promise<string>}
+ */
+function writeNotesProductsExcel( url, data, nombreHoja = 'data' ) {
+  
+  const manejador = function ( resolve, reject ) {
+    
+    try {
+
+      // creamos una copia de las notas sin la prop de productos
+      let notes = data.map( note  => {
+
+        // utilizamos el spread operator en el lado izquierdo
+        // para eliminar propiedades cuando las extraemos
+        let { productos, ...notaActualizada } = note;
+
+        return notaActualizada
+      });
+
+      // Generar la hoja y el libro de trabajo
+      const worksheet = XLSX.utils.json_to_sheet( notes );
+      const workbook = XLSX.utils.book_new();
+      
+      XLSX.utils.book_append_sheet( workbook, worksheet, nombreHoja );
+      
+      // por cada nota validamos si existen productos se anaden paginas de detalle al libro
+      data.forEach( nota => {
+
+        if ( nota.productos.length > 0 ) {
+          const worksheetProduct = XLSX.utils.json_to_sheet( nota.productos );
+          
+          XLSX.utils.book_append_sheet( 
+            workbook, 
+            worksheetProduct, 
+            (`detalle_nota_${nota.id_nota}`) 
+          );
+        }
+
+      });
+      
+      XLSX.writeFile( workbook, url );
+      
+      resolve('Archivo excel creado con exito');  
+  
+    } catch ( error ) { 
+
+      console.log( error );
+
+      reject( error );
+    }
+  };
+  
   const promesa = new Promise( manejador );
   
   return promesa;
@@ -121,6 +183,7 @@ function exportJSON( url, data ) {
 
 module.exports = {
   writeFileExcel,
+  writeNotesProductsExcel,
   readFileExcel,
   exportJSON
 }

@@ -221,21 +221,32 @@ class OrdersTableComponent {
 	}
 
 	async importNotes() {
+
+		this.loading._show = 'true';
+
 		try {
 			await NotasController.importarNotas();
 
 		} catch ( error ) {
 			console.log( error );
+		
+		} finally {
+			this.loading._show = 'false';
 		}
 	}
 
 	async exportNotes() {
+
+		this.loading._show = 'true';
 
 		try {
 			await NotasController.exportarNotas();
 
 		} catch ( error ) {
 			console.log( error );
+
+		} finally {
+			this.loading._show = 'false';
 		}
 	}
 }

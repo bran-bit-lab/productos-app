@@ -56,6 +56,7 @@ const CRUD = Object.freeze({
 
 	// exportar Notas:
 	exportarNotas: "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, CONCAT( usuarios.nombre, ' ', usuarios.apellido ) AS creado_por, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente ORDER BY notas.id_nota ASC",
+	exportarNotasProducto: "SELECT notas_productos.id_NP, notas_productos.cantidad_seleccionada, categorias.nombre AS nombre_categoria, productos.nombre AS nombre_producto, productos.precio FROM notas_productos INNER JOIN productos ON notas_productos.id_producto = productos.productoid INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid INNER JOIN usuarios ON usuarios.userid = productos.userid WHERE notas_productos.id_nota = :id_nota;",
 
 	// Listado de productos asociados a la nota
 	obtenerNota: "SELECT notas.*, clientes.* FROM notas INNER JOIN clientes ON clientes.id_cliente = notas.id_cliente  WHERE id_nota = :id_nota;",

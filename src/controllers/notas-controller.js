@@ -4,7 +4,9 @@ const CRUD = require('../database/CRUD');
 const TIME = require('../util-functions/time');
 const { NotasProductosController } = require('./notas-productos-controller');
 const { PdfController } = require('./pdf-controller');
+
 const FILE = require('../util-functions/file');
+const excelModule = require('../util-functions/excel');
 
 /** Clase que gestiona las notas de entregas */
 class NotasController {
@@ -64,16 +66,32 @@ class NotasController {
 					return NotasController.obtenerNotasArray();
 				})
 				.then( consultaDB => {
-					// 4.- validar los campos de la nota + productos
-					console.log( consultaDB );
-			
+
+					// 4.- validar el formato dependiendo JSON o Excel
+					if ( path.includes( extensiones[0] ) ) {
+						return excelModule.exportJSON( path, consultaDB );
+					}
+
+					return excelModule.writeNotesProductsExcel( path, consultaDB, 'notas-productos' );
+				})
+				.then( respuestaArchivo => {
+					
+					// 5.- enviamos la notificacion
+					console.log( respuestaArchivo );
+					
+					notificacion.body = respuestaArchivo;
+					notificacion.title = 'Exito';
+					
+					notificacion.show();
+
+					resolve( respuestaArchivo );
 				})
 				.catch( error => {
 					console.log( error );
 
 					reject( error );
 				})
-			// 5.- exportar a excel
+			
 
 		});	
 	}
@@ -627,7 +645,7 @@ class NotasController {
 		
 		// promesa de notas productos
 		const promesaNotaProductos = ( nota ) => new Promise(( resolve, reject ) => {
-			this.database.consult( CRUD.obtenerNotaProducto, { id_nota: nota.id_nota }, ( error, productos ) => {
+			this.database.consult( CRUD.exportarNotasProducto, { id_nota: nota.id_nota }, ( error, productos ) => {
 						
 				if ( error ) {
 					console.log( error );

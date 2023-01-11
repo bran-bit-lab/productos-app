@@ -93,7 +93,7 @@ class ProductosController {
 					
 					// aqui obtienes las respuesta de la promesa path y 
 					// arreglo de objetos de la data del sql
-					return excelModule.writeFileExcel( path, consultaDB );
+					return excelModule.writeFileExcel( path, consultaDB, 'ordenes' );
 				})
 				.then( respuestaArchivo => {
 	
