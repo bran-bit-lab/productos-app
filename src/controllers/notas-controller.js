@@ -1,4 +1,4 @@
-const { Notification, dialog } = require('electron');
+const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const TIME = require('../util-functions/time');
@@ -23,14 +23,63 @@ class NotasController {
 	 static exportarNotas() {
 		return new Promise(( resolve, reject ) => {
 			// colocar codigo aqui
+			const notificacion = new Notification();
+			const extensiones = ['.json', '.xls', '.xlsx']
 
+			const opciones = { 
+				title: 'Exportar Nota', 
+				filters: [ 
+					{ name: 'Nota excel', extensions: ['xls', 'xlsx'] },
+					{ name: 'Nota json', extensions: ['json'] },
+				], 
+			};
+
+			let path = '';
+			
 			// 1.- crear la ventana de exportacion
-			// 2.- validar la cancelacion y el formato
-			// 3.- realizar la consulta de las notas + productos asociados con la misma ( generar el SQL )
+			dialog.showSaveDialog( BrowserWindow.getFocusedWindow(), opciones )
+			.then( respuesta =>{
+
+				let message = 'Cancelada';
+				// 2.- validar la cancelacion y el formato
+				if ( respuesta.canceled ) {
+						// abortamos la ejecucion del resto de promesas
+						// pasamos al catch
+						throw message;
+				}
+
+				let validacion = extensiones.some(( extension ) => { 
+					return respuesta.filePath.includes( extension ); 
+				});
+
+				if ( validacion === false ) {
+					message = 'La extensión del archivo no es valida';
+
+					notificacion.title = 'Atención';
+					notificacion.body = message;
+	
+					notificacion.show();
+					// abortamos la ejecucion del resto de promesas
+					// pasamos al catch
+					throw message;
+				}
+				// 3.- realizar la consulta de las notas + productos asociados con la misma ( generar el SQL )
+				return NotasController.obtenerNotasArray()
+
+			})
+			.then( consultaDB =>{
+				
+				console.log(consultaDB);			
+				resolve();
+			})
+			.catch( error => {
+				
+				console.log( error );
+				reject( error );
+			});
 			// 4.- validar los campos de la nota + productos
 			// 5.- exportar a excel
 
-			resolve();
 		});	
 	}
 
@@ -52,6 +101,21 @@ class NotasController {
 
 			resolve();
 		});
+	}
+
+	static obtenerNotasArray(){
+		
+		return new Promise (( resolve, reject ) => {
+			
+			this.database.consult( CRUD.exportarNotas, null, (error, resultados)=>{ 
+
+				if(error){
+					reject( error );
+				}
+				resolve( resultados );
+			})
+
+		})
 	}
 
 	/**

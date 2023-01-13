@@ -46,6 +46,7 @@ function validate( product ) {
     let key = Array.from( Object.keys( PRODUCT_MODEL ) )
         .every( key => product.hasOwnProperty( key ) );
 
+
     // si hay propiedades añadidas o retiradas dentro del producto
     // lo rechaza
     if ( !key ) {
@@ -53,11 +54,20 @@ function validate( product ) {
         return false;
     }
 
+
+    console.log({ 
+        userid: Number.isInteger( product.userid ),
+        cantidad: Number.isInteger( product.cantidad ),
+        precio: typeof product.precio !== 'number',
+        nombre: PATTERNS.onlyLetters.test( product.nombre )
+    });
+
     // revisamos cada campo
     if ( !Number.isInteger( product.userid ) ) {
         // console.log('userid');
         return false;
     }
+
 
     if ( !Number.isInteger( product.categoriaid ) ) {
         // console.log('categoriaid');
@@ -73,6 +83,7 @@ function validate( product ) {
         // console.log('precio');
         return false;
     }
+
 
     if ( !PATTERNS.onlyLetters.test( product.nombre ) ) {
         // console.log('nombre');
@@ -90,6 +101,7 @@ function validate( product ) {
         return false;
     }
 
+    console.log('validaciones correctas');
     return true;
 }
 
