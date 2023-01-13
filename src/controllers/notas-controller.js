@@ -22,6 +22,7 @@ class NotasController {
 	 */
 	 static exportarNotas() {
 		return new Promise(( resolve, reject ) => {
+			
 			// colocar codigo aqui
 			const notificacion = new Notification();
 			const extensiones = ['.json', '.xls', '.xlsx']
@@ -38,47 +39,47 @@ class NotasController {
 			
 			// 1.- crear la ventana de exportacion
 			dialog.showSaveDialog( BrowserWindow.getFocusedWindow(), opciones )
-			.then( respuesta =>{
+				.then( respuesta =>{
 
-				let message = 'Cancelada';
-				// 2.- validar la cancelacion y el formato
-				if ( respuesta.canceled ) {
-						// abortamos la ejecucion del resto de promesas
-						// pasamos al catch
+					let message = 'Cancelada';
+					
+					// 2.- validar la cancelacion y el formato
+					if ( respuesta.canceled ) {
 						throw message;
-				}
+					}
 
-				let validacion = extensiones.some(( extension ) => { 
-					return respuesta.filePath.includes( extension ); 
+					let validacion = extensiones.some(( extension ) => { 
+						return respuesta.filePath.includes( extension ); 
+					});
+
+					if ( validacion === false ) {
+						message = 'La extensión del archivo no es valida';
+
+						notificacion.title = 'Atención';
+						notificacion.body = message;
+		
+						notificacion.show();
+
+						throw message;
+					}
+					
+					// 3.- realizar la consulta de las notas + productos asociados con la misma ( generar el SQL )
+					return NotasController.obtenerNotasArray();
+				})
+				.then( consultaDB =>{
+					
+					// 4.- validar los campos de la nota + productos
+					console.log( consultaDB );			
+					
+					// 5.- exportar a excel o json
+					resolve();
+				})
+				.catch( error => {
+					
+					console.log( error );
+
+					reject( error );
 				});
-
-				if ( validacion === false ) {
-					message = 'La extensión del archivo no es valida';
-
-					notificacion.title = 'Atención';
-					notificacion.body = message;
-	
-					notificacion.show();
-					// abortamos la ejecucion del resto de promesas
-					// pasamos al catch
-					throw message;
-				}
-				// 3.- realizar la consulta de las notas + productos asociados con la misma ( generar el SQL )
-				return NotasController.obtenerNotasArray()
-
-			})
-			.then( consultaDB =>{
-				
-				console.log(consultaDB);			
-				resolve();
-			})
-			.catch( error => {
-				
-				console.log( error );
-				reject( error );
-			});
-			// 4.- validar los campos de la nota + productos
-			// 5.- exportar a excel
 
 		});	
 	}
@@ -103,19 +104,22 @@ class NotasController {
 		});
 	}
 
-	static obtenerNotasArray(){
+	/** Permite obtener un array de las notas con los productos */
+	static obtenerNotasArray() {
 		
 		return new Promise (( resolve, reject ) => {
 			
-			this.database.consult( CRUD.exportarNotas, null, (error, resultados)=>{ 
+			this.database.consult( CRUD.exportarNotas, null, ( error, resultados ) => { 
 
-				if(error){
+				if ( error ) {
 					reject( error );
-				}
-				resolve( resultados );
-			})
 
-		})
+					throw error;
+				}
+
+				resolve( resultados );
+			});
+		});
 	}
 
 	/**
@@ -144,7 +148,7 @@ class NotasController {
 
 		if ( validarCantidad === false ){
 
-			dialog.showMessageBox (null, {
+			dialog.showMessageBox( null, {
 				type: 'warning',
 				title: 'advertencia',
 				message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
@@ -200,6 +204,7 @@ class NotasController {
 				notificacion.show();
 
 			} catch ( error ) {
+
 				console.error( error );
 
 				throw error;
@@ -279,7 +284,7 @@ class NotasController {
 
 				}
 
-				this.database.consult( CRUD.obtenerNotaProducto, 	{ id_nota: idNota }, ( error, resultadoNotaProducto ) => {
+				this.database.consult( CRUD.obtenerNotaProducto, { id_nota: idNota }, ( error, resultadoNotaProducto ) => {
 
 					if ( error ) {
 						console.log( error );
@@ -296,7 +301,6 @@ class NotasController {
 						productos: resultadoNotaProducto,
 						total_order: NotasController.calcularTotalNotas( resultadoNotaProducto )
 					});
-
 				});
 			});
 		});
@@ -354,9 +358,7 @@ class NotasController {
 					totalPaginas: Math.ceil( totalPaginas ),
 					totalRegistros: totalRegistros
 				});
-
 			});
-
 		});
 	}
 
@@ -439,11 +441,7 @@ class NotasController {
 	 *
 	 */
 	static mostrarAlerta( type = 'info', title, message ) {
-		dialog.showMessageBox( null, {
-			message,
-			type,
-			title
-		});
+		dialog.showMessageBox( null, { message, type, title });
 	}
 
 	/**
@@ -472,7 +470,7 @@ class NotasController {
 
 		if ( validarCantidad === false ) {
 
-			dialog.showMessageBox (null, {
+			dialog.showMessageBox( null, {
 				type: 'warning',
 				title: 'advertencia',
 				message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
@@ -488,11 +486,11 @@ class NotasController {
 
 			if ( error ) {
 
-					console.log( error );
+				console.log( error );
 
-					// throw error;
+				// throw error;
 
-					return;
+				return;
 			}
 
 			let idNota = nota['id_nota'];
@@ -500,59 +498,59 @@ class NotasController {
 			// consulta el array desde la BD y por cada elemento la compara
 			this.database.consult( CRUD.listarNotasProductos, { id_nota : idNota }, ( error, results ) => {
 
-					if ( error ) {
+				if ( error ) {
 
-						console.log( error );
+					console.log( error );
 
-						throw error;
+					// throw error;
 
-						return;
+					return;
+				}
+
+				const notaProductoDB = results;
+
+				arrayProductos.forEach(( notaProducto, idx ) => {
+
+					// verifica si el elemento esta en la BD
+					let index = notaProductoDB.findIndex(( notaProductoDB ) => {
+						return notaProducto['id_NP'] === notaProductoDB['id_NP'];
+					});
+
+					// callback de notificacion se ejecuta en el ultimo ciclo
+					let callback = ( idx === ( arrayProductos.length - 1 ) ) ?
+						() => {
+							const notificacion = new Notification({
+								title: 'Exito !!',
+								body: 'Nota actualizada con exito'
+							});
+
+							notificacion.show();
+						} : null;
+
+					if ( index === -1 ) {
+
+						// crea la nota si no esta en el array
+						NotasProductosController.insertarNotasProductos.call(
+							NotasProductosController.database,
+							{
+								id_nota: idNota,
+								cantidad_seleccionada: notaProducto['cantidad_seleccionada'],
+								id_producto: notaProducto['productoid'],
+								cantidad: notaProducto['cantidad']
+							},
+							callback
+						);
+
+					} else {
+
+						// si existe actualiza el valor de cantidad_seleccionada y actualiza notas_productos + producto
+						let cantidadBD = notaProductoDB[index]['cantidad_seleccionada'];
+						let cantidadActualizada = notaProducto['cantidad_seleccionada'];
+
+						let sumaAlgebraica = ( cantidadBD - cantidadActualizada );
+
+						NotasProductosController.actualizarNotasProductos( notaProducto, sumaAlgebraica, callback );
 					}
-
-					const notaProductoDB = results;
-
-					arrayProductos.forEach(( notaProducto, idx ) => {
-
-						// verifica si el elemento esta en la BD
-						let index = notaProductoDB.findIndex(( notaProductoDB ) => {
-							return notaProducto['id_NP'] === notaProductoDB['id_NP'];
-						});
-
-						// callback de notificacion se ejecuta en el ultimo ciclo
-						let callback = ( idx === ( arrayProductos.length - 1 ) ) ?
-							() => {
-								const notificacion = new Notification({
-									title: 'Exito !!',
-									body: 'Nota actualizada con exito'
-								});
-
-								notificacion.show();
-							} : null;
-
-						if ( index === -1 ) {
-
-							// crea la nota si no esta en el array
-							NotasProductosController.insertarNotasProductos.call(
-								NotasProductosController.database,
-								{
-									id_nota: idNota,
-									cantidad_seleccionada: notaProducto['cantidad_seleccionada'],
-									id_producto: notaProducto['productoid'],
-									cantidad: notaProducto['cantidad']
-								},
-								callback
-							);
-
-						} else {
-
-							// si existe actualiza el valor de cantidad_seleccionada y actualiza notas_productos + producto
-							let cantidadBD = notaProductoDB[index]['cantidad_seleccionada'];
-							let cantidadActualizada = notaProducto['cantidad_seleccionada'];
-
-							let sumaAlgebraica = ( cantidadBD - cantidadActualizada );
-
-							NotasProductosController.actualizarNotasProductos( notaProducto, sumaAlgebraica, callback );
-						}
 				});
 
 			});
@@ -624,7 +622,7 @@ class NotasController {
 						notification['title'] = 'Error!!';
 						notification['body'] = 'Error al guardar archivo';
 
-						notificacion.show();
+						notification.show();
 
 						// throw error;
 
