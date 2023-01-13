@@ -47,61 +47,45 @@ function validate( product ) {
         .every( key => product.hasOwnProperty( key ) );
 
 
+    // revisamos cada campo
     // si hay propiedades añadidas o retiradas dentro del producto
     // lo rechaza
+    
     if ( !key ) {
-        // console.log('key');
         return false;
     }
 
-
-    console.log({ 
-        userid: Number.isInteger( product.userid ),
-        cantidad: Number.isInteger( product.cantidad ),
-        precio: typeof product.precio !== 'number',
-        nombre: PATTERNS.onlyLetters.test( product.nombre )
-    });
-
-    // revisamos cada campo
     if ( !Number.isInteger( product.userid ) ) {
-        // console.log('userid');
         return false;
     }
 
 
     if ( !Number.isInteger( product.categoriaid ) ) {
-        // console.log('categoriaid');
         return false;
     }
 
     if ( !Number.isInteger( product.cantidad ) ) {
-        // console.log('cantidad');
         return false;
     }
 
     if ( typeof product.precio !== 'number' ) {
-        // console.log('precio');
         return false;
     }
 
 
     if ( !PATTERNS.onlyLetters.test( product.nombre ) ) {
-        // console.log('nombre');
         return false; 
     }
 
     if ( !PATTERNS.onlyLetters.test( product.descripcion ) ) {
-        // console.log('descripcion');
         return false; 
     }
 
     // verificamos que la disponibilidad es un booleano
     if ( ( product.disponibilidad < 0 ) || ( product.disponibilidad > 1 ) ) {
-        // console.log('disponibilidad');
         return false;
     }
 
-    console.log('validaciones correctas');
     return true;
 }
 

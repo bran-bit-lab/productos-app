@@ -201,7 +201,7 @@ function deleteFileSync( url ) {
 function getHomePath( fileName = '' ) {
 
 	if ( fileName.length > 0  ) {
-			return path.join( os.homedir(), '/' + fileName );
+		return path.join( os.homedir(), '/' + fileName );
 	}
 
 	return path.join( os.homedir() );
