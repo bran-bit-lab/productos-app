@@ -39,7 +39,7 @@ class NotasController {
 			
 			// 1.- crear la ventana de exportacion
 			dialog.showSaveDialog( BrowserWindow.getFocusedWindow(), opciones )
-				.then( respuesta =>{
+				.then( respuesta => {
 
 					let message = 'Cancelada';
 					
@@ -66,7 +66,7 @@ class NotasController {
 					// 3.- realizar la consulta de las notas + productos asociados con la misma ( generar el SQL )
 					return NotasController.obtenerNotasArray();
 				})
-				.then( consultaDB =>{
+				.then( consultaDB => {
 					
 					// 4.- validar los campos de la nota + productos
 					console.log( consultaDB );			
