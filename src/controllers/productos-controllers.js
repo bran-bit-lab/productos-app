@@ -660,10 +660,10 @@ class ProductosController {
 				return;
 			}
 
-				notificacion['title'] = 'Exito!!';
-				notificacion['body'] = 'Producto Modificado';
+			notificacion['title'] = 'Exito!!';
+			notificacion['body'] = 'Producto Modificado';
 
-				notificacion.show();
+			notificacion.show();
   		});
 	}
 
