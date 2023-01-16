@@ -23,6 +23,7 @@ class NotasController {
 	 * Exporta los productos en un archivo de excel
 	 */
 	 static exportarNotas() {
+
 		return new Promise(( resolve, reject ) => {
 			
 			// colocar codigo aqui
@@ -77,7 +78,7 @@ class NotasController {
 				.then( respuestaArchivo => {
 					
 					// 5.- enviamos la notificacion
-					console.log( respuestaArchivo );
+					// console.log( respuestaArchivo );
 					
 					notificacion.body = respuestaArchivo;
 					notificacion.title = 'Exito';
@@ -645,6 +646,7 @@ class NotasController {
 		
 		// promesa de notas productos
 		const promesaNotaProductos = ( nota ) => new Promise(( resolve, reject ) => {
+			
 			this.database.consult( CRUD.exportarNotasProducto, { id_nota: nota.id_nota }, ( error, productos ) => {
 						
 				if ( error ) {
@@ -662,11 +664,10 @@ class NotasController {
 
 		return new Promise(( resolve, reject ) => {
 			
-			let result = [];
-			
 			this.database.consult( CRUD.exportarNotas, null, async ( error, notas ) => {
 				
 				if ( error ) {
+
 					console.log( error );
 					
 					reject( error );
@@ -674,10 +675,12 @@ class NotasController {
 					throw error;
 				}
 				
+				const arrayPromises = notas.map( nota => promesaNotaProductos( nota ) );
+
 				try {
-					result = await Promise.all( notas.map( nota => promesaNotaProductos( nota ) ) );
+					const notasProductos = await Promise.all( arrayPromises );
 					
-					resolve( result );
+					resolve( notasProductos );
 
 				} catch ( error )  {
 

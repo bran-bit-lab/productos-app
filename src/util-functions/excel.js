@@ -77,12 +77,7 @@ function writeNotesProductsExcel( url, data, nombreHoja = 'data' ) {
 
         if ( nota.productos.length > 0 ) {
           const worksheetProduct = XLSX.utils.json_to_sheet( nota.productos );
-          
-          XLSX.utils.book_append_sheet( 
-            workbook, 
-            worksheetProduct, 
-            (`detalle_nota_${nota.id_nota}`) 
-          );
+          XLSX.utils.book_append_sheet( workbook, worksheetProduct, (`detalle_nota_${nota.id_nota}`) );
         }
 
       });
