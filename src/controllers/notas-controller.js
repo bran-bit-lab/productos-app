@@ -4,9 +4,7 @@ const CRUD = require('../database/CRUD');
 const TIME = require('../util-functions/time');
 const { NotasProductosController } = require('./notas-productos-controller');
 const { PdfController } = require('./pdf-controller');
-const { validate } = require('../models/note');
-const { dateToString } = require('../util-functions/time');
-
+const noteModel = require('../models/note');
 const FILE = require('../util-functions/file');
 const excelModule = require('../util-functions/excel');
 
@@ -109,6 +107,23 @@ class NotasController {
 		
 		return new Promise(( resolve, reject ) => {
 			
+			/** funcion que muestra el alert de campos incorrectos */
+			const mostrarMensaje = () => {
+
+				message = 'El orden de los campos importados son incorrectos';
+					
+				dialog.showErrorBox(
+					'Error',
+					(
+						'Los campos en el archivo son incorrectos.\n\n' +
+						'Consulta el manual para obtener más información\n' +
+						'sobre como importar archivos.'
+					)
+				);
+						
+				throw message; 
+			};
+
 			// colocar codigo aqui
 			const notificacion = new Notification();
 			const extensiones = ['.json', '.xls', '.xlsx'];
@@ -122,6 +137,7 @@ class NotasController {
 					{ name: 'Archivo json', extensions: ['json'] },
 				], 
 			};
+
 
 			let path = '';
 			let message = 'Cancelada'
@@ -150,7 +166,7 @@ class NotasController {
 
 					// mandamos el json
 					if ( path.includes( extensiones[0] ) ) {
-
+						return FILE.readFilePromiseJSON( path, true );
 					}
 
 					// mandamos el excel
@@ -160,7 +176,18 @@ class NotasController {
 
 					// json data
 					if ( path.includes( extensiones[0] )) {
-					
+						
+						const validacion = contenidoArchivo.every( nota => noteModel.validate( nota ));
+						
+						if ( !validacion ) {
+							mostrarMensaje();
+						}
+						
+						resolve();
+						
+						console.log( contenidoArchivo );
+
+						return;
 					}
 					
 					/**
@@ -173,19 +200,22 @@ class NotasController {
 							contenido: hoja.contenido.map( contenido => {
 								return { 
 									...contenido, 
-									fecha_entrega: dateToString( contenido.fecha_entrega ) 
+									fecha_entrega: TIME.dateToString( contenido.fecha_entrega ) 
 								}
 							}),
 						} 
 					});
 					
 					const validacion = contenidoArchivo.some( hoja => {
-						console.log( hoja.contenido );
 						return hoja.contenido.every( nota => validate( nota ) );
 					});
-					
-					console.log({ contenidoArchivo, validacion });
 
+					if ( !validacion ) {
+						mostrarMensaje();
+					}
+
+					console.log( contenidoArchivo );
+					
 					resolve();
 				})
 				.catch( error => {

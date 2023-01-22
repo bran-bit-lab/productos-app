@@ -122,6 +122,23 @@ class ProductosController {
 
 		return new Promise(( resolve, reject ) => {
 			
+			/** funcion que muestra el alert de campos incorrectos */
+			const mostrarMensaje = () => {
+
+				message = 'El orden de los campos importados son incorrectos';
+					
+				dialog.showErrorBox(
+					'Error',
+					(
+						'Los campos en el archivo son incorrectos.\n\n' +
+						'Consulta el manual para obtener más información\n' +
+						'sobre como importar archivos.'
+					)
+				);
+						
+				throw message; 
+			};
+
 			const notificacion = new Notification();
 			const extensiones = ['.json', '.xls', '.xlsx'];
 			
@@ -175,23 +192,6 @@ class ProductosController {
 				})
 				.then( respuestaArchivo => {
 
-					/** funcion que muestra el alert de campos incorrectos */
-					const mostrarMensaje = () => {
-
-						message = 'El orden de los campos importados son incorrectos';
-							
-						dialog.showErrorBox(
-							'Error',
-							(
-								'Los campos en el archivo son incorrectos.\n\n' +
-								'Consulta el manual para obtener más información\n' +
-								'sobre como importar archivos.'
-							)
-						);
-								
-						throw message; 
-					};
-					
 					// si es el archivo es un JSON
 					if ( path.includes( extensiones[0] ) ) { 
 

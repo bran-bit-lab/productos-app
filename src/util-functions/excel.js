@@ -107,36 +107,32 @@ function writeNotesProductsExcel( url, data, nombreHoja = 'data' ) {
  * @param {string} url path a leer el archivo
  * @returns {Promise<Array<{ nombre: string, contenido: Array<any> }>>}
  */
-function readFileExcel( url ){
+function readFileExcel( url ) {
 
   const manejador = function( resolve, reject ) {
     
     /** @type {XLSX.ParsingOptions}  */
     const opciones = {
-      cellDates: true
+      cellDates: true,
     };
 
     try {
 
-      let file = fs.readFileSync( url ); // buffer por defecto
+      let archivo = fs.readFileSync( url ); // buffer por defecto
       
       // habiltamos la lectura de fechas con cellDates
-      let resultado = XLSX.read( file, opciones );
+      let resultado = XLSX.read( archivo, opciones );
       
       // arreglo de objetos con cada una de las hojas contenidas en el libro
       const hojas = [];
       
       // en Workbok estan cada una de las propiedades del libro
-      // Sheets es el arreglo dentro de Workbook que contiene la informacion de cada hoja
+      // Sheets es el arreglo dentro de Workbook que contiene la información de cada hoja
       resultado.Workbook.Sheets.forEach( nombres => {
         
         let data = resultado.Sheets[ nombres.name ];
         let sheet = XLSX.utils.sheet_to_json( data );
-        
-        let hoja = {
-          nombre: nombres.name,
-          contenido: sheet
-        };
+        let hoja = { nombre: nombres.name, contenido: sheet };
         
         hojas.push( hoja );
       });
