@@ -72,23 +72,11 @@ class NotasController {
 				})
 				.then( consultaDB => {
 					
-					// revisamos la consulta DB
-					//console.log( consultaDB );
-
 					if ( path.includes( extensiones[0] ) ) {
 						return excelModule.exportJSON( path, consultaDB );
-					}else{
-						return excelModule.writeFileExcel( path, consultaDB);
 					}
 
-					//obtenerNotasArray ()
-
-
-					// 4.- validar los campos de la nota + productos
-					//console.log( consultaDB );			
-					
-					// 5.- exportar a excel o json
-					//resolve();
+					return excelModule.writeFileExcel( path, consultaDB );
 				})
 				.then( respuesta => {
 					
@@ -98,11 +86,7 @@ class NotasController {
 					notificacion.show();
 
 					resolve ( respuesta );
-
-				}
-
-
-				) // export json es otra promesa
+				}) 
 				.catch( error => {
 					
 					console.log( error );
@@ -140,17 +124,17 @@ class NotasController {
 	static obtenerNotasArray() {
 		
 		// esta es una promesa almecenada una posicion en memoria
-		const obtenerNotasProductos = (nota) => new Promise (( resolve, reject ) => {
+		const obtenerNotasProductos = ( nota ) => new Promise (( resolve, reject ) => {
+			
 			// aqui hacemos la consulta a notas productos
 			this.database.consult( CRUD.obtenerNotaProducto, { id_nota: nota.id_nota }, ( error, productos ) => {
 
 				if ( error ) {
+
 					reject( error );
 
 					throw error;
 				}
-
-				console.log(productos)
 				
 				resolve({ ...nota, productos: productos });
 			});
@@ -166,19 +150,20 @@ class NotasController {
 					throw error;
 				}
 						
-				const arrayPromises = notas.map( nota => obtenerNotasProductos (nota) );
+				const arrayPromises = notas.map( nota => obtenerNotasProductos( nota ) );
 
 				try {
 
-					const notasProductos = await Promise.all (arrayPromises);
+					const notasProductos = await Promise.all( arrayPromises );
 
-					console.log(notasProductos);
-					resolve(notasProductos);
+					// console.log(notasProductos);
+					resolve( notasProductos );
 
-				} catch (error) {
+				} catch ( error ) {
 
-					console.log(error)
-					reject(error)
+					console.log( error );
+					
+					reject( error );
 				}
 
 			});
