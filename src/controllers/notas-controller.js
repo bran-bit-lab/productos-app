@@ -107,9 +107,10 @@ class NotasController {
 	/** Permite obtener un array de las notas con los productos */
 	static obtenerNotasArray() {
 		
-		return new Promise (( resolve, reject ) => {
-			
-			this.database.consult( CRUD.exportarNotas, null, ( error, resultados ) => { 
+		// esta es una promesa almecenada una posicion en memoria
+		const obtenerNotasProductos = (nota) => new Promise (( resolve, reject ) => {
+			// aqui hacemos la consulta a notas productos
+			this.database.consult( CRUD.obtenerNotaProducto, { id_nota: nota.id_nota }, ( error, productos ) => {
 
 				if ( error ) {
 					reject( error );
@@ -117,7 +118,37 @@ class NotasController {
 					throw error;
 				}
 
-				resolve( resultados );
+				console.log(productos)
+				
+				resolve({ ...nota, productos: productos });
+			});
+		});
+
+		return new Promise(( resolve, reject ) => {
+			
+			this.database.consult( CRUD.exportarNotas, null, async ( error, notas ) => { 
+
+				if ( error ) {
+					reject( error );
+
+					throw error;
+				}
+						
+				const arrayPromises = notas.map( nota => obtenerNotasProductos (nota) );
+
+				try {
+
+					const notasProductos = await Promise.all (arrayPromises);
+
+					console.log(notasProductos);
+					resolve(notasProductos);
+
+				} catch (error) {
+
+					console.log(error)
+					reject(error)
+				}
+
 			});
 		});
 	}
