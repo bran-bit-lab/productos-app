@@ -4,6 +4,7 @@ const CRUD = require('../database/CRUD');
 const TIME = require('../util-functions/time');
 const { NotasProductosController } = require('./notas-productos-controller');
 const { PdfController } = require('./pdf-controller');
+const excelModule = require('../util-functions/excel');
 const FILE = require('../util-functions/file');
 
 /** Clase que gestiona las notas de entregas */
@@ -62,18 +63,44 @@ class NotasController {
 
 						throw message;
 					}
+
+					// si no lo colocamos no pasa la validacion
+					path = respuesta.filePath;
 					
 					// 3.- realizar la consulta de las notas + productos asociados con la misma ( generar el SQL )
 					return NotasController.obtenerNotasArray();
 				})
 				.then( consultaDB => {
 					
+					// revisamos la consulta DB
+					//console.log( consultaDB );
+
+					if ( path.includes( extensiones[0] ) ) {
+						return excelModule.exportJSON( path, consultaDB );
+					}
+
+					//obtenerNotasArray ()
+
+
 					// 4.- validar los campos de la nota + productos
-					console.log( consultaDB );			
+					//console.log( consultaDB );			
 					
 					// 5.- exportar a excel o json
-					resolve();
+					//resolve();
 				})
+				.then( respuesta => {
+					
+					notificacion.body = respuesta;
+					notificacion.title = 'Exito';
+					
+					notificacion.show();
+
+					resolve ( respuesta );
+
+				}
+
+
+				) // export json es otra promesa
 				.catch( error => {
 					
 					console.log( error );
@@ -94,6 +121,9 @@ class NotasController {
 			// colocar codigo aqui
 
 			// 1.- crear la ventana de importacion
+
+
+
 			// 2.- validar la cancelacion y el formato
 			// 3.- importar el excel
 			// 4.- validar los campos del excel

@@ -102,7 +102,7 @@ function exportJSON( url, data ) {
     if ( FILE.checkAsset( url, false ) ){
       FILE.deleteFileSync( url );
     }
-    
+        
     const result = JSON.stringify( data );
 
     FILE.appendFile( url, result, ( error ) => {
