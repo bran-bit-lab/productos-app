@@ -77,6 +77,8 @@ class NotasController {
 
 					if ( path.includes( extensiones[0] ) ) {
 						return excelModule.exportJSON( path, consultaDB );
+					}else{
+						return excelModule.writeFileExcel( path, consultaDB);
 					}
 
 					//obtenerNotasArray ()
