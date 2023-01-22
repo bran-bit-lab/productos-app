@@ -124,6 +124,8 @@ class ProductosController {
 			
 			const notificacion = new Notification();
 			const extensiones = ['.json', '.xls', '.xlsx'];
+			
+			/** @type {Electron.OpenDialogOptions} */
 			const opciones = { 
 					title: 'Importar Archivo', 
 					filters: [ 
@@ -190,6 +192,7 @@ class ProductosController {
 						throw message; 
 					};
 					
+					// si es el archivo es un JSON
 					if ( path.includes( extensiones[0] ) ) { 
 
 						const validacion = respuestaArchivo.every( product => { 
@@ -207,38 +210,37 @@ class ProductosController {
 							respuestaArchivo 
 						);
 
-					} else {
+					} 
 
-						// Archivo Excel validaciones
-						const validacion = respuestaArchivo.some( hoja => {
-							return hoja.contenido.every( product => ProductModel.validate( product ));
-						});
+					// sino continua con el excel
+					const validacion = respuestaArchivo.some( hoja => {
+						return hoja.contenido.every( product => ProductModel.validate( product ));
+					});
 
-						if ( validacion === false ) {
-							mostrarMensaje();
-						}
-
-						/**
-						 * Cada hoja del excel ejecutara insertarArrayProductos
-						 * usamos Array.map para devolver un nuevo array. En cada posición se almacena 
-						 * la ejecucion de la promesa y para manejar su flujo se utiliza Promise.all
-						*/
-						const arrayPromesas = respuestaArchivo.map( hoja => {
-							return ProductosController.insertarArrayProductos( 
-								CRUD.importarProductos, 
-								hoja.contenido 
-							);
-						});
-
-						// console.log( promises );
-
-						/**
-						 * Promise all recibe un array de promesas por parametro, 
-						 * espera a que todas las promesas se ejecuten dentro del
-						 * array. Si falla una cae al catch
-						 */
-						return Promise.all( arrayPromesas );	
+					if ( validacion === false ) {
+						mostrarMensaje();
 					}
+
+					/**
+					 * Cada hoja del excel ejecutara insertarArrayProductos
+					 * usamos Array.map para devolver un nuevo array. En cada posición se almacena 
+					 * la ejecucion de la promesa y para manejar su flujo se utiliza Promise.all
+					*/
+					const arrayPromesas = respuestaArchivo.map( hoja => {
+						return ProductosController.insertarArrayProductos( 
+							CRUD.importarProductos, 
+							hoja.contenido 
+						);
+					});
+
+					// console.log( promises );
+
+					/**
+					 * Promise all recibe un array de promesas por parametro, 
+					 * espera a que todas las promesas se ejecuten dentro del
+					 * array. Si falla una cae al catch
+					 */
+					return Promise.all( arrayPromesas );
 
 				})
 				.then( respuesta => {

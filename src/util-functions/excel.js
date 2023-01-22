@@ -76,7 +76,7 @@ function writeNotesProductsExcel( url, data, nombreHoja = 'data' ) {
       data.forEach( nota => {
 
         if ( nota.productos.length > 0 ) {
-          
+
           const worksheetProduct = XLSX.utils.json_to_sheet( nota.productos );
           
           XLSX.utils.book_append_sheet( workbook, worksheetProduct, (`detalle_nota_${nota.id_nota}`) );
@@ -111,10 +111,17 @@ function readFileExcel( url ){
 
   const manejador = function( resolve, reject ) {
     
+    /** @type {XLSX.ParsingOptions}  */
+    const opciones = {
+      cellDates: true
+    };
+
     try {
 
       let file = fs.readFileSync( url ); // buffer por defecto
-      let resultado = XLSX.read( file );
+      
+      // habiltamos la lectura de fechas con cellDates
+      let resultado = XLSX.read( file, opciones );
       
       // arreglo de objetos con cada una de las hojas contenidas en el libro
       const hojas = [];

@@ -4,6 +4,8 @@ const CRUD = require('../database/CRUD');
 const TIME = require('../util-functions/time');
 const { NotasProductosController } = require('./notas-productos-controller');
 const { PdfController } = require('./pdf-controller');
+const { validate } = require('../models/note');
+const { dateToString } = require('../util-functions/time');
 
 const FILE = require('../util-functions/file');
 const excelModule = require('../util-functions/excel');
@@ -29,6 +31,9 @@ class NotasController {
 			// colocar codigo aqui
 			const notificacion = new Notification();
 			const extensiones = ['.json', '.xls', '.xlsx'];
+
+
+			/** @type {Electron.OpenDialogOptions} */
 			const opciones = { 
 				title: 'Importar Archivo', 
 				filters: [ 
@@ -105,6 +110,89 @@ class NotasController {
 		return new Promise(( resolve, reject ) => {
 			
 			// colocar codigo aqui
+			const notificacion = new Notification();
+			const extensiones = ['.json', '.xls', '.xlsx'];
+
+
+			/** @type {Electron.OpenDialogOptions} */
+			const opciones = { 
+				title: 'Importar Archivo', 
+				filters: [ 
+					{ name: 'Archivo excel', extensions: ['xls', 'xlsx'] },
+					{ name: 'Archivo json', extensions: ['json'] },
+				], 
+			};
+
+			let path = '';
+			let message = 'Cancelada'
+
+			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
+				.then( respuesta => {
+
+					if ( respuesta.canceled ) {
+						throw message;
+					}
+
+					path = respuesta.filePaths[0];
+
+					const validacion = extensiones.some( extension => path.includes( extension ) );
+					
+					if ( !validacion ) {
+						message = 'La extensión del archivo no es valida';
+
+						notificacion.title = 'Atención';
+						notificacion.body = message;
+
+						notificacion.show();
+
+						throw message;
+					}
+
+					// mandamos el json
+					if ( path.includes( extensiones[0] ) ) {
+
+					}
+
+					// mandamos el excel
+					return excelModule.readFileExcel( path );
+				})
+				.then( contenidoArchivo => {
+
+					// json data
+					if ( path.includes( extensiones[0] )) {
+					
+					}
+					
+					/**
+					 * Antes de validar debemos parsear las fechas utilizando
+					 * date to string
+					 */
+					contenidoArchivo = contenidoArchivo.map( hoja => {
+						return {
+							...hoja,
+							contenido: hoja.contenido.map( contenido => {
+								return { 
+									...contenido, 
+									fecha_entrega: dateToString( contenido.fecha_entrega ) 
+								}
+							}),
+						} 
+					});
+					
+					const validacion = contenidoArchivo.some( hoja => {
+						console.log( hoja.contenido );
+						return hoja.contenido.every( nota => validate( nota ) );
+					});
+					
+					console.log({ contenidoArchivo, validacion });
+
+					resolve();
+				})
+				.catch( error => {
+					console.log( error );
+
+					reject( error );
+				})
 
 			// 1.- crear la ventana de importacion
 			// 2.- validar la cancelacion y el formato
@@ -112,8 +200,6 @@ class NotasController {
 			// 4.- validar los campos del excel
 			// 5.- preparar la consulta SQL que inserta las notas + productos
 			// 6.- ejecutar la consulta
-
-			resolve();
 		});
 	}
 

@@ -11,7 +11,7 @@
  * @property {string} creacion timestamp de creacion de la nota
  * @property {string} fecha_entrega fecha de entrega de la nota
  * @property {number} id_cliente identificador del cliente de la nota
- * @property {number} user_id identificador del usuario que crea la nota
+ * @property {number} userid identificador del usuario que crea la nota
  * @property {'EN_PROGRESO'|'ENTREGADA'|'ACEPTADO'|'CANCELADA'|'POSPUESTO'} status estado de entrega
 */
 const { PATTERNS } = require('../util-functions/string');
@@ -19,10 +19,10 @@ const { PATTERNS } = require('../util-functions/string');
 /** @type Note */
 const NOTE_MODEL = Object.freeze({
     id_nota: 0,
-    descripcion: '',
-    creacion: '',
-    creado_por: '',
-    nombre_cliente: '',
+    descripcion_nota: '',
+    fecha_entrega: '',
+    userid: 0,
+    id_cliente: 0,
     status: 'ACEPTADO'
 });
 
@@ -36,6 +36,19 @@ function validate( note ) {
     // validamos las propiedades
     let key = Array.from( Object.keys( NOTE_MODEL ) )
         .every( key => note.hasOwnProperty( key ) );
+    
+    /* 
+        log de comprobacion de regex usar si alguna muestra falla
+        
+        console.log({ 
+            key: !key,
+            id_nota: !Number.isInteger( note.id_nota ),
+            id_cliente: !Number.isInteger( note.id_cliente ),
+            userid: !Number.isInteger( note.userid ),
+            fecha_entrega: !PATTERNS.dateString.test( note.fecha_entrega ),
+            descripcion_nota: !PATTERNS.lettersAndNumbers.test( note.descripcion_nota )
+        }); 
+     */
 
     // si hay propiedades añadidas o retiradas dentro del producto
     // lo rechaza
@@ -52,7 +65,7 @@ function validate( note ) {
         return false;
     }
 
-    if ( !Number.isInteger( note.user_id ) ) {
+    if ( !Number.isInteger( note.userid ) ) {
         return false;
     }
 
