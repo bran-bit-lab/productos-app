@@ -6,11 +6,12 @@
 /**
  * Note
  * @typedef {Object} Note
- * @property {number} [id_nota] identificador de la nota
- * @property {string} descripcion descripcion de la nota
- * @property {string} creacion fecha de creacion de la nota
- * @property {string} creado_por usuario que crea la nota
- * @property {string} nombre_cliente cliente de la nota
+ * @property {number} id_nota identificador de la nota
+ * @property {string} descripcion_nota descripcion de la nota
+ * @property {string} creacion timestamp de creacion de la nota
+ * @property {string} fecha_entrega fecha de entrega de la nota
+ * @property {number} id_cliente identificador del cliente de la nota
+ * @property {number} user_id identificador del usuario que crea la nota
  * @property {'EN_PROGRESO'|'ENTREGADA'|'ACEPTADO'|'CANCELADA'|'POSPUESTO'} status estado de entrega
 */
 const { PATTERNS } = require('../util-functions/string');
@@ -47,19 +48,19 @@ function validate( note ) {
         return false;
     }
 
-    if ( !PATTERNS.lettersAndNumbers.test( note.creacion ) ) {
+    if ( !Number.isInteger( note.id_cliente ) ) {
         return false;
     }
 
-    if ( !PATTERNS.onlyLetters.test( note.nombre_cliente ) ) {
+    if ( !Number.isInteger( note.user_id ) ) {
         return false;
     }
 
-    if ( !PATTERNS.onlyLetters.test( note.creado_por ) ) {
-        return false; 
+    if ( !PATTERNS.dateString.test( note.fecha_entrega ) ) {
+        return false;
     }
 
-    if ( !PATTERNS.lettersAndNumbers.test( note.descripcion ) ) {
+    if ( !PATTERNS.lettersAndNumbers.test( note.descripcion_nota ) ) {
         return false; 
     }
 
