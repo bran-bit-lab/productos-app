@@ -76,7 +76,9 @@ function writeNotesProductsExcel( url, data, nombreHoja = 'data' ) {
       data.forEach( nota => {
 
         if ( nota.productos.length > 0 ) {
+          
           const worksheetProduct = XLSX.utils.json_to_sheet( nota.productos );
+          
           XLSX.utils.book_append_sheet( workbook, worksheetProduct, (`detalle_nota_${nota.id_nota}`) );
         }
 
