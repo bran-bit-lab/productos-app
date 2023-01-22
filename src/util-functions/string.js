@@ -2,6 +2,17 @@
 * Libreria de procesamiento de cadena de texto
 * @module string
 */
+
+// patron de validacion regex
+const PATTERNS = Object.freeze({
+  email: /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/,
+  onlyLetters: /^[a-zA-Z\u00f1\u00d1\u00E0-\u00FC\u00C0-\u017F\s]+$/,
+  onlyNumbers: /^\d+$/,
+  onlyNumbersWithDecimal: /^\d+(\.\d{0,2})?$/,
+  lettersAndNumbers: /^[\d\sA-Za-z]+$/,
+  dateString: /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/,
+});
+
 /**
 * Funcion que permite dividir texto segun la altura especificada
 * @param {string} text cadena de texto
@@ -22,5 +33,6 @@ function sliceString( text = '', start = 0, limit = 10 ) {
 }
 
 module.exports = {
-  sliceString
+  sliceString,
+  PATTERNS
 };
