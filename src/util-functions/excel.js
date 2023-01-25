@@ -27,7 +27,7 @@ function writeFileExcel( url, data, nombreHoja = 'data' ) {
       // fix headers 
       // XLSX.utils.sheet_add_aoa( worksheet, [["Id", "Name", "Gender"]], { origin: "A1" });
       
-      XLSX.utils.book_append_sheet( workbook, worksheet, nombreHoja);
+      XLSX.utils.book_append_sheet( workbook, worksheet, nombreHoja );
       XLSX.writeFile( workbook, url );
       
       resolve('Archivo excel creado con exito');  
@@ -47,48 +47,64 @@ function writeFileExcel( url, data, nombreHoja = 'data' ) {
  * Exporta el archivo en formato excel
  * @param {string} url path donde se exporta el archivo
  * @param {{[string]: any} | Array<{[string]: any}>} data informacion a mostrar en el excel
- * @param {string} [nombreHoja] nombre de la hoja
  * @returns {Promise<string>}
  */
-function writeNotesProductsExcel( url, data, nombreHoja = 'data' ) {
+function writeNotesProductsExcel( url, data ) {
   
   const manejador = function ( resolve, reject ) {
     
     try {
 
-      // creamos una copia de las notas sin la prop de productos
-      let notes = data.map( note  => {
-
-        // utilizamos el spread operator en el lado izquierdo
-        // para eliminar propiedades cuando las extraemos
-        let { productos, ...notaActualizada } = note;
-
-        return notaActualizada
-      });
-
-      // Generar la hoja y el libro de trabajo
-      const worksheet = XLSX.utils.json_to_sheet( notes );
+      // Generar el libro de trabajo
       const workbook = XLSX.utils.book_new();
-      
-      XLSX.utils.book_append_sheet( workbook, worksheet, nombreHoja );
-      
-      // por cada nota validamos si existen productos se anaden paginas de detalle al libro
+  
       data.forEach( nota => {
-
-        if ( nota.productos.length > 0 ) {
-
-          const worksheetProduct = XLSX.utils.json_to_sheet( nota.productos );
+        
+        // separamos las 2 propiedades de la nota
+        const { productos, ...notaActualizada } = nota;
+  
+        const worksheet = XLSX.utils.json_to_sheet([ notaActualizada ]);
+        
+        // verificamos si existen productos
+        if ( productos.length > 0 ) {
           
-          XLSX.utils.book_append_sheet( workbook, worksheetProduct, (`detalle_nota_${nota.id_nota}`) );
+          // celda de inicio para dibujar la tabla de productos
+          let row = 5;
+          
+          productos.forEach(( producto, index ) => {
+
+            // establece el encabezado solamente en el primer producto
+            if ( index === 0 ) {
+              
+              XLSX.utils.sheet_add_aoa( 
+                worksheet, 
+                [ Object.keys( producto ) ], 
+                { origin: ('A' + row.toString()) }
+              );
+
+              // pasa a la siguiente linea
+              row++;
+            }
+
+            XLSX.utils.sheet_add_aoa( 
+              worksheet, 
+              [ Object.values( producto ) ], 
+              { origin: ('A' + row.toString()) }
+            );
+              
+            row++;
+          });
         }
 
+        // creamos la hoja con el detalle de la nota
+        XLSX.utils.book_append_sheet( workbook, worksheet, (`detalle_nota_${nota.id_nota}`) );
       });
-      
+
       XLSX.writeFile( workbook, url );
-      
-      resolve('Archivo excel creado con exito');  
   
-    } catch ( error ) { 
+      resolve('Archivo excel creado con exito'); 
+
+    } catch ( error ) {
 
       console.log( error );
 
