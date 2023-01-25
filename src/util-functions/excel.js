@@ -62,7 +62,6 @@ function writeNotesProductsExcel( url, data ) {
         
         // separamos las 2 propiedades de la nota
         const { productos, ...notaActualizada } = nota;
-  
         const worksheet = XLSX.utils.json_to_sheet([ notaActualizada ]);
         
         // verificamos si existen productos
@@ -79,17 +78,16 @@ function writeNotesProductsExcel( url, data ) {
               XLSX.utils.sheet_add_aoa( 
                 worksheet, 
                 [ Object.keys( producto ) ], 
-                { origin: ('A' + row.toString()) }
+                { origin: (`A${row}`) }
               );
 
-              // pasa a la siguiente linea
               row++;
             }
 
             XLSX.utils.sheet_add_aoa( 
               worksheet, 
               [ Object.values( producto ) ], 
-              { origin: ('A' + row.toString()) }
+              { origin: (`A${row}`) }
             );
               
             row++;
