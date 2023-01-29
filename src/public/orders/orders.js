@@ -226,12 +226,18 @@ class OrdersTableComponent {
 
 	async exportNotes() {
 
+		this.loading._show = 'true';
+
 		try {
 			await NotasController.exportarNotas();
 
 		} catch ( error ) {
 			console.log( error );
+		
+		} finally {
+			this.loading._show = 'false';
 		}
+
 	}
 }
 
