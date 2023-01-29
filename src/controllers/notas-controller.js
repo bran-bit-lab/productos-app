@@ -78,7 +78,7 @@ class NotasController {
 					if ( path.includes( extensiones[0] ) ) {
 						return excelModule.exportJSON( path, consultaDB );
 					}else{
-						return excelModule.writeFileExcel( path, consultaDB);
+						return excelModule.generarLibroNotasExcel( consultaDB, path );
 					}
 
 					//obtenerNotasArray ()
@@ -150,7 +150,7 @@ class NotasController {
 					throw error;
 				}
 
-				console.log(productos)
+				//console.log(productos)
 				
 				resolve({ ...nota, productos: productos });
 			});
