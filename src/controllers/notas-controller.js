@@ -75,12 +75,10 @@ class NotasController {
 					if ( path.includes( extensiones[0] ) ) {
 						return excelModule.exportJSON( path, consultaDB );
 
-					}else{
-						return excelModule.generarLibroNotasExcel( consultaDB, path );
+					} else {
+						return excelModule.generarLibroNotasExcel( path, consultaDB );
 
 					}
-
-					
 				})
 				.then( respuesta => {
 					

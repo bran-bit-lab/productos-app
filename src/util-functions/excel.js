@@ -26,7 +26,7 @@ function writeFileExcel( url, data ) {
       // fix headers 
       // XLSX.utils.sheet_add_aoa( worksheet, [["Id", "Name", "Gender"]], { origin: "A1" });
       
-      XLSX.utils.book_append_sheet( workbook, worksheet, "data");
+      XLSX.utils.book_append_sheet( workbook, worksheet, "data" );
       XLSX.writeFile( workbook, url );
       
       resolve('Archivo excel creado con exito');  
@@ -42,83 +42,63 @@ function writeFileExcel( url, data ) {
   return promesa;
 }
 
-function generarLibroNotasExcel ( data, url ) {
+function generarLibroNotasExcel( url, data ) {
 
   const manejador = function ( resolve, reject ) {
 
     try{
-
-       //1.- generar por cada nota una hoja en el libro
        const workbook = XLSX.utils.book_new();
        
-       for( const nota of data ) {
+       for ( const nota of data ) {
         
          const { productos , ...nota_modificada } = nota;
-         // Generar la hoja y el libro de trabajo
-         const worksheet = XLSX.utils.json_to_sheet( [nota_modificada] );
+         const worksheet = XLSX.utils.json_to_sheet([ nota_modificada ]);
 
-         //console.log ( "nota modificada: ", nota_modificada);
+         // console.log ("nota modificada: ", nota_modificada );
 
-           if ( productos.length > 0 ){
+          if ( productos.length > 0 ){
 
-              let row = 5;
+            let row = 5;
 
-              productos.forEach( ( producto, index ) => {
+            productos.forEach(( producto, index ) => {
 
-                if ( index === 0 ) {
+              if ( index === 0 ) {
 
-                  console.log( Object.keys( productos[index] ) )
-
-                  XLSX.utils.sheet_add_aoa( 
-                    worksheet, 
-                    [ Object.keys(productos[index]) ], 
-                    { origin: 'A' + row.toString() }  // este valor esdinamico
-                  );
-
-                  row++;
-                }
+                // console.log( Object.keys( producto ) )
 
                 XLSX.utils.sheet_add_aoa( 
                   worksheet, 
-                  [ Object.values(productos[index]) ], 
-                  { origin: 'A' + row.toString() }  // este valor esdinamico
+                  [ Object.keys( producto ) ], 
+                  { origin: 'A' + row.toString() }
                 );
 
                 row++;
+              }
 
-              });
+              XLSX.utils.sheet_add_aoa( 
+                worksheet, 
+                [ Object.values( producto ) ], 
+                { origin: 'A' + row.toString() }
+              );
 
-              //console.log( index  );
-                                     
-           }
+              row++;
+            });                                     
+          }
          
-         XLSX.utils.book_append_sheet( workbook, worksheet, "detalle_nota_" +  nota.id_nota);
-
+         XLSX.utils.book_append_sheet( workbook, worksheet, "detalle_nota_" +  nota.id_nota );
        }
 
        XLSX.writeFile( workbook, url );
 
-        //2.- colocar la informacion de la nota en la parte superior
-
-      /*
-        3.- asignar en la columna a5 la informacion de los productos
-        asociados
-      */
-      
-
-      //console.log ("data: ", data);
-      //console.log ("url: ", url);
-
-      resolve ('resolve');
+       resolve('Archivo excel creado con exito'); 
 
     } catch ( error ) {
+      reject( error );
 
-       console.log ( 'revienta' )
-
-       reject( error );
     }
 
   }
+
   const promesa = new Promise( manejador );
 
   return promesa;
