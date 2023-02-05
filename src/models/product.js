@@ -16,6 +16,9 @@
  * @property {boolean} disponibilidad disponibilidad de producto
  */
 
+const { PATTERNS } = require('../util-functions/string');
+
+
 /** @type {Product} */
 const PRODUCT_MODEL = Object.freeze({
     userid: 0,
@@ -33,14 +36,6 @@ const PRODUCT_MODEL = Object.freeze({
  * @returns {boolean}
  */
 function validate( product ) {
-  
-    const PATTERNS = Object.freeze({
-		email: /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/,
-		onlyLetters: /^[a-zA-Z\u00f1\u00d1\u00E0-\u00FC\u00C0-\u017F\s]+$/,
-        onlyNumbers: /^[0-9]{1,4}$/,
-        onlyNumbersWithDecimal: /^[0-9]{1,4}(\.[0-9]{0,2})?$/,
-	});
-
 
     // validamos las propiedades
     let key = Array.from( Object.keys( PRODUCT_MODEL ) )

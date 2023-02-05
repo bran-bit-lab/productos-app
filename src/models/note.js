@@ -20,10 +20,10 @@ const { PATTERNS } = require('../util-functions/string');
 const NOTE_MODEL = Object.freeze({
     id_nota: 0,
     descripcion_nota: '',
-    fecha_entrega: '',
+    // fecha_entrega: '',
     userid: 0,
     id_cliente: 0,
-    status: 'ACEPTADO'
+    // status: 'ACEPTADO'
 });
 
 /**
@@ -32,14 +32,17 @@ const NOTE_MODEL = Object.freeze({
  * @returns {boolean} 
  */
 function validate( note ) {
+    console.log(note)
 
     // validamos las propiedades
     let key = Array.from( Object.keys( NOTE_MODEL ) )
         .every( key => note.hasOwnProperty( key ) );
     
+
     /* 
         log de comprobacion de regex usar si alguna muestra falla
         
+
         console.log({ 
             key: !key,
             id_nota: !Number.isInteger( note.id_nota ),
@@ -49,6 +52,13 @@ function validate( note ) {
             descripcion_nota: !PATTERNS.lettersAndNumbers.test( note.descripcion_nota )
         }); 
      */
+        console.log({
+            key: key,
+            id_nota: Number.isInteger( note.id_nota ),
+            id_cliente: Number.isInteger( note.id_cliente ),
+            userid: Number.isInteger( note.userid ),
+            descripcion_nota: PATTERNS.lettersAndNumbers.test( note.descripcion_nota )
+        });
 
     // si hay propiedades añadidas o retiradas dentro del producto
     // lo rechaza
@@ -69,37 +79,10 @@ function validate( note ) {
         return false;
     }
 
-    if ( !PATTERNS.dateString.test( note.fecha_entrega ) ) {
-        return false;
-    }
-
     if ( !PATTERNS.lettersAndNumbers.test( note.descripcion_nota ) ) {
         return false; 
     }
-
-    // evaluamos la nota con un switch debido a que las opciones son 
-    // controladas
-    switch ( note.status ) {
-
-        case 'ACEPTADO':
-            break;
-
-        case 'CANCELADA':
-            break;
-        
-        case 'ENTREGADA':
-            break;
-        
-        case 'EN_PROGRESO':
-            break;
-        
-        case 'POSPUESTO':
-            break;
-        
-        default:
-            return false;
-    }
-
+    
     // si pasa las validaciones retorna true
     return true;
 }

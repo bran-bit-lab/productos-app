@@ -6,7 +6,7 @@ const { NotasProductosController } = require('./notas-productos-controller');
 const { PdfController } = require('./pdf-controller');
 const excelModule = require('../util-functions/excel');
 const FILE = require('../util-functions/file');
-
+const notas = require('../models/note');
 /** Clase que gestiona las notas de entregas */
 class NotasController {
 
@@ -107,18 +107,76 @@ class NotasController {
 		return new Promise(( resolve, reject ) => {
 			
 			// colocar codigo aqui
+			const notificacion = new Notification();
+			const extensiones = ['.json', '.xls', '.xlsx']
 
+			const opciones = { 
+				title: 'Importar Nota', 
+				filters: [ 
+					{ name: 'Nota excel', extensions: ['xls', 'xlsx'] },
+					{ name: 'Nota json', extensions: ['json'] },
+				], 
+			};
+
+			let path = '';
 			// 1.- crear la ventana de importacion
+			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
+				.then( respuesta => {
 
+					let message = 'Cancelada';
+
+
+					if ( respuesta.canceled ) {
+						throw message;
+					}
+
+					path = respuesta.filePaths[0];
+					
+					let validacion = extensiones.some(( extension ) => { 
+						return path.includes( extension ); 
+					});
+
+					if ( validacion === false ) {
+						message = 'La extensión del archivo no es valida';
+
+						notificacion.title = 'Atención';
+						notificacion.body = message;
+		
+						notificacion.show();
+
+						throw message;
+					}
+					
+					return FILE.readFilePromiseJSON( path, true, false)
+					console.log(respuesta);
+
+				})
+				.then( archivo => {
+					for( let nota of archivo){
+						
+						console.log(notas.validate(nota));
+
+					}
+					resolve();					
+
+				})
+				.catch( error => {
+
+					console.log(error);
+					reject(error);
+
+				})
 
 
 			// 2.- validar la cancelacion y el formato
+
+
+
 			// 3.- importar el excel
 			// 4.- validar los campos del excel
 			// 5.- preparar la consulta SQL que inserta las notas + productos
 			// 6.- ejecutar la consulta
 
-			resolve();
 		});
 	}
 
