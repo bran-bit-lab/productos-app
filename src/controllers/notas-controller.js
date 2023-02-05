@@ -6,7 +6,7 @@ const { NotasProductosController } = require('./notas-productos-controller');
 const { PdfController } = require('./pdf-controller');
 const excelModule = require('../util-functions/excel');
 const FILE = require('../util-functions/file');
-const notas = require('../models/note');
+const modelNota = require('../models/note');
 /** Clase que gestiona las notas de entregas */
 class NotasController {
 
@@ -119,12 +119,10 @@ class NotasController {
 			};
 
 			let path = '';
+			let message = 'Cancelada';
 			// 1.- crear la ventana de importacion
 			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
 				.then( respuesta => {
-
-					let message = 'Cancelada';
-
 
 					if ( respuesta.canceled ) {
 						throw message;
@@ -152,11 +150,33 @@ class NotasController {
 
 				})
 				.then( archivo => {
-					for( let nota of archivo){
-						
-						console.log(notas.validate(nota));
 
+					const mostrarMensaje = () => {
+
+						message = 'El orden de los campos importados son incorrectos';
+							
+						dialog.showErrorBox(
+							'Error',
+							(
+								'Los campos en el archivo son incorrectos.\n\n' +
+								'Consulta el manual para obtener más información\n' +
+								'sobre como importar archivos.'
+							)
+						);
+								
+						throw message; 
+					};
+
+					const validacion = archivo.every( nota => { 
+							return modelNota.validate( nota ); 
+					});
+
+					if( validacion == false ){
+
+						mostrarMensaje();
 					}
+
+					console.log( validacion );
 					resolve();					
 
 				})

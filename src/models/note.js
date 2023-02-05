@@ -32,8 +32,7 @@ const NOTE_MODEL = Object.freeze({
  * @returns {boolean} 
  */
 function validate( note ) {
-    console.log(note)
-
+    
     // validamos las propiedades
     let key = Array.from( Object.keys( NOTE_MODEL ) )
         .every( key => note.hasOwnProperty( key ) );
@@ -42,16 +41,6 @@ function validate( note ) {
     /* 
         log de comprobacion de regex usar si alguna muestra falla
         
-
-        console.log({ 
-            key: !key,
-            id_nota: !Number.isInteger( note.id_nota ),
-            id_cliente: !Number.isInteger( note.id_cliente ),
-            userid: !Number.isInteger( note.userid ),
-            fecha_entrega: !PATTERNS.dateString.test( note.fecha_entrega ),
-            descripcion_nota: !PATTERNS.lettersAndNumbers.test( note.descripcion_nota )
-        }); 
-     */
         console.log({
             key: key,
             id_nota: Number.isInteger( note.id_nota ),
@@ -59,6 +48,8 @@ function validate( note ) {
             userid: Number.isInteger( note.userid ),
             descripcion_nota: PATTERNS.lettersAndNumbers.test( note.descripcion_nota )
         });
+
+     */
 
     // si hay propiedades añadidas o retiradas dentro del producto
     // lo rechaza
