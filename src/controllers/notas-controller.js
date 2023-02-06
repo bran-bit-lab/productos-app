@@ -175,7 +175,7 @@ class NotasController {
 						return modelNota.validate( nota ); 
 					});
 
-					if( validacion == false ) {
+					if ( validacion == false ) {
 						mostrarMensaje();
 					}
 
