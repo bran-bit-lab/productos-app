@@ -42,6 +42,12 @@ function writeFileExcel( url, data ) {
   return promesa;
 }
 
+/**
+ * Genera el libro de notas en formato excel
+ * @param {string} url ruta que almacena el archivo
+ * @param {Array<Object<string, any>>} data 
+ * @returns {Promise<string>}
+ */
 function generarLibroNotasExcel( url, data ) {
 
   const manejador = function ( resolve, reject ) {

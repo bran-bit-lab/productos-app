@@ -1,6 +1,6 @@
 /**
 * Modelo de productos y validaciones
-* @module product
+* @module ProductModel
 */
 
 /**

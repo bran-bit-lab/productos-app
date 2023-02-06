@@ -28,6 +28,7 @@ class NotasController {
 			const notificacion = new Notification();
 			const extensiones = ['.json', '.xls', '.xlsx']
 
+			/** @type {Electron.SaveDialogOptions} */
 			const opciones = { 
 				title: 'Exportar Nota', 
 				filters: [ 
@@ -37,13 +38,12 @@ class NotasController {
 			};
 
 			let path = '';
+			let message = 'Cancelada';
 			
 			// 1.- crear la ventana de exportacion
 			dialog.showSaveDialog( BrowserWindow.getFocusedWindow(), opciones )
 				.then( respuesta => {
-
-					let message = 'Cancelada';
-					
+		
 					// 2.- validar la cancelacion y el formato
 					if ( respuesta.canceled ) {
 						throw message;
@@ -87,7 +87,7 @@ class NotasController {
 					
 					notificacion.show();
 
-					resolve ( respuesta );
+					resolve( respuesta );
 				}) 
 				.catch( error => {
 					
@@ -103,13 +103,30 @@ class NotasController {
 	 * Importa los productos en un archivo excel
 	 */
 	static importarNotas() {
+
+		/** metodo que muestra un mensaje de adventencia */
+		const mostrarMensaje = () => {
+
+			message = 'El orden de los campos importados son incorrectos';
+				
+			dialog.showErrorBox(
+				'Error',
+				(
+					'Los campos en el archivo son incorrectos.\n\n' +
+					'Consulta el manual para obtener más información\n' +
+					'sobre como importar archivos.'
+				)
+			);
+					
+			throw message; 
+		};
 		
 		return new Promise(( resolve, reject ) => {
 			
-			// colocar codigo aqui
 			const notificacion = new Notification();
-			const extensiones = ['.json', '.xls', '.xlsx']
+			const extensiones = ['.json', '.xls', '.xlsx'];
 
+			/** @type {Electron.OpenDialogOptions} */
 			const opciones = { 
 				title: 'Importar Nota', 
 				filters: [ 
@@ -120,10 +137,12 @@ class NotasController {
 
 			let path = '';
 			let message = 'Cancelada';
+
 			// 1.- crear la ventana de importacion
 			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
 				.then( respuesta => {
 
+					// 2.- validar la cancelacion y el formato
 					if ( respuesta.canceled ) {
 						throw message;
 					}
@@ -145,58 +164,33 @@ class NotasController {
 						throw message;
 					}
 					
-					return FILE.readFilePromiseJSON( path, true, false)
-					console.log(respuesta);
-
+					// 3.- importar el arhivo
+					return FILE.readFilePromiseJSON( path, true, false );
+		
 				})
 				.then( archivo => {
-
-					const mostrarMensaje = () => {
-
-						message = 'El orden de los campos importados son incorrectos';
-							
-						dialog.showErrorBox(
-							'Error',
-							(
-								'Los campos en el archivo son incorrectos.\n\n' +
-								'Consulta el manual para obtener más información\n' +
-								'sobre como importar archivos.'
-							)
-						);
-								
-						throw message; 
-					};
-
-					const validacion = archivo.every( nota => { 
-							return modelNota.validate( nota ); 
+					
+					// 4.- validar los campos del archivo
+					const validacion = archivo.every( nota => {
+						return modelNota.validate( nota ); 
 					});
 
-					if( validacion == false ){
-
+					if( validacion == false ) {
 						mostrarMensaje();
 					}
 
+					// 5.- preparar la consulta SQL que inserta las notas + productos
+					// 6.- ejecutar la consulta
 					console.log( validacion );
+					
 					resolve();					
-
 				})
 				.catch( error => {
 
-					console.log(error);
-					reject(error);
-
-				})
-
-
-			// 2.- validar la cancelacion y el formato
-
-
-
-			// 3.- importar el excel
-			// 4.- validar los campos del excel
-			// 5.- preparar la consulta SQL que inserta las notas + productos
-			// 6.- ejecutar la consulta
-
+					console.log( error );
+					
+					reject( error );
+				});
 		});
 	}
 
