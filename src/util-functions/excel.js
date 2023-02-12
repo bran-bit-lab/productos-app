@@ -193,7 +193,6 @@ function exportJSON( url, data ) {
 
 module.exports = {
   writeFileExcel,
-  writeNotesProductsExcel,
   readFileExcel,
   exportJSON,
   generarLibroNotasExcel
