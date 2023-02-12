@@ -4,10 +4,9 @@ const CRUD = require('../database/CRUD');
 const TIME = require('../util-functions/time');
 const { NotasProductosController } = require('./notas-productos-controller');
 const { PdfController } = require('./pdf-controller');
-const noteModel = require('../models/note');
-const FILE = require('../util-functions/file');
 const excelModule = require('../util-functions/excel');
-
+const FILE = require('../util-functions/file');
+const modelNota = require('../models/note');
 /** Clase que gestiona las notas de entregas */
 class NotasController {
 
@@ -28,74 +27,75 @@ class NotasController {
 			
 			// colocar codigo aqui
 			const notificacion = new Notification();
-			const extensiones = ['.json', '.xls', '.xlsx'];
+			const extensiones = ['.json', '.xls', '.xlsx']
 
-
-			/** @type {Electron.OpenDialogOptions} */
+			/** @type {Electron.SaveDialogOptions} */
 			const opciones = { 
-				title: 'Importar Archivo', 
+				title: 'Exportar Nota', 
 				filters: [ 
-					{ name: 'Archivo excel', extensions: ['xls', 'xlsx'] },
-					{ name: 'Archivo json', extensions: ['json'] },
+					{ name: 'Nota excel', extensions: ['xls', 'xlsx'] },
+					{ name: 'Nota json', extensions: ['json'] },
 				], 
 			};
 
 			let path = '';
-			let message = 'Cancelada'
-
+			let message = 'Cancelada';
+			
 			// 1.- crear la ventana de exportacion
 			dialog.showSaveDialog( BrowserWindow.getFocusedWindow(), opciones )
 				.then( respuesta => {
-					
+		
 					// 2.- validar la cancelacion y el formato
 					if ( respuesta.canceled ) {
 						throw message;
 					}
 
-					path = respuesta.filePath;
-					const validacion = extensiones.some( extension => path.includes( extension ) );
-					
-					if ( !validacion ) {
+					let validacion = extensiones.some(( extension ) => { 
+						return respuesta.filePath.includes( extension ); 
+					});
+
+					if ( validacion === false ) {
 						message = 'La extensión del archivo no es valida';
 
 						notificacion.title = 'Atención';
 						notificacion.body = message;
-
+		
 						notificacion.show();
 
 						throw message;
 					}
+
+					// si no lo colocamos no pasa la validacion
+					path = respuesta.filePath;
 					
 					// 3.- realizar la consulta de las notas + productos asociados con la misma ( generar el SQL )
 					return NotasController.obtenerNotasArray();
 				})
 				.then( consultaDB => {
-
-					// 4.- validar el formato dependiendo JSON o Excel
+					
 					if ( path.includes( extensiones[0] ) ) {
 						return excelModule.exportJSON( path, consultaDB );
-					}
 
-					return excelModule.writeNotesProductsExcel( path, consultaDB, 'notas-productos' );
+					} else {
+						return excelModule.generarLibroNotasExcel( path, consultaDB );
+
+					}
 				})
-				.then( respuestaArchivo => {
+				.then( respuesta => {
 					
-					// 5.- enviamos la notificacion
-					// console.log( respuestaArchivo );
-					
-					notificacion.body = respuestaArchivo;
+					notificacion.body = respuesta;
 					notificacion.title = 'Exito';
 					
 					notificacion.show();
 
-					resolve( respuestaArchivo );
-				})
+					resolve( respuesta );
+				}) 
 				.catch( error => {
+					
 					console.log( error );
 
 					reject( error );
-				})
-			
+				});
 
 		});	
 	}
@@ -104,132 +104,144 @@ class NotasController {
 	 * Importa los productos en un archivo excel
 	 */
 	static importarNotas() {
+
+		/** metodo que muestra un mensaje de adventencia */
+		const mostrarMensaje = () => {
+
+			message = 'El orden de los campos importados son incorrectos';
+				
+			dialog.showErrorBox(
+				'Error',
+				(
+					'Los campos en el archivo son incorrectos.\n\n' +
+					'Consulta el manual para obtener más información\n' +
+					'sobre como importar archivos.'
+				)
+			);
+					
+			throw message; 
+		};
 		
 		return new Promise(( resolve, reject ) => {
 			
-			/** funcion que muestra el alert de campos incorrectos */
-			const mostrarMensaje = () => {
-
-				message = 'El orden de los campos importados son incorrectos';
-					
-				dialog.showErrorBox(
-					'Error',
-					(
-						'Los campos en el archivo son incorrectos.\n\n' +
-						'Consulta el manual para obtener más información\n' +
-						'sobre como importar archivos.'
-					)
-				);
-						
-				throw message; 
-			};
-
-			// colocar codigo aqui
 			const notificacion = new Notification();
 			const extensiones = ['.json', '.xls', '.xlsx'];
 
-
 			/** @type {Electron.OpenDialogOptions} */
 			const opciones = { 
-				title: 'Importar Archivo', 
+				title: 'Importar Nota', 
 				filters: [ 
-					{ name: 'Archivo excel', extensions: ['xls', 'xlsx'] },
-					{ name: 'Archivo json', extensions: ['json'] },
+					{ name: 'Nota excel', extensions: ['xls', 'xlsx'] },
+					{ name: 'Nota json', extensions: ['json'] },
 				], 
 			};
 
-
 			let path = '';
-			let message = 'Cancelada'
+			let message = 'Cancelada';
 
+			// 1.- crear la ventana de importacion
 			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
 				.then( respuesta => {
 
+					// 2.- validar la cancelacion y el formato
 					if ( respuesta.canceled ) {
 						throw message;
 					}
 
 					path = respuesta.filePaths[0];
-
-					const validacion = extensiones.some( extension => path.includes( extension ) );
 					
-					if ( !validacion ) {
+					let validacion = extensiones.some(( extension ) => { 
+						return path.includes( extension ); 
+					});
+
+					if ( validacion === false ) {
 						message = 'La extensión del archivo no es valida';
 
 						notificacion.title = 'Atención';
 						notificacion.body = message;
-
+		
 						notificacion.show();
 
 						throw message;
 					}
-
-					// mandamos el json
-					if ( path.includes( extensiones[0] ) ) {
-						return FILE.readFilePromiseJSON( path, true );
-					}
-
-					// mandamos el excel
-					return excelModule.readFileExcel( path );
+					
+					// 3.- importar el arhivo
+					return FILE.readFilePromiseJSON( path, true, false );
+		
 				})
-				.then( contenidoArchivo => {
-
-					// json data
-					if ( path.includes( extensiones[0] )) {
-						
-						const validacion = contenidoArchivo.every( nota => noteModel.validate( nota ));
-						
-						if ( !validacion ) {
-							mostrarMensaje();
-						}
-						
-						resolve();
-						
-						console.log( contenidoArchivo );
-
-						return;
-					}
+				.then( archivo => {
 					
-					/**
-					 * Antes de validar debemos parsear las fechas utilizando
-					 * date to string
-					 */
-					contenidoArchivo = contenidoArchivo.map( hoja => {
-						return {
-							...hoja,
-							contenido: hoja.contenido.map( contenido => {
-								return { 
-									...contenido, 
-									fecha_entrega: TIME.dateToString( contenido.fecha_entrega ) 
-								}
-							}),
-						} 
-					});
-					
-					const validacion = contenidoArchivo.some( hoja => {
-						return hoja.contenido.every( nota => validate( nota ) );
+					// 4.- validar los campos del archivo
+					const validacion = archivo.every( nota => {
+						return modelNota.validate( nota ); 
 					});
 
-					if ( !validacion ) {
+					if ( validacion == false ) {
 						mostrarMensaje();
 					}
 
-					console.log( contenidoArchivo );
+					// 5.- preparar la consulta SQL que inserta las notas + productos
+					// 6.- ejecutar la consulta
+					console.log( validacion );
 					
-					resolve();
+					resolve();					
 				})
 				.catch( error => {
+
 					console.log( error );
+					
+					reject( error );
+				});
+		});
+	}
+
+	/** Permite obtener un array de las notas con los productos */
+	static obtenerNotasArray() {
+		
+		// esta es una promesa almecenada una posicion en memoria
+		const obtenerNotasProductos = ( nota ) => new Promise (( resolve, reject ) => {
+			
+			// aqui hacemos la consulta a notas productos
+			this.database.consult( CRUD.obtenerNotaProducto, { id_nota: nota.id_nota }, ( error, productos ) => {
+
+				if ( error ) {
 
 					reject( error );
-				})
 
-			// 1.- crear la ventana de importacion
-			// 2.- validar la cancelacion y el formato
-			// 3.- importar el excel
-			// 4.- validar los campos del excel
-			// 5.- preparar la consulta SQL que inserta las notas + productos
-			// 6.- ejecutar la consulta
+					throw error;
+				}
+				
+				resolve({ ...nota, productos: productos });
+			});
+		});
+
+		return new Promise(( resolve, reject ) => {
+			
+			this.database.consult( CRUD.exportarNotas, null, async ( error, notas ) => { 
+
+				if ( error ) {
+					reject( error );
+
+					throw error;
+				}
+						
+				const arrayPromises = notas.map( nota => obtenerNotasProductos( nota ) );
+
+				try {
+
+					const notasProductos = await Promise.all( arrayPromises );
+
+					// console.log(notasProductos);
+					resolve( notasProductos );
+
+				} catch ( error ) {
+
+					console.log( error );
+					
+					reject( error );
+				}
+
+			});
 		});
 	}
 
@@ -259,7 +271,7 @@ class NotasController {
 
 		if ( validarCantidad === false ){
 
-			dialog.showMessageBox (null, {
+			dialog.showMessageBox( null, {
 				type: 'warning',
 				title: 'advertencia',
 				message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
@@ -315,6 +327,7 @@ class NotasController {
 				notificacion.show();
 
 			} catch ( error ) {
+
 				console.error( error );
 
 				throw error;
@@ -394,7 +407,7 @@ class NotasController {
 
 				}
 
-				this.database.consult( CRUD.obtenerNotaProducto, 	{ id_nota: idNota }, ( error, resultadoNotaProducto ) => {
+				this.database.consult( CRUD.obtenerNotaProducto, { id_nota: idNota }, ( error, resultadoNotaProducto ) => {
 
 					if ( error ) {
 						console.log( error );
@@ -411,7 +424,6 @@ class NotasController {
 						productos: resultadoNotaProducto,
 						total_order: NotasController.calcularTotalNotas( resultadoNotaProducto )
 					});
-
 				});
 			});
 		});
@@ -469,9 +481,7 @@ class NotasController {
 					totalPaginas: Math.ceil( totalPaginas ),
 					totalRegistros: totalRegistros
 				});
-
 			});
-
 		});
 	}
 
@@ -554,11 +564,7 @@ class NotasController {
 	 *
 	 */
 	static mostrarAlerta( type = 'info', title, message ) {
-		dialog.showMessageBox( null, {
-			message,
-			type,
-			title
-		});
+		dialog.showMessageBox( null, { message, type, title });
 	}
 
 	/**
@@ -587,7 +593,7 @@ class NotasController {
 
 		if ( validarCantidad === false ) {
 
-			dialog.showMessageBox (null, {
+			dialog.showMessageBox( null, {
 				type: 'warning',
 				title: 'advertencia',
 				message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
@@ -603,11 +609,11 @@ class NotasController {
 
 			if ( error ) {
 
-					console.log( error );
+				console.log( error );
 
-					// throw error;
+				// throw error;
 
-					return;
+				return;
 			}
 
 			let idNota = nota['id_nota'];
@@ -615,57 +621,59 @@ class NotasController {
 			// consulta el array desde la BD y por cada elemento la compara
 			this.database.consult( CRUD.listarNotasProductos, { id_nota : idNota }, ( error, results ) => {
 
-					if ( error ) {
+				if ( error ) {
 
-						console.log( error );
+					console.log( error );
 
-						throw error;
+					// throw error;
+
+					return;
+				}
+
+				const notaProductoDB = results;
+
+				arrayProductos.forEach(( notaProducto, idx ) => {
+
+					// verifica si el elemento esta en la BD
+					let index = notaProductoDB.findIndex(( notaProductoDB ) => {
+						return notaProducto['id_NP'] === notaProductoDB['id_NP'];
+					});
+
+					// callback de notificacion se ejecuta en el ultimo ciclo
+					let callback = ( idx === ( arrayProductos.length - 1 ) ) ?
+						() => {
+							const notificacion = new Notification({
+								title: 'Exito !!',
+								body: 'Nota actualizada con exito'
+							});
+
+							notificacion.show();
+						} : null;
+
+					if ( index === -1 ) {
+
+						// crea la nota si no esta en el array
+						NotasProductosController.insertarNotasProductos.call(
+							NotasProductosController.database,
+							{
+								id_nota: idNota,
+								cantidad_seleccionada: notaProducto['cantidad_seleccionada'],
+								id_producto: notaProducto['productoid'],
+								cantidad: notaProducto['cantidad']
+							},
+							callback
+						);
+
+					} else {
+
+						// si existe actualiza el valor de cantidad_seleccionada y actualiza notas_productos + producto
+						let cantidadBD = notaProductoDB[index]['cantidad_seleccionada'];
+						let cantidadActualizada = notaProducto['cantidad_seleccionada'];
+
+						let sumaAlgebraica = ( cantidadBD - cantidadActualizada );
+
+						NotasProductosController.actualizarNotasProductos( notaProducto, sumaAlgebraica, callback );
 					}
-
-					const notaProductoDB = results;
-
-					arrayProductos.forEach(( notaProducto, idx ) => {
-
-						// verifica si el elemento esta en la BD
-						let index = notaProductoDB.findIndex(( notaProductoDB ) => {
-							return notaProducto['id_NP'] === notaProductoDB['id_NP'];
-						});
-
-						// callback de notificacion se ejecuta en el ultimo ciclo
-						let callback = ( idx === ( arrayProductos.length - 1 ) ) ?
-							() => {
-								const notificacion = new Notification({
-									title: 'Exito !!',
-									body: 'Nota actualizada con exito'
-								});
-
-								notificacion.show();
-							} : null;
-
-						if ( index === -1 ) {
-
-							// crea la nota si no esta en el array
-							NotasProductosController.insertarNotasProductos.call(
-								NotasProductosController.database,
-								{
-									id_nota: idNota,
-									cantidad_seleccionada: notaProducto['cantidad_seleccionada'],
-									id_producto: notaProducto['productoid'],
-									cantidad: notaProducto['cantidad']
-								},
-								callback
-							);
-
-						} else {
-
-							// si existe actualiza el valor de cantidad_seleccionada y actualiza notas_productos + producto
-							let cantidadBD = notaProductoDB[index]['cantidad_seleccionada'];
-							let cantidadActualizada = notaProducto['cantidad_seleccionada'];
-
-							let sumaAlgebraica = ( cantidadBD - cantidadActualizada );
-
-							NotasProductosController.actualizarNotasProductos( notaProducto, sumaAlgebraica, callback );
-						}
 				});
 
 			});
@@ -737,7 +745,7 @@ class NotasController {
 						notification['title'] = 'Error!!';
 						notification['body'] = 'Error al guardar archivo';
 
-						notificacion.show();
+						notification.show();
 
 						// throw error;
 

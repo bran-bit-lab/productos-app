@@ -44,74 +44,70 @@ function writeFileExcel( url, data, nombreHoja = 'data' ) {
 }
 
 /**
- * Exporta el archivo en formato excel
- * @param {string} url path donde se exporta el archivo
- * @param {{[string]: any} | Array<{[string]: any}>} data informacion a mostrar en el excel
+ * Genera el libro de notas en formato excel
+ * @param {string} url ruta que almacena el archivo
+ * @param {Array<Object<string, any>>} data 
  * @returns {Promise<string>}
  */
-function writeNotesProductsExcel( url, data ) {
-  
+function generarLibroNotasExcel( url, data ) {
+
   const manejador = function ( resolve, reject ) {
-    
+
     try {
-
-      // Generar el libro de trabajo
-      const workbook = XLSX.utils.book_new();
-  
-      data.forEach( nota => {
+       const workbook = XLSX.utils.book_new();
+       
+       for ( const nota of data ) {
         
-        // separamos las 2 propiedades de la nota
-        const { productos, ...notaActualizada } = nota;
-        const worksheet = XLSX.utils.json_to_sheet([ notaActualizada ]);
-        
-        // verificamos si existen productos
-        if ( productos.length > 0 ) {
-          
-          // celda de inicio para dibujar la tabla de productos
-          let row = 5;
-          
-          productos.forEach(( producto, index ) => {
+         const { productos , ...nota_modificada } = nota;
+         const worksheet = XLSX.utils.json_to_sheet([ nota_modificada ]);
 
-            // establece el encabezado solamente en el primer producto
-            if ( index === 0 ) {
-              
+         // console.log ("nota modificada: ", nota_modificada );
+
+          if ( productos.length > 0 ){
+
+            let row = 5;
+
+            productos.forEach(( producto, index ) => {
+
+              if ( index === 0 ) {
+
+                // console.log( Object.keys( producto ) )
+
+                XLSX.utils.sheet_add_aoa( 
+                  worksheet, 
+                  [ Object.keys( producto ) ], 
+                  { origin: 'A' + row.toString() }
+                );
+
+                row++;
+              }
+
               XLSX.utils.sheet_add_aoa( 
                 worksheet, 
-                [ Object.keys( producto ) ], 
-                { origin: (`A${row}`) }
+                [ Object.values( producto ) ], 
+                { origin: 'A' + row.toString() }
               );
 
               row++;
-            }
+            });                                     
+          }
+         
+         XLSX.utils.book_append_sheet( workbook, worksheet, "detalle_nota_" +  nota.id_nota );
+       }
 
-            XLSX.utils.sheet_add_aoa( 
-              worksheet, 
-              [ Object.values( producto ) ], 
-              { origin: (`A${row}`) }
-            );
-              
-            row++;
-          });
-        }
+       XLSX.writeFile( workbook, url );
 
-        // creamos la hoja con el detalle de la nota
-        XLSX.utils.book_append_sheet( workbook, worksheet, (`detalle_nota_${nota.id_nota}`) );
-      });
-
-      XLSX.writeFile( workbook, url );
-  
-      resolve('Archivo excel creado con exito'); 
+       resolve('Archivo excel creado con exito'); 
 
     } catch ( error ) {
-
-      console.log( error );
-
       reject( error );
+
     }
-  };
-  
+
+  }
+
   const promesa = new Promise( manejador );
-  
+
   return promesa;
 }
 
@@ -178,7 +174,7 @@ function exportJSON( url, data ) {
     if ( FILE.checkAsset( url, false ) ){
       FILE.deleteFileSync( url );
     }
-    
+        
     const result = JSON.stringify( data );
 
     FILE.appendFile( url, result, ( error ) => {
@@ -199,5 +195,6 @@ module.exports = {
   writeFileExcel,
   writeNotesProductsExcel,
   readFileExcel,
-  exportJSON
+  exportJSON,
+  generarLibroNotasExcel
 }

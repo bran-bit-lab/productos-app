@@ -244,10 +244,11 @@ class OrdersTableComponent {
 
 		} catch ( error ) {
 			console.log( error );
-
+		
 		} finally {
 			this.loading._show = 'false';
 		}
+
 	}
 }
 

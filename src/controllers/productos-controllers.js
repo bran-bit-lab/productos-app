@@ -120,6 +120,23 @@ class ProductosController {
 	 */
 	static importarProductos() {
 
+		/** funcion que muestra el alert de campos incorrectos */
+		const mostrarMensaje = () => {
+
+			message = 'El orden de los campos importados son incorrectos';
+				
+			dialog.showErrorBox(
+				'Error',
+				(
+					'Los campos en el archivo son incorrectos.\n\n' +
+					'Consulta el manual para obtener más información\n' +
+					'sobre como importar archivos.'
+				)
+			);
+					
+			throw message; 
+		};
+
 		return new Promise(( resolve, reject ) => {
 			
 			/** funcion que muestra el alert de campos incorrectos */
@@ -192,14 +209,13 @@ class ProductosController {
 				})
 				.then( respuestaArchivo => {
 
-					// si es el archivo es un JSON
 					if ( path.includes( extensiones[0] ) ) { 
 
 						const validacion = respuestaArchivo.every( product => { 
 							return ProductModel.validate( product ); 
 						});
 						
-						//console.log( validate );  
+						// console.log( validate );  
 
 						if ( validacion === false ) {
 							mostrarMensaje();
@@ -245,7 +261,7 @@ class ProductosController {
 				})
 				.then( respuesta => {
 					
-					console.log( respuesta );
+					// console.log( respuesta );
 
 					const notificacion = new Notification({
 						title: 'Éxito',
@@ -254,7 +270,7 @@ class ProductosController {
 
 					notificacion.show();
 					
-					resolve();
+					resolve( respuesta );
 				})			
 				.catch( error => {
 					
@@ -662,10 +678,10 @@ class ProductosController {
 				return;
 			}
 
-				notificacion['title'] = 'Exito!!';
-				notificacion['body'] = 'Producto Modificado';
+			notificacion['title'] = 'Exito!!';
+			notificacion['body'] = 'Producto Modificado';
 
-				notificacion.show();
+			notificacion.show();
   		});
 	}
 

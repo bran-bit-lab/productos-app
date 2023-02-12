@@ -39,16 +39,19 @@ function validate( product ) {
     let key = Array.from( Object.keys( PRODUCT_MODEL ) )
         .every( key => product.hasOwnProperty( key ) );
 
+
+    // revisamos cada campo
     // si hay propiedades añadidas o retiradas dentro del producto
     // lo rechaza
+    
     if ( !key ) {
         return false;
     }
 
-    // revisamos cada campo
     if ( !Number.isInteger( product.userid ) ) {
         return false;
     }
+
 
     if ( !Number.isInteger( product.categoriaid ) ) {
         return false;
@@ -61,6 +64,7 @@ function validate( product ) {
     if ( typeof product.precio !== 'number' ) {
         return false;
     }
+
 
     if ( !PATTERNS.onlyLetters.test( product.nombre ) ) {
         return false; 
