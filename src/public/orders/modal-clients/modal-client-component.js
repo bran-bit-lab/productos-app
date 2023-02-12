@@ -138,10 +138,10 @@ class ModalClientComponent {
 
   /**
    * funcion que controla la seleccion del cliente
-   * @param {*} $event evento check
+   * @param {MouseEvent} $event evento check
   */
   handleChange( $event ) {
-
+    
     // obtenemos el padre tr en 2 niveles
     const rowElement = $event.target.parentNode.parentNode;
     const id_client = +rowElement.querySelector('td[name="id_cliente"]').innerText;
