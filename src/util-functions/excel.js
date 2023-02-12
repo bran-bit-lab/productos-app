@@ -63,12 +63,13 @@ function generarLibroNotasExcel( url, data ) {
 
          // console.log ("nota modificada: ", nota_modificada );
 
-          if ( productos.length > 0 ){
+          if ( productos.length > 0 ) {
 
             let row = 5;
 
             productos.forEach(( producto, index ) => {
 
+              // añade el encabezado en la primera linea
               if ( index === 0 ) {
 
                 // console.log( Object.keys( producto ) )
@@ -100,8 +101,8 @@ function generarLibroNotasExcel( url, data ) {
        resolve('Archivo excel creado con exito'); 
 
     } catch ( error ) {
-      reject( error );
 
+      reject( error );
     }
 
   }
@@ -122,9 +123,7 @@ function readFileExcel( url ) {
   const manejador = function( resolve, reject ) {
     
     /** @type {XLSX.ParsingOptions}  */
-    const opciones = {
-      cellDates: true,
-    };
+    const opciones = { cellDates: true };
 
     try {
 
