@@ -192,13 +192,29 @@ class NotasController {
 						return nota;
 					});
 
-					// 5.- preparar la consulta SQL que inserta las notas + productos
-					// 6.- ejecutar la consulta
 					
-					return NotasController.insertarNotasArray( CRUD.importarNotas, notas );					
-				})
-				.then(() => {
-					resolve();
+					// llamamos al metodo insertar nota
+					notas.forEach(( nota, index ) => {
+
+						try {
+							NotasController.crearNota( nota, false );
+							
+							if ( index === ( notas.length - 1 ) ) {
+								
+								notificacion.title = 'Exito';
+								notificacion.body = 'Notas creadas con éxito';
+	
+								notificacion.show();
+
+								resolve();
+							}
+
+						} catch ( error ) {
+							console.log( error );
+
+							reject( error );
+						}
+					});
 				})
 				.catch( error => {
 
@@ -260,75 +276,45 @@ class NotasController {
 	}
 
 	/**
-	 * 
-	 * @param {string} sql 
-	 * @param {Array<Nota>} notas 
-	 * @returns {Promise<void>}
-	 */
-	static insertarNotasArray( sql, notas ) {
-
-		return new Promise(( resolve ) => {
-			
-			let notasString = notas.map( nota => {
-				
-				if ( !this.database._mysqlAPI ) {
-					return '';
-				}
-
-				return ("(" +
-					this.database._mysqlAPI.escape(nota.userid) + ', ' +
-					this.database._mysqlAPI.escape(nota.status) + ', ' +
-					this.database._mysqlAPI.escape(nota.descripcion_nota) + ', ' +
-					this.database._mysqlAPI.escape(nota.id_cliente) + ', ' +
-					this.database._mysqlAPI.escape(nota.fecha_entrega) +	
-				")");
-			});
-
-			notasString = notasString.join(',');
-			
-			sql = sql.replace(':values', notasString);
-
-			console.log( sql );
-
-			resolve();
-		});
-	}
-
-	/**
 	 * crea un registro de una nota de entrega
 	 * @param  {Nota} nota instancia de la nota
+	 * @param {boolean} notificacion muesta la notificacion para cada nota insertada
 	 */
-	static crearNota( nota ) {
+	static crearNota( nota, showNotificacion = true ) {
 
 		// nota tiene todas las propiedades del nota de entrega + productos, no puedes enviar todo eso
 		// por que mostrarar un error si haces un log de nota te trae toda la informacion debes extraer
 		// sus propiedades y crear el objeto para cada consulta
-
-		// console.log( nota );
 
 		let nuevaNota = {
 			userid: nota['userid'],
 			status: nota['status'],
 			descripcion_nota: nota['descripcion_nota'],
 			id_cliente: nota['id_cliente'],
-			fecha_entrega: nota['fecha_entrega']
+			fecha_entrega: nota['fecha_entrega'] ?? null
 		};
 
-		let arrayProductos = nota['productos']; // aqui te trae toda la info de los producto aqui esta la cantidad
-
-		const validarCantidad = arrayProductos.every(( producto ) => producto['cantidad_seleccionada'] <= producto['cantidad']);
-
-		if ( validarCantidad === false ){
-
-			dialog.showMessageBox( null, {
-				type: 'warning',
-				title: 'advertencia',
-				message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
-			});
-
-			// throw new Error("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
-
-			return;
+		// aqui te trae toda la info de los producto aqui esta la cantidad
+		let arrayProductos = nota['productos'] ?? []; 
+		
+		// verificamos si llegan productos y
+		// validamos la cantidad seleccionada
+		if ( arrayProductos.length > 0 ) {
+	
+			const validarCantidad = arrayProductos.every(( producto ) => producto['cantidad_seleccionada'] <= producto['cantidad']);
+	
+			if ( validarCantidad === false ) {
+	
+				dialog.showMessageBox( null, {
+					type: 'warning',
+					title: 'advertencia',
+					message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
+				});
+	
+				// throw new Error("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
+	
+				return;
+			}
 		}
 
 		this.database.insert( CRUD.crearNota, nuevaNota, async ( error ) => {
@@ -350,6 +336,12 @@ class NotasController {
 				throw error;
 			}
 
+			// verifica si existen productos en nota de entrega
+			// al momento de importar
+			if ( arrayProductos.length === 0 ) {
+				return;
+			}
+
 			try {
 				// recuerda que obtener id nota es un metodo estatico se invoca nombre_clase.metodo()
 				let ultimoRegistro = await NotasController.obtenerUltimaNota();
@@ -366,14 +358,25 @@ class NotasController {
 					};
 				});
 
-				arrayProductos.forEach(( notaProducto ) => {
-					NotasProductosController.insertarNotasProductos.call( NotasProductosController.database, notaProducto );
+				arrayProductos.forEach(( notaProducto, index ) => {
+					
+					// callback de notificacion
+					const callback = ((index === (arrayProductos.length - 1)) && showNotificacion) ? 
+						() => {
+							notificacion['title'] = 'Éxito';
+							notificacion['body'] = 'Nota creada con éxito';
+			
+							notificacion.show();
+						}
+						: null
+
+					NotasProductosController.insertarNotasProductos.call( 
+						NotasProductosController.database, 
+						notaProducto, 
+						callback
+					);
 				});
 
-				notificacion['title'] = 'Éxito';
-				notificacion['body'] = 'Nota creada con éxito';
-
-				notificacion.show();
 
 			} catch ( error ) {
 
@@ -631,26 +634,29 @@ class NotasController {
 			id_nota: nota['id_nota']
 		};
 
-		let arrayProductos = nota['productos'];
+		let arrayProductos = nota['productos'] ?? [];
 
-		const validarCantidad = arrayProductos.every(( producto ) => { 
-			
-			let total = producto['cantidad_seleccionada'] + producto['cantidad'];
+		if ( arrayProductos.length > 0 ) {
 
-			return producto['cantidad_seleccionada'] <= total; 
-		});
-
-		if ( validarCantidad === false ) {
-
-			dialog.showMessageBox( null, {
-				type: 'warning',
-				title: 'advertencia',
-				message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
+			const validarCantidad = arrayProductos.every(( producto ) => { 
+				
+				let total = producto['cantidad_seleccionada'] + producto['cantidad'];
+	
+				return producto['cantidad_seleccionada'] <= total; 
 			});
-
-			// throw new Error("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
-
-			return;
+	
+			if ( validarCantidad === false ) {
+	
+				dialog.showMessageBox( null, {
+					type: 'warning',
+					title: 'advertencia',
+					message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
+				});
+	
+				// throw new Error("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
+	
+				return;
+			}
 		}
 
 		// actualiza la nota

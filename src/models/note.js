@@ -33,8 +33,6 @@ const NOTE_MODEL = Object.freeze({
  */
 function validate( note ) {
     
-    console.log( note );
-
     // validamos las propiedades
     let key = Array.from( Object.keys( NOTE_MODEL ) )
         .every( key => note.hasOwnProperty( key ) );

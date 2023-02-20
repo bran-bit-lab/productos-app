@@ -65,8 +65,6 @@ class NotasProductosController {
 				console.log( error );
 
 				throw error;  // mostrará el error en pantalla
-
-				return;
 			}
 
 			if ( callback ) {
@@ -95,12 +93,9 @@ class NotasProductosController {
 		this.database.update( CRUD.cantidadProducto, productoActualizado, ( error ) => {
 
 			if ( error ) {
-
-				throw error;  // mostrará el error en pantalla
-
 				console.log( error );
 
-				return;
+				throw error;  // mostrará el error en pantalla
 			}
 
 			callback();
@@ -125,8 +120,8 @@ class NotasProductosController {
 		this.database.update( CRUD.actualizarNotaProducto, objetoNP, ( error, resultado ) => {
 
 			if ( error ) {
-
 				console.log( error );
+
 				throw error;
 			}
 
@@ -172,7 +167,6 @@ class NotasProductosController {
 				notificacion['body'] = 'Producto retirado de la nota de entrega'
 				notificacion.show();
 			});
-
 		});
 	}
 }
