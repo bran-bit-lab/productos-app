@@ -33,6 +33,7 @@ const CRUD = Object.freeze({
 	obtenerTotalProductosActivos: "SELECT COUNT(*) FROM productos WHERE disponibilidad = TRUE AND cantidad > 0;",
 	exportarProductos: "SELECT productos.*, categorias.nombre AS nombre_categoria FROM productos INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid;",
 	importarProductos: "INSERT INTO productos (userid, categoriaid, nombre, descripcion, cantidad, precio, disponibilidad) VALUES :values;",
+	obtenerProducto: "SELECT * FROM productos WHERE productoid = :productoid;",
 
 	// clientes ...
 	crearCliente : "INSERT INTO clientes (nombre_cliente, direccion_entrega, rif, telefono_contacto) VALUES (:nombre_cliente, :direccion_entrega, :rif, :telefono_contacto);",

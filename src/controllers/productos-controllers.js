@@ -724,6 +724,32 @@ class ProductosController {
 		});
 	}
 
+	/**
+	 * Obtiene una instancia de una nota
+	 * @param {number} idProduct 
+	 * @returns {Promise<Product>}
+	 */
+	static obtenerProducto( idProduct ) {
+		return new Promise(( resolve, reject ) => {
+			
+			this.database.consult(CRUD.obtenerProducto, { productoid: idProduct }, ( error,  results ) => {
+
+				if ( error ) {
+					console.log( error );
+					reject( error );
+
+					return;
+				}
+
+				// console.log( results );
+
+				const [ result ] = results;
+
+				resolve( result );
+			});
+		});
+	}
+
 }
 
 /**

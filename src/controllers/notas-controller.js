@@ -7,6 +7,7 @@ const { PdfController } = require('./pdf-controller');
 const excelModule = require('../util-functions/excel');
 const FILE = require('../util-functions/file');
 const modelNota = require('../models/note');
+const { ProductosController } = require('./productos-controllers');
 
 /** Clase que gestiona las notas de entregas */
 class NotasController {
@@ -194,9 +195,10 @@ class NotasController {
 
 					
 					// llamamos al metodo insertar nota
-					notas.forEach(( nota, index ) => {
+					notas.forEach( async ( nota, index ) => {
 
 						try {
+
 							NotasController.crearNota( nota, false );
 							
 							if ( index === ( notas.length - 1 ) ) {
@@ -278,14 +280,17 @@ class NotasController {
 	/**
 	 * crea un registro de una nota de entrega
 	 * @param  {Nota} nota instancia de la nota
-	 * @param {boolean} notificacion muesta la notificacion para cada nota insertada
+	 * @param {boolean} [notificacion] muesta la notificacion para cada nota insertada
 	 */
 	static crearNota( nota, showNotificacion = true ) {
 
-		// nota tiene todas las propiedades del nota de entrega + productos, no puedes enviar todo eso
-		// por que mostrarar un error si haces un log de nota te trae toda la informacion debes extraer
-		// sus propiedades y crear el objeto para cada consulta
+		// nota tiene todas las propiedades del nota de entrega + productos, 
+		// no puedes enviar todo eso por sino mostrara un error. si haces un log de nota te trae 
+		// toda la informacion 
+		
+		// console.log( nota )
 
+		// Debes extraer sus propiedades y crear el objeto para cada consulta
 		let nuevaNota = {
 			userid: nota['userid'],
 			status: nota['status'],
@@ -297,11 +302,30 @@ class NotasController {
 		// aqui te trae toda la info de los producto aqui esta la cantidad
 		let arrayProductos = nota['productos'] ?? []; 
 		
-		// verificamos si llegan productos y
-		// validamos la cantidad seleccionada
+		// verificamos si llegan productos y validamos la cantidad seleccionada
 		if ( arrayProductos.length > 0 ) {
 	
-			const validarCantidad = arrayProductos.every(( producto ) => producto['cantidad_seleccionada'] <= producto['cantidad']);
+			const validarCantidad = arrayProductos.every( async ( producto ) => {
+				
+				if ( !producto.cantidad ) {
+					
+					try {
+						const product = await ProductosController.obtenerProducto( producto.productoid );
+						
+						producto['cantidad'] = product.cantidad;
+						
+						// console.log( product );
+
+					} catch ( error ) {
+
+						console.log( error );
+
+						return false;
+					}
+				}
+
+				return producto['cantidad_seleccionada'] <= producto['cantidad'];
+			});
 	
 			if ( validarCantidad === false ) {
 	
@@ -336,8 +360,7 @@ class NotasController {
 				throw error;
 			}
 
-			// verifica si existen productos en nota de entrega
-			// al momento de importar
+			// verifica si existen productos en nota de entrega al momento de importar
 			if ( arrayProductos.length === 0 ) {
 				return;
 			}
@@ -345,6 +368,8 @@ class NotasController {
 			try {
 				// recuerda que obtener id nota es un metodo estatico se invoca nombre_clase.metodo()
 				let ultimoRegistro = await NotasController.obtenerUltimaNota();
+
+				console.log( ultimoRegistro );
 
 				// aqui se filtro lo campos excluyendo la cantidad
 				//console.log ( arrayProductos );
@@ -394,7 +419,7 @@ class NotasController {
 	 *
 	 * @return {Promise<Nota>}  retorna una promesa que devuelve la utlima nota registada
 	 * @example
-	 * let utlimoRegistro = await NotasController.obtenerIdNota();
+	 * let utlimoRegistro = await NotasController.obtenerUlitmaNota();
 	 */
 	static obtenerUltimaNota() {
 
