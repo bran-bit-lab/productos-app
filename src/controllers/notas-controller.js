@@ -193,30 +193,20 @@ class NotasController {
 						return nota;
 					});
 
-					
-					// llamamos al metodo insertar nota
-					notas.forEach( async ( nota, index ) => {
+					const promesaInsertarNotasArray = notas.map( 
+						nota => NotasController.crearNota( nota, false ) 
+					);
 
-						try {
+					return Promise.all( promesaInsertarNotasArray );
+				})
+				.then(( _ ) => {
 
-							NotasController.crearNota( nota, false );
-							
-							if ( index === ( notas.length - 1 ) ) {
-								
-								notificacion.title = 'Exito';
-								notificacion.body = 'Notas creadas con éxito';
-	
-								notificacion.show();
+					notificacion.title = 'Exito';
+					notificacion.body = 'Notas creadas con éxito';
 
-								resolve();
-							}
+					notificacion.show();
 
-						} catch ( error ) {
-							console.log( error );
-
-							reject( error );
-						}
-					});
+					resolve();
 				})
 				.catch( error => {
 
@@ -301,116 +291,129 @@ class NotasController {
 
 		// aqui te trae toda la info de los producto aqui esta la cantidad
 		let arrayProductos = nota['productos'] ?? []; 
-		
-		// verificamos si llegan productos y validamos la cantidad seleccionada
-		if ( arrayProductos.length > 0 ) {
-	
-			const validarCantidad = arrayProductos.every( async ( producto ) => {
+
+		return new Promise(( resolve, reject ) => {
 				
-				if ( !producto.cantidad ) {
+			// verificamos si llegan productos y validamos la cantidad seleccionada
+			if ( arrayProductos.length > 0 ) {
+		
+				const validarCantidad = arrayProductos.every( async ( producto ) => {
 					
-					try {
-						const product = await ProductosController.obtenerProducto( producto.productoid );
+					if ( !producto.cantidad ) {
 						
-						producto['cantidad'] = product.cantidad;
-						
-						// console.log( product );
+						try {
+							const product = await ProductosController.obtenerProducto( 
+								producto.productoid 
+							);
 
-					} catch ( error ) {
-
-						console.log( error );
-
-						return false;
+							producto['cantidad'] = product.cantidad;
+							
+						} catch ( error ) {
+	
+							console.log( error );
+	
+							return false;
+						}
 					}
+	
+					return producto['cantidad_seleccionada'] <= producto['cantidad'];
+				});
+		
+				if ( validarCantidad === false ) {
+		
+					dialog.showMessageBox( null, {
+						type: 'warning',
+						title: 'advertencia',
+						message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
+					});
+		
+					// throw new Error("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
+					
+					reject("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
+
+					return;
+				}
+			}
+	
+			this.database.insert( CRUD.crearNota, nuevaNota, async ( error ) => {
+	
+				const notificacion = new Notification({
+					title: '',
+					body: ''
+				});
+	
+				if ( error ) {
+	
+					notificacion['title'] = 'Error!!';
+					notificacion['body'] = 'Error al crear Nota';
+	
+					notificacion.show();
+	
+					console.log(error);
+	
+					reject( error );
+
+					return;
+				}
+	
+				// verifica si existen productos en nota de entrega al momento de importar
+				if ( arrayProductos.length === 0 ) {
+					
+					resolve('Nota insertada con exito');
+					
+					return;
 				}
 
-				return producto['cantidad_seleccionada'] <= producto['cantidad'];
-			});
-	
-			if ( validarCantidad === false ) {
-	
-				dialog.showMessageBox( null, {
-					type: 'warning',
-					title: 'advertencia',
-					message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
-				});
-	
-				// throw new Error("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
-	
-				return;
-			}
-		}
-
-		this.database.insert( CRUD.crearNota, nuevaNota, async ( error ) => {
-
-			const notificacion = new Notification({
-				title: '',
-				body: ''
-			});
-
-			if ( error ) {
-
-				notificacion['title'] = 'Error!!';
-				notificacion['body'] = 'Error al crear Nota';
-
-				notificacion.show();
-
-				console.log(error);
-
-				throw error;
-			}
-
-			// verifica si existen productos en nota de entrega al momento de importar
-			if ( arrayProductos.length === 0 ) {
-				return;
-			}
-
-			try {
-				// recuerda que obtener id nota es un metodo estatico se invoca nombre_clase.metodo()
-				let ultimoRegistro = await NotasController.obtenerUltimaNota();
-
-				console.log( ultimoRegistro );
-
-				// aqui se filtro lo campos excluyendo la cantidad
-				//console.log ( arrayProductos );
-
-				arrayProductos = arrayProductos.map(( producto ) => {
-					return {
-						id_nota: ultimoRegistro['id_nota'],
-						id_producto: producto['productoid'],
-						cantidad_seleccionada: producto['cantidad_seleccionada'],
-						cantidad: producto['cantidad'],
-					};
-				});
-
-				arrayProductos.forEach(( notaProducto, index ) => {
+				try {
 					
-					// callback de notificacion
-					const callback = ((index === (arrayProductos.length - 1)) && showNotificacion) ? 
-						() => {
-							notificacion['title'] = 'Éxito';
-							notificacion['body'] = 'Nota creada con éxito';
-			
-							notificacion.show();
-						}
-						: null
+					let ultimoRegistro = await NotasController.obtenerUltimaNota();
+	
+					console.log( ultimoRegistro );
+	
+					arrayProductos = arrayProductos.map(( producto ) => {
+						return {
+							id_nota: ultimoRegistro['id_nota'],
+							id_producto: producto['productoid'],
+							cantidad_seleccionada: producto['cantidad_seleccionada'],
+							cantidad: producto['cantidad'],
+						};
+					});
+	
+					arrayProductos.forEach(( notaProducto, index ) => {
+						
+						// callback de notificacion
+						const callback = (index === (arrayProductos.length - 1)) ? 
+							() => {
+								
+								if ( showNotificacion ) {
+									notificacion['title'] = 'Éxito';
+									notificacion['body'] = 'Nota creada con éxito';
+					
+									notificacion.show();
+								}
 
-					NotasProductosController.insertarNotasProductos.call( 
-						NotasProductosController.database, 
-						notaProducto, 
-						callback
-					);
-				});
-
-
-			} catch ( error ) {
-
-				console.error( error );
-
-				throw error;
-			}
-
+								resolve('Nota + productos creada con exito');
+							}
+							: null
+	
+						NotasProductosController.insertarNotasProductos.call( 
+							NotasProductosController.database, 
+							notaProducto, 
+							callback
+						);
+					});
+	
+	
+				} catch ( error ) {
+	
+					console.error( error );
+	
+					reject( error );
+				}
+	
+			});
 		});
+		
 	}
 
 

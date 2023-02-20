@@ -342,10 +342,14 @@ class OrdersForm {
           return;
         }
 
-        
-        NotasController.crearNota( data );
+        NotasController.crearNota( data )
+          .then(( _ ) => {
+            redirectTo('orders/orders.html');
+          })
+          .catch( error => {
+            console.log( error )
+          });
 
-        redirectTo('orders/orders.html');
 
       }, 3000 );
 
