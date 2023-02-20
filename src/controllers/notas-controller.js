@@ -274,26 +274,28 @@ class NotasController {
 	 */
 	static crearNota( nota, showNotificacion = true ) {
 
-		// nota tiene todas las propiedades del nota de entrega + productos, 
-		// no puedes enviar todo eso por sino mostrara un error. si haces un log de nota te trae 
-		// toda la informacion 
-		
-		// console.log( nota )
-
-		// Debes extraer sus propiedades y crear el objeto para cada consulta
-		let nuevaNota = {
-			userid: nota['userid'],
-			status: nota['status'],
-			descripcion_nota: nota['descripcion_nota'],
-			id_cliente: nota['id_cliente'],
-			fecha_entrega: nota['fecha_entrega'] ?? null
-		};
-
-		// aqui te trae toda la info de los producto aqui esta la cantidad
-		let arrayProductos = nota['productos'] ?? []; 
-
 		return new Promise(( resolve, reject ) => {
-				
+			
+			// nota tiene todas las propiedades del nota de entrega + productos, 
+			// no puedes enviar todo eso por sino mostrara un error. si haces un log de nota te trae 
+			// toda la informacion 
+			
+			// console.log( nota )
+							
+			// combinamos 2 consultas sql para crear la nota y obtener el ultimo registro
+			const sql = ( CRUD.crearNota + " " + CRUD.ultimoRegistro );
+
+			// Debes extraer sus propiedades y crear el objeto para cada consulta
+			let nuevaNota = {
+				userid: nota['userid'],
+				status: nota['status'],
+				descripcion_nota: nota['descripcion_nota'],
+				id_cliente: nota['id_cliente'],
+				fecha_entrega: nota['fecha_entrega'] ?? null
+			};
+
+			let arrayProductos = nota['productos'] ?? []; 
+			
 			// verificamos si llegan productos y validamos la cantidad seleccionada
 			if ( arrayProductos.length > 0 ) {
 		
@@ -334,13 +336,10 @@ class NotasController {
 					return;
 				}
 			}
+			
+			this.database.insert( sql, nuevaNota, async ( error, results ) => {
 	
-			this.database.insert( CRUD.crearNota, nuevaNota, async ( error ) => {
-	
-				const notificacion = new Notification({
-					title: '',
-					body: ''
-				});
+				const notificacion = new Notification({ title: '', body: '' });
 	
 				if ( error ) {
 	
@@ -364,53 +363,43 @@ class NotasController {
 					return;
 				}
 
-				try {
-					
-					let ultimoRegistro = await NotasController.obtenerUltimaNota();
-	
-					console.log( ultimoRegistro );
-	
-					arrayProductos = arrayProductos.map(( producto ) => {
-						return {
-							id_nota: ultimoRegistro['id_nota'],
-							id_producto: producto['productoid'],
-							cantidad_seleccionada: producto['cantidad_seleccionada'],
-							cantidad: producto['cantidad'],
-						};
-					});
-	
-					arrayProductos.forEach(( notaProducto, index ) => {
-						
-						// callback de notificacion
-						const callback = (index === (arrayProductos.length - 1)) ? 
-							() => {
-								
-								if ( showNotificacion ) {
-									notificacion['title'] = 'Éxito';
-									notificacion['body'] = 'Nota creada con éxito';
-					
-									notificacion.show();
-								}
+				// extraemos para obtener el ultimo registro
+				const ultimoRegistro = results[1][0]; 
 
-								resolve('Nota + productos creada con exito');
+				// console.log( ultimoRegistro );
+
+				arrayProductos = arrayProductos.map(( producto ) => {
+					return {
+						id_nota: ultimoRegistro['id_nota'],
+						id_producto: producto['productoid'],
+						cantidad_seleccionada: producto['cantidad_seleccionada'],
+						cantidad: producto['cantidad'],
+					};
+				});
+
+				arrayProductos.forEach(( notaProducto, index ) => {
+						
+					// callback de notificacion
+					const callback = (index === (arrayProductos.length - 1)) ? 
+						() => {
+							
+							if ( showNotificacion ) {
+								notificacion['title'] = 'Éxito';
+								notificacion['body'] = 'Nota creada con éxito';
+				
+								notificacion.show();
 							}
-							: null
-	
-						NotasProductosController.insertarNotasProductos.call( 
-							NotasProductosController.database, 
-							notaProducto, 
-							callback
-						);
-					});
-	
-	
-				} catch ( error ) {
-	
-					console.error( error );
-	
-					reject( error );
-				}
-	
+
+							resolve('Nota + productos creada con exito');
+						}
+						: null
+
+					NotasProductosController.insertarNotasProductos.call( 
+						NotasProductosController.database, 
+						notaProducto, 
+						callback
+					);
+				});	
 			});
 		});
 		
