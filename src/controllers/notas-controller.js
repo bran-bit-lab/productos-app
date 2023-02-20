@@ -7,6 +7,7 @@ const { PdfController } = require('./pdf-controller');
 const excelModule = require('../util-functions/excel');
 const FILE = require('../util-functions/file');
 const modelNota = require('../models/note');
+
 /** Clase que gestiona las notas de entregas */
 class NotasController {
 
@@ -76,10 +77,9 @@ class NotasController {
 					if ( path.includes( extensiones[0] ) ) {
 						return excelModule.exportJSON( path, consultaDB );
 
-					} else {
-						return excelModule.generarLibroNotasExcel( path, consultaDB );
+					} 
 
-					}
+					return excelModule.generarLibroNotasExcel( path, consultaDB );
 				})
 				.then( respuesta => {
 					
@@ -104,6 +104,8 @@ class NotasController {
 	 * Importa los productos en un archivo excel
 	 */
 	static importarNotas() {
+
+		let message = 'Cancelada';
 
 		/** metodo que muestra un mensaje de adventencia */
 		const mostrarMensaje = () => {
@@ -137,7 +139,6 @@ class NotasController {
 			};
 
 			let path = '';
-			let message = 'Cancelada';
 
 			// 1.- crear la ventana de importacion
 			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
@@ -150,7 +151,7 @@ class NotasController {
 
 					path = respuesta.filePaths[0];
 					
-					let validacion = extensiones.some(( extension ) => { 
+					const validacion = extensiones.some(( extension ) => { 
 						return path.includes( extension ); 
 					});
 
@@ -176,15 +177,28 @@ class NotasController {
 						return modelNota.validate( nota ); 
 					});
 
-					if ( validacion == false ) {
+					if ( validacion === false ) {
 						mostrarMensaje();
 					}
 
+					// verifica si las notas no tengan status entregada
+					// si es asi las asigna 
+					let notas = archivo.map( nota => {
+
+						if ( nota.status === 'ENTREGADA' ) {
+							return { ...nota, fecha_entrega: TIME.dateToString() };
+						}
+
+						return nota;
+					});
+
 					// 5.- preparar la consulta SQL que inserta las notas + productos
 					// 6.- ejecutar la consulta
-					console.log( validacion );
 					
-					resolve();					
+					return NotasController.insertarNotasArray( CRUD.importarNotas, notas );					
+				})
+				.then(() => {
+					resolve();
 				})
 				.catch( error => {
 
@@ -242,6 +256,41 @@ class NotasController {
 				}
 
 			});
+		});
+	}
+
+	/**
+	 * 
+	 * @param {string} sql 
+	 * @param {Array<Nota>} notas 
+	 * @returns {Promise<void>}
+	 */
+	static insertarNotasArray( sql, notas ) {
+
+		return new Promise(( resolve ) => {
+			
+			let notasString = notas.map( nota => {
+				
+				if ( !this.database._mysqlAPI ) {
+					return '';
+				}
+
+				return ("(" +
+					this.database._mysqlAPI.escape(nota.userid) + ', ' +
+					this.database._mysqlAPI.escape(nota.status) + ', ' +
+					this.database._mysqlAPI.escape(nota.descripcion_nota) + ', ' +
+					this.database._mysqlAPI.escape(nota.id_cliente) + ', ' +
+					this.database._mysqlAPI.escape(nota.fecha_entrega) +	
+				")");
+			});
+
+			notasString = notasString.join(',');
+			
+			sql = sql.replace(':values', notasString);
+
+			console.log( sql );
+
+			resolve();
 		});
 	}
 
