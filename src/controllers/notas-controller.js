@@ -174,9 +174,7 @@ class NotasController {
 				.then( archivo => {
 					
 					// 4.- validar los campos del archivo
-					const validacion = archivo.every( nota => {
-						return modelNota.validate( nota ); 
-					});
+					const validacion = archivo.every( nota => modelNota.validate( nota ) );
 
 					if ( validacion === false ) {
 						mostrarMensaje();
@@ -274,7 +272,7 @@ class NotasController {
 	 */
 	static crearNota( nota, showNotificacion = true ) {
 
-		return new Promise(( resolve, reject ) => {
+		return new Promise( async ( resolve, reject ) => {
 			
 			// nota tiene todas las propiedades del nota de entrega + productos, 
 			// no puedes enviar todo eso por sino mostrara un error. si haces un log de nota te trae 
@@ -298,29 +296,30 @@ class NotasController {
 			
 			// verificamos si llegan productos y validamos la cantidad seleccionada
 			if ( arrayProductos.length > 0 ) {
-		
-				const validarCantidad = arrayProductos.every( async ( producto ) => {
-					
-					if ( !producto.cantidad ) {
+				
+				const arrayProductosPromise = arrayProductos.map( async producto => {
 						
-						try {
-							const product = await ProductosController.obtenerProducto( 
-								producto.productoid 
-							);
-
-							producto['cantidad'] = product.cantidad;
-							
-						} catch ( error ) {
-	
-							console.log( error );
-	
-							return false;
+					if ( !producto.cantidad ) {
+						return { 
+							...producto, 
+							cantidad: ( await ProductosController.obtenerProducto( 
+									producto.productoid 
+								)
+							).cantidad
 						}
 					}
-	
-					return producto['cantidad_seleccionada'] <= producto['cantidad'];
+
+					return producto;
+				})
+
+				arrayProductos = await Promise.all( arrayProductosPromise );
+
+				console.log( arrayProductos );
+
+				const validarCantidad = arrayProductos.every(( producto ) => {
+					return producto['cantidad_seleccionada'] <= producto['cantidad']; 
 				});
-		
+
 				if ( validarCantidad === false ) {
 		
 					dialog.showMessageBox( null, {
@@ -337,7 +336,7 @@ class NotasController {
 				}
 			}
 			
-			this.database.insert( sql, nuevaNota, async ( error, results ) => {
+			this.database.insert( sql, nuevaNota, ( error, results ) => {
 	
 				const notificacion = new Notification({ title: '', body: '' });
 	
@@ -348,7 +347,7 @@ class NotasController {
 	
 					notificacion.show();
 	
-					console.log(error);
+					console.log( error );
 	
 					reject( error );
 
