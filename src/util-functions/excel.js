@@ -116,7 +116,7 @@ function generarLibroNotasExcel( url, data ) {
 /**
  * Lee un archivo excel y devuelve un array con sus hojas correspondientes
  * @param {string} url path a leer el archivo
- * @returns {Promise<Array<{ nombre: string, contenido: Array<any> }>>}
+ * @returns {Promise<Array<any>>}
  */
 function readFileExcel( url ) {
 
@@ -132,7 +132,11 @@ function readFileExcel( url ) {
       // habiltamos la lectura de fechas con cellDates
       let resultado = XLSX.read( archivo, opciones );
       
+      // transformamos a un array de objetos cada respuesta para estandarizar
+      let respuesta = [];
+
       // arreglo de objetos con cada una de las hojas contenidas en el libro
+      /** @type {Array<{ nombre: string, contenido: Array<any> }>} */
       const hojas = [];
       
       // en Workbok estan cada una de las propiedades del libro
@@ -146,8 +150,14 @@ function readFileExcel( url ) {
         hojas.push( hoja );
       });
       
-      //devolvemos las hojas
-      resolve( hojas ); 
+      // recorremos las hojas y contatenamos los valores al array
+      hojas.forEach( hoja => respuesta = respuesta.concat( hoja.contenido ) );
+
+      // resultado del parsing
+      // console.log({ hojas, respuesta });
+
+      // devolvemos la informacion
+      resolve( respuesta ); 
     
     } catch ( error ) { 
       

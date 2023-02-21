@@ -139,23 +139,6 @@ class ProductosController {
 
 		return new Promise(( resolve, reject ) => {
 			
-			/** funcion que muestra el alert de campos incorrectos */
-			const mostrarMensaje = () => {
-
-				message = 'El orden de los campos importados son incorrectos';
-					
-				dialog.showErrorBox(
-					'Error',
-					(
-						'Los campos en el archivo son incorrectos.\n\n' +
-						'Consulta el manual para obtener más información\n' +
-						'sobre como importar archivos.'
-					)
-				);
-						
-				throw message; 
-			};
-
 			const notificacion = new Notification();
 			const extensiones = ['.json', '.xls', '.xlsx'];
 			
@@ -172,16 +155,16 @@ class ProductosController {
 			let message = 'Cancelada';
 	
 			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
-				.then( respuesta => {
+				.then( respuestaVentana => {
 	
-					if ( respuesta.canceled ) {
+					if ( respuestaVentana.canceled ) {
 						
 						// abortamos la ejecucion del resto de promesas
 						// pasamos al catch
 						throw message;
 					}	
 	
-					path = respuesta.filePaths[0];
+					path = respuestaVentana.filePaths[0];
 					
 					let validacion = extensiones.some(( extension ) => path.includes( extension ));
 	
@@ -201,63 +184,25 @@ class ProductosController {
 					// validamos si es un JSON
 					if ( path.includes( extensiones[0] ) ) {
 						return fileModule.readFilePromiseJSON( path, true );
-						
 					}
 
 					return excelModule.readFileExcel( path );	
 					
 				})
-				.then( respuestaArchivo => {
+				.then( data => {
 
-					if ( path.includes( extensiones[0] ) ) { 
-
-						const validacion = respuestaArchivo.every( product => { 
-							return ProductModel.validate( product ); 
-						});
-						
-						// console.log( validate );  
-
-						if ( validacion === false ) {
-							mostrarMensaje();
-						}
-								
-						return ProductosController.insertarArrayProductos( 
-							CRUD.importarProductos, 
-							respuestaArchivo 
-						);
-
-					} 
-
-					// sino continua con el excel
-					const validacion = respuestaArchivo.some( hoja => {
-						return hoja.contenido.every( product => ProductModel.validate( product ));
-					});
+					const validacion = data.every( product => ProductModel.validate( product ) );
+					
+					// console.log( validate );  
 
 					if ( validacion === false ) {
 						mostrarMensaje();
 					}
-
-					/**
-					 * Cada hoja del excel ejecutara insertarArrayProductos
-					 * usamos Array.map para devolver un nuevo array. En cada posición se almacena 
-					 * la ejecucion de la promesa y para manejar su flujo se utiliza Promise.all
-					*/
-					const arrayPromesas = respuestaArchivo.map( hoja => {
-						return ProductosController.insertarArrayProductos( 
-							CRUD.importarProductos, 
-							hoja.contenido 
-						);
-					});
-
-					// console.log( promises );
-
-					/**
-					 * Promise all recibe un array de promesas por parametro, 
-					 * espera a que todas las promesas se ejecuten dentro del
-					 * array. Si falla una cae al catch
-					 */
-					return Promise.all( arrayPromesas );
-
+							
+					return ProductosController.insertarArrayProductos( 
+						CRUD.importarProductos, 
+						data 
+					);
 				})
 				.then( respuesta => {
 					
