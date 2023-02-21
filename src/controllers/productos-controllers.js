@@ -725,7 +725,7 @@ class ProductosController {
 	}
 
 	/**
-	 * Obtiene una instancia de una nota
+	 * Obtiene una instancia de un producto
 	 * @param {number} idProduct 
 	 * @returns {Promise<Product>}
 	 */
