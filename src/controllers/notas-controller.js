@@ -143,20 +143,18 @@ class NotasController {
 
 			// 1.- crear la ventana de importacion
 			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
-				.then( respuesta => {
+				.then( respuestaVentana => {
 
 					// 2.- validar la cancelacion y el formato
-					if ( respuesta.canceled ) {
+					if ( respuestaVentana.canceled ) {
 						throw message;
 					}
 
-					path = respuesta.filePaths[0];
+					path = respuestaVentana.filePaths[0];
 					
-					const validacion = extensiones.some(( extension ) => { 
-						return path.includes( extension ); 
-					});
+					const validacion = extensiones.some( extension => path.includes( extension ) );
 
-					if ( validacion === false ) {
+					if ( !validacion ) {
 						message = 'La extensión del archivo no es valida';
 
 						notificacion.title = 'Atención';
@@ -171,31 +169,35 @@ class NotasController {
 					return FILE.readFilePromiseJSON( path, true, false );
 		
 				})
-				.then( archivo => {
+				.then( notas => {
 					
 					// 4.- validar los campos del archivo
-					const validacion = archivo.every( nota => modelNota.validate( nota ) );
+					let validacion = notas.every( nota => modelNota.validate( nota ) );
 
-					if ( validacion === false ) {
+					if ( !validacion ) {
 						mostrarMensaje();
 					}
 
-					// verifica si las notas no tengan status entregada
-					// si es asi las asigna 
-					let notas = archivo.map( nota => {
+					// 5.- verifica si las notas tengan status entregada 
+					// si es asi asigna la fecha
+					validacion = notas.some( nota => nota.status === 'ENTREGADA' );
+					
+					if ( validacion ) {
 
-						if ( nota.status === 'ENTREGADA' ) {
-							return { ...nota, fecha_entrega: TIME.dateToString() };
-						}
+						notas = notas.map( nota => {
+	
+							if ( nota.status === 'ENTREGADA' ) {
+								return { ...nota, fecha_entrega: TIME.dateToString() };
+							}
+	
+							return nota;
+						});
+					}
 
-						return nota;
-					});
+					const arrayPromesas = notas.map( nota => NotasController.crearNota( nota, false ) );
 
-					const promesaInsertarNotasArray = notas.map( 
-						nota => NotasController.crearNota( nota, false ) 
-					);
-
-					return Promise.all( promesaInsertarNotasArray );
+					// ejecutamos cada promesa al momento de insertar
+					return Promise.all( arrayPromesas );
 				})
 				.then(( _ ) => {
 

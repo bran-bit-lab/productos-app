@@ -120,6 +120,8 @@ class ProductosController {
 	 */
 	static importarProductos() {
 
+		let message = 'Cancelada';
+
 		/** funcion que muestra el alert de campos incorrectos */
 		const mostrarMensaje = () => {
 
@@ -152,7 +154,6 @@ class ProductosController {
 			};
 	
 			let path = '';
-			let message = 'Cancelada';
 	
 			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
 				.then( respuestaVentana => {
@@ -189,9 +190,9 @@ class ProductosController {
 					return excelModule.readFileExcel( path );	
 					
 				})
-				.then( data => {
+				.then( productos => {
 
-					const validacion = data.every( product => ProductModel.validate( product ) );
+					const validacion = productos.every( product => ProductModel.validate( product ) );
 					
 					// console.log( validate );  
 
@@ -201,7 +202,7 @@ class ProductosController {
 							
 					return ProductosController.insertarArrayProductos( 
 						CRUD.importarProductos, 
-						data 
+						productos 
 					);
 				})
 				.then( respuesta => {
