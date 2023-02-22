@@ -166,9 +166,9 @@ class ProductosController {
 	
 					path = respuestaVentana.filePaths[0];
 					
-					let validacion = extensiones.some(( extension ) => path.includes( extension ));
+					const validacion = extensiones.some( extension => path.includes( extension ) );
 	
-					if ( validacion === false ) {
+					if ( !validacion ) {
 						message = 'La extension del archivo no es valida';
 	
 						notificacion.title = 'Atención';
@@ -195,7 +195,7 @@ class ProductosController {
 					
 					// console.log( validate );  
 
-					if ( validacion === false ) {
+					if ( !validacion ) {
 						mostrarMensaje();
 					}
 							
