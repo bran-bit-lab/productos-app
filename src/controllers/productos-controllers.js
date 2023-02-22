@@ -187,7 +187,7 @@ class ProductosController {
 						return fileModule.readFilePromiseJSON( path, true );
 					}
 
-					return excelModule.readFileExcel( path );	
+					return excelModule.readFileExcelProducts( path );	
 					
 				})
 				.then( productos => {

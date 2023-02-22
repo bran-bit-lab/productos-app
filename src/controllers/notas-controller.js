@@ -164,12 +164,19 @@ class NotasController {
 
 						throw message;
 					}
-					
+
 					// 3.- importar el arhivo
-					return FILE.readFilePromiseJSON( path, true, false );
-		
+					if ( path.includes( extensiones[0] ) ) {
+						return FILE.readFilePromiseJSON( path, true );	
+					}
+					
+					return excelModule.readFileExcelNotes( path );
 				})
 				.then( notas => {
+
+					console.log( notas );
+
+					return;
 					
 					// 4.- validar los campos del archivo
 					let validacion = notas.every( nota => modelNota.validate( nota ) );

@@ -7,6 +7,14 @@ const XLSX = require('xlsx');
 const fs = require('fs');
 const FILE = require('./file');
 
+const CELLS = new Map([ 
+  [1, 'A'], [2, 'B'], [3, 'C'], [4, 'D'], [5, 'E'], [6, 'F'], [7, 'G'],
+  [8, 'H'], [9, 'I'], [10, 'J'], [11, 'K'], [12, 'L'], [13, 'M'],
+  [14, 'N'], [15, 'O'], [16, 'P'], [17, 'Q'], [18, 'R'], [19, 'S'],
+  [20, 'T'], [21, 'U'], [22, 'V'], [23, 'W'], [24, 'X'], [25, 'Y'],
+  [26, 'Z'],
+]);
+
 /**
  * Exporta el archivo en formato excel
  * @param {string} url path donde se exporta el archivo
@@ -118,7 +126,7 @@ function generarLibroNotasExcel( url, data ) {
  * @param {string} url path a leer el archivo
  * @returns {Promise<Array<any>>}
  */
-function readFileExcel( url ) {
+function readFileExcelProducts( url ) {
 
   const manejador = function( resolve, reject ) {
     
@@ -141,15 +149,15 @@ function readFileExcel( url ) {
       
       // en Workbok estan cada una de las propiedades del libro
       // Sheets es el arreglo dentro de Workbook que contiene la información de cada hoja
-      resultado.Workbook.Sheets.forEach( nombres => {
+      resultado.SheetNames.forEach( nombre => {
         
-        let data = resultado.Sheets[ nombres.name ];
+        let data = resultado.Sheets[ nombre ];
         let sheet = XLSX.utils.sheet_to_json( data );
-        let hoja = { nombre: nombres.name, contenido: sheet };
+        let hoja = { nombre: nombre, contenido: sheet };
         
         hojas.push( hoja );
-      });
-      
+      });      
+
       // recorremos las hojas y contatenamos los valores al array
       hojas.forEach( hoja => respuesta = respuesta.concat( hoja.contenido ) );
 
@@ -158,7 +166,123 @@ function readFileExcel( url ) {
 
       // devolvemos la informacion
       resolve( respuesta ); 
+
+    } catch ( error ) { 
+      
+      reject( error );
+    }
+  }
+
+  const promesa = new Promise( manejador );
+
+  return promesa;
+}
+
+/**
+ * Lee un archivo excel y devuelve un array con sus hojas correspondientes
+ * @param {string} url path a leer el archivo
+ * @returns {Promise<Array<any>>}
+ */
+ function readFileExcelNotes( url ) {
+
+  const transformarNota = function( data ) {
+
+    let nota = {};
+
+    // empezamos a recorrer las filas y columnas del archivo
+    // para establecer las keys del objeto nota
+    for ( let fila = 1; fila <= 10000; fila++ ) {
+
+      let rowData = data['A' + fila]; 
+      
+      // comprueba si el valor de la fila contiene valor
+      if ( !rowData ) {
+        continue;
+      }
+      
+      // encabezado de tabla
+      if ( rowData.v === 'descripcion_nota' ) {
+
+        for ( let columna = 1; columna <= CELLS.size; columna++ ) {
+
+          // verificamos que las filas y columnas tengan sus datos correspondientes
+          if ( (!CELLS.get( columna )) || (!data[CELLS.get( columna ) + fila.toString()]) ) {
+            continue;
+          }
+          
+          // obtenemos el valor
+          const value = data[CELLS.get( columna ) + fila.toString()].v;
+          nota = { ...nota, [value]: undefined };
+        }
+
+      }
+      
+      if ( rowData.v === 'productoid' ) {
+        
+        // añadimos la propiedad productos
+        nota = { ...nota, productos: [] };
+        let producto = {};
+
+        for ( let columna = 1; columna <= CELLS.size; columna++ ) {
+
+          // verificamos que las filas y columnas tengan sus datos correspondientes
+          if ( (!CELLS.get( columna )) || (!data[CELLS.get( columna ) + fila.toString()]) ) {
+            continue;
+          }
+          
+          // obtenemos el valor
+          const value = data[CELLS.get( columna ) + fila.toString()].v;
+
+          producto = { ...producto, [value]: undefined };
+
+          console.log({ 
+            cell: CELLS.get( columna ) + fila.toString(), 
+            value: data[CELLS.get( columna ) + fila.toString()].v, 
+          }); 
+        }
+
+        // console.log( producto );
+        // asignamos los productos
+        nota = { ...nota, productos: [ ...nota.productos, producto ] };
+      }
+
+    }
+
+    return nota;
+  }
+
+  const manejador = function( resolve, reject ) {
     
+    /** @type {XLSX.ParsingOptions}  */
+    const opciones = { cellDates: true };
+
+    try {
+
+      let archivo = fs.readFileSync( url ); // buffer por defecto
+      
+      // habiltamos la lectura de fechas con cellDates
+      let resultado = XLSX.read( archivo, opciones );
+      
+      // transformamos a un array de objetos cada respuesta para estandarizar
+      let respuesta = [];
+ 
+      // en Workbok estan cada una de las propiedades del libro
+      // Sheets es el arreglo dentro de Workbook que contiene la información de cada hoja
+      resultado.SheetNames.forEach( nombre => {
+        
+        let data = resultado.Sheets[ nombre ];
+        respuesta.push( transformarNota( data ) );
+      });      
+
+      // recorremos las hojas y contatenamos los valores al array
+      // hojas.forEach( hoja => respuesta = respuesta.concat( hoja.contenido ) );
+
+      // resultado del parsing
+      // console.log({ hojas, respuesta });
+
+      // devolvemos la informacion
+      resolve( respuesta ); 
+
     } catch ( error ) { 
       
       reject( error );
@@ -202,7 +326,8 @@ function exportJSON( url, data ) {
 
 module.exports = {
   writeFileExcel,
-  readFileExcel,
+  readFileExcelProducts,
+  readFileExcelNotes,
   exportJSON,
   generarLibroNotasExcel
 }
