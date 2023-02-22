@@ -23,7 +23,7 @@ class NotasController {
 	/**
 	 * Exporta los productos en un archivo de excel
 	 */
-	 static exportarNotas() {
+	static exportarNotas() {
 
 		return new Promise(( resolve, reject ) => {
 			

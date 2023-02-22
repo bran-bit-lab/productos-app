@@ -16,6 +16,98 @@ const CELLS = new Map([
 ]);
 
 /**
+ * Transforma la data recibida en formato personalizado
+ * @param {XLSX.WorkSheet} data hoja de datos de excel
+ * @returns {{}}
+ */
+function transformarData( data ) {
+  
+  let resultado = {};
+  let producto = {};
+
+  // tomamos los valores de la fila 2
+  for ( let columna = 1; columna <= CELLS.size; columna++ ) {
+
+    // verificamos que las filas y columnas tengan sus datos correspondientes
+    if ( (!CELLS.get( columna )) || (!data[CELLS.get( columna ) + '2']) ) {
+      continue;
+    }
+
+    let value = data[CELLS.get( columna ) + '2'].v;
+
+    switch ( columna ) {
+      case 1:
+        resultado.descripcion_nota = value;
+        break;
+
+      case 2:
+        resultado.userid = value;
+        break;
+
+      case 3:
+        resultado.status = value;
+        break;
+      
+      case 4:
+        resultado.id_cliente = value;
+        break;
+
+      case 5:
+        resultado.fecha_entrega = value;
+        break;
+
+      default:
+        continue;
+    }
+  }
+
+  // inicializamos el array de productos
+  resultado.productos = [];
+  
+  // bucle de productos puedes insertar hasta 10000
+  for ( let fila = 6; fila <= 10000; fila++ ) {
+    
+    let cell = 'A' + fila.toString(); 
+         
+    if ( !data[cell] ) {
+      continue;
+    }
+
+    for ( let columna = 1; columna <= CELLS.size; columna++ ) {
+      
+      // verificamos que las filas y columnas tengan sus datos correspondientes
+      if ( (!CELLS.get( columna )) || (!data[CELLS.get( columna ) + fila.toString()]) ) {
+        continue;
+      }
+
+      let value = data[CELLS.get( columna ) + fila.toString()].v;
+
+        switch ( columna ) {
+          case 1:
+            producto.productoid = value;
+            break;
+
+          case 2:
+            producto.cantidad_seleccionada = value;
+            break;
+
+          default:
+            continue;
+        }
+
+    }
+
+    // añade los elementos al array
+    resultado.productos.push( producto );
+
+    // limpiamos el producto
+    producto = {};
+  }
+
+  return resultado;
+}
+
+/**
  * Exporta el archivo en formato excel
  * @param {string} url path donde se exporta el archivo
  * @param {{[string]: any} | Array<{[string]: any}>} data informacion a mostrar en el excel
@@ -185,72 +277,6 @@ function readFileExcelProducts( url ) {
  */
  function readFileExcelNotes( url ) {
 
-  const transformarNota = function( data ) {
-
-    let nota = {};
-
-    // empezamos a recorrer las filas y columnas del archivo
-    // para establecer las keys del objeto nota
-    for ( let fila = 1; fila <= 10000; fila++ ) {
-
-      let rowData = data['A' + fila]; 
-      
-      // comprueba si el valor de la fila contiene valor
-      if ( !rowData ) {
-        continue;
-      }
-      
-      // encabezado de tabla
-      if ( rowData.v === 'descripcion_nota' ) {
-
-        for ( let columna = 1; columna <= CELLS.size; columna++ ) {
-
-          // verificamos que las filas y columnas tengan sus datos correspondientes
-          if ( (!CELLS.get( columna )) || (!data[CELLS.get( columna ) + fila.toString()]) ) {
-            continue;
-          }
-          
-          // obtenemos el valor
-          const value = data[CELLS.get( columna ) + fila.toString()].v;
-          nota = { ...nota, [value]: undefined };
-        }
-
-      }
-      
-      if ( rowData.v === 'productoid' ) {
-        
-        // añadimos la propiedad productos
-        nota = { ...nota, productos: [] };
-        let producto = {};
-
-        for ( let columna = 1; columna <= CELLS.size; columna++ ) {
-
-          // verificamos que las filas y columnas tengan sus datos correspondientes
-          if ( (!CELLS.get( columna )) || (!data[CELLS.get( columna ) + fila.toString()]) ) {
-            continue;
-          }
-          
-          // obtenemos el valor
-          const value = data[CELLS.get( columna ) + fila.toString()].v;
-
-          producto = { ...producto, [value]: undefined };
-
-          console.log({ 
-            cell: CELLS.get( columna ) + fila.toString(), 
-            value: data[CELLS.get( columna ) + fila.toString()].v, 
-          }); 
-        }
-
-        // console.log( producto );
-        // asignamos los productos
-        nota = { ...nota, productos: [ ...nota.productos, producto ] };
-      }
-
-    }
-
-    return nota;
-  }
-
   const manejador = function( resolve, reject ) {
     
     /** @type {XLSX.ParsingOptions}  */
@@ -269,10 +295,16 @@ function readFileExcelProducts( url ) {
       // en Workbok estan cada una de las propiedades del libro
       // Sheets es el arreglo dentro de Workbook que contiene la información de cada hoja
       resultado.SheetNames.forEach( nombre => {
-        
-        let data = resultado.Sheets[ nombre ];
-        respuesta.push( transformarNota( data ) );
-      });      
+        const data = resultado.Sheets[ nombre ];
+
+        nota = transformarData( data );
+
+        console.log( nota );
+
+        respuesta.push( nota );
+      });     
+      
+      
 
       // recorremos las hojas y contatenamos los valores al array
       // hojas.forEach( hoja => respuesta = respuesta.concat( hoja.contenido ) );
