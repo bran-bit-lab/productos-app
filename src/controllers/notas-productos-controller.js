@@ -1,3 +1,12 @@
+/**
+ * NotaProducto
+ * @typedef {Object} NotaProducto
+ * @property {number} id_NP identificador de notas_producto
+ * @property {number} id_nota identificador de nota a que pertenece la relacion
+ * @property {number} id_producto identificador de producto seleccionado
+ * @property {number} cantidad_seleccionada cantidad seleccionada en la orden
+ */
+
 const { Notification } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
@@ -170,13 +179,6 @@ class NotasProductosController {
 	}
 }
 
-/**
- * NotaProducto
- * @typedef {Object} NotaProducto
- * @property {number} id_NP identificador de notas_producto
- * @property {number} id_nota identificador de nota a que pertenece la relacion
- * @property {number} id_producto identificador de producto seleccionado
- * @property {number} cantidad_seleccionada cantidad seleccionada en la orden
- */
+
 
 module.exports = { NotasProductosController };

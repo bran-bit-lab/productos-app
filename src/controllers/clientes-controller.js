@@ -1,3 +1,13 @@
+/**
+ * Client
+ * @typedef {Object} Client
+ * @property {number} [id_cliente] identificador de cliente
+ * @property {string} nombre_cliente nombre del cliente
+ * @property {string} direccion_entrega direccion de entrega
+ * @property {string} rif identificador de registro fiscal de cliente
+ * @property {string} telefono_contacto telefono contacto del cliente
+ */
+
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 const { Notification } = require('electron');
@@ -181,16 +191,6 @@ class ClientesController {
 	  	});
 	}
 }
-
-/**
- * Client
- * @typedef {Object} Client
- * @property {number} [id_cliente] identificador de cliente
- * @property {string} nombre_cliente nombre del cliente
- * @property {string} direccion_entrega direccion de entrega
- * @property {string} rif identificador de registro fiscal de cliente
- * @property {string} telefono_contacto telefono contacto del cliente
- */
 
 module.exports = {
 	ClientesController
