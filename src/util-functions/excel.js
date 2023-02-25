@@ -16,14 +16,25 @@ const CELLS = new Map([
 ]);
 
 /**
- * Transforma la data recibida en formato personalizado
+ * Transforma la data recibida en formato personalizado de notas
  * @param {XLSX.WorkSheet} data hoja de datos de excel
  * @returns {{}}
  */
 function transformarData( data ) {
   
-  let resultado = {};
-  let producto = {};
+  let resultado = {
+    descripcion_nota: '',
+    fecha_entrega: null,
+    userid: 0,
+    id_cliente: 0,
+    status: 'ACEPTADO',
+    productos: []
+  };
+
+  let producto = {
+    cantidad_seleccionada: 0,
+    productoid: 0
+  };
 
   // tomamos los valores de la fila 2
   for ( let columna = 1; columna <= CELLS.size; columna++ ) {
@@ -60,9 +71,6 @@ function transformarData( data ) {
         continue;
     }
   }
-
-  // inicializamos el array de productos
-  resultado.productos = [];
   
   // bucle de productos puedes insertar hasta 10000
   for ( let fila = 6; fila <= 10000; fila++ ) {
@@ -295,23 +303,15 @@ function readFileExcelProducts( url ) {
       // en Workbok estan cada una de las propiedades del libro
       // Sheets es el arreglo dentro de Workbook que contiene la información de cada hoja
       resultado.SheetNames.forEach( nombre => {
+        
         const data = resultado.Sheets[ nombre ];
 
         nota = transformarData( data );
-
-        console.log( nota );
-
         respuesta.push( nota );
+
+        // console.log( nota );
       });     
       
-      
-
-      // recorremos las hojas y contatenamos los valores al array
-      // hojas.forEach( hoja => respuesta = respuesta.concat( hoja.contenido ) );
-
-      // resultado del parsing
-      // console.log({ hojas, respuesta });
-
       // devolvemos la informacion
       resolve( respuesta ); 
 
