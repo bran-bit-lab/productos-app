@@ -1,3 +1,14 @@
+/**
+*  User
+* @typedef {Object} User
+* @property {number} [userid] identificador del usuario
+* @property {string} nombre nombre del usuario
+* @property {string} apellido apellido del usuario
+* @property {string} correo correo del usuario
+* @property {string} password contrasena del usuario
+* @property {string} password_confirmation confirmacion de contrasena
+*/
+
 const bcrypt = require('bcryptjs');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
@@ -378,18 +389,6 @@ class UsersController {
 		});
 	}
 }
-
-
-/**
-*  User
-* @typedef {Object} User
-*	@property {number} [userid] identificador del usuario
-* @property {string} nombre nombre del usuario
-* @property {string} apellido apellido del usuario
-* @property {string} correo correo del usuario
-* @property {string} password contrasena del usuario
-* @property {string} password_confirmation confirmacion de contrasena
-*/
 
 module.exports = {
 	UsersController

@@ -1,3 +1,16 @@
+/**
+ * Product
+ * @typedef {Object} Product
+ * @property {number} [productoid] identificador de producto
+ * @property {number} userid identificador de usuario
+ * @property {number} categoriaid identificador de categoria
+ * @property {string} nombre nombre del producto
+ * @property {string} descripcion descripcion de producto
+ * @property {number} precio precio del producto
+ * @property {number} cantidad cantidad de productos
+ * @property {boolean} disponibilidad disponibilidad de producto
+ */
+
 const { Notification, dialog, BrowserWindow } = require('electron');
 
 const { Database } = require('../database/database'); 
@@ -516,9 +529,8 @@ class ProductosController {
 	 * edita un producto
 	 *
 	 * @param  {Product} producto instancia del producto
-	 * @param  {User} usuario usuario logeado
 	 */
-	static editarProducto( producto, usuario ) {
+	static editarProducto( producto ) {
 
 		// console.log (producto, "<-- log del producto");
 
@@ -697,18 +709,5 @@ class ProductosController {
 	}
 
 }
-
-/**
- * Product
- * @typedef {Object} Product
- * @property {number} [productoid] identificador de producto
- * @property {number} userid identificador de usuario
- * @property {number} categoriaid identificador de categoria
- * @property {string} nombre nombre del producto
- * @property {string} descripcion descripcion de producto
- * @property {number} precio precio del producto
- * @property {number} cantidad cantidad de productos
- * @property {boolean} disponibilidad disponibilidad de producto
- */
 
 module.exports = { ProductosController };

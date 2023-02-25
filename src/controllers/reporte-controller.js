@@ -1,3 +1,15 @@
+/**
+ * ResponseReport
+ * @typedef {Object} ResponseReport
+ * @property {Array<string>} keys  listado de los nombres usados en el modelo estaditico
+ * @property {Array<number>} values listado de valores usados en el modelo estaditico
+ * @property {Array<Object>} results listado de la consulta para generar la tabla
+ * @property {string} typeChart tipo de diagrama usado para generar los reporte
+ * @property {string} name_consult nombre de la consulta
+ * @property {Uint8Array} [buffer] datos en bruto de la imagen, este campo se usa al dibujar en el PDF
+ * @property {string} [chart] imagen base64 del diagrama
+ */
+
 const { Notification, dialog, BrowserWindow, ipcMain } = require('electron');
 const CRUD = require('../database/CRUD');
 const { Database } = require('../database/database');
@@ -520,17 +532,7 @@ class ReporteController {
 	}
 }
 
-/**
- * ResponseReport
- * @typedef {Object} ResponseReport
- * @property {Array<string>} keys  listado de los nombres usados en el modelo estaditico
- * @property {Array<number>} values listado de valores usados en el modelo estaditico
- * @property {Array<Object>} results listado de la consulta para generar la tabla
- * @property {string} typeChart tipo de diagrama usado para generar los reporte
- * @property {string} name_consult nombre de la consulta
- * @property {Uint8Array} [buffer] datos en bruto de la imagen, este campo se usa al dibujar en el PDF
- * @property {string} [chart] imagen base64 del diagrama
- */
+
 
 module.exports = {
 	ReporteController

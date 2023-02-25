@@ -1,7 +1,6 @@
-const { Notification, dialog } = require('electron');
+const { Notification } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
-const TIME = require('../util-functions/time');
 const { ProductosController } = require('./productos-controllers');
 
 /** clase que gestiona los productos con las notas de entregas */
