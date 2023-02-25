@@ -1,3 +1,17 @@
+/**
+ * Nota
+ * @typedef {Object} Nota
+ * @property {number} id_nota identificador de la nota
+ * @property {number} id_cliente identificador de cliente
+ * @property {number} userid identificador del usuario
+ * @property {"EN_PROCESO" | "ACEPTADO" | "ENTREGADA" | "POSPUESTO" | "CANCELADA"} status estado de la orden en ese momento
+ * @property {string} creacion timestamp de creacion de la nota
+ * @property {string} descripcion_nota descripcion de la nota de entrega
+ * @property {string} fecha_entrega fecha de entrega del pedido se completa si el usuario pasa el pedido a ENTREGADA
+ * @property {Array<NotaProducto>} productos lista de productos seleccionados
+ * @property {number} [total_order] total de la orden
+ */
+
 const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
@@ -892,20 +906,5 @@ class NotasController {
 		});
 	}
 }
-
-
-/**
- * Nota
- * @typedef {Object} Nota
- * @property {number} id_nota identificador de la nota
- * @property {number} id_cliente identificador de cliente
- * @property {number} userid identificador del usuario
- * @property {"EN_PROCESO" | "ACEPTADO" | "ENTREGADA" | "POSPUESTO" | "CANCELADA"} status estado de la orden en ese momento
- * @property {string} creacion timestamp de creacion de la nota
- * @property {string} descripcion_nota descripcion de la nota de entrega
- * @property {string} fecha_entrega fecha de entrega del pedido se completa si el usuario pasa el pedido a ENTREGADA
- * @property {Array<NotaProducto>} productos lista de productos seleccionados
- * @property {number} [total_order] total de la orden
- */
 
 module.exports = { NotasController };
