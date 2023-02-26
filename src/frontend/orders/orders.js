@@ -194,21 +194,29 @@ class OrdersTableComponent {
 	 */
 	render( totalPages = 0, totalRegisters = 0, search = false ) {
 
-		if ( !search ) {
+		let exportComponent = document.querySelector('app-export');
 
+		
+		if ( !search ) {
+			
 			this.deliveryTable.innerHTML = '';
 			this.pagination._limit = totalPages;
 			this.pagination._registers = totalRegisters;
 			this.pagination._page = this.page;
 		}
-
+		
 		if ( this.deliveryNotes.length > 0 ) {
-
+			
 			this.deliveryTable.innerHTML = this.deliveryNotes.map(
 				this.setRows.bind( this )
-			).join('');
-
+				).join('');
+				
 		} else {
+			
+				// sino existen productos no muestra la opcion de importar
+			if ( exportComponent ) {
+				exportComponent.style.display = 'none';
+			}
 
 			this.deliveryTable.innerHTML = (`
 				<tr class="text-center">

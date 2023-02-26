@@ -35,7 +35,6 @@ class ProductsTableComponent {
 			let totalProducts = await ProductosController.obtenerTotalProductos();
 
 			this.products = await ProductosController.listarProductos( pagination );
-
 			// console.log( this.products );
 
 			this.page = page;
@@ -223,6 +222,7 @@ class ProductsTableComponent {
 	render( totalProducts, search = false ) {
 
 		// console.log( totalProducts );
+		let exportComponent = document.querySelector('app-export');
 
 		if ( !search ) {
 
@@ -241,6 +241,12 @@ class ProductsTableComponent {
 			this.tbody.innerHTML = this.products.map( this.setRows.bind( this ) ).join('');
 
 		} else {
+			
+			// sino existen productos no muestra la opcion de importar
+
+			if ( exportComponent ) {
+				exportComponent.style.display = 'none';
+			}
 
 			this.pagination.style.display = 'none';
 

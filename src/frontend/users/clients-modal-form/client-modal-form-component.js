@@ -118,7 +118,8 @@ function validate( data, callback ) {
 		onlyLetters: new RegExp( /^[a-zA-Z\u00f1\u00d1\u00E0-\u00FC\u00C0-\u017F\s]+$/ ),
 		area: new RegExp( /^Ventas|Almacen|Administracion$/ ),
     	rif: new RegExp( /^(J|j)-[0-9]{1,8}-[0-9]{1}|(V|v)-[0-9]{1,8}-[0-9]{1}|(G|g)-[0-9]{1,8}-[0-9]{1}$/ ),
-    	phone: new RegExp( /^[0-9]{4}-[0-9]{7}$/ )
+    	phone: new RegExp( /^[0-9]{4}-[0-9]{7}$/ ),
+		directions: /^[\w\s\.\_\-]{2,255}$/
   	});
 
 	// contador de errores
@@ -152,7 +153,7 @@ function validate( data, callback ) {
 	// direccion validaciones
 	// =============================================
 
-	if ( !PATTERNS.onlyLetters.test( direccion_entrega ) ) {
+	if ( !PATTERNS.directions.test( direccion_entrega ) ) {
 		errors = errors + 1;
 		renderErrors( directionErrorsNode, ERROR_MESSAGES.pattern );
 	}
