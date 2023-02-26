@@ -116,9 +116,9 @@ function generarLibroNotasExcel( url, data ) {
 /**
  * Lee un archivo excel y devuelve un array con sus hojas correspondientes
  * @param {string} url path a leer el archivo
- * @returns {Promise<Array<{ nombre: string, contenido: Array<any> }>>}
+ * @returns {Promise<Array<any>>}
  */
-function readFileExcel( url ) {
+function readFileExcelProducts( url ) {
 
   const manejador = function( resolve, reject ) {
     
@@ -132,23 +132,84 @@ function readFileExcel( url ) {
       // habiltamos la lectura de fechas con cellDates
       let resultado = XLSX.read( archivo, opciones );
       
+      // transformamos a un array de objetos cada respuesta para estandarizar
+      let respuesta = [];
+
       // arreglo de objetos con cada una de las hojas contenidas en el libro
+      /** @type {Array<{ nombre: string, contenido: Array<any> }>} */
       const hojas = [];
       
       // en Workbok estan cada una de las propiedades del libro
       // Sheets es el arreglo dentro de Workbook que contiene la información de cada hoja
-      resultado.Workbook.Sheets.forEach( nombres => {
+      resultado.SheetNames.forEach( nombre => {
         
-        let data = resultado.Sheets[ nombres.name ];
+        let data = resultado.Sheets[ nombre ];
         let sheet = XLSX.utils.sheet_to_json( data );
-        let hoja = { nombre: nombres.name, contenido: sheet };
+        let hoja = { nombre: nombre, contenido: sheet };
         
         hojas.push( hoja );
-      });
+      });      
+
+      // recorremos las hojas y contatenamos los valores al array
+      hojas.forEach( hoja => respuesta = respuesta.concat( hoja.contenido ) );
+
+      // resultado del parsing
+      // console.log({ hojas, respuesta });
+
+      // devolvemos la informacion
+      resolve( respuesta ); 
+
+    } catch ( error ) { 
       
-      //devolvemos las hojas
-      resolve( hojas ); 
-    
+      reject( error );
+    }
+  }
+
+  const promesa = new Promise( manejador );
+
+  return promesa;
+}
+
+/**
+ * Lee un archivo excel y devuelve un array con sus hojas correspondientes
+ * @param {string} url path a leer el archivo
+ * @returns {Promise<Array<any>>}
+ */
+ function readFileExcelNotes( url ) {
+
+  const manejador = function( resolve, reject ) {
+  
+    const { transformarData } = require('./transformers');
+
+    /** @type {XLSX.ParsingOptions}  */
+    const opciones = { cellDates: true };
+
+    try {
+
+      let archivo = fs.readFileSync( url ); // buffer por defecto
+      
+      // habiltamos la lectura de fechas con cellDates
+      let resultado = XLSX.read( archivo, opciones );
+      
+      // transformamos a un array de objetos cada respuesta para estandarizar
+      let respuesta = [];
+ 
+      // en Workbok estan cada una de las propiedades del libro
+      // Sheets es el arreglo dentro de Workbook que contiene la información de cada hoja
+      resultado.SheetNames.forEach( nombre => {
+        
+        const data = resultado.Sheets[ nombre ];
+
+        nota = transformarData( data );
+        
+        respuesta.push( nota );
+
+        // console.log( nota );
+      });     
+      
+      // devolvemos la informacion
+      resolve( respuesta ); 
+
     } catch ( error ) { 
       
       reject( error );
@@ -192,7 +253,8 @@ function exportJSON( url, data ) {
 
 module.exports = {
   writeFileExcel,
-  readFileExcel,
+  readFileExcelProducts,
+  readFileExcelNotes,
   exportJSON,
   generarLibroNotasExcel
 }

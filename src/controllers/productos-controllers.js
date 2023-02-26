@@ -1,3 +1,16 @@
+/**
+ * Product
+ * @typedef {Object} Product
+ * @property {number} [productoid] identificador de producto
+ * @property {number} userid identificador de usuario
+ * @property {number} categoriaid identificador de categoria
+ * @property {string} nombre nombre del producto
+ * @property {string} descripcion descripcion de producto
+ * @property {number} precio precio del producto
+ * @property {number} cantidad cantidad de productos
+ * @property {boolean} disponibilidad disponibilidad de producto
+ */
+
 const { Notification, dialog, BrowserWindow } = require('electron');
 
 const { Database } = require('../database/database'); 
@@ -120,6 +133,8 @@ class ProductosController {
 	 */
 	static importarProductos() {
 
+		let message = 'Cancelada';
+
 		/** funcion que muestra el alert de campos incorrectos */
 		const mostrarMensaje = () => {
 
@@ -139,23 +154,6 @@ class ProductosController {
 
 		return new Promise(( resolve, reject ) => {
 			
-			/** funcion que muestra el alert de campos incorrectos */
-			const mostrarMensaje = () => {
-
-				message = 'El orden de los campos importados son incorrectos';
-					
-				dialog.showErrorBox(
-					'Error',
-					(
-						'Los campos en el archivo son incorrectos.\n\n' +
-						'Consulta el manual para obtener más información\n' +
-						'sobre como importar archivos.'
-					)
-				);
-						
-				throw message; 
-			};
-
 			const notificacion = new Notification();
 			const extensiones = ['.json', '.xls', '.xlsx'];
 			
@@ -169,23 +167,22 @@ class ProductosController {
 			};
 	
 			let path = '';
-			let message = 'Cancelada';
 	
 			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
-				.then( respuesta => {
+				.then( respuestaVentana => {
 	
-					if ( respuesta.canceled ) {
+					if ( respuestaVentana.canceled ) {
 						
 						// abortamos la ejecucion del resto de promesas
 						// pasamos al catch
 						throw message;
 					}	
 	
-					path = respuesta.filePaths[0];
+					path = respuestaVentana.filePaths[0];
 					
-					let validacion = extensiones.some(( extension ) => path.includes( extension ));
+					const validacion = extensiones.some( extension => path.includes( extension ) );
 	
-					if ( validacion === false ) {
+					if ( !validacion ) {
 						message = 'La extension del archivo no es valida';
 	
 						notificacion.title = 'Atención';
@@ -201,63 +198,25 @@ class ProductosController {
 					// validamos si es un JSON
 					if ( path.includes( extensiones[0] ) ) {
 						return fileModule.readFilePromiseJSON( path, true );
-						
 					}
 
-					return excelModule.readFileExcel( path );	
+					return excelModule.readFileExcelProducts( path );	
 					
 				})
-				.then( respuestaArchivo => {
+				.then( productos => {
 
-					if ( path.includes( extensiones[0] ) ) { 
+					const validacion = productos.every( product => ProductModel.validate( product ) );
+					
+					// console.log( validate );  
 
-						const validacion = respuestaArchivo.every( product => { 
-							return ProductModel.validate( product ); 
-						});
-						
-						// console.log( validate );  
-
-						if ( validacion === false ) {
-							mostrarMensaje();
-						}
-								
-						return ProductosController.insertarArrayProductos( 
-							CRUD.importarProductos, 
-							respuestaArchivo 
-						);
-
-					} 
-
-					// sino continua con el excel
-					const validacion = respuestaArchivo.some( hoja => {
-						return hoja.contenido.every( product => ProductModel.validate( product ));
-					});
-
-					if ( validacion === false ) {
+					if ( !validacion ) {
 						mostrarMensaje();
 					}
-
-					/**
-					 * Cada hoja del excel ejecutara insertarArrayProductos
-					 * usamos Array.map para devolver un nuevo array. En cada posición se almacena 
-					 * la ejecucion de la promesa y para manejar su flujo se utiliza Promise.all
-					*/
-					const arrayPromesas = respuestaArchivo.map( hoja => {
-						return ProductosController.insertarArrayProductos( 
-							CRUD.importarProductos, 
-							hoja.contenido 
-						);
-					});
-
-					// console.log( promises );
-
-					/**
-					 * Promise all recibe un array de promesas por parametro, 
-					 * espera a que todas las promesas se ejecuten dentro del
-					 * array. Si falla una cae al catch
-					 */
-					return Promise.all( arrayPromesas );
-
+							
+					return ProductosController.insertarArrayProductos( 
+						CRUD.importarProductos, 
+						productos 
+					);
 				})
 				.then( respuesta => {
 					
@@ -570,9 +529,8 @@ class ProductosController {
 	 * edita un producto
 	 *
 	 * @param  {Product} producto instancia del producto
-	 * @param  {User} usuario usuario logeado
 	 */
-	static editarProducto( producto, usuario ) {
+	static editarProducto( producto ) {
 
 		// console.log (producto, "<-- log del producto");
 
@@ -724,19 +682,32 @@ class ProductosController {
 		});
 	}
 
-}
+	/**
+	 * Obtiene una instancia de un producto
+	 * @param {number} idProduct 
+	 * @returns {Promise<Product>}
+	 */
+	static obtenerProducto( idProduct ) {
+		return new Promise(( resolve, reject ) => {
+			
+			this.database.consult(CRUD.obtenerProducto, { productoid: idProduct }, ( error,  results ) => {
 
-/**
- * Product
- * @typedef {Object} Product
- * @property {number} [productoid] identificador de producto
- * @property {number} userid identificador de usuario
- * @property {number} categoriaid identificador de categoria
- * @property {string} nombre nombre del producto
- * @property {string} descripcion descripcion de producto
- * @property {number} precio precio del producto
- * @property {number} cantidad cantidad de productos
- * @property {boolean} disponibilidad disponibilidad de producto
- */
+				if ( error ) {
+					console.log( error );
+					reject( error );
+
+					return;
+				}
+
+				// console.log( results );
+
+				const [ result ] = results;
+
+				resolve( result );
+			});
+		});
+	}
+
+}
 
 module.exports = { ProductosController };

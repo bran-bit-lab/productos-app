@@ -20,7 +20,7 @@ class Database {
 
 	/**
 	* @callback callbackInsert
-	* @param {string|Error|null} error error al insertar en la BD.
+	* @param {string|mysql.MysqlError|null} error error al insertar en la BD.
 	*/
 	/**
 	* Inserta elemento en la base de datos

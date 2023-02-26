@@ -1,3 +1,17 @@
+/**
+ * Nota
+ * @typedef {Object} Nota
+ * @property {number} id_nota identificador de la nota
+ * @property {number} id_cliente identificador de cliente
+ * @property {number} userid identificador del usuario
+ * @property {"EN_PROCESO" | "ACEPTADO" | "ENTREGADA" | "POSPUESTO" | "CANCELADA"} status estado de la orden en ese momento
+ * @property {string} creacion timestamp de creacion de la nota
+ * @property {string} descripcion_nota descripcion de la nota de entrega
+ * @property {string} fecha_entrega fecha de entrega del pedido se completa si el usuario pasa el pedido a ENTREGADA
+ * @property {Array<NotaProducto>} productos lista de productos seleccionados
+ * @property {number} [total_order] total de la orden
+ */
+
 const { Notification, dialog, BrowserWindow } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
@@ -7,6 +21,8 @@ const { PdfController } = require('./pdf-controller');
 const excelModule = require('../util-functions/excel');
 const FILE = require('../util-functions/file');
 const modelNota = require('../models/note');
+const { ProductosController } = require('./productos-controllers');
+
 /** Clase que gestiona las notas de entregas */
 class NotasController {
 
@@ -21,7 +37,7 @@ class NotasController {
 	/**
 	 * Exporta los productos en un archivo de excel
 	 */
-	 static exportarNotas() {
+	static exportarNotas() {
 
 		return new Promise(( resolve, reject ) => {
 			
@@ -76,10 +92,9 @@ class NotasController {
 					if ( path.includes( extensiones[0] ) ) {
 						return excelModule.exportJSON( path, consultaDB );
 
-					} else {
-						return excelModule.generarLibroNotasExcel( path, consultaDB );
+					} 
 
-					}
+					return excelModule.generarLibroNotasExcel( path, consultaDB );
 				})
 				.then( respuesta => {
 					
@@ -104,6 +119,8 @@ class NotasController {
 	 * Importa los productos en un archivo excel
 	 */
 	static importarNotas() {
+
+		let message = 'Cancelada';
 
 		/** metodo que muestra un mensaje de adventencia */
 		const mostrarMensaje = () => {
@@ -137,24 +154,21 @@ class NotasController {
 			};
 
 			let path = '';
-			let message = 'Cancelada';
 
 			// 1.- crear la ventana de importacion
 			dialog.showOpenDialog( BrowserWindow.getFocusedWindow(), opciones )
-				.then( respuesta => {
+				.then( respuestaVentana => {
 
 					// 2.- validar la cancelacion y el formato
-					if ( respuesta.canceled ) {
+					if ( respuestaVentana.canceled ) {
 						throw message;
 					}
 
-					path = respuesta.filePaths[0];
+					path = respuestaVentana.filePaths[0];
 					
-					let validacion = extensiones.some(( extension ) => { 
-						return path.includes( extension ); 
-					});
+					const validacion = extensiones.some( extension => path.includes( extension ) );
 
-					if ( validacion === false ) {
+					if ( !validacion ) {
 						message = 'La extensión del archivo no es valida';
 
 						notificacion.title = 'Atención';
@@ -164,27 +178,52 @@ class NotasController {
 
 						throw message;
 					}
-					
+
 					// 3.- importar el arhivo
-					return FILE.readFilePromiseJSON( path, true, false );
-		
+					if ( path.includes( extensiones[0] ) ) {
+						return FILE.readFilePromiseJSON( path, true );	
+					}
+					
+					return excelModule.readFileExcelNotes( path );
 				})
-				.then( archivo => {
+				.then( notas => {
 					
 					// 4.- validar los campos del archivo
-					const validacion = archivo.every( nota => {
-						return modelNota.validate( nota ); 
-					});
+					let validacion = notas.every( nota => modelNota.validate( nota ) );
 
-					if ( validacion == false ) {
+					if ( !validacion ) {
 						mostrarMensaje();
 					}
 
-					// 5.- preparar la consulta SQL que inserta las notas + productos
-					// 6.- ejecutar la consulta
-					console.log( validacion );
+					// 5.- verifica si las notas tengan status entregada 
+					// si es asi asigna la fecha
+					validacion = notas.some( nota => nota.status === 'ENTREGADA' );
 					
-					resolve();					
+					if ( validacion ) {
+
+						notas = notas.map( nota => {
+	
+							if ( nota.status === 'ENTREGADA' ) {
+								return { ...nota, fecha_entrega: TIME.dateToString() };
+							}
+	
+							return nota;
+						});
+					}
+
+					const arrayPromesas = notas.map( nota => NotasController.crearNota( nota, false ) );
+
+					// ejecutamos cada promesa al momento de insertar
+					return Promise.all( arrayPromesas );
+				})
+				.then(( _ ) => {
+
+					notificacion.title = 'Exito';
+					notificacion.body = 'Notas creadas con éxito';
+
+					notificacion.show();
+
+					resolve();
 				})
 				.catch( error => {
 
@@ -248,65 +287,104 @@ class NotasController {
 	/**
 	 * crea un registro de una nota de entrega
 	 * @param  {Nota} nota instancia de la nota
+	 * @param {boolean} [notificacion] muesta la notificacion para cada nota insertada
 	 */
-	static crearNota( nota ) {
+	static crearNota( nota, showNotificacion = true ) {
 
-		// nota tiene todas las propiedades del nota de entrega + productos, no puedes enviar todo eso
-		// por que mostrarar un error si haces un log de nota te trae toda la informacion debes extraer
-		// sus propiedades y crear el objeto para cada consulta
+		return new Promise( async ( resolve, reject ) => {
+			
+			// nota tiene todas las propiedades del nota de entrega + productos, 
+			// no puedes enviar todo eso por sino mostrara un error. si haces un log de nota te trae 
+			// toda la informacion 
+			
+			// console.log( nota )
+							
+			// combinamos 2 consultas sql para crear la nota y obtener el ultimo registro
+			const sql = ( CRUD.crearNota + " " + CRUD.ultimoRegistro );
 
-		// console.log( nota );
+			// Debes extraer sus propiedades y crear el objeto para cada consulta
+			let nuevaNota = {
+				userid: nota['userid'],
+				status: nota['status'],
+				descripcion_nota: nota['descripcion_nota'],
+				id_cliente: nota['id_cliente'],
+				fecha_entrega: nota['fecha_entrega'] ?? null
+			};
 
-		let nuevaNota = {
-			userid: nota['userid'],
-			status: nota['status'],
-			descripcion_nota: nota['descripcion_nota'],
-			id_cliente: nota['id_cliente'],
-			fecha_entrega: nota['fecha_entrega']
-		};
+			let arrayProductos = nota['productos'] ?? []; 
+			
+			// verificamos si llegan productos y validamos la cantidad seleccionada
+			if ( arrayProductos.length > 0 ) {
+				
+				const arrayProductosPromise = arrayProductos.map( async producto => {
+						
+					if ( !producto.cantidad ) {
+						return { 
+							...producto, 
+							cantidad: ( await ProductosController.obtenerProducto( 
+									producto.productoid 
+								)
+							).cantidad
+						}
+					}
 
-		let arrayProductos = nota['productos']; // aqui te trae toda la info de los producto aqui esta la cantidad
+					return producto;
+				})
 
-		const validarCantidad = arrayProductos.every(( producto ) => producto['cantidad_seleccionada'] <= producto['cantidad']);
+				arrayProductos = await Promise.all( arrayProductosPromise );
 
-		if ( validarCantidad === false ){
+				// console.log( arrayProductos );
 
-			dialog.showMessageBox( null, {
-				type: 'warning',
-				title: 'advertencia',
-				message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
-			});
+				const validarCantidad = arrayProductos.every(( producto ) => {
+					return producto['cantidad_seleccionada'] <= producto['cantidad']; 
+				});
 
-			// throw new Error("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
+				if ( validarCantidad === false ) {
+		
+					dialog.showMessageBox( null, {
+						type: 'warning',
+						title: 'advertencia',
+						message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
+					});
+		
+					// throw new Error("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
+					
+					reject("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
 
-			return;
-		}
-
-		this.database.insert( CRUD.crearNota, nuevaNota, async ( error ) => {
-
-			const notificacion = new Notification({
-				title: '',
-				body: ''
-			});
-
-			if ( error ) {
-
-				notificacion['title'] = 'Error!!';
-				notificacion['body'] = 'Error al crear Nota';
-
-				notificacion.show();
-
-				console.log(error);
-
-				throw error;
+					return;
+				}
 			}
+			
+			this.database.insert( sql, nuevaNota, ( error, results ) => {
+	
+				const notificacion = new Notification({ title: '', body: '' });
+	
+				if ( error ) {
+	
+					notificacion['title'] = 'Error!!';
+					notificacion['body'] = 'Error al crear Nota';
+	
+					notificacion.show();
+	
+					console.log( error );
+	
+					reject( error );
 
-			try {
-				// recuerda que obtener id nota es un metodo estatico se invoca nombre_clase.metodo()
-				let ultimoRegistro = await NotasController.obtenerUltimaNota();
+					return;
+				}
+	
+				// verifica si existen productos en nota de entrega al momento de importar
+				if ( arrayProductos.length === 0 ) {
+					
+					resolve('Nota insertada con exito');
+					
+					return;
+				}
 
-				// aqui se filtro lo campos excluyendo la cantidad
-				//console.log ( arrayProductos );
+				// extraemos para obtener el ultimo registro
+				const ultimoRegistro = results[1][0]; 
+
+				// console.log( ultimoRegistro );
 
 				arrayProductos = arrayProductos.map(( producto ) => {
 					return {
@@ -317,23 +395,32 @@ class NotasController {
 					};
 				});
 
-				arrayProductos.forEach(( notaProducto ) => {
-					NotasProductosController.insertarNotasProductos.call( NotasProductosController.database, notaProducto );
-				});
+				arrayProductos.forEach(( notaProducto, index ) => {
+						
+					// callback de notificacion
+					const callback = (index === (arrayProductos.length - 1)) ? 
+						() => {
+							
+							if ( showNotificacion ) {
+								notificacion['title'] = 'Éxito';
+								notificacion['body'] = 'Nota creada con éxito';
+				
+								notificacion.show();
+							}
 
-				notificacion['title'] = 'Éxito';
-				notificacion['body'] = 'Nota creada con éxito';
+							resolve('Nota + productos creada con exito');
+						}
+						: null
 
-				notificacion.show();
-
-			} catch ( error ) {
-
-				console.error( error );
-
-				throw error;
-			}
-
+					NotasProductosController.insertarNotasProductos.call( 
+						NotasProductosController.database, 
+						notaProducto, 
+						callback
+					);
+				});	
+			});
 		});
+		
 	}
 
 
@@ -342,7 +429,7 @@ class NotasController {
 	 *
 	 * @return {Promise<Nota>}  retorna una promesa que devuelve la utlima nota registada
 	 * @example
-	 * let utlimoRegistro = await NotasController.obtenerIdNota();
+	 * let utlimoRegistro = await NotasController.obtenerUlitmaNota();
 	 */
 	static obtenerUltimaNota() {
 
@@ -582,26 +669,29 @@ class NotasController {
 			id_nota: nota['id_nota']
 		};
 
-		let arrayProductos = nota['productos'];
+		let arrayProductos = nota['productos'] ?? [];
 
-		const validarCantidad = arrayProductos.every(( producto ) => { 
-			
-			let total = producto['cantidad_seleccionada'] + producto['cantidad'];
+		if ( arrayProductos.length > 0 ) {
 
-			return producto['cantidad_seleccionada'] <= total; 
-		});
-
-		if ( validarCantidad === false ) {
-
-			dialog.showMessageBox( null, {
-				type: 'warning',
-				title: 'advertencia',
-				message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
+			const validarCantidad = arrayProductos.every(( producto ) => { 
+				
+				let total = producto['cantidad_seleccionada'] + producto['cantidad'];
+	
+				return producto['cantidad_seleccionada'] <= total; 
 			});
-
-			// throw new Error("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
-
-			return;
+	
+			if ( validarCantidad === false ) {
+	
+				dialog.showMessageBox( null, {
+					type: 'warning',
+					title: 'advertencia',
+					message: 'la cantidad seleccionada no debe ser mayor a la cantidad disponible'
+				});
+	
+				// throw new Error("La cantidad seleccionada no debe ser mayor a la cantidad disponible");
+	
+				return;
+			}
 		}
 
 		// actualiza la nota
@@ -816,20 +906,5 @@ class NotasController {
 		});
 	}
 }
-
-
-/**
- * Nota
- * @typedef {Object} Nota
- * @property {number} id_nota identificador de la nota
- * @property {number} id_cliente identificador de cliente
- * @property {number} userid identificador del usuario
- * @property {"EN_PROCESO" | "ACEPTADO" | "ENTREGADA" | "POSPUESTO" | "CANCELADA"} status estado de la orden en ese momento
- * @property {string} creacion timestamp de creacion de la nota
- * @property {string} descripcion_nota descripcion de la nota de entrega
- * @property {string} fecha_entrega fecha de entrega del pedido se completa si el usuario pasa el pedido a ENTREGADA
- * @property {Array<NotaProducto>} productos lista de productos seleccionados
- * @property {number} [total_order] total de la orden
- */
 
 module.exports = { NotasController };

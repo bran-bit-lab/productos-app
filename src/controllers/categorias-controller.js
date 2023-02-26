@@ -1,4 +1,14 @@
-const { Notification, dialog } = require('electron');
+/**
+ * Category
+ * @typedef {Object} Category
+ * @property {number} [categoriaid] identificador de categoria
+ * @property {number} userid identificador de usuario
+ * @property {string} nombre nombre de la categoria
+ * @property {boolean} activo flag si indica que la categoria esta disponible
+ * @property {string} [imagen] string base64 de la imagen
+ */
+
+const { Notification } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
 
@@ -229,16 +239,6 @@ class CategoriasController {
 	}
 
 }
-
-/**
- * Category
- * @typedef {Object} Category
- * @property {number} [categoriaid] identificador de categoria
- * @property {number} userid identificador de usuario
- * @property {string} nombre nombre de la categoria
- * @property {boolean} activo flag si indica que la categoria esta disponible
- * @property {string} [imagen] string base64 de la imagen
- */
 
 module.exports = {
 	CategoriasController

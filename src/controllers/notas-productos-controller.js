@@ -1,7 +1,15 @@
-const { Notification, dialog } = require('electron');
+/**
+ * NotaProducto
+ * @typedef {Object} NotaProducto
+ * @property {number} id_NP identificador de notas_producto
+ * @property {number} id_nota identificador de nota a que pertenece la relacion
+ * @property {number} id_producto identificador de producto seleccionado
+ * @property {number} cantidad_seleccionada cantidad seleccionada en la orden
+ */
+
+const { Notification } = require('electron');
 const { Database } = require('../database/database');
 const CRUD = require('../database/CRUD');
-const TIME = require('../util-functions/time');
 const { ProductosController } = require('./productos-controllers');
 
 /** clase que gestiona los productos con las notas de entregas */
@@ -65,8 +73,6 @@ class NotasProductosController {
 				console.log( error );
 
 				throw error;  // mostrará el error en pantalla
-
-				return;
 			}
 
 			if ( callback ) {
@@ -95,12 +101,9 @@ class NotasProductosController {
 		this.database.update( CRUD.cantidadProducto, productoActualizado, ( error ) => {
 
 			if ( error ) {
-
-				throw error;  // mostrará el error en pantalla
-
 				console.log( error );
 
-				return;
+				throw error;  // mostrará el error en pantalla
 			}
 
 			callback();
@@ -125,8 +128,8 @@ class NotasProductosController {
 		this.database.update( CRUD.actualizarNotaProducto, objetoNP, ( error, resultado ) => {
 
 			if ( error ) {
-
 				console.log( error );
+
 				throw error;
 			}
 
@@ -172,18 +175,10 @@ class NotasProductosController {
 				notificacion['body'] = 'Producto retirado de la nota de entrega'
 				notificacion.show();
 			});
-
 		});
 	}
 }
 
-/**
- * NotaProducto
- * @typedef {Object} NotaProducto
- * @property {number} id_NP identificador de notas_producto
- * @property {number} id_nota identificador de nota a que pertenece la relacion
- * @property {number} id_producto identificador de producto seleccionado
- * @property {number} cantidad_seleccionada cantidad seleccionada en la orden
- */
+
 
 module.exports = { NotasProductosController };

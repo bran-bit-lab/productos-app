@@ -33,6 +33,7 @@ const CRUD = Object.freeze({
 	obtenerTotalProductosActivos: "SELECT COUNT(*) FROM productos WHERE disponibilidad = TRUE AND cantidad > 0;",
 	exportarProductos: "SELECT productos.*, categorias.nombre AS nombre_categoria FROM productos INNER JOIN categorias ON productos.categoriaid = categorias.categoriaid;",
 	importarProductos: "INSERT INTO productos (userid, categoriaid, nombre, descripcion, cantidad, precio, disponibilidad) VALUES :values;",
+	obtenerProducto: "SELECT * FROM productos WHERE productoid = :productoid;",
 
 	// clientes ...
 	crearCliente : "INSERT INTO clientes (nombre_cliente, direccion_entrega, rif, telefono_contacto) VALUES (:nombre_cliente, :direccion_entrega, :rif, :telefono_contacto);",
@@ -50,7 +51,7 @@ const CRUD = Object.freeze({
 	editarNotas : "UPDATE notas SET status = :status, descripcion_nota = :descripcion_nota, fecha_entrega = :fecha_entrega, id_cliente = :id_cliente WHERE id_nota = :id_nota;",
 	buscarNotas : "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, usuarios.nombre AS nombre_usuario, usuarios.apellido AS apellido_usuario, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente WHERE clientes.nombre_cliente LIKE :search OR notas.descripcion_nota LIKE :search;",
 	exportarNotas : "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, CONCAT( usuarios.nombre, ' ', usuarios.apellido ) AS creado_por, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente ORDER BY notas.id_nota ASC;",
-	
+	importarNotas: "INSERT INTO notas( userid, status, descripcion_nota, id_cliente, fecha_entrega ) VALUES :values;",
 	// exportarNotasOLD: "SELECT notas.id_nota, notas.descripcion_nota, notas.creacion, notas.status, usuarios.nombre AS nombre_usuario, usuarios.apellido AS apellido_usuario, clientes.nombre_cliente FROM notas LEFT JOIN usuarios ON notas.userid = usuarios.userid INNER JOIN clientes ON notas.id_cliente = clientes.id_cliente ORDER BY notas.id_nota ASC;",
 	
 	// notas_productos ...

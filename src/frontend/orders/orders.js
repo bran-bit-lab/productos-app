@@ -226,6 +226,8 @@ class OrdersTableComponent {
 
 		try {
 			await NotasController.importarNotas();
+			await this.getAll();
+
 
 		} catch ( error ) {
 			console.log( error );

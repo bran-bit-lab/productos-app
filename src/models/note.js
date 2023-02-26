@@ -12,18 +12,18 @@
  * @property {string} fecha_entrega fecha de entrega de la nota
  * @property {number} id_cliente identificador del cliente de la nota
  * @property {number} userid identificador del usuario que crea la nota
- * @property {'EN_PROGRESO'|'ENTREGADA'|'ACEPTADO'|'CANCELADA'|'POSPUESTO'} status estado de entrega
+ * @property {'EN_PROCESO'|'ENTREGADA'|'ACEPTADO'|'CANCELADA'|'POSPUESTO'} status estado de entrega
 */
 const { PATTERNS } = require('../util-functions/string');
 
 /** @type Note */
 const NOTE_MODEL = Object.freeze({
-    id_nota: 0,
+    // id_nota: 0,
     descripcion_nota: '',
-    // fecha_entrega: '',
+    fecha_entrega: '',
     userid: 0,
     id_cliente: 0,
-    // status: 'ACEPTADO'
+    status: 'ACEPTADO'
 });
 
 /**
@@ -58,10 +58,6 @@ function validate( note ) {
     }
 
     // revisamos cada campo
-    if ( !Number.isInteger( note.id_nota ) ) {
-        return false;
-    }
-
     if ( !Number.isInteger( note.id_cliente ) ) {
         return false;
     }
@@ -72,6 +68,26 @@ function validate( note ) {
 
     if ( !PATTERNS.lettersAndNumbers.test( note.descripcion_nota ) ) {
         return false; 
+    }
+
+    switch ( note.status ) {
+        case 'ACEPTADO':
+            break;
+        
+        case 'CANCELADA':
+            break;
+        
+        case 'ENTREGADA':
+            break;
+        
+        case 'EN_PROCESO':
+            break;
+
+        case 'POSPUESTO':
+            break;
+        
+        default:
+            return false;
     }
     
     // si pasa las validaciones retorna true
