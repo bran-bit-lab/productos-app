@@ -333,7 +333,7 @@ class NotasController {
 
 				arrayProductos = await Promise.all( arrayProductosPromise );
 
-				console.log( arrayProductos );
+				// console.log( arrayProductos );
 
 				const validarCantidad = arrayProductos.every(( producto ) => {
 					return producto['cantidad_seleccionada'] <= producto['cantidad']; 

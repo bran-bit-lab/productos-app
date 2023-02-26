@@ -50,14 +50,6 @@ function validate( note ) {
         });
 
      */
-        console.log({
-            key: key,
-            id_nota: Number.isInteger( note.id_nota ),
-            id_cliente: Number.isInteger( note.id_cliente ),
-            userid: Number.isInteger( note.userid ),
-            descripcion_nota: PATTERNS.lettersAndNumbers.test( note.descripcion_nota ),
-            note,
-        });
 
     // si hay propiedades añadidas o retiradas dentro del producto
     // lo rechaza
