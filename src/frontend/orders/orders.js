@@ -194,8 +194,6 @@ class OrdersTableComponent {
 	 */
 	render( totalPages = 0, totalRegisters = 0, search = false ) {
 
-		let exportComponent = document.querySelector('app-export');
-
 		
 		if ( !search ) {
 			
@@ -215,11 +213,7 @@ class OrdersTableComponent {
 				
 		} else {
 			
-				// sino existen productos no muestra la opcion de importar
-			if ( exportComponent ) {
-				exportComponent.style.display = 'none';
-			}
-
+			this.exportComponent.style.display = 'none';
 			this.pagination.style.display = 'none';
 
 			this.deliveryTable.innerHTML = (`

@@ -68,27 +68,25 @@ class ProductsComponent {
 
 		switch ( view ) {
 
-			case 'category': {  // cuando cambias realiza la consulta
+			case 'category':  // cuando cambias realiza la consulta
 
-				elementsCategory.forEach( ( elementHTML ) => showElement( elementHTML ) );
-				elementsProducts.forEach( ( elementHTML ) => hideElement( elementHTML ) );
+				elementsCategory.forEach( elementHTML => showElement( elementHTML ) );
+				elementsProducts.forEach( elementHTML => hideElement( elementHTML ) );
 
 				// se hace la consulta antes de renderizar
 
 				categoryTableComponent.getAll( null, getPaginationStorage('categoriesTable') );
 
 				break;
-			}
+			
+			default: 
 
-			default: {
-
-				elementsProducts.forEach( ( elementHTML ) => showElement( elementHTML ) );
-				elementsCategory.forEach( ( elementHTML ) => hideElement( elementHTML ) );
+				elementsProducts.forEach( elementHTML => showElement( elementHTML ) );
+				elementsCategory.forEach( elementHTML => hideElement( elementHTML ) );
 
 				productsTableComponent.getAll( null, getPaginationStorage('productsTable') );
 
 				break;
-			}
 		}
 	}
 
