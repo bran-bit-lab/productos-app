@@ -207,9 +207,11 @@ class OrdersTableComponent {
 		
 		if ( this.deliveryNotes.length > 0 ) {
 			
+			this.pagination.style.display = 'block';
+
 			this.deliveryTable.innerHTML = this.deliveryNotes.map(
 				this.setRows.bind( this )
-				).join('');
+			).join('');
 				
 		} else {
 			
@@ -217,6 +219,8 @@ class OrdersTableComponent {
 			if ( exportComponent ) {
 				exportComponent.style.display = 'none';
 			}
+
+			this.pagination.style.display = 'none';
 
 			this.deliveryTable.innerHTML = (`
 				<tr class="text-center">

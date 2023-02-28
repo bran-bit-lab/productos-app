@@ -2,10 +2,10 @@
 class UsersTableComponent {
 
   constructor() {
-    this.pagination = document.querySelector('#pagination-users');
+    	this.pagination = document.querySelector('#pagination-users');
 		this.tbody = document.querySelector('#tbody-user');
 		this.totalUsers = document.querySelector('#totalUsers');
-    this.searchBar = document.querySelector('search-bar-component[from="users"]');
+    	this.searchBar = document.querySelector('search-bar-component[from="users"]');
 
 		this.renderUsers = this.renderUsers.bind( this );
 		this.deleteUser = this.deleteUser.bind( this );
