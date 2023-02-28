@@ -188,6 +188,8 @@ class NotasController {
 				})
 				.then( notas => {
 					
+					// console.log( notas );
+
 					// 4.- validar los campos del archivo
 					let validacion = notas.every( nota => modelNota.validate( nota ) );
 
