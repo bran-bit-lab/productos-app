@@ -6,6 +6,7 @@
 const XLSX = require('xlsx');
 const fs = require('fs');
 const FILE = require('./file');
+const console = require('console');
 
 /**
  * Exporta el archivo en formato excel
@@ -179,12 +180,13 @@ function readFileExcelProducts( url ) {
 
   const manejador = function( resolve, reject ) {
   
-    const { transformarData } = require('./transformers');
 
     /** @type {XLSX.ParsingOptions}  */
     const opciones = { cellDates: true };
 
     try {
+
+      const { transformarData } = require('./transformers');
 
       let archivo = fs.readFileSync( url ); // buffer por defecto
       
@@ -202,10 +204,14 @@ function readFileExcelProducts( url ) {
 
         nota = transformarData( data );
         
+        console.log( nota );
+
         respuesta.push( nota );
 
-        // console.log( nota );
-      });     
+        // console.log( data );
+      });    
+      
+      console.log( respuesta );
       
       // devolvemos la informacion
       resolve( respuesta ); 
