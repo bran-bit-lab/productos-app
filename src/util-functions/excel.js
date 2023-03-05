@@ -185,6 +185,8 @@ function readFileExcelProducts( url ) {
 
     try {
 
+      const { transformarData } = require('./transformers');
+      
       let archivo = fs.readFileSync( url ); // buffer por defecto
       
       // habiltamos la lectura de fechas con cellDates
@@ -198,12 +200,12 @@ function readFileExcelProducts( url ) {
       resultado.SheetNames.forEach( nombre => {
         
         const data = resultado.Sheets[ nombre ];
-        console.log( data );
-        // nota = transformarData( data );
-        
-        // respuesta.push( nota );
 
-        // console.log( nota );
+        nota = transformarData( data );
+        
+        respuesta.push( nota );
+
+        // console.log( data );
       });     
       
       // devolvemos la informacion
