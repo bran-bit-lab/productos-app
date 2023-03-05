@@ -6,6 +6,7 @@
 const XLSX = require('xlsx');
 const fs = require('fs');
 const FILE = require('./file');
+const console = require('console');
 
 /**
  * Exporta el archivo en formato excel
@@ -186,7 +187,7 @@ function readFileExcelProducts( url ) {
     try {
 
       const { transformarData } = require('./transformers');
-      
+
       let archivo = fs.readFileSync( url ); // buffer por defecto
       
       // habiltamos la lectura de fechas con cellDates
@@ -203,10 +204,14 @@ function readFileExcelProducts( url ) {
 
         nota = transformarData( data );
         
+        console.log( nota );
+
         respuesta.push( nota );
 
         // console.log( data );
-      });     
+      });    
+      
+      console.log( respuesta );
       
       // devolvemos la informacion
       resolve( respuesta ); 

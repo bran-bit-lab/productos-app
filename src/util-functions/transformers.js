@@ -83,7 +83,7 @@ const CELLS = new Map([
         if ( (!CELLS.get( columna )) || (!data[CELLS.get( columna ) + fila.toString()]) ) {
           continue;
         }
-  
+        
         let value = data[CELLS.get( columna ) + fila.toString()].v;
   
           switch ( columna ) {
