@@ -170,6 +170,131 @@ function readFileExcelProducts( url ) {
   return promesa;
 }
 
+function transformarData( data ) {
+ 
+  const CELLS = new Map([ 
+    [1, 'A'], [2, 'B'], [3, 'C'], [4, 'D'], [5, 'E'], [6, 'F'], [7, 'G'],
+    [8, 'H'], [9, 'I'], [10, 'J'], [11, 'K'], [12, 'L'], [13, 'M'],
+    [14, 'N'], [15, 'O'], [16, 'P'], [17, 'Q'], [18, 'R'], [19, 'S'],
+    [20, 'T'], [21, 'U'], [22, 'V'], [23, 'W'], [24, 'X'], [25, 'Y'],
+    [26, 'Z'],
+  ]);
+
+  let nota = {
+    productos:[]
+  };
+
+  // bucle de filas // claves
+  for( let fila = 1 ; fila <= 10 ; fila++ ){
+
+    if ( fila !== 1 ) {
+      continue;
+    }
+
+    // bucle de columnas
+    for( let columna = 1 ; columna <= CELLS.size ; columna++ ){
+
+       let celda = CELLS.get(columna) + fila.toString();
+       if( data[celda] === undefined ){
+        continue;        
+       }
+
+       let valor = data[celda].v
+        
+       // asignamos los valores
+       nota[valor] = null;
+    }
+  }
+
+  // valores
+  for( let fila = 1 ; fila <= 10 ; fila++ ){
+
+    if ( fila === 1 || fila > 2 ) {
+      continue;
+    }
+
+    // bucle de columnas
+    for( let columna = 1 ; columna <= CELLS.size ; columna++ ){
+
+       let celda = CELLS.get(columna) + fila.toString();
+       
+       if( data[celda] === undefined ){
+        continue; 
+       }
+       // aqui tendrias ejemplo 18 que es el id
+       // del usuario como sabemos cual valor es cual
+       let valor = data[celda].v
+       // case (1) evualua si la coluna esta en la primera
+
+       console.log({ 
+        valor: valor,
+        columna: columna
+       });
+
+       switch( columna ){
+         case (1):
+          nota.descripcion_nota = valor  
+          break;
+         case (2):
+          nota.userid = valor
+          break;
+         case (3):
+          nota.status = valor
+          break;
+         case (4):
+          nota.id_cliente = valor
+          break;
+         case (5):
+          nota.fecha_entrega = valor
+          break;
+         default:
+          continue;
+       }       
+        
+       // asignamos los valores
+       //nota[valor] = null;
+    }
+  }
+
+  for ( let fila = 6; fila <= 100000 ; fila++ ){
+
+    if( data['A'+fila.toString()] === undefined ){
+      continue;      
+    }
+
+    // iremos llenando los datos
+    let producto = {};
+
+    for( let columna = 1; columna <= CELLS.size ; columna++ ){
+
+       let celda = CELLS.get(columna) + fila.toString();
+       
+       if( data[celda] === undefined ){
+         continue;        
+       }
+              
+       let valor = data[celda].v                          
+
+       switch( columna ){
+         
+         case (1):
+          producto.productoid = valor  
+          break;
+         case (2):
+          producto.cantidad_seleccionada = valor
+          break;         
+         default:
+          continue;
+       }
+    }
+    nota.productos.push( producto );
+    
+  }
+  console.log( nota );
+  return nota;
+}
+
+
 /**
  * Lee un archivo excel y devuelve un array con sus hojas correspondientes
  * @param {string} url path a leer el archivo
@@ -199,11 +324,11 @@ function readFileExcelProducts( url ) {
         
         const data = resultado.Sheets[ nombre ];
 
-        // nota = transformarData( data );
+        nota = transformarData( data );
         
         respuesta.push( nota );
 
-        // console.log( nota );
+        // console.log( data );
       });     
       
       // devolvemos la informacion

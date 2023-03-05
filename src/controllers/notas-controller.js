@@ -187,10 +187,10 @@ class NotasController {
 					return excelModule.readFileExcelNotes( path );
 				})
 				.then( notas => {
-					
-					console.log( notas );
-
-					return;
+			        // la asignacion es crear unasalida unica
+					// de notas de entrega de esta formas
+					//console.log( notas );
+					//return;
 
 					// 4.- validar los campos del archivo
 					let validacion = notas.every( nota => modelNota.validate( nota ) );
