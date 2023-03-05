@@ -188,6 +188,7 @@ class NotasController {
 				})
 				.then( notas => {
 					
+					// testing de insertar notas
 					console.log( notas );
 
 					return;

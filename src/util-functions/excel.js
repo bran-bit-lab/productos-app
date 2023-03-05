@@ -198,10 +198,10 @@ function readFileExcelProducts( url ) {
       resultado.SheetNames.forEach( nombre => {
         
         const data = resultado.Sheets[ nombre ];
-
+        console.log( data );
         // nota = transformarData( data );
         
-        respuesta.push( nota );
+        // respuesta.push( nota );
 
         // console.log( nota );
       });     
