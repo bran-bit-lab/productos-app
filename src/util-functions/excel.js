@@ -179,7 +179,6 @@ function readFileExcelProducts( url ) {
 
   const manejador = function( resolve, reject ) {
   
-    const { transformarData } = require('./transformers');
 
     /** @type {XLSX.ParsingOptions}  */
     const opciones = { cellDates: true };
@@ -200,7 +199,7 @@ function readFileExcelProducts( url ) {
         
         const data = resultado.Sheets[ nombre ];
 
-        nota = transformarData( data );
+        // nota = transformarData( data );
         
         respuesta.push( nota );
 
