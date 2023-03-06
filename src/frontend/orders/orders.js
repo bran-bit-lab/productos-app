@@ -17,6 +17,10 @@ class OrdersTableComponent {
 		this.deliveryTable = document.querySelector('#tbody-delivery-notes');
 		this.searchComponent = document.querySelector('search-bar-component');
 		this.pagination = document.querySelector('#pagination-delivery');
+
+		// exportador
+		this.exportElement = document.querySelector('app-export');
+
 		this.page = 1;
 
 		// events
@@ -36,7 +40,6 @@ class OrdersTableComponent {
 		});
 		
 		// inciamos los eventos del exportador
-		this.exportElement = document.querySelector('app-export');
 		this.exportElement.addEventListener('export-data', event => {
 			const { nameEvent } = event.detail;
 
@@ -119,7 +122,7 @@ class OrdersTableComponent {
 
 		this.deliveryNotes = await NotasController.buscarNota({ search: '%' + search + '%' });
 
-		console.log( this.deliveryNotes );
+		// console.log( this.deliveryNotes );
 
 		this.render( null, null, true );
 	}
@@ -213,7 +216,7 @@ class OrdersTableComponent {
 				
 		} else {
 			
-			this.exportComponent.style.display = 'none';
+			this.exportElement.style.display = 'none';
 			this.pagination.style.display = 'none';
 
 			this.deliveryTable.innerHTML = (`
