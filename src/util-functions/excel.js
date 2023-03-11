@@ -56,7 +56,7 @@ function generarLibroNotasExcel( url, data ) {
 
     try {
        const workbook = XLSX.utils.book_new();
-       
+
        for ( const nota of data ) {
         
          const { productos , ...nota_modificada } = nota;
@@ -94,7 +94,7 @@ function generarLibroNotasExcel( url, data ) {
             });                                     
           }
          
-         XLSX.utils.book_append_sheet( workbook, worksheet, "detalle_nota_" +  nota.id_nota );
+         XLSX.utils.book_append_sheet( workbook, worksheet, ( "detalle_nota_" + nota.id_nota ));
        }
 
        XLSX.writeFile( workbook, url );
@@ -180,7 +180,6 @@ function readFileExcelProducts( url ) {
 
   const manejador = function( resolve, reject ) {
   
-
     /** @type {XLSX.ParsingOptions}  */
     const opciones = { cellDates: true };
 
@@ -203,15 +202,12 @@ function readFileExcelProducts( url ) {
         const data = resultado.Sheets[ nombre ];
 
         nota = transformarData( data );
-        
-        console.log( nota );
-
         respuesta.push( nota );
-
-        // console.log( data );
+        
+        // console.log( nota );
       });    
       
-      console.log( respuesta );
+      // console.log( respuesta );
       
       // devolvemos la informacion
       resolve( respuesta ); 
