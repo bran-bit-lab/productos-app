@@ -15,18 +15,10 @@ function initMainMenu( dev ) {
             label: 'Ventana',
             role: 'window',
             submenu: [
-                {
-                    role: 'reload',
-                },
-                { 
-                    role: 'forceReload',
-                },
-                {
-                    type: 'separator'
-                },
-                {
-                    role: 'toggleDevTools',
-                },
+                { role: 'reload', },
+                { role: 'forceReload', },
+                { type: 'separator', },
+                { role: 'toggleDevTools',},
             ]
         });
     }
@@ -43,14 +35,14 @@ const templateMenu = [
         role: 'help',
         submenu: [
             // documentacion
-            {
+            /*{
                 label: 'Aprender más',
                 accelerator: 'F1',
                 click: () => {
                     // importa la documentacion del usuario
                     console.log('test');
                 }, 
-            },
+            },*/
             // acerca de
             {
                 label: 'Acerca de',
