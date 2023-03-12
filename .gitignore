@@ -92,7 +92,6 @@ out/
 src/imagenes/*
 
 #documents
-documents/
 consults/
 
 # ejecutables
