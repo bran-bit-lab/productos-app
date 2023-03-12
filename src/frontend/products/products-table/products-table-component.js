@@ -6,6 +6,7 @@ class ProductsTableComponent {
 		this.tbody = document.querySelector('#tbody-products');
 		this.pagination = document.querySelector('#pagination-products');
 		this.searchBar = document.querySelector('search-bar-component[from="products"]');
+		this.exportComponent = document.querySelector('app-export');
 
 		this.render = this.render.bind( this );
 		this.getAll = this.getAll.bind( this );
@@ -222,16 +223,13 @@ class ProductsTableComponent {
 	render( totalProducts, search = false ) {
 
 		// console.log( totalProducts );
-		let exportComponent = document.querySelector('app-export');
 
 		if ( !search ) {
 
-			let paginationElement = document.querySelector('#pagination-products');
-
 			this.tbody.innerHTML = '';
-			paginationElement._limit = totalProducts.totalPaginas;
-			paginationElement._registers = totalProducts.totalRegistros;
-			paginationElement._page = this.page;
+			this.pagination._limit = totalProducts.totalPaginas;
+			this.pagination._registers = totalProducts.totalRegistros;
+			this.pagination._page = this.page;
 		}
 
 		if ( this.products.length > 0 ) {
@@ -243,11 +241,8 @@ class ProductsTableComponent {
 		} else {
 			
 			// sino existen productos no muestra la opcion de importar
-
-			if ( exportComponent ) {
-				exportComponent.style.display = 'none';
-			}
-
+			// ni la paginacion			
+			this.exportComponent.style.display = 'none';
 			this.pagination.style.display = 'none';
 
 			this.tbody.innerHTML = (`
