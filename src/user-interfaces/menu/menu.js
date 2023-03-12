@@ -48,7 +48,6 @@ const templateMenu = [
                     const parentWindow = BrowserWindow.getFocusedWindow();
                     const modalWindow = new BrowserWindow({
                         parent: parentWindow,
-                        title: 'Manual de usuario',
                         modal: true,
                         show: false,
                         height: 600,
@@ -56,7 +55,7 @@ const templateMenu = [
                     });
 
                     // oculta el menu al usuario
-                    modalWindow.setMenuBarVisibility( false )
+                    modalWindow.setMenuBarVisibility( false );
 
                     // carga el pdf
                     modalWindow.loadFile( url );
