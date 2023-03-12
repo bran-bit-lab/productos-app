@@ -28,6 +28,16 @@ const PRODUCT_MODEL = Object.freeze({
     disponibilidad: false,
 });
 
+
+
+
+
+
+
+
+
+
+
 /**
  * Valida la importacion de productos antes de mandar a base de datos
  * @param {Product} product Producto a validar
@@ -39,6 +49,16 @@ function validate( product ) {
     let key = Array.from( Object.keys( PRODUCT_MODEL ) )
         .every( key => product.hasOwnProperty( key ) );
 
+    console.log({
+          key: key,
+          userid: Number.isInteger( product.userid ),
+          categoriaid: Number.isInteger( product.categoriaid ),
+          cantidad: Number.isInteger( product.cantidad ),
+          precio: { cond: typeof product.precio, valor: product.precio }  ,
+          nombre: { cond: PATTERNS.lettersAndNumbers.test( product.nombre ), valor: product.nombre },
+          descipcion: { cond: PATTERNS.lettersAndNumbers.test( product.descripcion ), valor: product.descripcion },
+          disponibilidad: ( product.disponibilidad < 0 ) || ( product.disponibilidad > 1 )
+    });
 
     // revisamos cada campo
     // si hay propiedades añadidas o retiradas dentro del producto
@@ -66,11 +86,11 @@ function validate( product ) {
     }
 
 
-    if ( !PATTERNS.onlyLetters.test( product.nombre ) ) {
+    if ( !PATTERNS.lettersAndNumbers.test( product.nombre ) ) {
         return false; 
     }
 
-    if ( !PATTERNS.onlyLetters.test( product.descripcion ) ) {
+    if ( !PATTERNS.lettersAndNumbers.test( product.descripcion ) ) {
         return false; 
     }
 

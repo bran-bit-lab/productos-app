@@ -13,7 +13,7 @@ function initMainMenu( dev ) {
     // si el entorno es de desarrollo
     if ( dev ) {
 
-        // si ya esta agragado el elemento ventana no cargamos la opcion
+        // si ya esta agregado el elemento ventana no cargamos la opcion
         templateMenu.unshift({
             label: 'Ventana',
             role: 'window',
