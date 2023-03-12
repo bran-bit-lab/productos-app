@@ -38,18 +38,20 @@ function validate( note ) {
         .every( key => note.hasOwnProperty( key ) );
     
 
-    /* 
-        log de comprobacion de regex usar si alguna muestra falla
+    
+       // log de comprobacion de regex usar si alguna muestra falla
         
         console.log({
             key: key,
-            id_nota: Number.isInteger( note.id_nota ),
+            //id_nota: Number.isInteger( note.id_nota ),
             id_cliente: Number.isInteger( note.id_cliente ),
             userid: Number.isInteger( note.userid ),
-            descripcion_nota: PATTERNS.lettersAndNumbers.test( note.descripcion_nota )
+            descripcion_nota: PATTERNS.lettersAndNumbers.test( note.descripcion_nota ),
+            status: (note.status === "ACEPTADO") || (note.status === "CANCELADA") || (note.status === "ENTREGADA")
+                    || (note.status === "POSPUESTO") || (note.status === "EN_PROCESO")
         });
 
-     */
+    
 
     // si hay propiedades añadidas o retiradas dentro del producto
     // lo rechaza
