@@ -41,13 +41,12 @@ const templateMenu = [
             {
                 label: 'Aprender más',
                 accelerator: 'F1',
-                click: () => {
+                click: ( _, browserWindow ) => {
 
                     // creacion de una ventana modal
                     const url = resolve( ENV.PATH_DOCUMENTS, 'manual-usuario-productos-app.pdf' );
-                    const parentWindow = BrowserWindow.getFocusedWindow();
                     const modalWindow = new BrowserWindow({
-                        parent: parentWindow,
+                        parent: browserWindow,
                         modal: true,
                         show: false,
                         height: 600,
