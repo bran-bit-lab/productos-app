@@ -48,7 +48,7 @@ function validate( product ) {
     // validamos las propiedades
     let key = Array.from( Object.keys( PRODUCT_MODEL ) )
         .every( key => product.hasOwnProperty( key ) );
-
+/*
     console.log({
           key: key,
           userid: Number.isInteger( product.userid ),
@@ -59,7 +59,7 @@ function validate( product ) {
           descipcion: { cond: PATTERNS.lettersAndNumbers.test( product.descripcion ), valor: product.descripcion },
           disponibilidad: ( product.disponibilidad < 0 ) || ( product.disponibilidad > 1 )
     });
-
+*/
     // revisamos cada campo
     // si hay propiedades añadidas o retiradas dentro del producto
     // lo rechaza
