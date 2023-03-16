@@ -86,19 +86,18 @@ const CELLS = new Map([
         
         let value = data[CELLS.get( columna ) + fila.toString()].v;
   
-          switch ( columna ) {
-            case 1:
-              producto.productoid = value;
-              break;
-  
-            case 2:
-              producto.cantidad_seleccionada = value;
-              break;
-  
-            default:
-              continue;
-          }
-  
+        switch ( columna ) {
+          case 1:
+            producto.productoid = value;
+            break;
+
+          case 2:
+            producto.cantidad_seleccionada = value;
+            break;
+
+          default:
+            continue;
+        }
       }
   
       // añade los elementos al array
