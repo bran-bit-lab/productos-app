@@ -1,6 +1,5 @@
 const { remote } = require('electron');
 const { ReporteController } = remote.require('./controllers');
-const render = require('./render-table-chart');
 
 
 /** clase que controla las consultas estadisticas  */
@@ -177,11 +176,11 @@ class ReportsComponent {
             let response = await ReporteController.buscarTotalProductosPorCategoria();
            
             if ( !response ) {
-              render.renderTableCategories({ results: [] }, this.table );
+              renderTableCategories({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableCategories( response, this.table );
+            renderTableCategories( response, this.table );
 
             this.createPieChart('#chart-model', response );
 
@@ -198,11 +197,11 @@ class ReportsComponent {
             let response = await ReporteController.buscarCantidadMaximaVendida();
 
             if ( !response ) {
-              render.renderTableProductQuantity({ results: [] }, this.table );
+              renderTableProductQuantity({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableProductQuantity( response, this.table );
+            renderTableProductQuantity( response, this.table );
             this.createBarChart('#chart-model', response );
 
           } catch (e) {
@@ -220,11 +219,11 @@ class ReportsComponent {
            });
 
             if ( !response ) {
-              render.renderTableProductQuantity({ results: [] }, this.table );
+              renderTableProductQuantity({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableProductQuantity( response, this.table );
+            renderTableProductQuantity( response, this.table );
             this.createBarChart('#chart-model', response );
 
           } catch (e) {
@@ -239,11 +238,11 @@ class ReportsComponent {
             let response = await ReporteController.buscarCantidadProductosVendidosAnual();
 
             if ( !response ) {
-              render.renderTablePeriodSeller({ results: [] }, this.table );
+              renderTablePeriodSeller({ results: [] }, this.table );
               return;
             }
 
-            render.renderTablePeriodSeller( response, this.table );
+            renderTablePeriodSeller( response, this.table );
             this.createLineChart('#chart-model', response );
 
           } catch (e) {
@@ -261,11 +260,11 @@ class ReportsComponent {
             let response = await ReporteController.buscarNotasVendidasPorVendedor();
 
             if ( !response ) {
-              render.renderTableSellers({ results: [] }, this.table );
+              renderTableSellers({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableSellers( response, this.table );
+            renderTableSellers( response, this.table );
             this.createBarChart('#chart-model', response );
 
           } catch (e) {
@@ -284,11 +283,11 @@ class ReportsComponent {
             });
 
             if ( !response ) {
-              render.renderTableSellers({ results: [] }, this.table );
+              renderTableSellers({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableSellers( response, this.table );
+            renderTableSellers( response, this.table );
             this.createBarChart('#chart-model', response );
 
            } catch (e) {
@@ -303,11 +302,11 @@ class ReportsComponent {
             let response = await ReporteController.buscarNotasCategoria();
 
             if ( !response ) {
-              render.renderTableDeliveryState({ results: [] }, this.table );
+              renderTableDeliveryState({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableDeliveryState( response, this.table );
+            renderTableDeliveryState( response, this.table );
             this.createPieChart('#chart-model', response );
 
           } catch (e) {
@@ -327,11 +326,11 @@ class ReportsComponent {
             // console.log( response );
 
             if ( !response ) {
-              render.renderTableDeliveryState({ results: [] }, this.table );
+              renderTableDeliveryState({ results: [] }, this.table );
               return;
             }
 
-            render.renderTableDeliveryState( response, this.table );
+            renderTableDeliveryState( response, this.table );
             this.createPieChart('#chart-model', response);
 
           } catch (e) {

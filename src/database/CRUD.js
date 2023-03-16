@@ -1,4 +1,6 @@
+/** Consultas SQL hacia la BD */
 const CRUD = Object.freeze({
+	
 	// users ...
 	crearUsuario : "INSERT INTO usuarios (nombre, apellido, correo, area, password) VALUES (:nombre, :apellido, :correo, :area, :password);",
 	listarUsuarios : "SELECT * FROM usuarios ORDER BY userid DESC LIMIT :start, :limit;",
