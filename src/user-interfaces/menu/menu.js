@@ -9,6 +9,62 @@ const FILE = require('../../util-functions/file');
  */
 function initMainMenu( dev ) {
     
+    /** @type {Array<Electron.MenuItemConstructorOptions | Electron.MenuItem>} */
+    const templateMenu = [
+        {
+            label: 'Ayuda',
+            role: 'help',
+            submenu: [
+                // documentacion
+                {
+                    label: 'Ayuda al usuario',
+                    accelerator: dev ? 'F2' : 'F1',
+                    click: ( _, browserWindow ) => {
+
+                        // creacion de una ventana modal
+                        const url = resolve( ENV.PATH_DOCUMENTS, 'manual-usuario-productos-app.pdf' );
+                        const modalWindow = new BrowserWindow({
+                            parent: browserWindow,
+                            modal: true,
+                            show: false,
+                            height: 600,
+                            width: 400,
+                        });
+
+                        // oculta el menu al usuario
+                        modalWindow.setMenuBarVisibility( false );
+
+                        // carga el pdf
+                        modalWindow.loadFile( url );
+
+                        modalWindow.once('ready-to-show', () => {
+                            modalWindow.show();
+                        });
+                    }, 
+                },
+                // acerca de
+                {
+                    label: 'Acerca de',
+                    accelerator: 'Ctrl+h',
+                    click: () => {
+                        
+                        try {
+                            const message = FILE.readFile( resolve( ENV.PATH_DOCUMENTS, 'acerca.txt' ), true );
+                            
+                            dialog.showMessageBox( null, {
+                                title: 'Acerca de',
+                                message 
+                            });
+                        
+                        } catch ( error ) {
+                            throw error;
+                        }
+                    }, 
+                },
+            ]
+        },
+    ];
+    
     // añadimos las opciones de desarrollador
     // si el entorno es de desarrollo
     if ( dev ) {
@@ -24,27 +80,16 @@ function initMainMenu( dev ) {
                 { role: 'toggleDevTools',},
             ]
         });
-    }
 
-    // creamos el menu
-    const menu = Menu.buildFromTemplate( templateMenu );
-    Menu.setApplicationMenu( menu );
-}
-
-/** @type {Array<Electron.MenuItemConstructorOptions | Electron.MenuItem>} */
-const templateMenu = [
-    {
-        label: 'Ayuda',
-        role: 'help',
-        submenu: [
-            // documentacion
+        // manual tecnico
+        templateMenu[templateMenu.length - 1].submenu.unshift(
             {
-                label: 'Aprender más',
+                label: 'Ayuda para desarrolladores',
                 accelerator: 'F1',
                 click: ( _, browserWindow ) => {
-
+        
                     // creacion de una ventana modal
-                    const url = resolve( ENV.PATH_DOCUMENTS, 'manual-usuario-productos-app.pdf' );
+                    const url = resolve( ENV.PATH_DOCUMENTS, 'manual-tecnico-productos-app.pdf' );
                     const modalWindow = new BrowserWindow({
                         parent: browserWindow,
                         modal: true,
@@ -52,40 +97,28 @@ const templateMenu = [
                         height: 600,
                         width: 400,
                     });
-
+        
                     // oculta el menu al usuario
                     modalWindow.setMenuBarVisibility( false );
-
+        
                     // carga el pdf
                     modalWindow.loadFile( url );
-
+        
                     modalWindow.once('ready-to-show', () => {
                         modalWindow.show();
                     });
-                }, 
-            },
-            // acerca de
-            {
-                label: 'Acerca de',
-                accelerator: 'Ctrl+h',
-                click: () => {
-                    
-                    try {
-                        const message = FILE.readFile( resolve( ENV.PATH_DOCUMENTS, 'acerca.txt' ), true );
-                        
-                        dialog.showMessageBox( null, {
-                            title: 'Acerca de',
-                            message 
-                        });
-                    
-                    } catch ( error ) {
-                        throw error;
-                    }
-                }, 
-            },
-        ]
-    },
-];
+                },
+            }, 
+            {  type: 'separator' }
+        );
+    }
+
+    // creamos el menu
+    const menu = Menu.buildFromTemplate( templateMenu );
+    Menu.setApplicationMenu( menu );
+}
+
+
 
 module.exports = {
     initMainMenu,
