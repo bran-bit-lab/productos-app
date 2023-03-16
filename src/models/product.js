@@ -28,16 +28,6 @@ const PRODUCT_MODEL = Object.freeze({
     disponibilidad: false,
 });
 
-
-
-
-
-
-
-
-
-
-
 /**
  * Valida la importacion de productos antes de mandar a base de datos
  * @param {Product} product Producto a validar
