@@ -11,7 +11,7 @@ const console = require('console');
 /**
  * Exporta el archivo en formato excel
  * @param {string} url path donde se exporta el archivo
- * @param {{[string]: any} | Array<{[string]: any}>} data informacion a mostrar en el excel
+ * @param {*} data informacion a mostrar en el excel
  * @param {string} [nombreHoja] nombre de la hoja
  * @returns {Promise<string>}
  */
@@ -226,7 +226,7 @@ function readFileExcelProducts( url ) {
 /**
  * Exporta valores a JSON
  * @param {string} url path donde se exporta el archivo
- * @param {{[string]: any} | Array<{[string]: any}>} data datos a transformar a JSON
+ * @param {*} data datos a transformar a JSON
  * @returns {Promise<string>}
  */
 function exportJSON( url, data ) {

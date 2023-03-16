@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>controllers/pdf-controller.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CategoriasController.html">CategoriasController</a><ul class='methods'><li data-type='method'><a href="CategoriasController.html#.activarCategoria">activarCategoria</a></li><li data-type='method'><a href="CategoriasController.html#.buscarCategoria">buscarCategoria</a></li><li data-type='method'><a href="CategoriasController.html#.crearCategoria">crearCategoria</a></li><li data-type='method'><a href="CategoriasController.html#.editarCategoria">editarCategoria</a></li><li data-type='method'><a href="CategoriasController.html#.listarCategorias">listarCategorias</a></li><li data-type='method'><a href="CategoriasController.html#.obtenerTotalCategorias">obtenerTotalCategorias</a></li></ul></li><li><a href="CategoryTableComponent.html">CategoryTableComponent</a><ul class='methods'><li data-type='method'><a href="CategoryTableComponent.html#activeCategory">activeCategory</a></li><li data-type='method'><a href="CategoryTableComponent.html#createCategory">createCategory</a></li><li data-type='method'><a href="CategoryTableComponent.html#editCategory">editCategory</a></li><li data-type='method'><a href="CategoryTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="CategoryTableComponent.html#getName">getName</a></li><li data-type='method'><a href="CategoryTableComponent.html#openModalConfirm">openModalConfirm</a></li><li data-type='method'><a href="CategoryTableComponent.html#render">render</a></li><li data-type='method'><a href="CategoryTableComponent.html#searchCategories">searchCategories</a></li><li data-type='method'><a href="CategoryTableComponent.html#selectCategory">selectCategory</a></li><li data-type='method'><a href="CategoryTableComponent.html#setRows">setRows</a></li></ul></li><li><a href="ClientesController.html">ClientesController</a><ul class='methods'><li data-type='method'><a href="ClientesController.html#.buscarCliente">buscarCliente</a></li><li data-type='method'><a href="ClientesController.html#.crearCliente">crearCliente</a></li><li data-type='method'><a href="ClientesController.html#.editarCliente">editarCliente</a></li><li data-type='method'><a href="ClientesController.html#.listarClientes">listarClientes</a></li><li data-type='method'><a href="ClientesController.html#.obtenerTotalClientes">obtenerTotalClientes</a></li></ul></li><li><a href="ClientsTableComponent.html">ClientsTableComponent</a><ul class='methods'><li data-type='method'><a href="ClientsTableComponent.html#addClient">addClient</a></li><li data-type='method'><a href="ClientsTableComponent.html#editClient">editClient</a></li><li data-type='method'><a href="ClientsTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="ClientsTableComponent.html#renderClients">renderClients</a></li><li data-type='method'><a href="ClientsTableComponent.html#searchClient">searchClient</a></li><li data-type='method'><a href="ClientsTableComponent.html#setEvents">setEvents</a></li><li data-type='method'><a href="ClientsTableComponent.html#setRows">setRows</a></li></ul></li><li><a href="Database.html">Database</a><ul class='methods'><li data-type='method'><a href="Database.html#.closeConnection">closeConnection</a></li><li data-type='method'><a href="Database.html#.connect">connect</a></li><li data-type='method'><a href="Database.html#.sqlParse">sqlParse</a></li><li data-type='method'><a href="Database.html#consult">consult</a></li><li data-type='method'><a href="Database.html#delete">delete</a></li><li data-type='method'><a href="Database.html#find">find</a></li><li data-type='method'><a href="Database.html#getTotalRecords">getTotalRecords</a></li><li data-type='method'><a href="Database.html#insert">insert</a></li><li data-type='method'><a href="Database.html#update">update</a></li></ul></li><li><a href="HomeComponent.html">HomeComponent</a><ul class='methods'><li data-type='method'><a href="HomeComponent.html#initCards">initCards</a></li><li data-type='method'><a href="HomeComponent.html#logOut">logOut</a></li><li data-type='method'><a href="HomeComponent.html#openEstadistics">openEstadistics</a></li><li data-type='method'><a href="HomeComponent.html#openOrders">openOrders</a></li><li data-type='method'><a href="HomeComponent.html#openProducts">openProducts</a></li><li data-type='method'><a href="HomeComponent.html#openUsers">openUsers</a></li><li data-type='method'><a href="HomeComponent.html#reduceValues">reduceValues</a></li><li data-type='method'><a href="HomeComponent.html#showOptions">showOptions</a></li></ul></li><li><a href="LoadingComponent.html">LoadingComponent</a><ul class='methods'><li data-type='method'><a href="LoadingComponent.html#attributeChangedCallback">attributeChangedCallback</a></li><li data-type='method'><a href="LoadingComponent.html#connectedCallback">connectedCallback</a></li><li data-type='method'><a href="LoadingComponent.html#render">render</a></li></ul></li><li><a href="LoginPage.html">LoginPage</a><ul class='methods'><li data-type='method'><a href="LoginPage.html#handleSubmit">handleSubmit</a></li><li data-type='method'><a href="LoginPage.html#login">login</a></li><li data-type='method'><a href="LoginPage.html#renderErrors">renderErrors</a></li><li data-type='method'><a href="LoginPage.html#resetLoginForm">resetLoginForm</a></li><li data-type='method'><a href="LoginPage.html#validateForm">validateForm</a></li></ul></li><li><a href="ModalClientComponent.html">ModalClientComponent</a><ul class='methods'><li data-type='method'><a href="ModalClientComponent.html#checkClient">checkClient</a></li><li data-type='method'><a href="ModalClientComponent.html#closeModalClients">closeModalClients</a></li><li data-type='method'><a href="ModalClientComponent.html#handleChange">handleChange</a></li><li data-type='method'><a href="ModalClientComponent.html#openModalClients">openModalClients</a></li><li data-type='method'><a href="ModalClientComponent.html#renderClients">renderClients</a></li><li data-type='method'><a href="ModalClientComponent.html#searchClient">searchClient</a></li><li data-type='method'><a href="ModalClientComponent.html#setEvents">setEvents</a></li></ul></li><li><a href="ModalProductsComponent.html">ModalProductsComponent</a><ul class='methods'><li data-type='method'><a href="ModalProductsComponent.html#checkProduct">checkProduct</a></li><li data-type='method'><a href="ModalProductsComponent.html#closeModalProducts">closeModalProducts</a></li><li data-type='method'><a href="ModalProductsComponent.html#handleChange">handleChange</a></li><li data-type='method'><a href="ModalProductsComponent.html#openModalProducts">openModalProducts</a></li><li data-type='method'><a href="ModalProductsComponent.html#renderProducts">renderProducts</a></li><li data-type='method'><a href="ModalProductsComponent.html#searchProduct">searchProduct</a></li><li data-type='method'><a href="ModalProductsComponent.html#setEvents">setEvents</a></li></ul></li><li><a href="NotasController.html">NotasController</a><ul class='methods'><li data-type='method'><a href="NotasController.html#.actualizarNota">actualizarNota</a></li><li data-type='method'><a href="NotasController.html#.buscarNota">buscarNota</a></li><li data-type='method'><a href="NotasController.html#.calcularTotalNotas">calcularTotalNotas</a></li><li data-type='method'><a href="NotasController.html#.crearNota">crearNota</a></li><li data-type='method'><a href="NotasController.html#.exportarNotas">exportarNotas</a></li><li data-type='method'><a href="NotasController.html#.generarPDFNota">generarPDFNota</a></li><li data-type='method'><a href="NotasController.html#.importarNotas">importarNotas</a></li><li data-type='method'><a href="NotasController.html#.listarNotas">listarNotas</a></li><li data-type='method'><a href="NotasController.html#.mostrarAlerta">mostrarAlerta</a></li><li data-type='method'><a href="NotasController.html#.obtenerNota">obtenerNota</a></li><li data-type='method'><a href="NotasController.html#.obtenerNotasArray">obtenerNotasArray</a></li><li data-type='method'><a href="NotasController.html#.obtenerTotalNotas">obtenerTotalNotas</a></li><li data-type='method'><a href="NotasController.html#.obtenerUltimaNota">obtenerUltimaNota</a></li></ul></li><li><a href="NotasProductosController.html">NotasProductosController</a><ul class='methods'><li data-type='method'><a href="NotasProductosController.html#.actualizarNotasProductos">actualizarNotasProductos</a></li><li data-type='method'><a href="NotasProductosController.html#.insertarNotasProductos">insertarNotasProductos</a></li><li data-type='method'><a href="NotasProductosController.html#.restarCantidad">restarCantidad</a></li><li data-type='method'><a href="NotasProductosController.html#.retirarProductoNota">retirarProductoNota</a></li><li data-type='method'><a href="NotasProductosController.html#.sumarCantidad">sumarCantidad</a></li></ul></li><li><a href="OrdersForm.html">OrdersForm</a><ul class='methods'><li data-type='method'><a href="OrdersForm.html#calculateTotal">calculateTotal</a></li><li data-type='method'><a href="OrdersForm.html#confirmDeleteClient">confirmDeleteClient</a></li><li data-type='method'><a href="OrdersForm.html#confirmDeleteProduct">confirmDeleteProduct</a></li><li data-type='method'><a href="OrdersForm.html#deleteClient">deleteClient</a></li><li data-type='method'><a href="OrdersForm.html#deleteProduct">deleteProduct</a></li><li data-type='method'><a href="OrdersForm.html#getDeliveryNote">getDeliveryNote</a></li><li data-type='method'><a href="OrdersForm.html#getParamsUrl">getParamsUrl</a></li><li data-type='method'><a href="OrdersForm.html#handleChangeQuantity">handleChangeQuantity</a></li><li data-type='method'><a href="OrdersForm.html#handleSubmit">handleSubmit</a></li><li data-type='method'><a href="OrdersForm.html#resetForm">resetForm</a></li><li data-type='method'><a href="OrdersForm.html#selectClients">selectClients</a></li><li data-type='method'><a href="OrdersForm.html#selectProducts">selectProducts</a></li><li data-type='method'><a href="OrdersForm.html#sendData">sendData</a></li><li data-type='method'><a href="OrdersForm.html#setClientsTable">setClientsTable</a></li><li data-type='method'><a href="OrdersForm.html#setForm">setForm</a></li><li data-type='method'><a href="OrdersForm.html#setHtml">setHtml</a></li><li data-type='method'><a href="OrdersForm.html#setProductsTable">setProductsTable</a></li><li data-type='method'><a href="OrdersForm.html#validateForm">validateForm</a></li></ul></li><li><a href="OrdersTableComponent.html">OrdersTableComponent</a><ul class='methods'><li data-type='method'><a href="OrdersTableComponent.html#createDeliveryNote">createDeliveryNote</a></li><li data-type='method'><a href="OrdersTableComponent.html#editDeiliveryNote">editDeiliveryNote</a></li><li data-type='method'><a href="OrdersTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="OrdersTableComponent.html#getName">getName</a></li><li data-type='method'><a href="OrdersTableComponent.html#render">render</a></li><li data-type='method'><a href="OrdersTableComponent.html#searchDeliveryNote">searchDeliveryNote</a></li><li data-type='method'><a href="OrdersTableComponent.html#setEvents">setEvents</a></li><li data-type='method'><a href="OrdersTableComponent.html#setRows">setRows</a></li><li data-type='method'><a href="OrdersTableComponent.html#showPDF">showPDF</a></li></ul></li><li><a href="PaginationComponentElement.html">PaginationComponentElement</a><ul class='methods'><li data-type='method'><a href="PaginationComponentElement.html#attributeChangedCallback">attributeChangedCallback</a></li><li data-type='method'><a href="PaginationComponentElement.html#next">next</a></li><li data-type='method'><a href="PaginationComponentElement.html#prev">prev</a></li><li data-type='method'><a href="PaginationComponentElement.html#render">render</a></li><li data-type='method'><a href="PaginationComponentElement.html#sendPagination">sendPagination</a></li></ul></li><li><a href="PdfController.html">PdfController</a><ul class='methods'><li data-type='method'><a href="PdfController.html#crearReporte">crearReporte</a></li><li data-type='method'><a href="PdfController.html#createPdf">createPdf</a></li></ul></li><li><a href="ProductosController.html">ProductosController</a><ul class='methods'><li data-type='method'><a href="ProductosController.html#.activarProducto">activarProducto</a></li><li data-type='method'><a href="ProductosController.html#.buscarProducto">buscarProducto</a></li><li data-type='method'><a href="ProductosController.html#.crearProducto">crearProducto</a></li><li data-type='method'><a href="ProductosController.html#.editarCantidadProducto">editarCantidadProducto</a></li><li data-type='method'><a href="ProductosController.html#.editarProducto">editarProducto</a></li><li data-type='method'><a href="ProductosController.html#.exportarProductos">exportarProductos</a></li><li data-type='method'><a href="ProductosController.html#.importarProductos">importarProductos</a></li><li data-type='method'><a href="ProductosController.html#.insertarArrayProductos">insertarArrayProductos</a></li><li data-type='method'><a href="ProductosController.html#.listarCategorias">listarCategorias</a></li><li data-type='method'><a href="ProductosController.html#.listarProductos">listarProductos</a></li><li data-type='method'><a href="ProductosController.html#.listarProductosActivos">listarProductosActivos</a></li><li data-type='method'><a href="ProductosController.html#.obtenerProducto">obtenerProducto</a></li><li data-type='method'><a href="ProductosController.html#.obtenerTotalProductos">obtenerTotalProductos</a></li><li data-type='method'><a href="ProductosController.html#.obtenerTotalProductosActivos">obtenerTotalProductosActivos</a></li><li data-type='method'><a href="ProductosController.html#.obtenerTotalProductosExportar">obtenerTotalProductosExportar</a></li></ul></li><li><a href="ProductsTableComponent.html">ProductsTableComponent</a><ul class='methods'><li data-type='method'><a href="ProductsTableComponent.html#activeProduct">activeProduct</a></li><li data-type='method'><a href="ProductsTableComponent.html#createProduct">createProduct</a></li><li data-type='method'><a href="ProductsTableComponent.html#editProduct">editProduct</a></li><li data-type='method'><a href="ProductsTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="ProductsTableComponent.html#openModalConfirm">openModalConfirm</a></li><li data-type='method'><a href="ProductsTableComponent.html#render">render</a></li><li data-type='method'><a href="ProductsTableComponent.html#searchProducts">searchProducts</a></li><li data-type='method'><a href="ProductsTableComponent.html#selectProduct">selectProduct</a></li><li data-type='method'><a href="ProductsTableComponent.html#setName">setName</a></li><li data-type='method'><a href="ProductsTableComponent.html#setRows">setRows</a></li></ul></li><li><a href="ProfileModalComponent.html">ProfileModalComponent</a><ul class='methods'><li data-type='method'><a href="ProfileModalComponent.html#handleSubmit">handleSubmit</a></li><li data-type='method'><a href="ProfileModalComponent.html#openModalProfile">openModalProfile</a></li><li data-type='method'><a href="ProfileModalComponent.html#resetForm">resetForm</a></li><li data-type='method'><a href="ProfileModalComponent.html#setForm">setForm</a></li><li data-type='method'><a href="ProfileModalComponent.html#setHtml">setHtml</a></li><li data-type='method'><a href="ProfileModalComponent.html#validate">validate</a></li></ul></li><li><a href="ReporteController.html">ReporteController</a><ul class='methods'><li data-type='method'><a href="ReporteController.html#.buscarCantidadMaximaVendida">buscarCantidadMaximaVendida</a></li><li data-type='method'><a href="ReporteController.html#.buscarCantidadProductosVendidosAnual">buscarCantidadProductosVendidosAnual</a></li><li data-type='method'><a href="ReporteController.html#.buscarNotasCategoria">buscarNotasCategoria</a></li><li data-type='method'><a href="ReporteController.html#.buscarNotasVendidasPorVendedor">buscarNotasVendidasPorVendedor</a></li><li data-type='method'><a href="ReporteController.html#.buscarTotalProductosPorCategoria">buscarTotalProductosPorCategoria</a></li><li data-type='method'><a href="ReporteController.html#.generarReporte">generarReporte</a></li><li data-type='method'><a href="ReporteController.html#.getImageBuffer">getImageBuffer</a></li><li data-type='method'><a href="ReporteController.html#.ordenarMeses">ordenarMeses</a></li></ul></li><li><a href="ReportPDF.html">ReportPDF</a><ul class='methods'><li data-type='method'><a href="ReportPDF.html#createBarChart">createBarChart</a></li><li data-type='method'><a href="ReportPDF.html#createLineChart">createLineChart</a></li><li data-type='method'><a href="ReportPDF.html#createPieChart">createPieChart</a></li><li data-type='method'><a href="ReportPDF.html#createRandomColor">createRandomColor</a></li><li data-type='method'><a href="ReportPDF.html#transformBase64toArrayBuffer">transformBase64toArrayBuffer</a></li></ul></li><li><a href="ReportsComponent.html">ReportsComponent</a><ul class='methods'><li data-type='method'><a href="ReportsComponent.html#clearFilter">clearFilter</a></li><li data-type='method'><a href="ReportsComponent.html#createBarChart">createBarChart</a></li><li data-type='method'><a href="ReportsComponent.html#createLineChart">createLineChart</a></li><li data-type='method'><a href="ReportsComponent.html#createPieChart">createPieChart</a></li><li data-type='method'><a href="ReportsComponent.html#createRandomColor">createRandomColor</a></li><li data-type='method'><a href="ReportsComponent.html#deleteCharts">deleteCharts</a></li><li data-type='method'><a href="ReportsComponent.html#generateReport">generateReport</a></li><li data-type='method'><a href="ReportsComponent.html#generateStadistics">generateStadistics</a></li><li data-type='method'><a href="ReportsComponent.html#handleChangeBusiness">handleChangeBusiness</a></li><li data-type='method'><a href="ReportsComponent.html#handleChangeQuestions">handleChangeQuestions</a></li><li data-type='method'><a href="ReportsComponent.html#resetForm">resetForm</a></li><li data-type='method'><a href="ReportsComponent.html#setEvents">setEvents</a></li><li data-type='method'><a href="ReportsComponent.html#showPeriod">showPeriod</a></li><li data-type='method'><a href="ReportsComponent.html#validate">validate</a></li></ul></li><li><a href="SearchBarComponent.html">SearchBarComponent</a><ul class='methods'><li data-type='method'><a href="SearchBarComponent.html#connectedCallback">connectedCallback</a></li><li data-type='method'><a href="SearchBarComponent.html#disconnectedCallback">disconnectedCallback</a></li><li data-type='method'><a href="SearchBarComponent.html#getHtml">getHtml</a></li><li data-type='method'><a href="SearchBarComponent.html#handleChangeInput">handleChangeInput</a></li></ul></li><li><a href="UsersComponent.html">UsersComponent</a><ul class='methods'><li data-type='method'><a href="UsersComponent.html#changeView">changeView</a></li><li data-type='method'><a href="UsersComponent.html#setHtml">setHtml</a></li><li data-type='method'><a href="UsersComponent.html#setOptionsTabs">setOptionsTabs</a></li></ul></li><li><a href="UsersController.html">UsersController</a><ul class='methods'><li data-type='method'><a href="UsersController.html#.actualizarPerfil">actualizarPerfil</a></li><li data-type='method'><a href="UsersController.html#.buscarUsuarios">buscarUsuarios</a></li><li data-type='method'><a href="UsersController.html#.cambiarEstadoUsuarios">cambiarEstadoUsuarios</a></li><li data-type='method'><a href="UsersController.html#.cambiarRolUsuarios">cambiarRolUsuarios</a></li><li data-type='method'><a href="UsersController.html#.crearUsuario">crearUsuario</a></li><li data-type='method'><a href="UsersController.html#.listarUsuarios">listarUsuarios</a></li><li data-type='method'><a href="UsersController.html#.login">login</a></li><li data-type='method'><a href="UsersController.html#.obtenerTotalUsuarios">obtenerTotalUsuarios</a></li></ul></li><li><a href="UsersTableComponent.html">UsersTableComponent</a><ul class='methods'><li data-type='method'><a href="UsersTableComponent.html#changeRole">changeRole</a></li><li data-type='method'><a href="UsersTableComponent.html#deleteUser">deleteUser</a></li><li data-type='method'><a href="UsersTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="UsersTableComponent.html#getRowTable">getRowTable</a></li><li data-type='method'><a href="UsersTableComponent.html#newUser">newUser</a></li><li data-type='method'><a href="UsersTableComponent.html#openModalConfirm">openModalConfirm</a></li><li data-type='method'><a href="UsersTableComponent.html#renderUsers">renderUsers</a></li><li data-type='method'><a href="UsersTableComponent.html#searchUser">searchUser</a></li><li data-type='method'><a href="UsersTableComponent.html#setEvents">setEvents</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-excel.html">excel</a><ul class='methods'><li data-type='method'><a href="module-excel.html#~exportJSON">exportJSON</a></li><li data-type='method'><a href="module-excel.html#~generarLibroNotasExcel">generarLibroNotasExcel</a></li><li data-type='method'><a href="module-excel.html#~readFileExcelNotes">readFileExcelNotes</a></li><li data-type='method'><a href="module-excel.html#~readFileExcelProducts">readFileExcelProducts</a></li><li data-type='method'><a href="module-excel.html#~writeFileExcel">writeFileExcel</a></li></ul></li><li><a href="module-file.html">file</a><ul class='methods'><li data-type='method'><a href="module-file.html#~appendFile">appendFile</a></li><li data-type='method'><a href="module-file.html#~checkAsset">checkAsset</a></li><li data-type='method'><a href="module-file.html#~copyFile">copyFile</a></li><li data-type='method'><a href="module-file.html#~deleteFileSync">deleteFileSync</a></li><li data-type='method'><a href="module-file.html#~formatUrl">formatUrl</a></li><li data-type='method'><a href="module-file.html#~getHomePath">getHomePath</a></li><li data-type='method'><a href="module-file.html#~readFile">readFile</a></li><li data-type='method'><a href="module-file.html#~readFileAssets">readFileAssets</a></li><li data-type='method'><a href="module-file.html#~readFileImageAsync">readFileImageAsync</a></li><li data-type='method'><a href="module-file.html#~readFilePromiseJSON">readFilePromiseJSON</a></li><li data-type='method'><a href="module-file.html#~writeFile">writeFile</a></li></ul></li><li><a href="module-ModalCategoryFormComponent.html">ModalCategoryFormComponent</a><ul class='methods'><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~cleanFormOnClose">cleanFormOnClose</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~handleSubmit">handleSubmit</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~openModalEditCategory">openModalEditCategory</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~openModalNewCategory">openModalNewCategory</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~resetForm">resetForm</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~setForm">setForm</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~validateData">validateData</a></li></ul></li><li><a href="module-ModalClientFormComponent.html">ModalClientFormComponent</a><ul class='methods'><li data-type='method'><a href="module-ModalClientFormComponent.html#~closeModal">closeModal</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~handleSubmit">handleSubmit</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~openModal">openModal</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~resetFields">resetFields</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~setForm">setForm</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~validate">validate</a></li></ul></li><li><a href="module-ModalConfirmComponent.html">ModalConfirmComponent</a><ul class='methods'><li data-type='method'><a href="module-ModalConfirmComponent.html#~closeModalConfirm">closeModalConfirm</a></li><li data-type='method'><a href="module-ModalConfirmComponent.html#~openModalConfirm">openModalConfirm</a></li></ul></li><li><a href="module-ModalProductsForm.html">ModalProductsForm</a><ul class='methods'><li data-type='method'><a href="module-ModalProductsForm.html#~handleChangeQuantity">handleChangeQuantity</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~handleSubmit">handleSubmit</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~openModalEditProduct">openModalEditProduct</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~openModalNewProduct">openModalNewProduct</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~resetFormProducts">resetFormProducts</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~setForm">setForm</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~validateData">validateData</a></li></ul></li><li><a href="module-ModalUserFormComponent.html">ModalUserFormComponent</a><ul class='methods'><li data-type='method'><a href="module-ModalUserFormComponent.html#~closeModal">closeModal</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~getForm">getForm</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~openModal">openModal</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~resetFields">resetFields</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~setForm">setForm</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~validateForm">validateForm</a></li></ul></li><li><a href="module-NoteModel.html">NoteModel</a><ul class='methods'><li data-type='method'><a href="module-NoteModel.html#~validate">validate</a></li></ul></li><li><a href="module-ProductModel.html">ProductModel</a><ul class='methods'><li data-type='method'><a href="module-ProductModel.html#~validate">validate</a></li></ul></li><li><a href="module-string.html">string</a><ul class='methods'><li data-type='method'><a href="module-string.html#~sliceString">sliceString</a></li></ul></li><li><a href="module-time.html">time</a><ul class='methods'><li data-type='method'><a href="module-time.html#~dateSpanish">dateSpanish</a></li><li data-type='method'><a href="module-time.html#~dateToString">dateToString</a></li><li data-type='method'><a href="module-time.html#~showLog">showLog</a></li></ul></li><li><a href="module-transformers.html">transformers</a><ul class='methods'><li data-type='method'><a href="module-transformers.html#~transformarData">transformarData</a></li></ul></li><li><a href="module-UsersModalRole.html">UsersModalRole</a><ul class='methods'><li data-type='method'><a href="module-UsersModalRole.html#~closeModalRole">closeModalRole</a></li><li data-type='method'><a href="module-UsersModalRole.html#~getForm">getForm</a></li><li data-type='method'><a href="module-UsersModalRole.html#~openModalRole">openModalRole</a></li><li data-type='method'><a href="module-UsersModalRole.html#~setForm">setForm</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#categoryTableComponent">categoryTableComponent</a></li><li><a href="global.html#clientsTableComponent">clientsTableComponent</a></li><li><a href="global.html#createWindow">createWindow</a></li><li><a href="global.html#CRUD">CRUD</a></li><li><a href="global.html#getPaginationStorage">getPaginationStorage</a></li><li><a href="global.html#getUserLogged">getUserLogged</a></li><li><a href="global.html#hideElement">hideElement</a></li><li><a href="global.html#homeComponent">homeComponent</a></li><li><a href="global.html#initMainMenu">initMainMenu</a></li><li><a href="global.html#modalClientComponent">modalClientComponent</a></li><li><a href="global.html#modalProductsComponent">modalProductsComponent</a></li><li><a href="global.html#mysqlAPI">mysqlAPI</a></li><li><a href="global.html#ordersForm">ordersForm</a></li><li><a href="global.html#ordersTableComponent">ordersTableComponent</a></li><li><a href="global.html#productsComponent">productsComponent</a></li><li><a href="global.html#productsTableComponent">productsTableComponent</a></li><li><a href="global.html#profileModalComponent">profileModalComponent</a></li><li><a href="global.html#redirectTo">redirectTo</a></li><li><a href="global.html#renderErrors">renderErrors</a></li><li><a href="global.html#reportsComponent">reportsComponent</a></li><li><a href="global.html#setPaginationStorage">setPaginationStorage</a></li><li><a href="global.html#setUserLogged">setUserLogged</a></li><li><a href="global.html#showElement">showElement</a></li><li><a href="global.html#usersComponent">usersComponent</a></li><li><a href="global.html#usersTableComponent">usersTableComponent</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">controllers/pdf-controller.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const { PDFDocument, StandardFonts, rgb, degrees, PDFPage } = require('pdf-lib');
+const TIME = require('../util-functions/time');
+
+/** clase que permite generar los documentos de salida */
+class PdfController {
+
+	/**
+	 * genera el pdf de una nota de entrega
+	 *
+	 * @param  {Nota} nota instancia de la nota
+	 * @return {Promise&lt;Uint8Array>}  retorna el buffer de datos del archivo PDF
+	 */
+	async createPdf( nota ) {
+
+		// console.log( 'nota --> ', nota );
+		const getPages = ( limit = 20 ) => {
+
+			let arrayPages = [];
+
+			// console.log( nota.productos )
+
+			if ( nota.productos.length === 0 ) {
+
+				arrayPages.push({
+					page: pdfDoc.addPage(),
+					products: [],
+					number: 0
+				});
+
+			} else {
+
+				let totalPages = Math.ceil( nota.productos.length / limit );
+				let start = 0;
+
+				console.log( totalPages )
+
+				for (let i = 0; i &lt; totalPages; i++) {
+
+					arrayPages.push({
+						page: pdfDoc.addPage(),
+						products: nota.productos.slice( start, start + ( limit - 1 )),
+						number: i
+					});
+
+					start += (limit - 1);
+				}
+			}
+
+			// console.log(arrayPages);
+
+			return arrayPages;
+		}
+
+		const header = ( page, height, width, fontSize ) => {
+			
+			// datos hoja carta
+			// altura = 841.89 y ancho = 595.28
+
+			page.drawText('Nota de entrega', {
+				x: 50,
+				y: height - 4 * fontSize,
+				size: 24,
+				font: helveticaFont,
+				color: rgb(0, 0, 0),
+			});
+
+			page.drawText('# ' + nota.id_nota, {
+				x: width - 4 * fontSize,
+				y: height - 4 * fontSize,
+				size: 14,
+				font: helveticaBoldFont,
+				color: rgb(0, 0.8, 0.8),
+			});
+
+			page.drawText('Fecha de creación: ' + TIME.dateSpanish(new Date(nota.creacion)), {
+				x: 50,
+				y: height - 6 * fontSize,
+				size: 14,
+				font: helveticaBoldFont,
+				color: rgb(0, 0, 0),
+			});
+
+			page.drawText('Estado: ' + nota.status, {
+				x: width - 10 * fontSize,
+				y: height - 6 * fontSize,
+				size: 14,
+				font: helveticaFont,
+				color: rgb(0, 0, 0),
+			});
+
+			// ===================================
+			// datos cliente
+			// ===================================
+			page.drawText('Datos del Cliente: ', {
+				x: 50,
+				y: height - 8 * fontSize,
+				size: 12,
+				font: helveticaBoldFont,
+				color: rgb(0, 0, 0),
+			});
+
+			page.drawText([
+				`Nombre del cliente: ${nota.nombre_cliente}\t\t\tRIF: ${nota.rif}\t\t\tTelefono: ${nota.telefono_contacto}`,
+				`Direccion de entrega: ${nota.direccion_entrega}`,
+				`Fecha de entrega: ${nota.fecha_entrega ? nota.fecha_entrega : 'No entregado'}`,
+				`Descripción: ${nota.descripcion_nota}`,
+			].join('\n'), {
+				x: 50,
+				y: height - 9.5 * fontSize,
+				size: 10,
+				font: helveticaFont,
+				color: rgb(0, 0, 0),
+			});
+
+			page.drawText('Lista de productos: ', {
+				x: 50,
+				y: height - 14.5 * fontSize,
+				size: 12,
+				font: helveticaBoldFont,
+				color: rgb(0, 0, 0),
+			});
+		}
+
+		const footer = ( page, width, fontSize, number = 0 ) => {
+
+			// indice de pagina parte inferior
+			page.drawText('Pagina ' + (pdfDoc.getPageIndices()[number] + 1) + ' de ' + pdfDoc.getPageCount(),
+				{
+					x: width - 6 * fontSize,
+					y: 2 * fontSize,
+					size: 11,
+					font: helveticaFont,
+					color: rgb(0, 0, 0),
+				});
+		}
+
+		const renderTable = ( page, width, height, fontSize, products, totalPage = false ) => {
+
+			// posicion donde se comienza a agregar el producto
+			const arrayHeader = ['id:', 'nombre:', 'cantidad:', 'precio unitario:'];
+
+			let posicion = 16;
+			let posicionCell = (width / (arrayHeader.length * 2));
+
+			arrayHeader.forEach((title) => {
+
+				page.drawText(title, {
+					x: posicionCell,
+					y: height - posicion * fontSize,
+					size: 12,
+					font: helveticaBoldFont,
+					color: rgb(0, 0, 0),
+				});
+
+				posicionCell = posicionCell + (width / 5);
+			});
+
+			posicion++;
+
+			/*  dibujar linea  */
+			page.drawLine({
+				start: { x: 50, y: height - posicion * fontSize },
+				end: { x: width - (3 * fontSize), y: height - posicion * fontSize },
+				thickness: 1,
+				color: rgb(0, 0, 0),
+				opacity: 0.8,
+			});
+
+			posicion++;
+
+			products.forEach((producto) => {
+
+				posicionCell = (width / (arrayHeader.length * 2));
+
+				page.drawText(producto.productoid.toString(), {
+					x: posicionCell,
+					y: (height - posicion * fontSize),
+					size: 10,
+					font: helveticaFont,
+					color: rgb(0, 0, 0),
+				});
+
+				posicionCell = posicionCell + (width / 5);
+
+				page.drawText(
+					producto.nombre.length > 10 ? producto.nombre.slice(0, 9) + '... ' : producto.nombre,
+					{
+						x: posicionCell,
+						y: height - posicion * fontSize,
+						size: 10,
+						font: helveticaFont,
+						color: rgb(0, 0, 0),
+					});
+
+				posicionCell = posicionCell + (width / 5);
+
+				page.drawText(
+					producto.cantidad_seleccionada.toString(),
+					{
+						x: posicionCell,
+						y: height - posicion * fontSize,
+						size: 10,
+						font: helveticaFont,
+						color: rgb(0, 0, 0),
+					});
+
+				posicionCell = posicionCell + (width / 5);
+
+				page.drawText(producto.precio.toString() + "$", {
+					x: posicionCell,
+					y: height - posicion * fontSize,
+					size: 10,
+					font: helveticaFont,
+					color: rgb(0, 0, 0),
+				});
+
+				posicionCell = posicionCell + (width / 5);
+
+				posicion++;
+			});
+
+			page.drawLine({
+				start: { x: 50, y: height - posicion * fontSize },
+				end: { x: width - (3 * fontSize), y: height - posicion * fontSize },
+				thickness: 1,
+				color: rgb(0, 0, 0),
+				opacity: 0.8,
+			});
+
+			posicion++;
+
+			if ( totalPage ) {
+
+				page.drawText("Total de la orden: " + nota.total_order.toString() + "$", {
+					x: width - 10 * fontSize,
+					y: height - posicion * fontSize,
+					size: 12,
+					font: helveticaBoldFont,
+					color: rgb(0, 0, 0),
+				});
+
+				if ( nota.status === "ENTREGADA" ) {
+
+					page.drawText("!! Gracias por su compra !!", {
+						x: (width / 3.5),
+						y: height - (2 + posicion) * fontSize,
+						size: 20,
+						font: helveticaBoldFont,
+						color: rgb(0, 0, 0),
+					});
+				}
+			}
+		}
+		
+		const pdfDoc = await PDFDocument.create();
+		const helveticaFont = await pdfDoc.embedFont( StandardFonts.Helvetica );
+		const helveticaBoldFont =  await pdfDoc.embedFont( StandardFonts.HelveticaBold );
+		const pages = getPages( nota.status === "ENTREGADA" ? 18 : 20 );
+		
+		pages.forEach(({ page, products, number }, index, array ) => {
+
+			const { width, height } = page.getSize();
+			const fontSize = 20;
+
+			header( page, height, width, fontSize );
+
+			if ( products.length > 0 ) {
+
+				renderTable( 
+					page, 
+					width, 
+					height, 
+					fontSize, 
+					products, 
+					index === ( array.length - 1 )
+				)
+
+			} else {
+
+				page.drawText('No hay productos seleccionados ', {
+					x: 50,
+					y: height - 17 * fontSize,
+					size: 14,
+					font: helveticaBoldFont,
+					color: rgb( 1, 0, 0 ),
+				  });
+			}
+
+			footer( page, width, fontSize, number )
+		})
+
+		// fin pagina
+		return pdfDoc.save();
+	}
+
+	/**
+	 * Funcion que genera el pdf del reporte
+	 * @param {Array&lt;ResponseReport|null>} consultas  arreglo de consultas
+	 * @returns {Promise&lt;Uint8Array>}  retorna el buffer de datos del archivo PDF
+	 */
+	async crearReporte( consultas ) {
+		
+		const [ 
+			consultaBuscarNotasCategoria,  
+			buscarNotasVendidasPorVendedor,   // segunda consulta
+			buscarTotalProductosPorCategoria,
+			buscarCantidadMaximaVendida,
+			buscarCantidadProductosVendidosAnual
+		] = consultas;
+
+		// console.log( consultas );
+
+		const pdfDoc = await PDFDocument.create();
+		const helveticaFont = await pdfDoc.embedFont( StandardFonts.Helvetica );
+		const helveticaBoldFont =  await pdfDoc.embedFont( StandardFonts.HelveticaBold );
+		
+		const page1 = pdfDoc.addPage();
+		const page2 = pdfDoc.addPage();
+		const page3 = pdfDoc.addPage();
+		const page4 = pdfDoc.addPage();
+
+		/**
+		 * Establece el encabezado de la pagina PDF
+		 * @param {PDFPage} page instancia de la pagina actual pasado por parametro
+		 */
+		const setHeader = ( page ) => {
+
+			page.drawText('Products-app', {
+				...props,
+				x: propertyPage.margin_top,
+				y: propertyPage.margin_left,
+				size: 24,
+				font: helveticaFont
+			});
+
+			page.drawText('Reporte estadistico', {
+				...props,
+				x: propertyPage.margin_top,
+				y: propertyPage.margin_right + 140,
+				size: 14,
+				font: helveticaBoldFont
+			});
+		}
+
+		/**
+		 * establece el numero de pagina en el documento
+		 * @param {number} index  numero de pagina
+		 * @param {PDFPage} page pagina actual
+		 */
+		const setPagination = ( index, page ) => {
+			page.drawText('Pagina ' + index + ' de ' + pdfDoc.getPageCount(), {
+				...props,
+				x: propertyPage.margin_bottom,
+				y: propertyPage.margin_right + 60,
+				size: 11,
+				font: helveticaFont,
+			});
+		}
+		
+		// rotacion horizontal de la pagina (landscape)
+		page1.setRotation( degrees( -90 ) );
+
+		const { width, height } = page1.getSize();
+		
+		// puntos de coordenadas en -90, el cero en la esquina inferior derecha
+		const propertyPage = Object.freeze({
+			margin_left: height - 60,
+			margin_right: 60,
+			margin_top: width - 60,
+			margin_bottom: 60
+		});
+
+		const props = {
+			rotate: degrees( -90 )
+		};
+
+		// console.log( { width, height } );
+
+		// establece el encabezado
+		setHeader( page1 );
+		
+		page1.drawText('Fecha de creación: ' + TIME.dateSpanish(), {
+			...props,
+			x: propertyPage.margin_top - 40,
+			y: propertyPage.margin_left,
+			size: 14,
+			font: helveticaFont
+		});
+  
+		page1.drawText('Notas de entregas:', {
+			...props,
+			x: propertyPage.margin_top - 70,
+			y: propertyPage.margin_left,
+			size: 14,
+			font: helveticaBoldFont
+		});
+
+
+		if ( consultaBuscarNotasCategoria &amp;&amp; consultaBuscarNotasCategoria.results.length > 0 ) {
+
+			const jpegImage = await pdfDoc.embedJpg( consultaBuscarNotasCategoria.buffer );
+			
+			// ajusta el tamaño de la imagen
+			const jpgDims = jpegImage.scale( 0.4 );
+
+
+			let posicion = propertyPage.margin_top - 140 ;
+			let arrayHeader = ['Estado:', 'Cantidad:'].reverse();			
+
+			// dividimos a la mitad el grid (50%)
+			let rightGrid = propertyPage.margin_left / 2;
+
+
+			page1.drawText('Cantidad de notas de entrega por categoría (general):', {
+				...props,
+				x: propertyPage.margin_top - 100,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+
+			// le sumamos la mitad derecha para obtener el lado izquierdo
+			let leftGrid = ( propertyPage.margin_left / 2 ) + rightGrid; 
+			
+			let posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			// console.log({ rightGrid, leftGrid, posicionCell });
+
+			// ===============================
+			// Grid
+			// ===============================
+
+			// image
+			page1.drawImage( jpegImage, {
+				x: posicion - 140,
+				y: ( rightGrid / 2 ) + 100,
+				width: jpgDims.width,
+				height: jpgDims.height,
+				rotate: degrees ( -90 )
+			});
+
+			// table
+			arrayHeader.forEach(( title ) => {
+
+				page1.drawText( title, {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaBoldFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+			});
+
+			// se decrementa la posicion x
+			posicion -= 10;
+
+			page1.drawLine({ 
+				start: { x: posicion, y: leftGrid },
+				end: { x: posicion, y: ( leftGrid - rightGrid ) },
+				opacity: 0.8
+			});
+
+			posicion -= 20;
+
+			// console.log( consultaBuscarNotasCategoria.results );
+			
+			posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			consultaBuscarNotasCategoria.results.forEach(( consult ) => {
+
+				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+				page1.drawText( consult.total.toString(), {
+					...props,
+					x: posicion,
+					y: posicionCell - 15,
+					size: 12,
+					font: helveticaFont,
+				});
+				
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+				
+				page1.drawText( consult.status, {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+
+				posicion -= 20;
+			});
+
+		} else {
+
+			// en caso de que la consulta este vacia
+
+			page1.drawText('Cantidad de notas de entrega por categoría (general):', {
+				...props,
+				x: propertyPage.margin_top - 100,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			page1.drawText('No existen los datos seleccionados', {
+				...props,
+				x: propertyPage.margin_top - 130,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaFont,
+				color: rgb( 0.8, 0.12, 0.12 )
+			});
+
+		}
+
+		if ( buscarNotasVendidasPorVendedor &amp;&amp; buscarNotasVendidasPorVendedor.results.length > 0 ) {
+
+			const jpegImage = await pdfDoc.embedJpg( buscarNotasVendidasPorVendedor.buffer );
+						
+			const jpgDims = jpegImage.scale( 0.5 );
+
+			let posicion = propertyPage.margin_top - 330;
+
+			page1.drawText('Cantidad de notas de entrega por vendedor (general):', {
+				...props,
+				x: propertyPage.margin_top - 300,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			let arrayHeader = ['Nombre:', 'Cantidad'].reverse();			
+
+			// dividimos a la mitad el grid (50%)
+			let rightGrid = propertyPage.margin_left / 2;
+
+			// le sumamos la mitad derecha para obtener el lado izquierdo
+			let leftGrid = ( propertyPage.margin_left / 2 ) + rightGrid; 
+			
+			let posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			// console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
+		
+			page1.drawImage( jpegImage, {
+				x: posicion - 100,
+				y: ( rightGrid / 2 ) + 120,
+				width: jpgDims.width,
+				height: jpgDims.height,
+				rotate: degrees ( -90 )
+			});
+
+			arrayHeader.forEach(( title ) => {
+
+				page1.drawText( title, {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaBoldFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+			});
+
+			// se decrementa la posicion x
+			posicion -= 10;
+
+			page1.drawLine({ 
+				start: { x: posicion, y: leftGrid },
+				end: { x: posicion, y: ( leftGrid - rightGrid ) },
+				opacity: 0.8
+			});
+
+			posicion -= 20;
+			
+			posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			buscarNotasVendidasPorVendedor.results.forEach(( consult ) => {
+				
+				// console.log({ consult });
+
+				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+		
+				// cambia las propiedades a las que estan dentro de consult examinalas y cambialas
+				page1.drawText( consult.cantidad_notas.toString(), {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+
+				page1.drawText( consult.nombre_vendedor, {
+					...props,
+					x: posicion,
+					y: posicionCell - 15,
+					size: 12,
+					font: helveticaFont,
+				});
+				
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+				
+				posicion -= 20;
+			});
+
+		} else {
+
+			// en caso de que la consulta este vacia
+
+			page1.drawText('Cantidad de notas de entrega por vendedor (general):', {
+				...props,
+				x: propertyPage.margin_top - 300,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			page1.drawText('No existen los datos seleccionados', {
+				...props,
+				x: propertyPage.margin_top - 350,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaFont,
+				color: rgb( 0.8, 0.12, 0.12 )
+			});
+		}
+
+		setPagination( ( pdfDoc.getPageIndices()[0] + 1 ), page1 );
+
+		// ==============================
+		// pagina 2
+		// ==============================
+		
+		page2.setRotation( degrees( -90 ) );
+
+		page2.drawText('Products-app', {
+			...props,
+			x: propertyPage.margin_top,
+			y: propertyPage.margin_left,
+			size: 24,
+			font: helveticaFont
+		});
+
+
+		// establece el encabezado
+		setHeader( page2 );
+
+		setPagination( ( pdfDoc.getPageIndices()[1] + 1 ), page2 );
+
+		page2.drawText('Productos:', {
+			...props,
+			x: propertyPage.margin_top - 40,
+			y: propertyPage.margin_left,
+			size: 14,
+			font: helveticaBoldFont
+		});
+
+		// aqui arrancamos valida la condicion de results
+
+		if ( buscarTotalProductosPorCategoria &amp;&amp; buscarTotalProductosPorCategoria.results.length > 0 ) {
+
+			const jpegImage = await pdfDoc.embedJpg( buscarTotalProductosPorCategoria.buffer );
+						
+			const jpgDims = jpegImage.scale( 0.4 );
+
+			let posicion = propertyPage.margin_top - 120;
+
+			page2.drawText('Total de productos por categorias: ', {
+				...props,
+				x: propertyPage.margin_top - 70,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			let arrayHeader = ['Categoria:', 'Cantidad'].reverse();			
+
+			// dividimos a la mitad el grid (50%)
+			let rightGrid = propertyPage.margin_left / 2;
+
+			// le sumamos la mitad derecha para obtener el lado izquierdo
+			let leftGrid = ( propertyPage.margin_left / 2 ) + rightGrid; 
+			
+			let posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			// console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
+		
+			page2.drawImage( jpegImage, {
+				x: posicion - 140,
+				y: ( rightGrid / 2 ) + 120,
+				width: jpgDims.width,
+				height: jpgDims.height,
+				rotate: degrees ( -90 )
+			});
+
+			arrayHeader.forEach(( title ) => {
+
+				page2.drawText( title, {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaBoldFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+			});
+
+			// se decrementa la posicion x
+			posicion -= 10;
+
+			page2.drawLine({ 
+				start: { x: posicion, y: leftGrid },
+				end: { x: posicion, y: ( leftGrid - rightGrid ) },
+				opacity: 0.8
+			});
+
+			posicion -= 20;
+			
+			posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			buscarTotalProductosPorCategoria.results.forEach(( consult ) => {
+				//console.log({consult});
+				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+		
+				// cambia las propiedades a las que estan dentro de consult examinalas y cambialas
+				page2.drawText( consult.cantidad_productos.toString(), {
+					...props,
+					x: posicion,
+					y: posicionCell - 15,
+					size: 12,
+					font: helveticaFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+
+				page2.drawText( consult.categoria, {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaFont,
+				});
+			
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+				
+				posicion -= 20;
+				
+			});
+
+
+		} else {
+
+			// en caso de que la consulta este vacia
+			page2.drawText('Cantidad de productos por categoria:', {
+				...props,
+				x: propertyPage.margin_top - 100,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			page2.drawText('No existen los datos seleccionados', {
+				...props,
+				x: propertyPage.margin_top - 150,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaFont,
+				color: rgb( 0.8, 0.12, 0.12 )
+			});
+
+		}
+
+
+		// ==============================
+		// pagina 3
+		// ==============================
+
+		page3.setRotation( degrees( -90 ) );
+
+		// establece el encabezado
+		setHeader( page3 );
+
+		// buscarCantidadMaximaVendida
+
+		if ( buscarCantidadMaximaVendida &amp;&amp; buscarCantidadMaximaVendida.results.length > 0 ) {
+
+			const jpegImage = await pdfDoc.embedJpg( buscarCantidadMaximaVendida.buffer );
+						
+			const jpgDims = jpegImage.scale( 0.6 );
+
+			let posicion = propertyPage.margin_top - 90;
+
+			page3.drawText('Cantidad maxima de productos vendidos:', {
+				...props,
+				x: propertyPage.margin_top - 50,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			let arrayHeader = ['Producto:', 'Cantidad maxima vendida'].reverse();			
+
+			// dividimos a la mitad el grid (50%)
+			let rightGrid = propertyPage.margin_left / 2;
+
+			// le sumamos la mitad derecha para obtener el lado izquierdo
+			let leftGrid = ( propertyPage.margin_left / 2 ) + rightGrid; 
+			
+			let posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			// console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
+		
+			page3.drawImage( jpegImage, {
+				x: posicion - 100,
+				y: ( rightGrid / 2 ) + 140,
+				width: jpgDims.width,
+				height: jpgDims.height,
+				rotate: degrees ( -90 )
+			});
+
+			arrayHeader.forEach(( title ) => {
+
+				page3.drawText( title, {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaBoldFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+			});
+
+			// se decrementa la posicion x
+			posicion -= 10;
+
+			page3.drawLine({ 
+				start: { x: posicion, y: leftGrid },
+				end: { x: posicion, y: ( leftGrid - rightGrid ) },
+				opacity: 0.8
+			});
+
+			posicion -= 20;
+			
+			posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			buscarCantidadMaximaVendida.results.forEach(( consult ) => {
+				
+				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+		
+				// cambia las propiedades a las que estan dentro de consult examinalas y cambialas
+				page3.drawText( consult.cantidad_max_vendida.toString(), {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+
+				page3.drawText( consult.nombre, {
+					...props,
+					x: posicion,
+					y: posicionCell - 15,
+					size: 12,
+					font: helveticaFont,
+				});
+				
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+				
+				posicion -= 20;
+			});
+
+		} else {
+
+			// en caso de que la consulta este vacia
+
+			page3.drawText('Cantidad maxima de productos vendidos:', {
+				...props,
+				x: propertyPage.margin_top - 50,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			page3.drawText('No existen los datos seleccionados', {
+				...props,
+				x: propertyPage.margin_top - 90,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaFont,
+				color: rgb( 0.8, 0.12, 0.12 )
+			});
+
+		}
+
+		setPagination( ( pdfDoc.getPageIndices()[2] + 1 ), page3 );
+
+		// ==============================
+		// pagina 4
+		// ==============================
+
+		page4.setRotation( degrees( -90 ) );
+
+		// establece el encabezado
+		setHeader( page4 );
+
+		// buscarCantidadProductosVendidosAnual
+
+		if ( buscarCantidadProductosVendidosAnual &amp;&amp; buscarCantidadProductosVendidosAnual.results.length > 0 ) {
+
+			const jpegImage = await pdfDoc.embedJpg( buscarCantidadProductosVendidosAnual.buffer );
+						
+			const jpgDims = jpegImage.scale( 0.5 );
+
+			let posicion = propertyPage.margin_top - 80;
+
+			page4.drawText('Total de productos vendidos al año: ', {
+				...props,
+				x: propertyPage.margin_top - 50,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			let arrayHeader = ['Mes:', 'Total vendidos:'].reverse();			
+
+			// dividimos a la mitad el grid (50%)
+			let rightGrid = propertyPage.margin_left / 2;
+
+			// le sumamos la mitad derecha para obtener el lado izquierdo
+			let leftGrid = ( propertyPage.margin_left / 2 ) + rightGrid; 
+			
+			let posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			// console.log({ rightGrid, leftGrid, posicionCell, jpegImage });
+		
+			page4.drawImage( jpegImage, {
+				x: posicion - 100,
+				y: ( rightGrid / 2 ) + 140,
+				width: jpgDims.width,
+				height: jpgDims.height,
+				rotate: degrees ( -90 )
+			});
+
+			arrayHeader.forEach(( title ) => {
+
+				page4.drawText( title, {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaBoldFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+			});
+
+			// se decrementa la posicion x
+			posicion -= 10;
+
+			page4.drawLine({ 
+				start: { x: posicion, y: leftGrid },
+				end: { x: posicion, y: ( leftGrid - rightGrid ) },
+				opacity: 0.8
+			});
+
+			posicion -= 20;
+			
+			posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+
+			buscarCantidadProductosVendidosAnual.results.forEach(( consult ) => {
+				
+				posicionCell = ( rightGrid / arrayHeader.length ) + rightGrid;
+		
+				// cambia las propiedades a las que estan dentro de consult examinalas y cambialas
+				page4.drawText( consult.total.toString(), {
+					...props,
+					x: posicion,
+					y: posicionCell - 15,
+					size: 12,
+					font: helveticaFont,
+				});
+
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+
+				page4.drawText( consult.mes, {
+					...props,
+					x: posicion,
+				  	y: posicionCell - 15,
+				  	size: 12,
+				  	font: helveticaFont,
+				});
+			
+				posicionCell = posicionCell + ( rightGrid / arrayHeader.length );
+				
+				posicion -= 20;
+				
+				
+			});
+
+
+		} else {
+
+			// en caso de que la consulta este vacia
+			page4.drawText('Cantidad de productos vendidos al año:', {
+				...props,
+				x: propertyPage.margin_top - 50,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaBoldFont
+			});
+
+			page4.drawText('No existen los datos seleccionados', {
+				...props,
+				x: propertyPage.margin_top - 90,
+				y: propertyPage.margin_left,
+				size: 14,
+				font: helveticaFont,
+				color: rgb( 0.8, 0.12, 0.12 )
+			});
+
+		}
+
+		setPagination( ( pdfDoc.getPageIndices()[3] + 1 ), page4 );
+		
+		return pdfDoc.save();
+
+	}
+}
+
+module.exports = { PdfController };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Mar 16 2023 08:33:25 GMT-0400 (hora de Venezuela) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

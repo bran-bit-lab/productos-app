@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>frontend/products/categories-table/categories-table-component.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CategoriasController.html">CategoriasController</a><ul class='methods'><li data-type='method'><a href="CategoriasController.html#.activarCategoria">activarCategoria</a></li><li data-type='method'><a href="CategoriasController.html#.buscarCategoria">buscarCategoria</a></li><li data-type='method'><a href="CategoriasController.html#.crearCategoria">crearCategoria</a></li><li data-type='method'><a href="CategoriasController.html#.editarCategoria">editarCategoria</a></li><li data-type='method'><a href="CategoriasController.html#.listarCategorias">listarCategorias</a></li><li data-type='method'><a href="CategoriasController.html#.obtenerTotalCategorias">obtenerTotalCategorias</a></li></ul></li><li><a href="CategoryTableComponent.html">CategoryTableComponent</a><ul class='methods'><li data-type='method'><a href="CategoryTableComponent.html#activeCategory">activeCategory</a></li><li data-type='method'><a href="CategoryTableComponent.html#createCategory">createCategory</a></li><li data-type='method'><a href="CategoryTableComponent.html#editCategory">editCategory</a></li><li data-type='method'><a href="CategoryTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="CategoryTableComponent.html#getName">getName</a></li><li data-type='method'><a href="CategoryTableComponent.html#openModalConfirm">openModalConfirm</a></li><li data-type='method'><a href="CategoryTableComponent.html#render">render</a></li><li data-type='method'><a href="CategoryTableComponent.html#searchCategories">searchCategories</a></li><li data-type='method'><a href="CategoryTableComponent.html#selectCategory">selectCategory</a></li><li data-type='method'><a href="CategoryTableComponent.html#setRows">setRows</a></li></ul></li><li><a href="ClientesController.html">ClientesController</a><ul class='methods'><li data-type='method'><a href="ClientesController.html#.buscarCliente">buscarCliente</a></li><li data-type='method'><a href="ClientesController.html#.crearCliente">crearCliente</a></li><li data-type='method'><a href="ClientesController.html#.editarCliente">editarCliente</a></li><li data-type='method'><a href="ClientesController.html#.listarClientes">listarClientes</a></li><li data-type='method'><a href="ClientesController.html#.obtenerTotalClientes">obtenerTotalClientes</a></li></ul></li><li><a href="ClientsTableComponent.html">ClientsTableComponent</a><ul class='methods'><li data-type='method'><a href="ClientsTableComponent.html#addClient">addClient</a></li><li data-type='method'><a href="ClientsTableComponent.html#editClient">editClient</a></li><li data-type='method'><a href="ClientsTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="ClientsTableComponent.html#renderClients">renderClients</a></li><li data-type='method'><a href="ClientsTableComponent.html#searchClient">searchClient</a></li><li data-type='method'><a href="ClientsTableComponent.html#setEvents">setEvents</a></li><li data-type='method'><a href="ClientsTableComponent.html#setRows">setRows</a></li></ul></li><li><a href="Database.html">Database</a><ul class='methods'><li data-type='method'><a href="Database.html#.closeConnection">closeConnection</a></li><li data-type='method'><a href="Database.html#.connect">connect</a></li><li data-type='method'><a href="Database.html#.sqlParse">sqlParse</a></li><li data-type='method'><a href="Database.html#consult">consult</a></li><li data-type='method'><a href="Database.html#delete">delete</a></li><li data-type='method'><a href="Database.html#find">find</a></li><li data-type='method'><a href="Database.html#getTotalRecords">getTotalRecords</a></li><li data-type='method'><a href="Database.html#insert">insert</a></li><li data-type='method'><a href="Database.html#update">update</a></li></ul></li><li><a href="HomeComponent.html">HomeComponent</a><ul class='methods'><li data-type='method'><a href="HomeComponent.html#initCards">initCards</a></li><li data-type='method'><a href="HomeComponent.html#logOut">logOut</a></li><li data-type='method'><a href="HomeComponent.html#openEstadistics">openEstadistics</a></li><li data-type='method'><a href="HomeComponent.html#openOrders">openOrders</a></li><li data-type='method'><a href="HomeComponent.html#openProducts">openProducts</a></li><li data-type='method'><a href="HomeComponent.html#openUsers">openUsers</a></li><li data-type='method'><a href="HomeComponent.html#reduceValues">reduceValues</a></li><li data-type='method'><a href="HomeComponent.html#showOptions">showOptions</a></li></ul></li><li><a href="LoadingComponent.html">LoadingComponent</a><ul class='methods'><li data-type='method'><a href="LoadingComponent.html#attributeChangedCallback">attributeChangedCallback</a></li><li data-type='method'><a href="LoadingComponent.html#connectedCallback">connectedCallback</a></li><li data-type='method'><a href="LoadingComponent.html#render">render</a></li></ul></li><li><a href="LoginPage.html">LoginPage</a><ul class='methods'><li data-type='method'><a href="LoginPage.html#handleSubmit">handleSubmit</a></li><li data-type='method'><a href="LoginPage.html#login">login</a></li><li data-type='method'><a href="LoginPage.html#renderErrors">renderErrors</a></li><li data-type='method'><a href="LoginPage.html#resetLoginForm">resetLoginForm</a></li><li data-type='method'><a href="LoginPage.html#validateForm">validateForm</a></li></ul></li><li><a href="ModalClientComponent.html">ModalClientComponent</a><ul class='methods'><li data-type='method'><a href="ModalClientComponent.html#checkClient">checkClient</a></li><li data-type='method'><a href="ModalClientComponent.html#closeModalClients">closeModalClients</a></li><li data-type='method'><a href="ModalClientComponent.html#handleChange">handleChange</a></li><li data-type='method'><a href="ModalClientComponent.html#openModalClients">openModalClients</a></li><li data-type='method'><a href="ModalClientComponent.html#renderClients">renderClients</a></li><li data-type='method'><a href="ModalClientComponent.html#searchClient">searchClient</a></li><li data-type='method'><a href="ModalClientComponent.html#setEvents">setEvents</a></li></ul></li><li><a href="ModalProductsComponent.html">ModalProductsComponent</a><ul class='methods'><li data-type='method'><a href="ModalProductsComponent.html#checkProduct">checkProduct</a></li><li data-type='method'><a href="ModalProductsComponent.html#closeModalProducts">closeModalProducts</a></li><li data-type='method'><a href="ModalProductsComponent.html#handleChange">handleChange</a></li><li data-type='method'><a href="ModalProductsComponent.html#openModalProducts">openModalProducts</a></li><li data-type='method'><a href="ModalProductsComponent.html#renderProducts">renderProducts</a></li><li data-type='method'><a href="ModalProductsComponent.html#searchProduct">searchProduct</a></li><li data-type='method'><a href="ModalProductsComponent.html#setEvents">setEvents</a></li></ul></li><li><a href="NotasController.html">NotasController</a><ul class='methods'><li data-type='method'><a href="NotasController.html#.actualizarNota">actualizarNota</a></li><li data-type='method'><a href="NotasController.html#.buscarNota">buscarNota</a></li><li data-type='method'><a href="NotasController.html#.calcularTotalNotas">calcularTotalNotas</a></li><li data-type='method'><a href="NotasController.html#.crearNota">crearNota</a></li><li data-type='method'><a href="NotasController.html#.exportarNotas">exportarNotas</a></li><li data-type='method'><a href="NotasController.html#.generarPDFNota">generarPDFNota</a></li><li data-type='method'><a href="NotasController.html#.importarNotas">importarNotas</a></li><li data-type='method'><a href="NotasController.html#.listarNotas">listarNotas</a></li><li data-type='method'><a href="NotasController.html#.mostrarAlerta">mostrarAlerta</a></li><li data-type='method'><a href="NotasController.html#.obtenerNota">obtenerNota</a></li><li data-type='method'><a href="NotasController.html#.obtenerNotasArray">obtenerNotasArray</a></li><li data-type='method'><a href="NotasController.html#.obtenerTotalNotas">obtenerTotalNotas</a></li><li data-type='method'><a href="NotasController.html#.obtenerUltimaNota">obtenerUltimaNota</a></li></ul></li><li><a href="NotasProductosController.html">NotasProductosController</a><ul class='methods'><li data-type='method'><a href="NotasProductosController.html#.actualizarNotasProductos">actualizarNotasProductos</a></li><li data-type='method'><a href="NotasProductosController.html#.insertarNotasProductos">insertarNotasProductos</a></li><li data-type='method'><a href="NotasProductosController.html#.restarCantidad">restarCantidad</a></li><li data-type='method'><a href="NotasProductosController.html#.retirarProductoNota">retirarProductoNota</a></li><li data-type='method'><a href="NotasProductosController.html#.sumarCantidad">sumarCantidad</a></li></ul></li><li><a href="OrdersForm.html">OrdersForm</a><ul class='methods'><li data-type='method'><a href="OrdersForm.html#calculateTotal">calculateTotal</a></li><li data-type='method'><a href="OrdersForm.html#confirmDeleteClient">confirmDeleteClient</a></li><li data-type='method'><a href="OrdersForm.html#confirmDeleteProduct">confirmDeleteProduct</a></li><li data-type='method'><a href="OrdersForm.html#deleteClient">deleteClient</a></li><li data-type='method'><a href="OrdersForm.html#deleteProduct">deleteProduct</a></li><li data-type='method'><a href="OrdersForm.html#getDeliveryNote">getDeliveryNote</a></li><li data-type='method'><a href="OrdersForm.html#getParamsUrl">getParamsUrl</a></li><li data-type='method'><a href="OrdersForm.html#handleChangeQuantity">handleChangeQuantity</a></li><li data-type='method'><a href="OrdersForm.html#handleSubmit">handleSubmit</a></li><li data-type='method'><a href="OrdersForm.html#resetForm">resetForm</a></li><li data-type='method'><a href="OrdersForm.html#selectClients">selectClients</a></li><li data-type='method'><a href="OrdersForm.html#selectProducts">selectProducts</a></li><li data-type='method'><a href="OrdersForm.html#sendData">sendData</a></li><li data-type='method'><a href="OrdersForm.html#setClientsTable">setClientsTable</a></li><li data-type='method'><a href="OrdersForm.html#setForm">setForm</a></li><li data-type='method'><a href="OrdersForm.html#setHtml">setHtml</a></li><li data-type='method'><a href="OrdersForm.html#setProductsTable">setProductsTable</a></li><li data-type='method'><a href="OrdersForm.html#validateForm">validateForm</a></li></ul></li><li><a href="OrdersTableComponent.html">OrdersTableComponent</a><ul class='methods'><li data-type='method'><a href="OrdersTableComponent.html#createDeliveryNote">createDeliveryNote</a></li><li data-type='method'><a href="OrdersTableComponent.html#editDeiliveryNote">editDeiliveryNote</a></li><li data-type='method'><a href="OrdersTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="OrdersTableComponent.html#getName">getName</a></li><li data-type='method'><a href="OrdersTableComponent.html#render">render</a></li><li data-type='method'><a href="OrdersTableComponent.html#searchDeliveryNote">searchDeliveryNote</a></li><li data-type='method'><a href="OrdersTableComponent.html#setEvents">setEvents</a></li><li data-type='method'><a href="OrdersTableComponent.html#setRows">setRows</a></li><li data-type='method'><a href="OrdersTableComponent.html#showPDF">showPDF</a></li></ul></li><li><a href="PaginationComponentElement.html">PaginationComponentElement</a><ul class='methods'><li data-type='method'><a href="PaginationComponentElement.html#attributeChangedCallback">attributeChangedCallback</a></li><li data-type='method'><a href="PaginationComponentElement.html#next">next</a></li><li data-type='method'><a href="PaginationComponentElement.html#prev">prev</a></li><li data-type='method'><a href="PaginationComponentElement.html#render">render</a></li><li data-type='method'><a href="PaginationComponentElement.html#sendPagination">sendPagination</a></li></ul></li><li><a href="PdfController.html">PdfController</a><ul class='methods'><li data-type='method'><a href="PdfController.html#crearReporte">crearReporte</a></li><li data-type='method'><a href="PdfController.html#createPdf">createPdf</a></li></ul></li><li><a href="ProductosController.html">ProductosController</a><ul class='methods'><li data-type='method'><a href="ProductosController.html#.activarProducto">activarProducto</a></li><li data-type='method'><a href="ProductosController.html#.buscarProducto">buscarProducto</a></li><li data-type='method'><a href="ProductosController.html#.crearProducto">crearProducto</a></li><li data-type='method'><a href="ProductosController.html#.editarCantidadProducto">editarCantidadProducto</a></li><li data-type='method'><a href="ProductosController.html#.editarProducto">editarProducto</a></li><li data-type='method'><a href="ProductosController.html#.exportarProductos">exportarProductos</a></li><li data-type='method'><a href="ProductosController.html#.importarProductos">importarProductos</a></li><li data-type='method'><a href="ProductosController.html#.insertarArrayProductos">insertarArrayProductos</a></li><li data-type='method'><a href="ProductosController.html#.listarCategorias">listarCategorias</a></li><li data-type='method'><a href="ProductosController.html#.listarProductos">listarProductos</a></li><li data-type='method'><a href="ProductosController.html#.listarProductosActivos">listarProductosActivos</a></li><li data-type='method'><a href="ProductosController.html#.obtenerProducto">obtenerProducto</a></li><li data-type='method'><a href="ProductosController.html#.obtenerTotalProductos">obtenerTotalProductos</a></li><li data-type='method'><a href="ProductosController.html#.obtenerTotalProductosActivos">obtenerTotalProductosActivos</a></li><li data-type='method'><a href="ProductosController.html#.obtenerTotalProductosExportar">obtenerTotalProductosExportar</a></li></ul></li><li><a href="ProductsTableComponent.html">ProductsTableComponent</a><ul class='methods'><li data-type='method'><a href="ProductsTableComponent.html#activeProduct">activeProduct</a></li><li data-type='method'><a href="ProductsTableComponent.html#createProduct">createProduct</a></li><li data-type='method'><a href="ProductsTableComponent.html#editProduct">editProduct</a></li><li data-type='method'><a href="ProductsTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="ProductsTableComponent.html#openModalConfirm">openModalConfirm</a></li><li data-type='method'><a href="ProductsTableComponent.html#render">render</a></li><li data-type='method'><a href="ProductsTableComponent.html#searchProducts">searchProducts</a></li><li data-type='method'><a href="ProductsTableComponent.html#selectProduct">selectProduct</a></li><li data-type='method'><a href="ProductsTableComponent.html#setName">setName</a></li><li data-type='method'><a href="ProductsTableComponent.html#setRows">setRows</a></li></ul></li><li><a href="ProfileModalComponent.html">ProfileModalComponent</a><ul class='methods'><li data-type='method'><a href="ProfileModalComponent.html#handleSubmit">handleSubmit</a></li><li data-type='method'><a href="ProfileModalComponent.html#openModalProfile">openModalProfile</a></li><li data-type='method'><a href="ProfileModalComponent.html#resetForm">resetForm</a></li><li data-type='method'><a href="ProfileModalComponent.html#setForm">setForm</a></li><li data-type='method'><a href="ProfileModalComponent.html#setHtml">setHtml</a></li><li data-type='method'><a href="ProfileModalComponent.html#validate">validate</a></li></ul></li><li><a href="ReporteController.html">ReporteController</a><ul class='methods'><li data-type='method'><a href="ReporteController.html#.buscarCantidadMaximaVendida">buscarCantidadMaximaVendida</a></li><li data-type='method'><a href="ReporteController.html#.buscarCantidadProductosVendidosAnual">buscarCantidadProductosVendidosAnual</a></li><li data-type='method'><a href="ReporteController.html#.buscarNotasCategoria">buscarNotasCategoria</a></li><li data-type='method'><a href="ReporteController.html#.buscarNotasVendidasPorVendedor">buscarNotasVendidasPorVendedor</a></li><li data-type='method'><a href="ReporteController.html#.buscarTotalProductosPorCategoria">buscarTotalProductosPorCategoria</a></li><li data-type='method'><a href="ReporteController.html#.generarReporte">generarReporte</a></li><li data-type='method'><a href="ReporteController.html#.getImageBuffer">getImageBuffer</a></li><li data-type='method'><a href="ReporteController.html#.ordenarMeses">ordenarMeses</a></li></ul></li><li><a href="ReportPDF.html">ReportPDF</a><ul class='methods'><li data-type='method'><a href="ReportPDF.html#createBarChart">createBarChart</a></li><li data-type='method'><a href="ReportPDF.html#createLineChart">createLineChart</a></li><li data-type='method'><a href="ReportPDF.html#createPieChart">createPieChart</a></li><li data-type='method'><a href="ReportPDF.html#createRandomColor">createRandomColor</a></li><li data-type='method'><a href="ReportPDF.html#transformBase64toArrayBuffer">transformBase64toArrayBuffer</a></li></ul></li><li><a href="ReportsComponent.html">ReportsComponent</a><ul class='methods'><li data-type='method'><a href="ReportsComponent.html#clearFilter">clearFilter</a></li><li data-type='method'><a href="ReportsComponent.html#createBarChart">createBarChart</a></li><li data-type='method'><a href="ReportsComponent.html#createLineChart">createLineChart</a></li><li data-type='method'><a href="ReportsComponent.html#createPieChart">createPieChart</a></li><li data-type='method'><a href="ReportsComponent.html#createRandomColor">createRandomColor</a></li><li data-type='method'><a href="ReportsComponent.html#deleteCharts">deleteCharts</a></li><li data-type='method'><a href="ReportsComponent.html#generateReport">generateReport</a></li><li data-type='method'><a href="ReportsComponent.html#generateStadistics">generateStadistics</a></li><li data-type='method'><a href="ReportsComponent.html#handleChangeBusiness">handleChangeBusiness</a></li><li data-type='method'><a href="ReportsComponent.html#handleChangeQuestions">handleChangeQuestions</a></li><li data-type='method'><a href="ReportsComponent.html#resetForm">resetForm</a></li><li data-type='method'><a href="ReportsComponent.html#setEvents">setEvents</a></li><li data-type='method'><a href="ReportsComponent.html#showPeriod">showPeriod</a></li><li data-type='method'><a href="ReportsComponent.html#validate">validate</a></li></ul></li><li><a href="SearchBarComponent.html">SearchBarComponent</a><ul class='methods'><li data-type='method'><a href="SearchBarComponent.html#connectedCallback">connectedCallback</a></li><li data-type='method'><a href="SearchBarComponent.html#disconnectedCallback">disconnectedCallback</a></li><li data-type='method'><a href="SearchBarComponent.html#getHtml">getHtml</a></li><li data-type='method'><a href="SearchBarComponent.html#handleChangeInput">handleChangeInput</a></li></ul></li><li><a href="UsersComponent.html">UsersComponent</a><ul class='methods'><li data-type='method'><a href="UsersComponent.html#changeView">changeView</a></li><li data-type='method'><a href="UsersComponent.html#setHtml">setHtml</a></li><li data-type='method'><a href="UsersComponent.html#setOptionsTabs">setOptionsTabs</a></li></ul></li><li><a href="UsersController.html">UsersController</a><ul class='methods'><li data-type='method'><a href="UsersController.html#.actualizarPerfil">actualizarPerfil</a></li><li data-type='method'><a href="UsersController.html#.buscarUsuarios">buscarUsuarios</a></li><li data-type='method'><a href="UsersController.html#.cambiarEstadoUsuarios">cambiarEstadoUsuarios</a></li><li data-type='method'><a href="UsersController.html#.cambiarRolUsuarios">cambiarRolUsuarios</a></li><li data-type='method'><a href="UsersController.html#.crearUsuario">crearUsuario</a></li><li data-type='method'><a href="UsersController.html#.listarUsuarios">listarUsuarios</a></li><li data-type='method'><a href="UsersController.html#.login">login</a></li><li data-type='method'><a href="UsersController.html#.obtenerTotalUsuarios">obtenerTotalUsuarios</a></li></ul></li><li><a href="UsersTableComponent.html">UsersTableComponent</a><ul class='methods'><li data-type='method'><a href="UsersTableComponent.html#changeRole">changeRole</a></li><li data-type='method'><a href="UsersTableComponent.html#deleteUser">deleteUser</a></li><li data-type='method'><a href="UsersTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="UsersTableComponent.html#getRowTable">getRowTable</a></li><li data-type='method'><a href="UsersTableComponent.html#newUser">newUser</a></li><li data-type='method'><a href="UsersTableComponent.html#openModalConfirm">openModalConfirm</a></li><li data-type='method'><a href="UsersTableComponent.html#renderUsers">renderUsers</a></li><li data-type='method'><a href="UsersTableComponent.html#searchUser">searchUser</a></li><li data-type='method'><a href="UsersTableComponent.html#setEvents">setEvents</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-excel.html">excel</a><ul class='methods'><li data-type='method'><a href="module-excel.html#~exportJSON">exportJSON</a></li><li data-type='method'><a href="module-excel.html#~generarLibroNotasExcel">generarLibroNotasExcel</a></li><li data-type='method'><a href="module-excel.html#~readFileExcelNotes">readFileExcelNotes</a></li><li data-type='method'><a href="module-excel.html#~readFileExcelProducts">readFileExcelProducts</a></li><li data-type='method'><a href="module-excel.html#~writeFileExcel">writeFileExcel</a></li></ul></li><li><a href="module-file.html">file</a><ul class='methods'><li data-type='method'><a href="module-file.html#~appendFile">appendFile</a></li><li data-type='method'><a href="module-file.html#~checkAsset">checkAsset</a></li><li data-type='method'><a href="module-file.html#~copyFile">copyFile</a></li><li data-type='method'><a href="module-file.html#~deleteFileSync">deleteFileSync</a></li><li data-type='method'><a href="module-file.html#~formatUrl">formatUrl</a></li><li data-type='method'><a href="module-file.html#~getHomePath">getHomePath</a></li><li data-type='method'><a href="module-file.html#~readFile">readFile</a></li><li data-type='method'><a href="module-file.html#~readFileAssets">readFileAssets</a></li><li data-type='method'><a href="module-file.html#~readFileImageAsync">readFileImageAsync</a></li><li data-type='method'><a href="module-file.html#~readFilePromiseJSON">readFilePromiseJSON</a></li><li data-type='method'><a href="module-file.html#~writeFile">writeFile</a></li></ul></li><li><a href="module-ModalCategoryFormComponent.html">ModalCategoryFormComponent</a><ul class='methods'><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~cleanFormOnClose">cleanFormOnClose</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~handleSubmit">handleSubmit</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~openModalEditCategory">openModalEditCategory</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~openModalNewCategory">openModalNewCategory</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~resetForm">resetForm</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~setForm">setForm</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~validateData">validateData</a></li></ul></li><li><a href="module-ModalClientFormComponent.html">ModalClientFormComponent</a><ul class='methods'><li data-type='method'><a href="module-ModalClientFormComponent.html#~closeModal">closeModal</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~handleSubmit">handleSubmit</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~openModal">openModal</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~resetFields">resetFields</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~setForm">setForm</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~validate">validate</a></li></ul></li><li><a href="module-ModalConfirmComponent.html">ModalConfirmComponent</a><ul class='methods'><li data-type='method'><a href="module-ModalConfirmComponent.html#~closeModalConfirm">closeModalConfirm</a></li><li data-type='method'><a href="module-ModalConfirmComponent.html#~openModalConfirm">openModalConfirm</a></li></ul></li><li><a href="module-ModalProductsForm.html">ModalProductsForm</a><ul class='methods'><li data-type='method'><a href="module-ModalProductsForm.html#~handleChangeQuantity">handleChangeQuantity</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~handleSubmit">handleSubmit</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~openModalEditProduct">openModalEditProduct</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~openModalNewProduct">openModalNewProduct</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~resetFormProducts">resetFormProducts</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~setForm">setForm</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~validateData">validateData</a></li></ul></li><li><a href="module-ModalUserFormComponent.html">ModalUserFormComponent</a><ul class='methods'><li data-type='method'><a href="module-ModalUserFormComponent.html#~closeModal">closeModal</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~getForm">getForm</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~openModal">openModal</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~resetFields">resetFields</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~setForm">setForm</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~validateForm">validateForm</a></li></ul></li><li><a href="module-NoteModel.html">NoteModel</a><ul class='methods'><li data-type='method'><a href="module-NoteModel.html#~validate">validate</a></li></ul></li><li><a href="module-ProductModel.html">ProductModel</a><ul class='methods'><li data-type='method'><a href="module-ProductModel.html#~validate">validate</a></li></ul></li><li><a href="module-string.html">string</a><ul class='methods'><li data-type='method'><a href="module-string.html#~sliceString">sliceString</a></li></ul></li><li><a href="module-time.html">time</a><ul class='methods'><li data-type='method'><a href="module-time.html#~dateSpanish">dateSpanish</a></li><li data-type='method'><a href="module-time.html#~dateToString">dateToString</a></li><li data-type='method'><a href="module-time.html#~showLog">showLog</a></li></ul></li><li><a href="module-transformers.html">transformers</a><ul class='methods'><li data-type='method'><a href="module-transformers.html#~transformarData">transformarData</a></li></ul></li><li><a href="module-UsersModalRole.html">UsersModalRole</a><ul class='methods'><li data-type='method'><a href="module-UsersModalRole.html#~closeModalRole">closeModalRole</a></li><li data-type='method'><a href="module-UsersModalRole.html#~getForm">getForm</a></li><li data-type='method'><a href="module-UsersModalRole.html#~openModalRole">openModalRole</a></li><li data-type='method'><a href="module-UsersModalRole.html#~setForm">setForm</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#categoryTableComponent">categoryTableComponent</a></li><li><a href="global.html#clientsTableComponent">clientsTableComponent</a></li><li><a href="global.html#createWindow">createWindow</a></li><li><a href="global.html#CRUD">CRUD</a></li><li><a href="global.html#getPaginationStorage">getPaginationStorage</a></li><li><a href="global.html#getUserLogged">getUserLogged</a></li><li><a href="global.html#hideElement">hideElement</a></li><li><a href="global.html#homeComponent">homeComponent</a></li><li><a href="global.html#initMainMenu">initMainMenu</a></li><li><a href="global.html#modalClientComponent">modalClientComponent</a></li><li><a href="global.html#modalProductsComponent">modalProductsComponent</a></li><li><a href="global.html#mysqlAPI">mysqlAPI</a></li><li><a href="global.html#ordersForm">ordersForm</a></li><li><a href="global.html#ordersTableComponent">ordersTableComponent</a></li><li><a href="global.html#productsComponent">productsComponent</a></li><li><a href="global.html#productsTableComponent">productsTableComponent</a></li><li><a href="global.html#profileModalComponent">profileModalComponent</a></li><li><a href="global.html#redirectTo">redirectTo</a></li><li><a href="global.html#renderErrors">renderErrors</a></li><li><a href="global.html#reportsComponent">reportsComponent</a></li><li><a href="global.html#setPaginationStorage">setPaginationStorage</a></li><li><a href="global.html#setUserLogged">setUserLogged</a></li><li><a href="global.html#showElement">showElement</a></li><li><a href="global.html#usersComponent">usersComponent</a></li><li><a href="global.html#usersTableComponent">usersTableComponent</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">frontend/products/categories-table/categories-table-component.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** clase tabla de categorias */
+class CategoryTableComponent {
+
+	constructor() {
+
+		this.tbody = document.querySelector('#tbody-categories');
+		this.pagination = document.querySelector('#pagination-categories');
+		this.searchBar = document.querySelector('search-bar-component[from="categories"]');
+
+		// this.pagination.innerHTML = readFileAssets( '/shared/pagination/pagination.html' );
+		this.getAll = this.getAll.bind( this );
+		this.activeCategory = this.activeCategory.bind( this );
+		this.openModalConfirm = this.openModalConfirm.bind( this );
+
+		
+		/** @type {number} */
+		this.page = 1;
+		
+		/** @type {Array&lt;Category>} */
+		this.categories = [];
+		
+		this.setEvents()
+	}
+
+	/**
+	 * crea una categoria
+	 * @param  {Category} data instancia de categoria
+	 */
+	createCategory( data ) {
+
+		// se elimina el campo categoriaid antes de mandar al controlador
+ 		delete data.categoriaid;
+
+		CategoriasController.crearCategoria( data, getUserLogged() );
+
+		this.getAll( null,  getPaginationStorage('categoriesTable') );
+	}
+
+	/**
+	 * edita una categoria
+	 * @param  {Category} data instancia de categoria
+	 */
+	editCategory( data ) {
+
+		let found = this.categories.find( category => category.categoriaid === data.categoriaid );
+
+		CategoriasController.editarCategoria( data, getUserLogged(), found.imagen || null );
+
+		this.getAll( null,  getPaginationStorage('categoriesTable') );
+
+	}
+
+
+	/**
+	 * selecciona una categoria
+	 *
+	 * @param  {number} idCategory  identificador de categoria
+	 * @param  {string} method metodo de ejecucion del controlador
+	 */
+	selectCategory( idCategory = 1, method = 'edit' ) {
+
+		let found = this.categories.find( category => category.categoriaid === idCategory );
+
+		openModalEditCategory( found );
+	}
+
+
+	/**
+	 * activa la categoria
+	 * @param {Object} data
+	 * @param  {number} data.id  identificador de categoria
+	 * @param  {boolean} data.confirm confirma la actualizacion
+	 */
+	activeCategory({ id, confirm }) {
+
+		if ( !confirm ) {
+			return;
+		}
+
+		let categoryFound = this.categories.find(( category ) => category.categoriaid === id );
+
+		const send = {
+			categoriaid: id,
+			activo: !categoryFound.activo
+		};
+
+		CategoriasController.activarCategoria( send );
+
+		this.getAll( null,   getPaginationStorage('categoriesTable') );
+	}
+
+
+	/**
+	 * abre el modal de categoria
+	 * @param  {number} idCategory identificador de categoria
+	 */
+	openModalConfirm( idCategory = null ) {
+
+		let found = this.categories.find(( category ) => category.categoriaid === idCategory );
+		let title = `${ found.activo ? 'Desactivar' : 'Activar' } la categoría ${ idCategory }`;
+		let element = (`
+			&lt;p class="text-center">
+				¿Esta seguro de ${ found.activo ? 'desactivar' : 'activar' } la categoria de
+				${ found.nombre }?
+			&lt;/p>
+		`);
+
+		closeModalConfirm = ModalConfirmComponent.closeModalConfirm.bind(
+			this.activeCategory
+		);
+
+		ModalConfirmComponent.openModalConfirm( title, element, idCategory );
+	}
+
+
+	/**
+	 * busca categorias en la BD.
+	 * @param  {string} $event cadena de busqueda
+	 */
+	async searchCategories( $event = '' ) {
+
+		if ( $event.length === 0 ) {
+			let { pagination } = getPaginationStorage('categoriesTable');
+
+			this.getAll( null, pagination );
+
+			return;
+		}
+
+		this.categories = await CategoriasController.buscarCategoria({ search: '%' + $event + '%' });
+
+		console.log( this.categories );
+
+		this.render( this.categories, null, true );
+	}
+
+
+	/**
+	 * Obtiene el listado de categorias
+	 *
+	 * @param  {*|null} $event  evento de carga de la vista
+	 * @param  {Array&lt;number>} pagination  array de paginación
+	 * @param  {number} page numero de pagina
+	 */
+	async getAll( $event, pagination = [0, 10], page = this.page ) {
+
+		try {
+
+			this.categories = await CategoriasController.listarCategorias( pagination );
+			let totalCategories = await CategoriasController.obtenerTotalCategorias();
+			this.page = page;
+
+			// console.log( categories );
+
+			sessionStorage.setItem('categoriesTable', JSON.stringify({ pagination }));
+
+			this.render( this.categories, totalCategories );
+
+		} catch ( error ) {
+			console.log( error );
+		}
+	}
+
+	/**
+	 * obtiene el nombre del usuario
+	 *
+	 * @param  {string} name   nombre del usuario
+	 * @param  {string} surname apellido del usuario
+	 * @returns {string} obtiene el nombre concatenado
+	 */
+	getName( name, surname ) {
+
+		if ( ( !name || name.length === 0 ) &amp;&amp;
+			( !surname || surname.length === 0 ) ) {
+			return 'No disponible';
+		}
+
+		return name + ' ' + surname;
+	}
+
+	/**
+	 * obtiene las filas en string html
+	 *
+	 * @param  {Category} category instancia de categoria
+	 * @returns {string}  devuelve el string html
+	 */
+	setRows( category ) {
+
+		return (`
+			&lt;tr class="text-center">
+				&lt;td>${ category.categoriaid }&lt;/td>
+				&lt;td>${ category.nombre ? category.nombre : 'No disponible' }&lt;/td>
+				&lt;td>${ category.descripcion }&lt;/td>
+				&lt;td>${ this.getName( category.nombre_usuario, category.apellido ) }&lt;/td>
+				&lt;td>${ category.activo ?
+						('&lt;i class="fas fa-check text-success">&lt;/i>') :
+						('&lt;i class="fas fa-times text-danger">&lt;/i>')
+					}
+				&lt;/td>
+				&lt;!-- &lt;td>${ category.imagen &amp;&amp; category.imagen.length > 0 ?
+						('&lt;i class="fas fa-check text-success">&lt;/i>') :
+						('&lt;i class="fas fa-times text-danger">&lt;/i>')
+				 	}
+				 &lt;/td> -->
+				&lt;td>
+					&lt;button
+						type="button"
+						onclick="categoryTableComponent.selectCategory( ${ category.categoriaid } )"
+						class="btn btn-primary btn-sm"
+					>
+						&lt;i class="fas fa-edit">&lt;/i>
+					&lt;/button>
+					&lt;button
+						type="button"
+						onclick="categoryTableComponent.openModalConfirm( ${ category.categoriaid } )"
+						class="btn btn-secondary btn-sm"
+					>
+						&lt;i class="fas fa-trash">&lt;/i>
+					&lt;/button>
+				&lt;/td>
+			&lt;/tr>
+		`);
+	}
+
+
+	/**
+	 * renderiza la tabla categorias
+	 *
+	 * @param  {Array&lt;Category>} categorias
+	 * @param  {number} totalCategories total de categorias
+	 * @param  {boolean} search  flag que indica si debe setear el paginador
+	 */
+	render( categorias = [], totalCategories, search = false ) {
+
+		if ( !search ) {
+
+			let paginationElement = document.querySelector('#pagination-categories');
+
+			this.tbody.innerHTML = '';
+			paginationElement._limit = totalCategories.totalPaginas;
+			paginationElement._registers = totalCategories.totalRegistros;
+			paginationElement._page = this.page;
+		}
+
+		if ( categorias.length > 0 ) {
+
+			this.pagination.style.display = 'block';
+
+			this.tbody.innerHTML = categorias.map( this.setRows.bind( this ) ).join('');
+
+		} else {
+
+			this.pagination.style.display = 'none';
+
+			this.tbody.innerHTML = (`
+				&lt;tr class="text-center">
+					&lt;td colspan="7" class="text-danger">
+						No existen registros de productos disponibles
+					&lt;/td>
+				&lt;/tr>
+			`);
+		}
+
+	}
+
+	setEvents() {
+		this.pagination.addEventListener('pagination', 
+			( $event ) =>  this.getAll( null, $event.detail.value, $event.detail.page ) )
+
+		this.searchBar.addEventListener('search', 
+			( $event ) => this.searchCategories( $event.detail.value ));
+	}
+}
+
+module.exports = CategoryTableComponent;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Mar 16 2023 08:33:25 GMT-0400 (hora de Venezuela) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

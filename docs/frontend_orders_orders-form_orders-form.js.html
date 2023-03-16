@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>frontend/orders/orders-form/orders-form.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CategoriasController.html">CategoriasController</a><ul class='methods'><li data-type='method'><a href="CategoriasController.html#.activarCategoria">activarCategoria</a></li><li data-type='method'><a href="CategoriasController.html#.buscarCategoria">buscarCategoria</a></li><li data-type='method'><a href="CategoriasController.html#.crearCategoria">crearCategoria</a></li><li data-type='method'><a href="CategoriasController.html#.editarCategoria">editarCategoria</a></li><li data-type='method'><a href="CategoriasController.html#.listarCategorias">listarCategorias</a></li><li data-type='method'><a href="CategoriasController.html#.obtenerTotalCategorias">obtenerTotalCategorias</a></li></ul></li><li><a href="CategoryTableComponent.html">CategoryTableComponent</a><ul class='methods'><li data-type='method'><a href="CategoryTableComponent.html#activeCategory">activeCategory</a></li><li data-type='method'><a href="CategoryTableComponent.html#createCategory">createCategory</a></li><li data-type='method'><a href="CategoryTableComponent.html#editCategory">editCategory</a></li><li data-type='method'><a href="CategoryTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="CategoryTableComponent.html#getName">getName</a></li><li data-type='method'><a href="CategoryTableComponent.html#openModalConfirm">openModalConfirm</a></li><li data-type='method'><a href="CategoryTableComponent.html#render">render</a></li><li data-type='method'><a href="CategoryTableComponent.html#searchCategories">searchCategories</a></li><li data-type='method'><a href="CategoryTableComponent.html#selectCategory">selectCategory</a></li><li data-type='method'><a href="CategoryTableComponent.html#setRows">setRows</a></li></ul></li><li><a href="ClientesController.html">ClientesController</a><ul class='methods'><li data-type='method'><a href="ClientesController.html#.buscarCliente">buscarCliente</a></li><li data-type='method'><a href="ClientesController.html#.crearCliente">crearCliente</a></li><li data-type='method'><a href="ClientesController.html#.editarCliente">editarCliente</a></li><li data-type='method'><a href="ClientesController.html#.listarClientes">listarClientes</a></li><li data-type='method'><a href="ClientesController.html#.obtenerTotalClientes">obtenerTotalClientes</a></li></ul></li><li><a href="ClientsTableComponent.html">ClientsTableComponent</a><ul class='methods'><li data-type='method'><a href="ClientsTableComponent.html#addClient">addClient</a></li><li data-type='method'><a href="ClientsTableComponent.html#editClient">editClient</a></li><li data-type='method'><a href="ClientsTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="ClientsTableComponent.html#renderClients">renderClients</a></li><li data-type='method'><a href="ClientsTableComponent.html#searchClient">searchClient</a></li><li data-type='method'><a href="ClientsTableComponent.html#setEvents">setEvents</a></li><li data-type='method'><a href="ClientsTableComponent.html#setRows">setRows</a></li></ul></li><li><a href="Database.html">Database</a><ul class='methods'><li data-type='method'><a href="Database.html#.closeConnection">closeConnection</a></li><li data-type='method'><a href="Database.html#.connect">connect</a></li><li data-type='method'><a href="Database.html#.sqlParse">sqlParse</a></li><li data-type='method'><a href="Database.html#consult">consult</a></li><li data-type='method'><a href="Database.html#delete">delete</a></li><li data-type='method'><a href="Database.html#find">find</a></li><li data-type='method'><a href="Database.html#getTotalRecords">getTotalRecords</a></li><li data-type='method'><a href="Database.html#insert">insert</a></li><li data-type='method'><a href="Database.html#update">update</a></li></ul></li><li><a href="HomeComponent.html">HomeComponent</a><ul class='methods'><li data-type='method'><a href="HomeComponent.html#initCards">initCards</a></li><li data-type='method'><a href="HomeComponent.html#logOut">logOut</a></li><li data-type='method'><a href="HomeComponent.html#openEstadistics">openEstadistics</a></li><li data-type='method'><a href="HomeComponent.html#openOrders">openOrders</a></li><li data-type='method'><a href="HomeComponent.html#openProducts">openProducts</a></li><li data-type='method'><a href="HomeComponent.html#openUsers">openUsers</a></li><li data-type='method'><a href="HomeComponent.html#reduceValues">reduceValues</a></li><li data-type='method'><a href="HomeComponent.html#showOptions">showOptions</a></li></ul></li><li><a href="LoadingComponent.html">LoadingComponent</a><ul class='methods'><li data-type='method'><a href="LoadingComponent.html#attributeChangedCallback">attributeChangedCallback</a></li><li data-type='method'><a href="LoadingComponent.html#connectedCallback">connectedCallback</a></li><li data-type='method'><a href="LoadingComponent.html#render">render</a></li></ul></li><li><a href="LoginPage.html">LoginPage</a><ul class='methods'><li data-type='method'><a href="LoginPage.html#handleSubmit">handleSubmit</a></li><li data-type='method'><a href="LoginPage.html#login">login</a></li><li data-type='method'><a href="LoginPage.html#renderErrors">renderErrors</a></li><li data-type='method'><a href="LoginPage.html#resetLoginForm">resetLoginForm</a></li><li data-type='method'><a href="LoginPage.html#validateForm">validateForm</a></li></ul></li><li><a href="ModalClientComponent.html">ModalClientComponent</a><ul class='methods'><li data-type='method'><a href="ModalClientComponent.html#checkClient">checkClient</a></li><li data-type='method'><a href="ModalClientComponent.html#closeModalClients">closeModalClients</a></li><li data-type='method'><a href="ModalClientComponent.html#handleChange">handleChange</a></li><li data-type='method'><a href="ModalClientComponent.html#openModalClients">openModalClients</a></li><li data-type='method'><a href="ModalClientComponent.html#renderClients">renderClients</a></li><li data-type='method'><a href="ModalClientComponent.html#searchClient">searchClient</a></li><li data-type='method'><a href="ModalClientComponent.html#setEvents">setEvents</a></li></ul></li><li><a href="ModalProductsComponent.html">ModalProductsComponent</a><ul class='methods'><li data-type='method'><a href="ModalProductsComponent.html#checkProduct">checkProduct</a></li><li data-type='method'><a href="ModalProductsComponent.html#closeModalProducts">closeModalProducts</a></li><li data-type='method'><a href="ModalProductsComponent.html#handleChange">handleChange</a></li><li data-type='method'><a href="ModalProductsComponent.html#openModalProducts">openModalProducts</a></li><li data-type='method'><a href="ModalProductsComponent.html#renderProducts">renderProducts</a></li><li data-type='method'><a href="ModalProductsComponent.html#searchProduct">searchProduct</a></li><li data-type='method'><a href="ModalProductsComponent.html#setEvents">setEvents</a></li></ul></li><li><a href="NotasController.html">NotasController</a><ul class='methods'><li data-type='method'><a href="NotasController.html#.actualizarNota">actualizarNota</a></li><li data-type='method'><a href="NotasController.html#.buscarNota">buscarNota</a></li><li data-type='method'><a href="NotasController.html#.calcularTotalNotas">calcularTotalNotas</a></li><li data-type='method'><a href="NotasController.html#.crearNota">crearNota</a></li><li data-type='method'><a href="NotasController.html#.exportarNotas">exportarNotas</a></li><li data-type='method'><a href="NotasController.html#.generarPDFNota">generarPDFNota</a></li><li data-type='method'><a href="NotasController.html#.importarNotas">importarNotas</a></li><li data-type='method'><a href="NotasController.html#.listarNotas">listarNotas</a></li><li data-type='method'><a href="NotasController.html#.mostrarAlerta">mostrarAlerta</a></li><li data-type='method'><a href="NotasController.html#.obtenerNota">obtenerNota</a></li><li data-type='method'><a href="NotasController.html#.obtenerNotasArray">obtenerNotasArray</a></li><li data-type='method'><a href="NotasController.html#.obtenerTotalNotas">obtenerTotalNotas</a></li><li data-type='method'><a href="NotasController.html#.obtenerUltimaNota">obtenerUltimaNota</a></li></ul></li><li><a href="NotasProductosController.html">NotasProductosController</a><ul class='methods'><li data-type='method'><a href="NotasProductosController.html#.actualizarNotasProductos">actualizarNotasProductos</a></li><li data-type='method'><a href="NotasProductosController.html#.insertarNotasProductos">insertarNotasProductos</a></li><li data-type='method'><a href="NotasProductosController.html#.restarCantidad">restarCantidad</a></li><li data-type='method'><a href="NotasProductosController.html#.retirarProductoNota">retirarProductoNota</a></li><li data-type='method'><a href="NotasProductosController.html#.sumarCantidad">sumarCantidad</a></li></ul></li><li><a href="OrdersForm.html">OrdersForm</a><ul class='methods'><li data-type='method'><a href="OrdersForm.html#calculateTotal">calculateTotal</a></li><li data-type='method'><a href="OrdersForm.html#confirmDeleteClient">confirmDeleteClient</a></li><li data-type='method'><a href="OrdersForm.html#confirmDeleteProduct">confirmDeleteProduct</a></li><li data-type='method'><a href="OrdersForm.html#deleteClient">deleteClient</a></li><li data-type='method'><a href="OrdersForm.html#deleteProduct">deleteProduct</a></li><li data-type='method'><a href="OrdersForm.html#getDeliveryNote">getDeliveryNote</a></li><li data-type='method'><a href="OrdersForm.html#getParamsUrl">getParamsUrl</a></li><li data-type='method'><a href="OrdersForm.html#handleChangeQuantity">handleChangeQuantity</a></li><li data-type='method'><a href="OrdersForm.html#handleSubmit">handleSubmit</a></li><li data-type='method'><a href="OrdersForm.html#resetForm">resetForm</a></li><li data-type='method'><a href="OrdersForm.html#selectClients">selectClients</a></li><li data-type='method'><a href="OrdersForm.html#selectProducts">selectProducts</a></li><li data-type='method'><a href="OrdersForm.html#sendData">sendData</a></li><li data-type='method'><a href="OrdersForm.html#setClientsTable">setClientsTable</a></li><li data-type='method'><a href="OrdersForm.html#setForm">setForm</a></li><li data-type='method'><a href="OrdersForm.html#setHtml">setHtml</a></li><li data-type='method'><a href="OrdersForm.html#setProductsTable">setProductsTable</a></li><li data-type='method'><a href="OrdersForm.html#validateForm">validateForm</a></li></ul></li><li><a href="OrdersTableComponent.html">OrdersTableComponent</a><ul class='methods'><li data-type='method'><a href="OrdersTableComponent.html#createDeliveryNote">createDeliveryNote</a></li><li data-type='method'><a href="OrdersTableComponent.html#editDeiliveryNote">editDeiliveryNote</a></li><li data-type='method'><a href="OrdersTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="OrdersTableComponent.html#getName">getName</a></li><li data-type='method'><a href="OrdersTableComponent.html#render">render</a></li><li data-type='method'><a href="OrdersTableComponent.html#searchDeliveryNote">searchDeliveryNote</a></li><li data-type='method'><a href="OrdersTableComponent.html#setEvents">setEvents</a></li><li data-type='method'><a href="OrdersTableComponent.html#setRows">setRows</a></li><li data-type='method'><a href="OrdersTableComponent.html#showPDF">showPDF</a></li></ul></li><li><a href="PaginationComponentElement.html">PaginationComponentElement</a><ul class='methods'><li data-type='method'><a href="PaginationComponentElement.html#attributeChangedCallback">attributeChangedCallback</a></li><li data-type='method'><a href="PaginationComponentElement.html#next">next</a></li><li data-type='method'><a href="PaginationComponentElement.html#prev">prev</a></li><li data-type='method'><a href="PaginationComponentElement.html#render">render</a></li><li data-type='method'><a href="PaginationComponentElement.html#sendPagination">sendPagination</a></li></ul></li><li><a href="PdfController.html">PdfController</a><ul class='methods'><li data-type='method'><a href="PdfController.html#crearReporte">crearReporte</a></li><li data-type='method'><a href="PdfController.html#createPdf">createPdf</a></li></ul></li><li><a href="ProductosController.html">ProductosController</a><ul class='methods'><li data-type='method'><a href="ProductosController.html#.activarProducto">activarProducto</a></li><li data-type='method'><a href="ProductosController.html#.buscarProducto">buscarProducto</a></li><li data-type='method'><a href="ProductosController.html#.crearProducto">crearProducto</a></li><li data-type='method'><a href="ProductosController.html#.editarCantidadProducto">editarCantidadProducto</a></li><li data-type='method'><a href="ProductosController.html#.editarProducto">editarProducto</a></li><li data-type='method'><a href="ProductosController.html#.exportarProductos">exportarProductos</a></li><li data-type='method'><a href="ProductosController.html#.importarProductos">importarProductos</a></li><li data-type='method'><a href="ProductosController.html#.insertarArrayProductos">insertarArrayProductos</a></li><li data-type='method'><a href="ProductosController.html#.listarCategorias">listarCategorias</a></li><li data-type='method'><a href="ProductosController.html#.listarProductos">listarProductos</a></li><li data-type='method'><a href="ProductosController.html#.listarProductosActivos">listarProductosActivos</a></li><li data-type='method'><a href="ProductosController.html#.obtenerProducto">obtenerProducto</a></li><li data-type='method'><a href="ProductosController.html#.obtenerTotalProductos">obtenerTotalProductos</a></li><li data-type='method'><a href="ProductosController.html#.obtenerTotalProductosActivos">obtenerTotalProductosActivos</a></li><li data-type='method'><a href="ProductosController.html#.obtenerTotalProductosExportar">obtenerTotalProductosExportar</a></li></ul></li><li><a href="ProductsTableComponent.html">ProductsTableComponent</a><ul class='methods'><li data-type='method'><a href="ProductsTableComponent.html#activeProduct">activeProduct</a></li><li data-type='method'><a href="ProductsTableComponent.html#createProduct">createProduct</a></li><li data-type='method'><a href="ProductsTableComponent.html#editProduct">editProduct</a></li><li data-type='method'><a href="ProductsTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="ProductsTableComponent.html#openModalConfirm">openModalConfirm</a></li><li data-type='method'><a href="ProductsTableComponent.html#render">render</a></li><li data-type='method'><a href="ProductsTableComponent.html#searchProducts">searchProducts</a></li><li data-type='method'><a href="ProductsTableComponent.html#selectProduct">selectProduct</a></li><li data-type='method'><a href="ProductsTableComponent.html#setName">setName</a></li><li data-type='method'><a href="ProductsTableComponent.html#setRows">setRows</a></li></ul></li><li><a href="ProfileModalComponent.html">ProfileModalComponent</a><ul class='methods'><li data-type='method'><a href="ProfileModalComponent.html#handleSubmit">handleSubmit</a></li><li data-type='method'><a href="ProfileModalComponent.html#openModalProfile">openModalProfile</a></li><li data-type='method'><a href="ProfileModalComponent.html#resetForm">resetForm</a></li><li data-type='method'><a href="ProfileModalComponent.html#setForm">setForm</a></li><li data-type='method'><a href="ProfileModalComponent.html#setHtml">setHtml</a></li><li data-type='method'><a href="ProfileModalComponent.html#validate">validate</a></li></ul></li><li><a href="ReporteController.html">ReporteController</a><ul class='methods'><li data-type='method'><a href="ReporteController.html#.buscarCantidadMaximaVendida">buscarCantidadMaximaVendida</a></li><li data-type='method'><a href="ReporteController.html#.buscarCantidadProductosVendidosAnual">buscarCantidadProductosVendidosAnual</a></li><li data-type='method'><a href="ReporteController.html#.buscarNotasCategoria">buscarNotasCategoria</a></li><li data-type='method'><a href="ReporteController.html#.buscarNotasVendidasPorVendedor">buscarNotasVendidasPorVendedor</a></li><li data-type='method'><a href="ReporteController.html#.buscarTotalProductosPorCategoria">buscarTotalProductosPorCategoria</a></li><li data-type='method'><a href="ReporteController.html#.generarReporte">generarReporte</a></li><li data-type='method'><a href="ReporteController.html#.getImageBuffer">getImageBuffer</a></li><li data-type='method'><a href="ReporteController.html#.ordenarMeses">ordenarMeses</a></li></ul></li><li><a href="ReportPDF.html">ReportPDF</a><ul class='methods'><li data-type='method'><a href="ReportPDF.html#createBarChart">createBarChart</a></li><li data-type='method'><a href="ReportPDF.html#createLineChart">createLineChart</a></li><li data-type='method'><a href="ReportPDF.html#createPieChart">createPieChart</a></li><li data-type='method'><a href="ReportPDF.html#createRandomColor">createRandomColor</a></li><li data-type='method'><a href="ReportPDF.html#transformBase64toArrayBuffer">transformBase64toArrayBuffer</a></li></ul></li><li><a href="ReportsComponent.html">ReportsComponent</a><ul class='methods'><li data-type='method'><a href="ReportsComponent.html#clearFilter">clearFilter</a></li><li data-type='method'><a href="ReportsComponent.html#createBarChart">createBarChart</a></li><li data-type='method'><a href="ReportsComponent.html#createLineChart">createLineChart</a></li><li data-type='method'><a href="ReportsComponent.html#createPieChart">createPieChart</a></li><li data-type='method'><a href="ReportsComponent.html#createRandomColor">createRandomColor</a></li><li data-type='method'><a href="ReportsComponent.html#deleteCharts">deleteCharts</a></li><li data-type='method'><a href="ReportsComponent.html#generateReport">generateReport</a></li><li data-type='method'><a href="ReportsComponent.html#generateStadistics">generateStadistics</a></li><li data-type='method'><a href="ReportsComponent.html#handleChangeBusiness">handleChangeBusiness</a></li><li data-type='method'><a href="ReportsComponent.html#handleChangeQuestions">handleChangeQuestions</a></li><li data-type='method'><a href="ReportsComponent.html#resetForm">resetForm</a></li><li data-type='method'><a href="ReportsComponent.html#setEvents">setEvents</a></li><li data-type='method'><a href="ReportsComponent.html#showPeriod">showPeriod</a></li><li data-type='method'><a href="ReportsComponent.html#validate">validate</a></li></ul></li><li><a href="SearchBarComponent.html">SearchBarComponent</a><ul class='methods'><li data-type='method'><a href="SearchBarComponent.html#connectedCallback">connectedCallback</a></li><li data-type='method'><a href="SearchBarComponent.html#disconnectedCallback">disconnectedCallback</a></li><li data-type='method'><a href="SearchBarComponent.html#getHtml">getHtml</a></li><li data-type='method'><a href="SearchBarComponent.html#handleChangeInput">handleChangeInput</a></li></ul></li><li><a href="UsersComponent.html">UsersComponent</a><ul class='methods'><li data-type='method'><a href="UsersComponent.html#changeView">changeView</a></li><li data-type='method'><a href="UsersComponent.html#setHtml">setHtml</a></li><li data-type='method'><a href="UsersComponent.html#setOptionsTabs">setOptionsTabs</a></li></ul></li><li><a href="UsersController.html">UsersController</a><ul class='methods'><li data-type='method'><a href="UsersController.html#.actualizarPerfil">actualizarPerfil</a></li><li data-type='method'><a href="UsersController.html#.buscarUsuarios">buscarUsuarios</a></li><li data-type='method'><a href="UsersController.html#.cambiarEstadoUsuarios">cambiarEstadoUsuarios</a></li><li data-type='method'><a href="UsersController.html#.cambiarRolUsuarios">cambiarRolUsuarios</a></li><li data-type='method'><a href="UsersController.html#.crearUsuario">crearUsuario</a></li><li data-type='method'><a href="UsersController.html#.listarUsuarios">listarUsuarios</a></li><li data-type='method'><a href="UsersController.html#.login">login</a></li><li data-type='method'><a href="UsersController.html#.obtenerTotalUsuarios">obtenerTotalUsuarios</a></li></ul></li><li><a href="UsersTableComponent.html">UsersTableComponent</a><ul class='methods'><li data-type='method'><a href="UsersTableComponent.html#changeRole">changeRole</a></li><li data-type='method'><a href="UsersTableComponent.html#deleteUser">deleteUser</a></li><li data-type='method'><a href="UsersTableComponent.html#getAll">getAll</a></li><li data-type='method'><a href="UsersTableComponent.html#getRowTable">getRowTable</a></li><li data-type='method'><a href="UsersTableComponent.html#newUser">newUser</a></li><li data-type='method'><a href="UsersTableComponent.html#openModalConfirm">openModalConfirm</a></li><li data-type='method'><a href="UsersTableComponent.html#renderUsers">renderUsers</a></li><li data-type='method'><a href="UsersTableComponent.html#searchUser">searchUser</a></li><li data-type='method'><a href="UsersTableComponent.html#setEvents">setEvents</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-excel.html">excel</a><ul class='methods'><li data-type='method'><a href="module-excel.html#~exportJSON">exportJSON</a></li><li data-type='method'><a href="module-excel.html#~generarLibroNotasExcel">generarLibroNotasExcel</a></li><li data-type='method'><a href="module-excel.html#~readFileExcelNotes">readFileExcelNotes</a></li><li data-type='method'><a href="module-excel.html#~readFileExcelProducts">readFileExcelProducts</a></li><li data-type='method'><a href="module-excel.html#~writeFileExcel">writeFileExcel</a></li></ul></li><li><a href="module-file.html">file</a><ul class='methods'><li data-type='method'><a href="module-file.html#~appendFile">appendFile</a></li><li data-type='method'><a href="module-file.html#~checkAsset">checkAsset</a></li><li data-type='method'><a href="module-file.html#~copyFile">copyFile</a></li><li data-type='method'><a href="module-file.html#~deleteFileSync">deleteFileSync</a></li><li data-type='method'><a href="module-file.html#~formatUrl">formatUrl</a></li><li data-type='method'><a href="module-file.html#~getHomePath">getHomePath</a></li><li data-type='method'><a href="module-file.html#~readFile">readFile</a></li><li data-type='method'><a href="module-file.html#~readFileAssets">readFileAssets</a></li><li data-type='method'><a href="module-file.html#~readFileImageAsync">readFileImageAsync</a></li><li data-type='method'><a href="module-file.html#~readFilePromiseJSON">readFilePromiseJSON</a></li><li data-type='method'><a href="module-file.html#~writeFile">writeFile</a></li></ul></li><li><a href="module-ModalCategoryFormComponent.html">ModalCategoryFormComponent</a><ul class='methods'><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~cleanFormOnClose">cleanFormOnClose</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~handleSubmit">handleSubmit</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~openModalEditCategory">openModalEditCategory</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~openModalNewCategory">openModalNewCategory</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~resetForm">resetForm</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~setForm">setForm</a></li><li data-type='method'><a href="module-ModalCategoryFormComponent.html#~validateData">validateData</a></li></ul></li><li><a href="module-ModalClientFormComponent.html">ModalClientFormComponent</a><ul class='methods'><li data-type='method'><a href="module-ModalClientFormComponent.html#~closeModal">closeModal</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~handleSubmit">handleSubmit</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~openModal">openModal</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~resetFields">resetFields</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~setForm">setForm</a></li><li data-type='method'><a href="module-ModalClientFormComponent.html#~validate">validate</a></li></ul></li><li><a href="module-ModalConfirmComponent.html">ModalConfirmComponent</a><ul class='methods'><li data-type='method'><a href="module-ModalConfirmComponent.html#~closeModalConfirm">closeModalConfirm</a></li><li data-type='method'><a href="module-ModalConfirmComponent.html#~openModalConfirm">openModalConfirm</a></li></ul></li><li><a href="module-ModalProductsForm.html">ModalProductsForm</a><ul class='methods'><li data-type='method'><a href="module-ModalProductsForm.html#~handleChangeQuantity">handleChangeQuantity</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~handleSubmit">handleSubmit</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~openModalEditProduct">openModalEditProduct</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~openModalNewProduct">openModalNewProduct</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~resetFormProducts">resetFormProducts</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~setForm">setForm</a></li><li data-type='method'><a href="module-ModalProductsForm.html#~validateData">validateData</a></li></ul></li><li><a href="module-ModalUserFormComponent.html">ModalUserFormComponent</a><ul class='methods'><li data-type='method'><a href="module-ModalUserFormComponent.html#~closeModal">closeModal</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~getForm">getForm</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~openModal">openModal</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~resetFields">resetFields</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~setForm">setForm</a></li><li data-type='method'><a href="module-ModalUserFormComponent.html#~validateForm">validateForm</a></li></ul></li><li><a href="module-NoteModel.html">NoteModel</a><ul class='methods'><li data-type='method'><a href="module-NoteModel.html#~validate">validate</a></li></ul></li><li><a href="module-ProductModel.html">ProductModel</a><ul class='methods'><li data-type='method'><a href="module-ProductModel.html#~validate">validate</a></li></ul></li><li><a href="module-string.html">string</a><ul class='methods'><li data-type='method'><a href="module-string.html#~sliceString">sliceString</a></li></ul></li><li><a href="module-time.html">time</a><ul class='methods'><li data-type='method'><a href="module-time.html#~dateSpanish">dateSpanish</a></li><li data-type='method'><a href="module-time.html#~dateToString">dateToString</a></li><li data-type='method'><a href="module-time.html#~showLog">showLog</a></li></ul></li><li><a href="module-transformers.html">transformers</a><ul class='methods'><li data-type='method'><a href="module-transformers.html#~transformarData">transformarData</a></li></ul></li><li><a href="module-UsersModalRole.html">UsersModalRole</a><ul class='methods'><li data-type='method'><a href="module-UsersModalRole.html#~closeModalRole">closeModalRole</a></li><li data-type='method'><a href="module-UsersModalRole.html#~getForm">getForm</a></li><li data-type='method'><a href="module-UsersModalRole.html#~openModalRole">openModalRole</a></li><li data-type='method'><a href="module-UsersModalRole.html#~setForm">setForm</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#categoryTableComponent">categoryTableComponent</a></li><li><a href="global.html#clientsTableComponent">clientsTableComponent</a></li><li><a href="global.html#createWindow">createWindow</a></li><li><a href="global.html#CRUD">CRUD</a></li><li><a href="global.html#getPaginationStorage">getPaginationStorage</a></li><li><a href="global.html#getUserLogged">getUserLogged</a></li><li><a href="global.html#hideElement">hideElement</a></li><li><a href="global.html#homeComponent">homeComponent</a></li><li><a href="global.html#initMainMenu">initMainMenu</a></li><li><a href="global.html#modalClientComponent">modalClientComponent</a></li><li><a href="global.html#modalProductsComponent">modalProductsComponent</a></li><li><a href="global.html#mysqlAPI">mysqlAPI</a></li><li><a href="global.html#ordersForm">ordersForm</a></li><li><a href="global.html#ordersTableComponent">ordersTableComponent</a></li><li><a href="global.html#productsComponent">productsComponent</a></li><li><a href="global.html#productsTableComponent">productsTableComponent</a></li><li><a href="global.html#profileModalComponent">profileModalComponent</a></li><li><a href="global.html#redirectTo">redirectTo</a></li><li><a href="global.html#renderErrors">renderErrors</a></li><li><a href="global.html#reportsComponent">reportsComponent</a></li><li><a href="global.html#setPaginationStorage">setPaginationStorage</a></li><li><a href="global.html#setUserLogged">setUserLogged</a></li><li><a href="global.html#showElement">showElement</a></li><li><a href="global.html#usersComponent">usersComponent</a></li><li><a href="global.html#usersTableComponent">usersTableComponent</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">frontend/orders/orders-form/orders-form.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const { remote } = require('electron');
+const { dateToString } = remote.require('./util-functions/time');
+const { 
+  ClientesController, 
+  ProductosController, 
+  NotasController, 
+  NotasProductosController 
+} = remote.require('./controllers');
+
+const { Modal } = bootstrap;
+
+/** clase formulario notas de entrega */
+class OrdersForm {
+
+  constructor() {
+
+    this.footer = document.querySelector('footer');
+    this.noteForm = document.forms['note-form'];
+
+    this.loadingComponent = document.querySelector('app-loading');  
+
+    /** @type {?number} */
+    this.deliveryId = null;
+
+    /**
+     * listado de productos seleccionados por el usuario
+     * @type {Array&lt;Product>} */
+    this.productsSelected = [];
+
+    /**
+     * listado del cliente seleccionado por el usuario
+     * @type {Array&lt;Client>} */
+    this.clientsSelected = [];
+
+    /** @type {number} */
+    this.totalOrder = 0;
+
+    /**
+     * Instancia de la nota
+     * @type {?Nota}
+     * */
+    this.note = null;
+
+    // errors
+    this.errorDescription = document.querySelector('#error-delivery-description');
+    this.errorDeliveryDate = document.querySelector('#error-delivery-date');
+    this.loadButton = document.querySelector('#load-button');
+    this.submitButton = document.querySelector('#submit-button');
+    
+
+    this.setHtml(() => {
+
+      ModalConfirmComponent = require('../../shared/modal-confirm/modal-confirm-component');
+      ModalClientComponent = require('../modal-clients/modal-client-component').ModalClientComponent;
+      ModalProductsComponent = require('../modal-products/modal-products-component').ModalProductsComponent;
+
+      modalClientComponent = new ModalClientComponent();
+      modalProductsComponent = new ModalProductsComponent();
+
+      this.setForm();
+      this.setProductsTable();
+      this.setClientsTable();
+    });
+  }
+
+ 
+  /**
+   * establece el html del sitio y sus eventos
+   * @param  {callback} callback devolucion de llamada cuando el html se cargue al sitio
+   */
+  setHtml( callback ) {
+
+    Promise.all([
+      fetch('orders/modal-clients/modal-client-component.html').then( resp => resp.text() ),
+      fetch('orders/modal-products/modal-products-component.html').then( resp => resp.text() ),
+      fetch('shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() )
+    ]).then( htmlArray => {
+      
+      this.footer.innerHTML = htmlArray.join('');
+      
+      callback();
+
+    })
+    .catch( error => console.error( error ) )
+    .finally( () => { setTimeout(() => this.loadingComponent._show = 'false', 1000 ) });
+  }
+
+
+  /**
+   * establece el formulario de la nota
+   * @param  {Nota} delivery instancia de la nota
+   */
+  setForm( delivery = null ) {
+
+    // set form
+    let today = dateToString();
+
+    // date
+    const inputDate = form.querySelector('input[name="delivery-date"]');
+    inputDate.value = delivery ? delivery.today : today
+  }
+
+  /** Obtiene el id de la nota pasada por la url */
+  getParamsUrl() {
+
+    /*
+      documentacion
+
+      las expresiones regulares tienen una caracteristica que permite almacenar
+      los valores hallados en objetos, agrupandolos para una mejor lectura, usando
+      los grupos para ello.
+
+      const regex = /(?&lt;year>[0-9]{4})-(?&lt;month>[0-9]{2})-(?&lt;day>[0-9]{2})/;
+      let date = '2021-06-09';
+
+      console.log( query );
+      console.log( date.match( regex ) );
+      const regex = /^\?new=(?&lt;new>true|false)&amp;idDelivery=(?&lt;idDelivery>[0-9]+)$/;
+    */
+
+    const query = location.search;
+    const regex = /(?&lt;idDelivery>[0-9]+)/;
+
+    let match = query.match( regex );
+
+    if ( match ) { // edit
+
+      // this.loadingComponent._show = 'true';
+
+      this.deliveryId = match['groups'].idDelivery;
+
+      document.querySelector('#title').innerText = 'Editar entrega ' + this.deliveryId;
+      document.querySelector('.select-state').style.display = '';
+
+      // se consulta a la base de datos
+      this.getDeliveryNote( this.deliveryId );
+
+    } else { // new
+
+      document.querySelector('#title').innerText = 'Nueva entrega';
+    }
+  }
+
+
+  /**
+   * obtiene la informacion de la nota seleccionada
+   * @param  {number} idNote identificador de la nota
+   */
+  async getDeliveryNote( idNote ) {
+
+    this.note = await NotasController.obtenerNota( idNote );
+
+   if ( this.note.fecha_entrega ) {
+     document.querySelector('.date-state').style.display = '';
+   }
+
+   // console.log( this.note );
+
+    // se añaden al formulario
+    const inputs = this.noteForm.querySelectorAll('input');
+    const select = this.noteForm.querySelector('select');
+
+    inputs[0].value = this.note.descripcion_nota;
+    inputs[1].value = this.note.fecha_entrega;
+
+    select.value = this.note.status;
+
+    this.productsSelected = this.note.productos;
+    this.clientsSelected = this.clientsSelected.concat([{
+      direccion_entrega: this.note.direccion_entrega,
+      id_cliente: this.note.id_cliente,
+      nombre_cliente: this.note.nombre_cliente,
+      rif: this.note.rif,
+      telefono_contacto: this.note.telefono_contacto
+    }]);
+
+    this.setClientsTable();
+    this.setProductsTable();
+  }
+
+  /** Funcion que activa la seleccion de productos */
+  selectProducts() {
+
+    // se asignan el valor al hijo
+    if ( this.deliveryId ) {
+      modalProductsComponent.productsSelected = this.productsSelected;
+    }
+
+    modalProductsComponent.openModalProducts( getPaginationStorage('productsModalTable') );
+  }
+
+  /** Funcion que activa la seleccion del cliente */
+  selectClients() {
+
+    if ( this.deliveryId ) {
+      modalClientComponent.clientSelected = this.clientsSelected;
+    }
+
+    modalClientComponent.openModalClients( getPaginationStorage('clientsModalTable') );
+  }
+
+  /** establece las filas en formato html del card de clientes */
+  setClientsTable()  {
+    const tableClients = document.querySelector('#table-clients-selected');
+
+    if ( this.clientsSelected.length > 0 ) {
+      tableClients.innerHTML = this.clientsSelected.map(( client ) => (`
+        &lt;tr class="text-center">
+          &lt;td>${ client.id_cliente }&lt;/td>
+          &lt;td>${ client.nombre_cliente }&lt;/td>
+          &lt;td>${ client.rif }&lt;/td>
+          &lt;td>${ client.direccion_entrega }&lt;/td>
+          &lt;td>${ client.telefono_contacto }&lt;/td>
+          &lt;td>
+            &lt;i class="fas fa-trash point" onclick="ordersForm.deleteClient( ${ client.id_cliente } )">&lt;/i>
+          &lt;/td>
+        &lt;/tr>
+      `)).join('');
+
+    } else {
+      tableClients.innerHTML = (`
+        &lt;tr class="text-center">
+          &lt;td colspan="6" class="text-danger">
+            No hay cliente seleccionado
+          &lt;/td>
+        &lt;/tr>
+      `);
+    }
+  }
+
+  /** establece las filas en formato html del card de productos */
+  setProductsTable() {
+
+    const tableProducts = document.querySelector('#table-products-selected');
+    
+  
+    this.calculateTotal();
+
+    if ( this.productsSelected.length > 0 ) {
+      tableProducts.innerHTML = this.productsSelected.map(( product ) => (`
+        &lt;tr class="text-center">
+          &lt;td>${ product.productoid }&lt;/td>
+          &lt;td>${ product.nombre }&lt;/td>
+          &lt;td>${ product.precio }&lt;/td>
+          &lt;td class="d-flex justify-content-center">
+              &lt;input
+                type="number"
+                value="${ product.cantidad_seleccionada }"
+                class="form-control text-center"
+                min="1"
+                max="${ this.deliveryId ? ( product.cantidad + product.cantidad_seleccionada ) : product.cantidad }"
+                onchange="ordersForm.handleChangeQuantity(
+                  this, ${ product.productoid }, ${ this.deliveryId ? ( product.cantidad + product.cantidad_seleccionada ) : product.cantidad }
+                )"
+              />
+          &lt;/td>
+          &lt;td>
+            &lt;i
+              class="fas fa-trash point"
+              onclick="ordersForm.deleteProduct( ${ product.productoid } )"
+            >&lt;/i>
+          &lt;/td>
+        &lt;/tr>
+      `)).join('');
+
+    } else {
+      tableProducts.innerHTML = (`
+        &lt;tr class="text-center">
+          &lt;td colspan="5" class="text-danger">
+            No existen productos seleccionados
+          &lt;/td>
+        &lt;/tr>
+      `);
+
+    }
+  }
+
+  /**
+   * evento que captura el envio del formulario
+   * @param  {*} event description
+   */
+  handleSubmit( event ) {
+
+    event.preventDefault();
+
+    if ( this.productsSelected.length > 0 &amp;&amp; this.clientsSelected.length > 0 ) {
+
+      let formData = new FormData( form );
+
+      let data = {
+        status: formData.get('delivery-state') || 'EN_PROCESO',
+        descripcion_nota: formData.get('delivery-description').trim() || '',
+        id_cliente: this.clientsSelected[0].id_cliente,
+        fecha_entrega: formData.get('delivery-state').trim() !== 'ENTREGADA' ?
+          null : dateToString(),
+        userid: getUserLogged().userid,
+        productos: this.productsSelected,
+        total_order: Number.parseFloat( this.totalOrder.toFixed(2) ) || 0
+      };
+
+      this.validateForm( data, ( error ) => {
+
+        if ( error ) {
+          return;
+        }
+
+        this.sendData( data );
+      });
+
+    } else if ( this.productsSelected.length === 0 &amp;&amp; this.clientsSelected.length > 0 ) {
+      NotasController.mostrarAlerta( 'warning', 'Advertencia', 'Debes ingresar productos a la nota de entrega' );
+
+    } else if ( this.productsSelected.length > 0 &amp;&amp; this.clientsSelected.length === 0 ) {
+      NotasController.mostrarAlerta( 'warning', 'Advertencia', 'Debes ingresar un cliente en la nota de entrega' );
+
+    } else {
+      NotasController.mostrarAlerta( 'warning', 'Advertencia', 'Debes ingresar productos y un cliente en la nota de entrega' );
+    }
+  }
+
+
+  /**
+   * envia la informacion al controlador
+   * @param  {Nota} data instancia de la nota
+   */
+  sendData( data ) {
+
+    hideElement( this.submitButton );
+    showElement( this.loadButton );
+    
+    try {
+
+      // genera un loading de 3 segundos mientra registra la nota + productos
+      setTimeout(() => {
+        
+        if ( this.deliveryId ) {
+          
+          NotasController.actualizarNota({ ...data, id_nota:  Number.parseInt( this.deliveryId ) });
+  
+          redirectTo('orders/orders.html');
+
+          return;
+        }
+
+        NotasController.crearNota( data )
+          .then(( _ ) => {
+            redirectTo('orders/orders.html');
+          })
+          .catch( error => {
+            console.log( error )
+          });
+
+
+      }, 3000 );
+
+    } catch ( error ) {
+
+      hideElement( this.loadButton );
+      showElement( this.submitButton );
+
+      console.log( error );
+    }
+  }
+
+
+  /**
+   * valida el formulario
+   * @param  {Nota} data   instancia de la nota
+   * @param  {callbackValidateForm} callback llamada de respuesta
+   */
+  validateForm( data, callback ) {
+
+    this.resetForm();
+
+    const ERROR_MESSAGES = Object.freeze({
+      required: 'campo requerido',
+      email: 'correo inválido',
+      min: ( min ) => 'minimo ' + min + ' caracteres',
+      max: ( max ) => 'máximo ' + max + ' caracteres',
+      pattern: 'Patrón de datos inválido',
+      notMatch: 'La contraseña no coincide',
+      rif: 'El rif no es valido',
+      phone: 'El numero de telefono no es valido'
+    });
+
+    // console.log( data );
+
+    const PATTERNS = Object.freeze({
+      email: new RegExp( /^[a-z0-9]+@[a-z]{4,}\.[a-z]{3,}$/ ),
+      onlyLetters: new RegExp( /^[a-zA-Z\u00f1\u00d1\u00E0-\u00FC\u00C0-\u017F\s]+$/ ),
+      area: new RegExp( /^Ventas|Almacen|Administracion$/ ),
+      rif: new RegExp( /^(J|j)-[0-9]{1,8}-[0-9]{1}|(V|v)-[0-9]{1,8}-[0-9]{1}|(G|g)-[0-9]{1,8}-[0-9]{1}$/ ),
+      phone: new RegExp( /^[0-9]{4}-[0-9]{7}$/ )
+    });
+
+    const { descripcion_nota, fecha_entrega } = data;
+
+    let errors = 0;
+
+    // ==================================
+    //  descripcion_nota
+    // ==================================
+    if ( !PATTERNS.onlyLetters.test( descripcion_nota ) ) {
+      errors += 1;
+      renderErrors( this.errorDescription, ERROR_MESSAGES.pattern );
+    }
+
+    if ( descripcion_nota.trim().length === 0 ) {
+      errors += 1;
+      renderErrors( this.errorDescription, ERROR_MESSAGES.required );
+    }
+
+    if ( descripcion_nota.trim().length > 255 ) {
+      errors += 1;
+      renderErrors( this.errorDescription, ERROR_MESSAGES.max( 255 ) );
+    }
+
+    if ( descripcion_nota.trim().length > 0 &amp;&amp; descripcion_nota.trim().length &lt; 3 ) {
+      errors += 1;
+      renderErrors( this.errorDescription, ERROR_MESSAGES.min( 3 ) );
+    }
+
+    // ==================================
+    //  fecha entrega
+    // ==================================
+
+    /*
+    *  if ( fecha_entrega.trim().length === 0 ) {
+    *    errors += 1;
+    *    renderErrors( this.errorDeliveryDate, ERROR_MESSAGES.required )
+    *  }
+    */
+
+    if ( errors > 0 ) {
+      callback( true );
+
+      return;
+    }
+
+    callback( false );
+
+  }
+
+
+  /**
+   * funcion que maneja el cambio de la cantidad seleccionada
+   *
+   * @param  {HTMLElement} element elemento html
+   * @param  {number} idDelivery identificador de la nota
+   * @param  {number|string} quantityTotal cantidad total
+   */
+  handleChangeQuantity( element, idDelivery, quantityTotal ) {
+
+    // console.log({ value, idDelivery });
+
+   if ( +element.value &lt; 1 ) {
+      element.value = 1;
+
+
+    } else if ( +element.value > quantityTotal ) {
+      element.value = quantityTotal;
+
+    }
+
+    // console.log( element.value );
+
+    // actualiza los cambios locales
+    this.productsSelected = this.productsSelected.map(( product ) => {
+
+      if ( product.productoid === idDelivery ) {
+        return {
+          ...product,
+          cantidad_seleccionada: +element.value
+        };
+      }
+
+      return product;
+    });
+
+    this.calculateTotal();
+  }
+
+
+  /**
+   * eliminar un producto de la orden
+   * @param  {number} idProduct identificador del producto
+   */
+  deleteProduct( idProduct ) {
+
+    if ( this.deliveryId ) {
+
+      let title = 'Eliminar producto ' + idProduct;
+      let description = 'Esta seguro de retirar este producto de la orden??';
+
+      closeModalConfirm = ModalConfirmComponent.closeModalConfirm.bind( this.confirmDeleteProduct );
+
+      ModalConfirmComponent.openModalConfirm( title, description, idProduct );
+
+    } else {
+
+      this.productsSelected = this.productsSelected.filter(( product ) => product.productoid !== idProduct );
+
+      // console.log( idProduct, this.productsSelected );
+
+      this.setProductsTable();
+    }
+  }
+
+  /**
+   * confirmacion de elminacion de producto
+   *
+   * @param {Object} data objeto de confirmacion
+   * @param {number} data.id identificador de producto
+   * @param {boolean} data.confirm confirmacion
+   */
+  confirmDeleteProduct( data ) {
+    const { confirm, id } = data;
+
+    if ( confirm ) {
+
+      let noteProduct = ordersForm.productsSelected.find(( product ) => product.productoid === id );
+
+      try {
+        NotasProductosController.retirarProductoNota( noteProduct );
+        
+        ordersForm.productsSelected = ordersForm.productsSelected.filter(
+          ( product ) => product.productoid !== id 
+        );
+        
+        ordersForm.setProductsTable();
+
+      } catch ( error ) {
+        console.error( error );
+      }
+    }
+  }
+
+  /**
+   * eliminar un cliente de la orden
+   * @param  {number} idClient identificador del cliente
+   */
+  deleteClient( idClient ) {
+
+    if ( this.deliveryId ) {
+      let title = 'Eliminar cliente ' + idClient;
+      let description = 'Esta seguro de retirar este cliente de la orden??';
+
+      closeModalConfirm = ModalConfirmComponent.closeModalConfirm.bind( this.confirmDeleteClient );
+
+      ModalConfirmComponent.openModalConfirm( title, description, idClient );
+
+    } else {
+
+      this.clientsSelected = this.clientsSelected.filter(( client ) => client.id_cliente !== idClient );
+
+      this.setClientsTable();
+    }
+  }
+
+  /**
+   * confirmacion de elminacion de producto
+   *
+   * @param {Object} data objeto de confirmacion
+   * @param {number} data.id identificador de producto
+   * @param {boolean} data.confirm confirmacion
+   */
+  confirmDeleteClient( data ) {
+    const { confirm, id } = data;
+
+    if ( confirm ) {
+      
+      ordersForm.clientsSelected = ordersForm.clientsSelected.filter(
+        ( client ) => client.id_cliente !== id 
+      );
+      
+      ordersForm.setClientsTable();
+    }
+  }
+
+  /** calcula el total de la orden */
+  calculateTotal() {
+
+    this.totalOrder = this.productsSelected.reduce(( accum, product, index ) => {
+      return accum += ( product.precio * product.cantidad_seleccionada )
+    }, 0 );
+
+    // table footer
+    document.querySelector('#totalOrder').innerText = (`Total: ${ this.totalOrder.toFixed(2) }$`);
+  }
+
+  /**
+   * Limpia los campos del formulario
+   * @param  {boolean} button indica si la funcion es llamado desde el boton del formulario
+  */
+  resetForm( button = false ) {
+
+    hideElement( this.errorDescription );
+    hideElement( this.errorDeliveryDate );
+
+    if ( button ) {
+
+      if ( !this.deliveryId ) {
+        form.reset();
+        
+      } else {
+        this.setFields()
+        
+      }
+      
+      document.querySelector('#delivery-description').focus();
+    }
+  }
+
+  setFields() {
+    
+    if ( this.note.fecha_entrega ) {
+      document.querySelector('.date-state').style.display = '';
+    }
+ 
+    // se añaden al formulario
+    const inputs = this.noteForm.querySelectorAll('input');
+    const select = this.noteForm.querySelector('select');
+ 
+    inputs[0].value = this.note.descripcion_nota;
+    inputs[1].value = this.note.fecha_entrega;
+ 
+    select.value = this.note.status;
+    
+    console.log({ inputs, select, note: this.note })
+
+    this.productsSelected = this.note.productos;
+
+    // 
+    if ( this.clientsSelected.length === 0 ) {
+
+      this.clientsSelected = this.clientsSelected.concat([{
+        direccion_entrega: this.note.direccion_entrega,
+        id_cliente: this.note.id_cliente,
+        nombre_cliente: this.note.nombre_cliente,
+        rif: this.note.rif,
+        telefono_contacto: this.note.telefono_contacto
+      }]);
+
+    }
+
+    this.setClientsTable();
+    this.setProductsTable();
+  }
+}
+
+// class and components
+let ModalClientComponent;
+let ModalProductsComponent;
+
+let ModalConfirmComponent;
+let closeModalConfirm;
+
+/** @type {ModalClientComponent} */
+let modalClientComponent;
+
+/** @type {ModalProductsComponent} */
+let modalProductsComponent;
+
+const form = document.forms[0];
+
+/** @type {OrdersForm} */
+const ordersForm = new OrdersForm();
+
+form.addEventListener('submit', ordersForm.handleSubmit.bind( ordersForm ) );
+
+document.addEventListener('DOMContentLoaded', ordersForm.getParamsUrl.bind( ordersForm ) );
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Mar 16 2023 08:33:25 GMT-0400 (hora de Venezuela) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
