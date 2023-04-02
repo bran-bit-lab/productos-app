@@ -30,6 +30,8 @@ function ejecutarComando( comando, flags ) {
 	});
 }
 
+
+
 try {
 
 	if ( !(/^(arm64|ia32|x64)$/).test( parametros.arch ) ) {

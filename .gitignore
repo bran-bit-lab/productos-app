@@ -88,6 +88,9 @@ typings/
 # Electron-Forge
 out/
 
+# instaladores
+config/Output
+
 #imagenes
 src/imagenes/*
 
