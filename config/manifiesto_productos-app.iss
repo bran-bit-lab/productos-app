@@ -8,4 +8,4 @@ DisableWelcomePage=no
 ; anadir el image setup
 
 [Files]
-Source: ":path"; DestDir: "{app}"; Flags: "recursesubdirs"
+Source: "C:\cygwin64\home\Gabriel Martinez\proyectos\productos-app\out\productos-app-win32-x64\*"; DestDir: "{app}"; Flags: "recursesubdirs"
