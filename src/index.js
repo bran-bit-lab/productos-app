@@ -7,7 +7,7 @@
  */
 
 'use strict'
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, nativeImage } = require('electron');
 const { Database } = require('./database/database');
 const { ENV } = require('./env');
 
@@ -19,14 +19,16 @@ if ( ENV.DEV ) {
 function createWindow() {
     
     // custom user interfaces
-    const { join } = require('path');
+    const { join, resolve } = require('path');
     const { initMainMenu } = require('./user-interfaces/menu/menu');
+    const image = nativeImage.createFromPath( resolve( __dirname, 'icons', 'germany.ico' ) );
 
     const win = new BrowserWindow({
         width: 800,
         height: 600,
         minHeight: 600,
         minWidth: 800,
+        icon: image,
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,
