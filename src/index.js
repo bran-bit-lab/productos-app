@@ -21,7 +21,17 @@ function createWindow() {
     // custom user interfaces
     const { join, resolve } = require('path');
     const { initMainMenu } = require('./user-interfaces/menu/menu');
-    const image = nativeImage.createFromPath( resolve( __dirname, 'icons', 'germany.ico' ) );
+
+    let uriImage = '';
+
+    if ( process.platform === 'win32' ) {
+        uriImage = resolve( __dirname, 'icons', 'germany.ico' );
+    
+    } else {
+        uriImage = resolve( __dirname, 'icons', 'germany.png' );
+    }
+    
+    const image = nativeImage.createFromPath( uriImage );
 
     const win = new BrowserWindow({
         width: 800,

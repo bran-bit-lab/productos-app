@@ -40,7 +40,7 @@ function validate( note ) {
 
     
        // log de comprobacion de regex usar si alguna muestra falla
-        
+    /*
         console.log({
             key: key,
             //id_nota: Number.isInteger( note.id_nota ),
@@ -50,7 +50,7 @@ function validate( note ) {
             status: (note.status === "ACEPTADO") || (note.status === "CANCELADA") || (note.status === "ENTREGADA")
                     || (note.status === "POSPUESTO") || (note.status === "EN_PROCESO")
         });
-
+    */
     
 
     // si hay propiedades añadidas o retiradas dentro del producto
