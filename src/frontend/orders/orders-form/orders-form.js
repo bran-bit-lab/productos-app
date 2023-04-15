@@ -116,18 +116,18 @@ class OrdersForm {
       console.log( query );
       console.log( date.match( regex ) );
       const regex = /^\?new=(?<new>true|false)&idDelivery=(?<idDelivery>[0-9]+)$/;
+      
+      // legacy
+      // const query = location.search;
+      // const regex = /(?<idDelivery>[0-9]+)/;
+      //let match = query.match( regex );
     */
 
-    const query = location.search;
-    const regex = /(?<idDelivery>[0-9]+)/;
+    const url = new URL( location.href );
+    const idDelivery = url.searchParams.get('idDelivery');
 
-    let match = query.match( regex );
-
-    if ( match ) { // edit
-
-      // this.loadingComponent._show = 'true';
-
-      this.deliveryId = match['groups'].idDelivery;
+    if ( idDelivery ) { // edit
+      this.deliveryId = Number( idDelivery );
 
       document.querySelector('#title').innerText = 'Editar entrega ' + this.deliveryId;
       document.querySelector('.select-state').style.display = '';
@@ -136,8 +136,8 @@ class OrdersForm {
       this.getDeliveryNote( this.deliveryId );
 
     } else { // new
-
       document.querySelector('#title').innerText = 'Nueva entrega';
+    
     }
   }
 
@@ -150,9 +150,9 @@ class OrdersForm {
 
     this.note = await NotasController.obtenerNota( idNote );
 
-   if ( this.note.fecha_entrega ) {
-     document.querySelector('.date-state').style.display = '';
-   }
+    if ( this.note.fecha_entrega ) {
+      document.querySelector('.date-state').style.display = '';
+    }
 
    // console.log( this.note );
 
@@ -225,6 +225,7 @@ class OrdersForm {
           </td>
         </tr>
       `);
+      
     }
   }
 
