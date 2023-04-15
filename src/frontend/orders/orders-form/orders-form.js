@@ -75,11 +75,8 @@ class OrdersForm {
       fetch('orders/modal-products/modal-products-component.html').then( resp => resp.text() ),
       fetch('shared/modal-confirm/modal-confirm-component.html').then( resp => resp.text() )
     ]).then( htmlArray => {
-      
-      this.footer.innerHTML = htmlArray.join('');
-      
+      this.footer.innerHTML = htmlArray.join('');    
       callback();
-
     })
     .catch( error => console.error( error ) )
     .finally( () => { setTimeout(() => this.loadingComponent._show = 'false', 1000 ) });
@@ -225,7 +222,7 @@ class OrdersForm {
           </td>
         </tr>
       `);
-      
+
     }
   }
 
@@ -233,8 +230,6 @@ class OrdersForm {
   setProductsTable() {
 
     const tableProducts = document.querySelector('#table-products-selected');
-    
-  
     this.calculateTotal();
 
     if ( this.productsSelected.length > 0 ) {
@@ -581,7 +576,7 @@ class OrdersForm {
   /** calcula el total de la orden */
   calculateTotal() {
 
-    this.totalOrder = this.productsSelected.reduce(( accum, product, index ) => {
+    this.totalOrder = this.productsSelected.reduce(( accum, product ) => {
       return accum += ( product.precio * product.cantidad_seleccionada )
     }, 0 );
 
