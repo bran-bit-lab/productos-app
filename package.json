@@ -2,7 +2,7 @@
   "name": "on-note",
   "productName": "on-note",
   "version": "1.0.0",
-  "description": "Desktop application that controls delivery notes",
+  "description": "Desktop application that manages delivery notes",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
