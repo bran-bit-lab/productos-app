@@ -325,7 +325,7 @@ class PdfController {
 		 */
 		const setHeader = ( page ) => {
 
-			page.drawText('Products-app', {
+			page.drawText('OnNote', {
 				...props,
 				x: propertyPage.margin_top,
 				y: propertyPage.margin_left,
