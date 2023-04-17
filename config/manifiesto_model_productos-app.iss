@@ -1,6 +1,6 @@
 [Setup]
-AppName=Productos-App
-DefaultDirName={autopf}\Productos-App
+AppName=OnNote Sofware
+DefaultDirName={autopf}\OnNote
 AppVersion=1.0
 AppPublisher=bran-bit-lab & gabmart1995.
 DisableDirPage=no
