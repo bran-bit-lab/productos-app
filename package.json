@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
-    "package": "electron-forge package",
+    "package": "electron-forge package --ignore=\/config --ignore=\/docs",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
@@ -14,8 +14,10 @@
     "deploy-package": "electron-forge package --arch=ia32 --platform=win32",
     "deploy-package-linux": "electron-forge package --arch=x64 --platform=linux",
     "deploy-package-win64": "electron-forge package --arch=x64 --platform=win32",
-    "deploy-make": "npm run deploy-package && node config/maker_script ia32",
-    "deploy-make-64": "npm run deploy-package-win64 && node config/maker_script x64"
+    "deploy-make": "npm run deploy-package",
+    "postdeploy-make": "node config/maker_script ia32",
+    "deploy-make-64": "npm run deploy-package-win64",
+    "postdeploy-make-64": "node config/maker_script x64"
   },
   "keywords": [],
   "author": "Bran Bit Lab",

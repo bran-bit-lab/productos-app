@@ -9,7 +9,7 @@ const { spawn } = require('child_process');
 const parametros = Object.freeze({
 	arch: process.argv.length === 3 ? process.argv[2] : os.arch(),
 	platform: os.platform(),
-	pathFuente: path.join( __dirname , 'manifiesto_productos-app.iss')
+	pathFuente: path.join( __dirname , 'manifiesto_on_note.iss')
 });
 
 
@@ -45,28 +45,31 @@ try {
 	// Esto genera el path de la fuente 
 	const directorioFuente = path.join( 
 		__dirname, 
-		'../out', 
-		( 'productos-app-' + parametros.platform + '-' + parametros.arch ), 
+		'..', 
+		'out',
+		( 'on-note-' + parametros.platform + '-' + parametros.arch ), 
 		'*' 
 	);
+	
+	// borra las carpetas config, docs, bd_productosapp_dev.sql, jsdoc.json  solo se despliuegan en desarrollo
+	fs.rmdirSync(path.join(directorioFuente, '..', 'resources', 'app', 'config'), { recursive: true });
+	fs.rmdirSync(path.join(directorioFuente, '..', 'resources', 'app', 'docs'), { recursive: true });
+	fs.unlinkSync(path.join(directorioFuente, '..', 'resources', 'app', 'bd_productosapp_dev.sql'));
+	fs.unlinkSync(path.join(directorioFuente, '..', 'resources', 'app', 'jsdoc.json'));
 
 	// lee el archivo modelo y cambia los datos
 	const archivo = fs.readFileSync( 
-		path.join( __dirname, 'manifiesto_model_productos-app.iss' ), 
+		path.join( __dirname, 'manifiesto_model_on_note.iss' ), 
 		{ encoding: 'utf8' }
 	);	
 
-	let archivoModificado = archivo.replace( /:path/g, directorioFuente );
-	archivoModificado = archivoModificado.replace(
-		/:messagesFile/g, 
-		path.join( __dirname, 'Languages', 'Spanish.isl')
-	);
+	const archivoModificado = archivo.replace( /:path/g, directorioFuente );
 
 	fs.writeFileSync( parametros.pathFuente, archivoModificado );
 
 	ejecutarComando('iscc', [ 
 		parametros.pathFuente,
-		( '/Fproducts-app-' + parametros.platform + '-' + parametros.arch ) 
+		('/Fone-note-' + parametros.platform + '-' + parametros.arch) 
 	]);
 
 } catch ( err ) {

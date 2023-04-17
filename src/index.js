@@ -18,10 +18,11 @@ if ( ENV.DEV ) {
 /** funcion principal para crear la ventana principal de electronJS */
 function createWindow() {
     
-    // custom user interfaces
+    // interfaces de usuario personalizada
     const { join } = require('path');
     const { initMainMenu } = require('./user-interfaces/menu/menu');
 
+    // icono de la app
     let uriImage = '';
 
     if ( process.platform === 'win32' ) {
@@ -32,6 +33,7 @@ function createWindow() {
     
     }
 
+    // window
     const win = new BrowserWindow({
         width: 800,
         height: 600,

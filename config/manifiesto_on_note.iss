@@ -8,7 +8,7 @@ DisableWelcomePage=no
 ; anadir el image setup
 
 [Languages]
-Name: "es" MessagesFile: "compiler::messagesFile"
+Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl"
 
 [Files]
-Source: ":path"; DestDir: "{app}"; Flags: "recursesubdirs"
+Source: "C:\cygwin64\home\Gabriel Martinez\proyectos\productos-app\out\on-note-win32-ia32\*"; DestDir: "{app}"; Flags: "recursesubdirs"
