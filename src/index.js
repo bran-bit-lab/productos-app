@@ -19,27 +19,25 @@ if ( ENV.DEV ) {
 function createWindow() {
     
     // custom user interfaces
-    const { join, resolve } = require('path');
+    const { join } = require('path');
     const { initMainMenu } = require('./user-interfaces/menu/menu');
 
     let uriImage = '';
 
     if ( process.platform === 'win32' ) {
-        uriImage = resolve( __dirname, 'icons', 'on-note65x65.ico' );
+        uriImage = join( __dirname, 'icons', 'on-note65x65.ico' );
         
     } else {
-        uriImage = resolve( __dirname, 'icons', 'on-note65x65.png' );
+        uriImage = join( __dirname, 'icons', 'on-note65x65.png' );
     
     }
-    
-    const image = nativeImage.createFromPath( uriImage );
 
     const win = new BrowserWindow({
         width: 800,
         height: 600,
         minHeight: 600,
         minWidth: 800,
-        icon: image,
+        icon: nativeImage.createFromPath( uriImage ),
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,

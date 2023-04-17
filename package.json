@@ -18,12 +18,12 @@
     "deploy-make-64": "npm run deploy-package-win64 && node config/maker_script x64"
   },
   "keywords": [],
-  "author": "virtualbox",
+  "author": "Bran Bit Lab",
   "license": "MIT",
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "src/icons/germany.ico"
+        "icon": "src/icons/on-note17x17.ico"
       },
       "makers": [
         {
