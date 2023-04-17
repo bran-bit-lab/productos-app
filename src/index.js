@@ -25,10 +25,11 @@ function createWindow() {
     let uriImage = '';
 
     if ( process.platform === 'win32' ) {
-        uriImage = resolve( __dirname, 'icons', 'germany.ico' );
-    
+        uriImage = resolve( __dirname, 'icons', 'on-note65x65.ico' );
+        
     } else {
-        uriImage = resolve( __dirname, 'icons', 'germany.png' );
+        uriImage = resolve( __dirname, 'icons', 'on-note65x65.png' );
+    
     }
     
     const image = nativeImage.createFromPath( uriImage );
