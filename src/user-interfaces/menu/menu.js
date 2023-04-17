@@ -22,7 +22,7 @@ function initMainMenu( dev ) {
                     click: ( _, browserWindow ) => {
 
                         // creacion de una ventana modal
-                        const url = resolve( ENV.PATH_DOCUMENTS, 'manual-usuario-productos-app.pdf' );
+                        const url = resolve( ENV.PATH_DOCUMENTS, 'manual-usuario-on-note.pdf' );
                         const modalWindow = new BrowserWindow({
                             parent: browserWindow,
                             modal: true,
@@ -89,7 +89,7 @@ function initMainMenu( dev ) {
                 click: ( _, browserWindow ) => {
         
                     // creacion de una ventana modal
-                    const url = resolve( ENV.PATH_DOCUMENTS, 'manual-tecnico-productos-app.pdf' );
+                    const url = resolve( ENV.PATH_DOCUMENTS, 'manual-tecnico-on-note.pdf' );
                     const modalWindow = new BrowserWindow({
                         parent: browserWindow,
                         modal: true,
