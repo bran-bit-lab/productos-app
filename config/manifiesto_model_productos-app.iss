@@ -7,5 +7,8 @@ DisableDirPage=no
 DisableWelcomePage=no
 ; anadir el image setup
 
+[Languages]
+Name: "es" MessagesFile: "compiler::messagesFile"
+
 [Files]
 Source: ":path"; DestDir: "{app}"; Flags: "recursesubdirs"

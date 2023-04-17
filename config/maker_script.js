@@ -31,7 +31,6 @@ function ejecutarComando( comando, flags ) {
 }
 
 
-
 try {
 
 	if ( !(/^(arm64|ia32|x64)$/).test( parametros.arch ) ) {
@@ -56,7 +55,12 @@ try {
 		path.join( __dirname, 'manifiesto_model_productos-app.iss' ), 
 		{ encoding: 'utf8' }
 	);	
-	const archivoModificado = archivo.replace( /:path/g, directorioFuente );
+
+	let archivoModificado = archivo.replace( /:path/g, directorioFuente );
+	archivoModificado = archivoModificado.replace(
+		/:messagesFile/g, 
+		path.join( __dirname, 'Languages', 'Spanish.isl')
+	);
 
 	fs.writeFileSync( parametros.pathFuente, archivoModificado );
 
