@@ -30,7 +30,6 @@ function ejecutarComando( comando, flags ) {
 	});
 }
 
-
 try {
 
 	if ( !(/^(arm64|ia32|x64)$/).test( parametros.arch ) ) {
@@ -41,8 +40,7 @@ try {
 		throw new Error('no se puede compilar la plataforma seleccionada: ' + parametros.platform );
 	}
 
-
-	// Esto genera el path de la fuente 
+	//  path de la fuente 
 	const directorioFuente = path.join( 
 		__dirname, 
 		'..', 
@@ -58,12 +56,26 @@ try {
 	fs.unlinkSync(path.join(directorioFuente, '..', 'resources', 'app', 'jsdoc.json'));
 
 	// lee el archivo modelo y cambia los datos
-	const archivo = fs.readFileSync( 
-		path.join( __dirname, 'manifiesto_model_on_note.iss' ), 
-		{ encoding: 'utf8' }
-	);	
+	const archivo = fs.readFileSync( path.join( __dirname, 'manifiesto_model_on_note.iss' ), { encoding: 'utf8' });	
+	
+	// elementos a reemplazar en el archivo
+	const replaces = {
+		wizardPath: path.join(__dirname, 'icons', 'on-note129x129.bmp'),
+		iconDesktop: path.join(__dirname, '..', 'src', 'icons', 'on-note65x65.ico'),
+		path: directorioFuente 
+	};
 
-	const archivoModificado = archivo.replace( /:path/g, directorioFuente );
+	// reemplazamos los valores
+	const archivoModificado = archivo.replace(/\:(\w+)/g, (text, result) => {
+
+		// console.log({ text, result });
+
+		if ( replaces.hasOwnProperty(result) ) {
+			return replaces[result];
+		}
+
+		return text;
+	});
 
 	fs.writeFileSync( parametros.pathFuente, archivoModificado );
 
