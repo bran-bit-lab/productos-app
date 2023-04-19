@@ -101,7 +101,7 @@ class Database {
 	/** * Cierra la conexion a la BD */
 	static closeConnection() {
 
-		if ( !mysqlAPI || !connected ) {
+		if ( !mysqlAPI || !isConnected ) {
 			return;
 		}
 
