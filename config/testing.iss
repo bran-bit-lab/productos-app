@@ -7,7 +7,7 @@ AppVersion=1.0
 AppPublisher=bran-bit-lab & gabmart1995.
 DisableDirPage=no
 DisableWelcomePage=no
-WizardImageFile="C:\cygwin64\home\Gabriel Martinez\proyectos\productos-app\config\icons\on-note129x129.bmp"
+WizardImageFile="C:\cygwin64\home\Gabriel Martinez\proyectos\productos-app\config\icons\on-note410x798.bmp"
 
 [Languages]
 Name: "en"; MessagesFile: "compiler:Default.isl";

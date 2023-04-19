@@ -12,7 +12,11 @@ const parametros = Object.freeze({
 	pathFuente: path.join( __dirname , 'manifiesto_on_note.iss')
 });
 
-
+/**
+ * Ejecuta el comando
+ * @param {string} comando comando CMD
+ * @param {Array<string>} flags parametros del comando
+ */
 function ejecutarComando( comando, flags ) {
 
 	const child = spawn( comando, flags );
@@ -40,14 +44,8 @@ try {
 		throw new Error('no se puede compilar la plataforma seleccionada: ' + parametros.platform );
 	}
 
-	//  path de la fuente 
-	const directorioFuente = path.join( 
-		__dirname, 
-		'..', 
-		'out',
-		( 'on-note-' + parametros.platform + '-' + parametros.arch ), 
-		'*' 
-	);
+	const nombre = ('on-note-' + parametros.platform + '-' + parametros.arch); 
+	const directorioFuente = path.join(__dirname, '..', 'out', nombre, '*' );
 	
 	// borra las carpetas config, docs, bd_productosapp_dev.sql, jsdoc.json  solo se despliuegan en desarrollo
 	fs.rmdirSync(path.join(directorioFuente, '..', 'resources', 'app', 'config'), { recursive: true });
@@ -56,33 +54,30 @@ try {
 	fs.unlinkSync(path.join(directorioFuente, '..', 'resources', 'app', 'jsdoc.json'));
 
 	// lee el archivo modelo y cambia los datos
-	const archivo = fs.readFileSync( path.join( __dirname, 'manifiesto_model_on_note.iss' ), { encoding: 'utf8' });	
+	const contenido = fs.readFileSync( path.join( __dirname, 'manifiesto_model_on_note.iss' ), { encoding: 'utf8' });	
 	
 	// elementos a reemplazar en el archivo
 	const replaces = {
-		wizardPath: path.join(__dirname, 'icons', 'on-note129x129.bmp'),
+		wizardPath: path.join(__dirname, 'icons', 'on-note410x798.bmp'),
 		iconDesktop: path.join(__dirname, '..', 'src', 'icons', 'on-note65x65.ico'),
 		path: directorioFuente 
 	};
 
 	// reemplazamos los valores
-	const archivoModificado = archivo.replace(/\:(\w+)/g, (text, result) => {
+	const contenidoModificado = contenido.replace(/\:(\w+)/g, (texto, resultado) => {
 
 		// console.log({ text, result });
 
-		if ( replaces.hasOwnProperty(result) ) {
-			return replaces[result];
+		if ( replaces.hasOwnProperty(resultado) ) {
+			return replaces[resultado];
 		}
 
-		return text;
+		return texto;
 	});
 
-	fs.writeFileSync( parametros.pathFuente, archivoModificado );
-
-	ejecutarComando('iscc', [ 
-		parametros.pathFuente,
-		('/Fone-note-' + parametros.platform + '-' + parametros.arch) 
-	]);
+	fs.writeFileSync( parametros.pathFuente, contenidoModificado );
+	
+	ejecutarComando('iscc', [ parametros.pathFuente, ('/F' + nombre) ]);
 
 } catch ( err ) {
 	
