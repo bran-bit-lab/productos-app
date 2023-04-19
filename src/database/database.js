@@ -7,7 +7,7 @@ const file = require('../util-functions/file');
 *@type {mysql.Connection|null}
 */
 let mysqlAPI = null;
-let connected = false;
+let isConnected = false;
 
 /** Clase de conexion a la base de datos */
 class Database {
@@ -190,7 +190,7 @@ class Database {
 					}
 					
 					// flag que indica la conexion
-					connected = true;
+					isConnected = true;
 					console.log('Base de datos en linea!!');
 				
 				} catch ( error ) {
