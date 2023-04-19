@@ -7,6 +7,7 @@ const file = require('../util-functions/file');
 *@type {mysql.Connection|null}
 */
 let mysqlAPI = null;
+let connected = false;
 
 /** Clase de conexion a la base de datos */
 class Database {
@@ -100,7 +101,7 @@ class Database {
 	/** * Cierra la conexion a la BD */
 	static closeConnection() {
 
-		if ( !mysqlAPI ) {
+		if ( !mysqlAPI || !connected ) {
 			return;
 		}
 
@@ -148,56 +149,65 @@ class Database {
 	/** Se conecta a la base de datos */
 	static connect() {
 
-		let user = null
-
 		try {
-			let data = file.readFile('/users-productos-app.json');
+			const data = file.readFile('/users-productos-app.json');
 
-			let arregloConexion = JSON.parse( data );
-			let key = 'root_2';
+			const arregloConexion = JSON.parse( data );
+			const key = 'root_2';
 
 			if ( !arregloConexion.hasOwnProperty( key ) ) {
 				throw { 
-					title: 'Error !!', 
+					title: 'Usuario de conexion', 
 					message: 'Verificar si el usuario de conexión existe en el servicio de Base de Datos' 
 				};
 			}
 
-			user = arregloConexion[ key ];
+			const user = arregloConexion[key];
+			mysqlAPI = mysql.createConnection({
+				host: user['host'],
+				user: user['username'],
+				password: user['password'],
+				database: user['database'],
+				port: user['port'],
+				multipleStatements: true  // permite la ejecucion de multiples query en una sola instruccion SQL
+			});
+
+			mysqlAPI.config.queryFormat = Database.sqlParse;
+
+			mysqlAPI.connect(( error ) => {
+
+				try {
+					
+					// si existe el error limpia el objeto de la conexion, 
+					// lanzando un error a la interfaz
+					if ( error ) {
+						mysqlAPI = null;
+						
+						throw { 
+							title: 'Conexion a BD', 
+							message: 'Error al conectar a la BD,\nverificar si los parametros de conexión son correctos' 
+						};
+					}
+					
+					// flag que indica la conexion
+					connected = true;
+					console.log('Base de datos en linea!!');
+				
+				} catch ( error ) {
+					
+					// console.log( error );
+
+					dialog.showErrorBox( error.title, error.message );
+				}
+			});
 
 		} catch ( error ) {
+			
+			// console.log( error );
 
 			dialog.showErrorBox( error.title, error.message );
-
-			console.log( error );
-
-			return;
 		}
 
-		mysqlAPI = mysql.createConnection({
-			host: user['host'],
-			user: user['username'],
-			password: user['password'],
-			database: user['database'],
-			port: user['port'],
-			multipleStatements: true  // permite la ejecucion de multiples query en una sola instruccion SQL
-		});
-
-		mysqlAPI.config.queryFormat = Database.sqlParse;
-
-		mysqlAPI.connect(( error ) => {
-
-			if ( error ) {
-
-				dialog.showErrorBox('Conexion Base de Datos', 'Error al conectar, verificar si los parametros de conexión son correctos');
-
-				console.log( error );
-
-				return;
-			};
-
-			console.log('Base de datos en linea!!');
-		});
 	}
 }
 
