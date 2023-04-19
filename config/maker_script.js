@@ -59,7 +59,8 @@ try {
 	// elementos a reemplazar en el archivo
 	const replaces = {
 		wizardPath: path.join(__dirname, 'icons', 'on-note410x798.bmp'),
-		iconDesktop: path.join(__dirname, '..', 'src', 'icons', 'on-note65x65.ico'),
+		iconDesktop: path.join(
+			'{app}', 'resources', 'app', 'src', 'icons', 'on-note65x65.ico'),
 		path: directorioFuente 
 	};
 
