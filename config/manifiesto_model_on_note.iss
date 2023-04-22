@@ -12,10 +12,5 @@ WizardImageFile=":wizardPath"
 Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl";
 Name: "en"; MessagesFile: "compiler:Default.isl";
 
-[Icons]
-Name: "{commondesktop}\on-note"; IconFilename: ":iconDesktop"; \
-  Filename: "{app}\on-note.exe"; 
-
-
 [Files]
 Source: ":path"; DestDir: "{app}"; Flags: "recursesubdirs"

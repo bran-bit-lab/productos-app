@@ -12,10 +12,6 @@ WizardImageFile="C:\cygwin64\home\Gabriel Martinez\proyectos\productos-app\confi
 Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl";
 Name: "en"; MessagesFile: "compiler:Default.isl";
 
-[Icons]
-Name: "{commondesktop}\on-note"; IconFilename: "C:\cygwin64\home\Gabriel Martinez\proyectos\productos-app\src\icons\on-note65x65.ico"; \
-  Filename: "{app}\on-note.exe"; 
-
 
 [Files]
 Source: "C:\cygwin64\home\Gabriel Martinez\proyectos\productos-app\out\on-note-win32-x64\*"; DestDir: "{app}"; Flags: "recursesubdirs"
