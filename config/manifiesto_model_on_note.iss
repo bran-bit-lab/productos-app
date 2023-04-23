@@ -8,6 +8,9 @@ DisableDirPage=no
 DisableWelcomePage=no
 WizardImageFile=":wizardPath"
 
+[Icons]
+Name: "{commondesktop}\OnNote" ; FileName: "{app}\on-note.EXE" ; IconFilename: ":iconDesktop"
+
 [Languages]
 Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl";
 Name: "en"; MessagesFile: "compiler:Default.isl";
