@@ -352,7 +352,7 @@ class UsersController {
 		return new Promise(( resolve, reject ) => {
 
 			const saltRounds = 10;
-			const salt = bcrypt.genSaltSync( 10 );
+			const salt = bcrypt.genSaltSync( saltRounds );
 
 			delete perfil['passwordConfirmation'];
 
