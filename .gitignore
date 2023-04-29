@@ -100,3 +100,5 @@ consults/
 # ejecutables
 *.exe
 
+# lock
+package-lock.json

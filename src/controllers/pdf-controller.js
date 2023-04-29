@@ -641,15 +641,6 @@ class PdfController {
 		
 		page2.setRotation( degrees( -90 ) );
 
-		page2.drawText('Products-app', {
-			...props,
-			x: propertyPage.margin_top,
-			y: propertyPage.margin_left,
-			size: 24,
-			font: helveticaFont
-		});
-
-
 		// establece el encabezado
 		setHeader( page2 );
 
